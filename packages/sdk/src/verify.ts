@@ -22,9 +22,9 @@ export type LegExecutedView = {
   fee: bigint;
   swappedIn: bigint;
   dustReturned: bigint;
-  /** Gross shares delivered, before the issuer's Token-2022 transfer fee. */
+  /** Shares that reached the owner's balance, after the issuer's transfer fee. */
   outAmount: bigint;
-  /** Transfer fee the issuer withheld in the destination account. */
+  /** Token-2022 transfer fee the issuer withheld in the destination account. */
   issuerFee: bigint;
   minOut: bigint;
   refPriceE9: bigint;
@@ -61,6 +61,7 @@ export type PaycheckLegReadback = {
   amountIn: bigint;
   outAmount: bigint;
   fee: bigint;
+  issuerFee: bigint;
   refPriceE9: bigint;
 };
 
@@ -159,22 +160,17 @@ export async function verifyLeg(
   );
 
   const received = balanceDelta(transaction, event.destination);
-  const gross = received === null ? null : received + event.issuerFee;
   checks.push(
     check(
-      "destination received out_amount less the issuer fee",
-      gross === event.outAmount,
+      "destination received out_amount",
+      received === event.outAmount,
       event.outAmount,
-      gross,
+      received,
     ),
   );
+  const gross = event.outAmount + event.issuerFee;
   checks.push(
-    check(
-      "gross delivery meets min_out",
-      event.outAmount >= event.minOut,
-      `>= ${event.minOut}`,
-      event.outAmount,
-    ),
+    check("gross delivery meets min_out", gross >= event.minOut, `>= ${event.minOut}`, gross),
   );
 
   const spent = -ownerUsdcDelta(transaction, input.owner, input.usdcMint);
@@ -216,6 +212,14 @@ export async function verifyLeg(
       ),
     );
     checks.push(check("readback fee matches event", r.fee === event.fee, event.fee, r.fee));
+    checks.push(
+      check(
+        "readback issuer fee matches event",
+        r.issuerFee === event.issuerFee,
+        event.issuerFee,
+        r.issuerFee,
+      ),
+    );
     checks.push(
       check(
         "readback reference price matches event",
@@ -338,23 +342,13 @@ export async function verifyLeg(
       ),
     );
   }
-  const premium =
-    event.outAmount > 0n
-      ? buyPremiumBps({
-          usdcIn: event.swappedIn,
-          sharesOut: event.outAmount,
-          usdcPriceE9: event.usdcPriceE9,
-          priceE9: event.refPriceE9,
-          multiplierE12: event.multiplierE12,
-          decimals: input.decimals,
-        })
-      : null;
+  const costs = event.outAmount + event.issuerFee > 0n ? legCosts(event, input.decimals) : null;
   checks.push(
     check(
-      "premium within the band",
-      premium !== null && premium <= BigInt(event.bandBps),
+      "fill premium within the band",
+      costs !== null && costs.premiumBps <= BigInt(event.bandBps),
       `<= ${event.bandBps}`,
-      premium,
+      costs?.premiumBps ?? null,
     ),
   );
 
@@ -365,14 +359,34 @@ export async function verifyLeg(
   };
 }
 
-/** Premium in basis points for a verified fill, for reports. */
-export function premiumOf(event: LegExecutedView, decimals: number): bigint {
-  return buyPremiumBps({
-    usdcIn: event.swappedIn,
-    sharesOut: event.outAmount,
+export type LegCosts = {
+  /** Gross fill against the reference: what the band bounds. */
+  premiumBps: bigint;
+  /** USDC spent including the protocol fee, against the shares the owner kept after the issuer fee. */
+  allInCostBps: bigint;
+  protocolFee: bigint;
+  issuerFee: bigint;
+};
+
+/** Premium and all-in cost of a fill over the reference price, in basis points. */
+export function legCosts(event: LegExecutedView, decimals: number): LegCosts {
+  const reference = {
     usdcPriceE9: event.usdcPriceE9,
     priceE9: event.refPriceE9,
     multiplierE12: event.multiplierE12,
     decimals,
-  });
+  };
+  return {
+    premiumBps: buyPremiumBps({
+      ...reference,
+      usdcIn: event.swappedIn,
+      sharesOut: event.outAmount + event.issuerFee,
+    }),
+    allInCostBps:
+      event.outAmount > 0n
+        ? buyPremiumBps({ ...reference, usdcIn: event.amountIn, sharesOut: event.outAmount })
+        : 0n,
+    protocolFee: event.fee,
+    issuerFee: event.issuerFee,
+  };
 }

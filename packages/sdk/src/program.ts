@@ -42,11 +42,8 @@ const PRICE_SOURCES = {
   [PriceSource.MarkAttestation]: "MarkAttestation",
 } as const;
 
-/**
- * The verifier's view of a decoded event. `issuerFee` is the Token-2022 transfer fee withheld
- * from the delivered shares, measured from the destination account's withheld amount.
- */
-export function legExecutedView(event: LegExecutedEvent, issuerFee: bigint): LegExecutedView {
+/** The verifier's view of a decoded event. */
+export function legExecutedView(event: LegExecutedEvent): LegExecutedView {
   return {
     router: event.router,
     paycheck: event.paycheck,
@@ -59,7 +56,7 @@ export function legExecutedView(event: LegExecutedEvent, issuerFee: bigint): Leg
     swappedIn: event.swappedIn,
     dustReturned: event.dustReturned,
     outAmount: event.outAmount,
-    issuerFee,
+    issuerFee: event.issuerFee,
     minOut: event.minOut,
     refPriceE9: event.refPriceE9,
     usdcPriceE9: event.usdcPriceE9,
