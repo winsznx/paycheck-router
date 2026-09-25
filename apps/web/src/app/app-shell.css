@@ -4,6 +4,26 @@ body:has(.fork-banner) {
   --banner-h: 32px;
 }
 
+.settings-tab {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: var(--space-4);
+  border: 2px solid var(--control);
+  color: var(--text-1);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.settings-tab[aria-current="page"] {
+  border-color: var(--text-1);
+  box-shadow: var(--shadow-accent-rest);
+}
+
+.segmented--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .bullet-list {
   list-style: square;
   padding-inline-start: var(--space-5);

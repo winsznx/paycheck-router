@@ -1,13 +1,13 @@
 "use client";
 
-import { ChartPie, House, type LucideIcon, ReceiptText } from "lucide-react";
+import { Activity, ChartPie, House, type LucideIcon, ReceiptText, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 
 type NavItem = {
-  href: "/app" | "/app/paychecks" | "/app/portfolio";
+  href: "/app" | "/app/paychecks" | "/app/portfolio" | "/app/activity" | "/app/settings/wallet";
   key: string;
   icon: LucideIcon;
   shortcut: string;
@@ -17,10 +17,14 @@ const ITEMS: readonly NavItem[] = [
   { href: "/app", key: "home", icon: House, shortcut: "h" },
   { href: "/app/paychecks", key: "paychecks", icon: ReceiptText, shortcut: "p" },
   { href: "/app/portfolio", key: "portfolio", icon: ChartPie, shortcut: "f" },
+  { href: "/app/activity", key: "activity", icon: Activity, shortcut: "a" },
+  { href: "/app/settings/wallet", key: "settings", icon: Settings, shortcut: "s" },
 ];
 
 function isActive(pathname: string, href: string): boolean {
-  return href === "/app" ? pathname === "/app" : pathname.startsWith(href);
+  if (href === "/app") return pathname === "/app";
+  if (href.startsWith("/app/settings")) return pathname.startsWith("/app/settings");
+  return pathname.startsWith(href);
 }
 
 function isTypingTarget(target: EventTarget | null): boolean {
