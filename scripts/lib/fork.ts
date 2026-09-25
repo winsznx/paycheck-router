@@ -6,7 +6,14 @@
  */
 import { type ChildProcess, execFile, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
-import { createWriteStream, existsSync, mkdtempSync, readFileSync, symlinkSync } from "node:fs";
+import {
+  createWriteStream,
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+} from "node:fs";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
@@ -187,18 +194,20 @@ export async function startSurfnet(
     child.stderr?.resume();
   }
   const stop = async () => {
-    if (child.exitCode !== null) return;
-    child.kill("SIGINT");
-    await new Promise<void>((done) => {
-      const timer = setTimeout(() => {
-        child.kill("SIGKILL");
-        done();
-      }, 5_000);
-      child.once("exit", () => {
-        clearTimeout(timer);
-        done();
+    if (child.exitCode === null) {
+      child.kill("SIGINT");
+      await new Promise<void>((done) => {
+        const timer = setTimeout(() => {
+          child.kill("SIGKILL");
+          done();
+        }, 5_000);
+        child.once("exit", () => {
+          clearTimeout(timer);
+          done();
+        });
       });
-    });
+    }
+    rmSync(cwd, { recursive: true, force: true });
   };
   const rpcUrl = `http://127.0.0.1:${rpcPort}`;
   const rpc = createRpc(rpcUrl);
@@ -508,9 +517,13 @@ export async function createDemoRouter(
     investBps: number;
     allowance: bigint;
     recorder?: Address;
+    /** Defaults to the demo worker's fork-only key. */
+    owner?: KeyPairSigner;
+    minInflow?: bigint;
+    maxWaitSecs?: number;
   },
 ): Promise<DemoRouter> {
-  const owner = signers["demo-worker"];
+  const owner = opts.owner ?? signers["demo-worker"];
   const legs = opts.legs.map((leg) => {
     const asset = REGISTRY.find((a) => a.symbol === leg.symbol);
     if (!asset) throw new Error(`unknown asset ${leg.symbol}`);
@@ -522,9 +535,9 @@ export async function createDemoRouter(
     params: {
       recorder: opts.recorder ?? signers.recorder.address,
       investBps: opts.investBps,
-      minInflow: 1_000_000n,
+      minInflow: opts.minInflow ?? 1_000_000n,
       dailyCap: 10_000_000_000n,
-      maxWaitSecs: 7 * 24 * 3600,
+      maxWaitSecs: opts.maxWaitSecs ?? 7 * 24 * 3600,
       autoConvert: false,
       legs,
     },
