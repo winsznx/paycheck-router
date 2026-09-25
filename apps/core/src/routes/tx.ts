@@ -9,7 +9,7 @@ import { and, eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { explorerTxUrl } from "../config.ts";
 import { legs, paychecks, routers, submittedTxs, wallets } from "../db/schema.ts";
-import { routerActorFor } from "../do/stubs.ts";
+import { inflowWatcher, routerActorFor } from "../do/stubs.ts";
 import type { AppEnv } from "../http/context.ts";
 import { readJson } from "../http/json.ts";
 import { ApiError, badRequest, forbidden, parseOrThrow } from "../http/problem.ts";
@@ -137,6 +137,31 @@ async function afterConfirmed(
         owner: session.wallet,
         createdSig: signature,
       });
+      return;
+    }
+    case "router.update":
+    case "router.pause": {
+      const [wallet] = await services.db
+        .select({ id: wallets.id })
+        .from(wallets)
+        .where(and(eq(wallets.userId, session.userId), eq(wallets.address, session.wallet)))
+        .limit(1);
+      if (!wallet) throw new Error("signed-in wallet is not linked");
+      await registerRouter(env, services, {
+        userId: session.userId,
+        walletId: wallet.id,
+        owner: session.wallet,
+        createdSig: null,
+      });
+      return;
+    }
+    case "router.close": {
+      const [closed] = await services.db
+        .update(routers)
+        .set({ status: "closed", closedAt: services.now(), updatedAt: services.now() })
+        .where(and(eq(routers.owner, session.wallet), eq(routers.userId, session.userId)))
+        .returning({ routerPda: routers.routerPda });
+      if (closed) await inflowWatcher(env).unwatch(closed.routerPda);
       return;
     }
     case "leg.cancel": {
