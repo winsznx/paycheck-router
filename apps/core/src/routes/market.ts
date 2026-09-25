@@ -49,6 +49,7 @@ marketRoutes.get("/assets", async (c) => {
                 publishTime: reference.pyth.publishTime.toISOString(),
               }
             : null,
+        referenceError: board.referenceError.get(row.mint) ?? null,
         markPriceE9: board.markE9.get(row.mint)?.toString() ?? null,
         onchainPriceE9: onchain?.toString() ?? null,
         premiumBps: premiumBps(onchain, reference?.priceE9),
@@ -122,6 +123,7 @@ marketRoutes.get("/quote/preview", async (c) => {
       minOut: minOut?.toString() ?? null,
       quotedOut: null,
       premiumBps: premium,
+      referenceError: board.referenceError.get(leg.mint) ?? null,
       wouldWait,
     };
   });

@@ -13,6 +13,17 @@ type ParsedUpdate = {
 
 export type HermesConfig = { url: string; apiKey: string | undefined };
 
+/** A Hermes refusal; 401/403 mean the key is missing or not entitled to a feed group. */
+export class HermesError extends Error {
+  constructor(
+    readonly status: number,
+    message: string,
+  ) {
+    super(message);
+    this.name = "HermesError";
+  }
+}
+
 /**
  * Latest parsed Pyth prices for display; the execution path posts signed updates via the SDK.
  * Hermes price updates need `PYTH_API_KEY` as a bearer token; the key stays server-side.
@@ -22,7 +33,7 @@ export async function latestPrices(
   feedIds: readonly string[],
 ): Promise<HermesPrice[]> {
   if (feedIds.length === 0) return [];
-  if (!hermes.apiKey) throw new Error("PYTH_API_KEY is not set");
+  if (!hermes.apiKey) throw new HermesError(401, "PYTH_API_KEY is not set");
   const url = new URL("/v2/updates/price/latest", hermes.url);
   for (const id of feedIds) url.searchParams.append("ids[]", id);
   url.searchParams.set("parsed", "true");
@@ -30,7 +41,13 @@ export async function latestPrices(
   const response = await fetch(url, {
     headers: { accept: "application/json", authorization: `Bearer ${hermes.apiKey}` },
   });
-  if (!response.ok) throw new Error(`Hermes latest prices failed with ${response.status}`);
+  if (!response.ok) {
+    const body = (await response.text()).slice(0, 200);
+    throw new HermesError(
+      response.status,
+      `Hermes latest prices failed with ${response.status}: ${body}`,
+    );
+  }
   const body = (await response.json()) as { parsed?: ParsedUpdate[] };
   return (body.parsed ?? []).map((update) => ({
     feedId: update.id.replace(/^0x/, ""),

@@ -2,7 +2,7 @@ import { DurableObject } from "cloudflare:workers";
 import { api, assetByMint } from "@paycheck-router/shared";
 import type { Env } from "../env.ts";
 import { log } from "../log.ts";
-import { latestPrices } from "../pricing/hermes.ts";
+import { HermesError, latestPrices } from "../pricing/hermes.ts";
 import { ulidFactory } from "../realtime/ulid.ts";
 
 type Attachment = { userId: string; priceMints: string[]; lastTickAt: Record<string, number> };
@@ -12,6 +12,8 @@ export type PublishInput = {
 }[api.ServerEventType];
 
 const PRICE_TICK_MS = 1_000;
+/** After Hermes refuses the feeds, ask again this often instead of every second. */
+const PRICE_REFUSED_RETRY_MS = 30_000;
 
 /**
  * One per user. Holds the user's WebSockets with the Hibernation API, keeps the last 500 events
@@ -19,6 +21,7 @@ const PRICE_TICK_MS = 1_000;
  */
 export class UserHub extends DurableObject<Env> {
   private readonly nextId = ulidFactory();
+  private priceRefusal: string | null = null;
 
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
@@ -181,8 +184,23 @@ export class UserHub extends DurableObject<Env> {
           if (attachment.priceMints.includes(mint)) this.sendSafe(socket, frame);
         }
       }
+      this.priceRefusal = null;
     } catch (error) {
       log.warn("price tick failed", { error });
+      const refused =
+        error instanceof HermesError && (error.status === 401 || error.status === 403);
+      const code = refused ? "prices_not_entitled" : "prices_unavailable";
+      if (this.priceRefusal !== code) {
+        this.priceRefusal = code;
+        const message = refused
+          ? "Live prices for these assets are not available: the Pyth key is not entitled to their feeds"
+          : "Live prices are temporarily unavailable";
+        for (const socket of sockets) this.sendControl(socket, { type: "error", code, message });
+      }
+      await this.ctx.storage.setAlarm(
+        Date.now() + (refused ? PRICE_REFUSED_RETRY_MS : PRICE_TICK_MS),
+      );
+      return;
     }
     await this.ctx.storage.setAlarm(Date.now() + PRICE_TICK_MS);
   }
