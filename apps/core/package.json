@@ -1,0 +1,32 @@
+{
+  "name": "@paycheck-router/core",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "typecheck": "tsc --noEmit -p .",
+    "test": "vitest run",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+  },
+  "dependencies": {
+    "@paycheck-router/shared": "workspace:*",
+    "@solana-program/compute-budget": "0.19.0",
+    "@solana-program/system": "0.15.0",
+    "@solana-program/token": "0.17.0",
+    "@solana-program/token-2022": "0.19.0",
+    "@solana/kit": "8.3.0",
+    "drizzle-orm": "0.45.3",
+    "hono": "4.13.9",
+    "jose": "6.2.12",
+    "postgres": "3.4.9",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "0.22.0",
+    "@electric-sql/pglite": "0.5.8",
+    "@vitest/runner": "4.1.11",
+    "@vitest/snapshot": "4.1.11",
+    "vitest": "4.1.11",
+    "wrangler": "4.137.0"
+  }
+}

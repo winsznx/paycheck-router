@@ -1,0 +1,37 @@
+# Local secrets for `wrangler dev`. Copy to `.dev.vars` (gitignored) or let `pnpm demo:record`
+# write it from the fork-only keys in PAYCHECK_ROUTER_KEYS_DIR. Never commit real values.
+
+# Hot keys: 64-byte Ed25519 secret keys as a JSON byte array or base58.
+# Fork-only public keys: crank 7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu,
+# recorder EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL,
+# sponsor CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA,
+# attester CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw,
+# ops 9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as.
+CRANK_KEY=<crank secret key>
+RECORDER_KEY=<recorder secret key>
+SPONSOR_KEY=<sponsor secret key>
+ATTESTER_KEY=<attester secret key>
+OPS_KEY=<ops secret key>
+
+# Ed25519 private JWK (with "kid") that signs session access tokens.
+SESSION_SIGNING_KEY=<ed25519 private jwk json>
+
+# Providers. Leave a value empty and the feature reports "not configured".
+HELIUS_API_KEY=<helius api key>
+HELIUS_WEBHOOK_SECRET=<shared secret for /webhooks/helius>
+ALCHEMY_API_KEY=<alchemy api key>
+JUPITER_API_KEY=<jupiter api key>
+PYTH_API_KEY=<pyth hermes api key>
+PRIVY_APP_SECRET=<privy app secret>
+PRIVY_VERIFICATION_KEY=<privy es256 verification key>
+SUPABASE_SERVICE_ROLE_KEY=<supabase service role key>
+RESEND_API_KEY=<resend api key>
+TELEGRAM_BOT_TOKEN=<telegram bot token>
+TELEGRAM_WEBHOOK_SECRET=<telegram webhook secret token>
+VAPID_PRIVATE_KEY=<vapid private key, base64url>
+CHAINALYSIS_API_KEY=<chainalysis sanctions api key>
+TURNSTILE_SECRET=<turnstile secret key>
+PARTNER_WEBHOOK_SIGNING_KEY=<partner webhook signing secret>
+
+# Variables can be overridden here too, for example a surfnet on another port:
+# SURFNET_RPC_URL=http://127.0.0.1:8899

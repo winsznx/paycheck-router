@@ -1,0 +1,74 @@
+import { api } from "@paycheck-router/shared";
+import type { Env } from "./env.ts";
+
+export type ChainEndpoints = {
+  /** Reads and simulation. */
+  rpcUrl: string;
+  /** Every endpoint a signed transaction is broadcast to. */
+  sendUrls: readonly string[];
+  /** The verifier's read path; a different provider from the sender outside surfnets. */
+  verifyRpcUrl: string;
+  verifyProvider: "surfnet" | "alchemy";
+  /** True on local, ci and demo: every read and send goes to the surfnet and nowhere else. */
+  surfnet: boolean;
+};
+
+export class ConfigError extends Error {}
+
+function required(value: string | undefined, name: string): string {
+  if (!value) throw new ConfigError(`${name} is not set`);
+  return value;
+}
+
+/**
+ * With `SURFNET_RPC_URL` set, the surfnet is the only chain endpoint: the Helius send path,
+ * Jupiter's landing endpoint and the Alchemy verifier are never used.
+ */
+export function chainEndpoints(env: Env): ChainEndpoints {
+  if (env.SURFNET_RPC_URL) {
+    return {
+      rpcUrl: env.SURFNET_RPC_URL,
+      sendUrls: [env.SURFNET_RPC_URL],
+      verifyRpcUrl: env.SURFNET_RPC_URL,
+      verifyProvider: "surfnet",
+      surfnet: true,
+    };
+  }
+  const helius = `${required(env.HELIUS_RPC_URL, "HELIUS_RPC_URL")}/?api-key=${required(env.HELIUS_API_KEY, "HELIUS_API_KEY")}`;
+  const alchemy = `${required(env.ALCHEMY_RPC_URL, "ALCHEMY_RPC_URL")}/${required(env.ALCHEMY_API_KEY, "ALCHEMY_API_KEY")}`;
+  return {
+    rpcUrl: helius,
+    sendUrls: [helius],
+    verifyRpcUrl: alchemy,
+    verifyProvider: "alchemy",
+    surfnet: false,
+  };
+}
+
+export function environment(env: Env): api.Environment {
+  return api.Environment.parse(env.ENVIRONMENT);
+}
+
+/** SIWS messages carry chain `localnet` on surfnets and `mainnet` everywhere else. */
+export function siwsChain(env: Env): api.SiwsChain {
+  return env.SURFNET_RPC_URL ? "localnet" : "mainnet";
+}
+
+/** Solana Explorer link; on a surfnet it reads the fork through the viewer's browser. */
+export function explorerTxUrl(env: Env, signature: string): string {
+  const url = new URL(`https://explorer.solana.com/tx/${signature}`);
+  if (env.SURFNET_RPC_URL) {
+    url.searchParams.set("cluster", "custom");
+    url.searchParams.set("customUrl", env.SURFNET_RPC_URL);
+  }
+  return url.toString();
+}
+
+export function explorerAddressUrl(env: Env, address: string): string {
+  const url = new URL(`https://explorer.solana.com/address/${address}`);
+  if (env.SURFNET_RPC_URL) {
+    url.searchParams.set("cluster", "custom");
+    url.searchParams.set("customUrl", env.SURFNET_RPC_URL);
+  }
+  return url.toString();
+}
