@@ -14,6 +14,8 @@ export const WaitReason = {
   ROUTER_PAUSED: "ROUTER_PAUSED",
   BELOW_MINIMUM: "BELOW_MINIMUM",
   CONVERSION_CLOSED: "CONVERSION_CLOSED",
+  /** Hermes refused the reference feed (for example, the key isn't entitled to it). */
+  PRICE_UNAVAILABLE: "PRICE_UNAVAILABLE",
 } as const;
 export type WaitReason = (typeof WaitReason)[keyof typeof WaitReason];
 
@@ -49,7 +51,13 @@ export const RETRY_SCHEDULES: Readonly<Record<WaitReason, RetrySchedule>> = {
   ROUTER_PAUSED: { kind: "none" },
   BELOW_MINIMUM: { kind: "none" },
   CONVERSION_CLOSED: { kind: "none" },
+  PRICE_UNAVAILABLE: { kind: "backoff", delaysSecs: [], thenEverySecs: 15 * MINUTE },
 };
+
+/** What the owner sees while a slice waits on PRICE_UNAVAILABLE. */
+export function priceUnavailableMessage(symbol: string, amount: string): string {
+  return `Pyth's price for ${symbol} isn't available to the router right now. Your ${amount} waits in your wallet.`;
+}
 
 /**
  * Seconds until the next attempt for time-based schedules, where `attempt` counts prior

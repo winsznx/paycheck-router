@@ -79,6 +79,10 @@ export const LegAttempt = z.object({
   attestation: AttestationRecord.nullable(),
   simulation: SimulationRecord.nullable(),
   transactionBytes: z.number().int().nullable(),
+  /** Hermes refusals that kept the leg from being priced, with status and body. */
+  priceRejections: z.array(
+    z.object({ feedId: FeedIdHex, status: z.number().int(), body: z.string() }),
+  ),
   signatures: z.array(SignatureString),
   outcome: z.enum(["executed", "waiting", "failed"]),
   waitReason: WaitReasonSchema.nullable(),
