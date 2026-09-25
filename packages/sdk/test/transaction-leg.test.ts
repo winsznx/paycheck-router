@@ -10,7 +10,13 @@ import {
 } from "@solana/kit";
 import { describe, expect, it } from "vitest";
 import { JupiterBuildResponse } from "../src/jupiter.ts";
-import { feedsFor, type PendingLeg, priorityFeeMicroLamports, unsignedTaker } from "../src/leg.ts";
+import {
+  feedsFor,
+  middleMints,
+  type PendingLeg,
+  priorityFeeMicroLamports,
+  unsignedTaker,
+} from "../src/leg.ts";
 import {
   buildMessage,
   computeUnitLimitFor,
@@ -112,5 +118,31 @@ describe("leg helpers", () => {
       assetBySymbol("NVDAx").feedId,
       assetBySymbol("NVDAx").feedId247,
     ]);
+  });
+});
+
+describe("middleMints", () => {
+  const usdc = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+  const wsol = address("So11111111111111111111111111111111111111112");
+  const out = address("Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw");
+  const hop = (inputMint: string, outputMint: string) => ({
+    percent: 100,
+    swapInfo: { ammKey: "k", label: "x", inputMint, outputMint },
+  });
+  const route = (hops: ReturnType<typeof hop>[]) => ({ ...recorded, routePlan: hops });
+
+  it("finds no middle mint on a direct route", () => {
+    expect(middleMints(route([hop(usdc, out)]), usdc, out)).toEqual([]);
+  });
+
+  it("finds the one mint a two-hop route passes through", () => {
+    expect(middleMints(route([hop(usdc, wsol), hop(wsol, out)]), usdc, out)).toEqual([wsol]);
+  });
+
+  it("finds every middle mint of a longer route", () => {
+    const jup = "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN";
+    expect(middleMints(route([hop(usdc, wsol), hop(wsol, jup), hop(jup, out)]), usdc, out)).toEqual(
+      [wsol, jup],
+    );
   });
 });

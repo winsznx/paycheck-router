@@ -173,7 +173,15 @@ export async function recordPaycheck(
 export function executeInstructionBuilder(config: {
   treasury: Address;
 }): ExecuteInstructionBuilder {
-  return async ({ leg, destination, swap, priceUpdate, priceUpdate247, usdcPriceUpdate }) => {
+  return async ({
+    leg,
+    destination,
+    swap,
+    priceUpdate,
+    priceUpdate247,
+    usdcPriceUpdate,
+    intermediate,
+  }) => {
     const [configPda] = await findConfigPda();
     const [asset] = await findAssetPda({ mint: leg.asset.mint });
     const payIn = await ownerUsdcAccount(leg.owner);
@@ -200,6 +208,9 @@ export function executeInstructionBuilder(config: {
       assetTokenProgram: leg.asset.tokenProgram,
       legIndex: leg.legIndex,
       swapData: swap.data ?? new Uint8Array(),
+      ...(intermediate
+        ? { ownerIntermediate: intermediate.account, intermediateMint: intermediate.mint }
+        : {}),
     };
     let instruction: Instruction;
     if (leg.asset.kind === AssetKind.preIpo) {

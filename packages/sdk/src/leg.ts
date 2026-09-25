@@ -1,6 +1,7 @@
 import { bpsOf } from "@paycheck-router/guard-math";
 import {
   AssetKind,
+  JUPITER_MAX_ACCOUNTS,
   type RegistryAsset,
   USDC_FEED_ID,
   USDC_MINT,
@@ -60,6 +61,16 @@ import {
   signSendConfirm,
   simulate,
 } from "./transaction.ts";
+
+type JupiterBuild = Awaited<ReturnType<typeof buildJupiterSwap>>;
+
+/** Re-quote bound when the first route passes through more than one intermediate mint. */
+export const MULTI_HOP_MAX_ACCOUNTS = 30;
+/**
+ * Re-quote bounds, in order, while the execute transaction exceeds 1,232 bytes. A pre-IPO leg's
+ * Ed25519 instruction alone adds 161 bytes, which two fewer route accounts rarely recover.
+ */
+export const OVERSIZE_MAX_ACCOUNTS = [38, 30] as const;
 
 /** Highest priority fee per transaction: 0.0005 SOL. */
 export const MAX_PRIORITY_FEE_LAMPORTS = 500_000n;
@@ -123,6 +134,8 @@ export type ExecuteAccounts = {
   priceUpdate: Address | null;
   priceUpdate247: Address | null;
   usdcPriceUpdate: Address;
+  /** The owner's account for the route's one intermediate mint, swept after the swap. */
+  intermediate?: { account: Address; mint: Address } | null;
 };
 
 /** Builds `execute_leg` or `execute_prestock_leg` from the generated client. */
@@ -133,7 +146,12 @@ export type LegExecutedDecoder<T> = (logs: readonly string[]) => Promise<T | nul
 export type LegAttempt<T> = {
   key: string;
   startedAt: string;
-  jupiter: { raw: string; url: string; response: JupiterBuildResponse } | null;
+  /** The build the attempt used. */
+  jupiter: JupiterBuild | null;
+  /** Every build the attempt requested, re-quotes included. */
+  jupiterBuilds: JupiterBuild[];
+  /** Why the attempt re-quoted. */
+  notes: string[];
   attestation: { signed: SignedAttestation; read: PreStocksRead } | null;
   simulation: { logs: readonly string[]; unitsConsumed: bigint | null; err: unknown } | null;
   transactionBytes: number | null;
@@ -310,6 +328,8 @@ export async function attemptLeg<T>(
     key: legAttemptKey(leg.router, leg.seq, leg.legIndex, attempt),
     startedAt: new Date((config.now ?? Date.now)()).toISOString(),
     jupiter: null,
+    jupiterBuilds: [],
+    notes: [],
     attestation: null,
     simulation: null,
     transactionBytes: null,
@@ -332,25 +352,41 @@ export async function attemptLeg<T>(
     tokenProgram: asset.tokenProgram,
   });
 
-  const build = await buildJupiterSwap(
-    {
-      inputMint: USDC_MINT,
-      outputMint: asset.mint,
-      amount: leg.amountIn - fee,
-      taker: leg.authority,
-      payer: config.crank.address,
-      destinationTokenAccount: destination,
-      slippageBps: leg.bandBps,
-      surfnet: config.surfnet,
-      ...(config.forkExcludedDexes ? { forkExcludedDexes: [...config.forkExcludedDexes] } : {}),
-    },
-    config.jupiter,
-  );
-  result.jupiter = build;
-  const jupiter = build.response;
+  const quote = async (maxAccounts: number) => {
+    const build = await buildJupiterSwap(
+      {
+        inputMint: USDC_MINT,
+        outputMint: asset.mint,
+        amount: leg.amountIn - fee,
+        taker: leg.authority,
+        payer: config.crank.address,
+        destinationTokenAccount: destination,
+        slippageBps: leg.bandBps,
+        surfnet: config.surfnet,
+        maxAccounts,
+        ...(config.forkExcludedDexes ? { forkExcludedDexes: [...config.forkExcludedDexes] } : {}),
+      },
+      config.jupiter,
+    );
+    result.jupiterBuilds.push(build);
+    result.jupiter = build;
+    return { build, middles: middleMints(build.response, USDC_MINT, asset.mint) };
+  };
+  let maxAccounts = JUPITER_MAX_ACCOUNTS;
+  let route = await quote(maxAccounts);
+  if (route.middles.length > 1) {
+    result.notes.push(
+      `route through ${route.middles.length} intermediate mints at maxAccounts=${maxAccounts}; re-quoting at ${MULTI_HOP_MAX_ACCOUNTS}`,
+    );
+    maxAccounts = MULTI_HOP_MAX_ACCOUNTS;
+    route = await quote(maxAccounts);
+  }
+  if (route.middles.length > 1) {
+    return waitForRoute(result, route.middles);
+  }
   const outsideSwap = [
-    ...jupiter.setupInstructions,
-    ...(jupiter.cleanupInstruction ? [jupiter.cleanupInstruction] : []),
+    ...route.build.response.setupInstructions,
+    ...(route.build.response.cleanupInstruction ? [route.build.response.cleanupInstruction] : []),
   ];
   if (outsideSwap.some((ix) => requiresSigner(ix, leg.authority))) {
     result.error = "Jupiter returned a setup or cleanup instruction the Authority PDA must sign";
@@ -388,41 +424,62 @@ export async function attemptLeg<T>(
   result.pricePosts = prices;
   const usdcPriceUpdate = prices.accounts.get(USDC_FEED_ID);
   if (!usdcPriceUpdate) throw new Error("USDC/USD was not posted");
-  const execute = await buildExecute({
-    leg,
-    destination,
-    swap: unsignedTaker(jupiter.swapInstruction, leg.authority),
-    priceUpdate: asset.feedId ? (prices.accounts.get(asset.feedId) ?? null) : null,
-    priceUpdate247: asset.feedId247 ? (prices.accounts.get(asset.feedId247) ?? null) : null,
-    usdcPriceUpdate,
-  });
 
-  const body: Instruction[] = [
-    getCreateAssociatedTokenIdempotentInstruction({
-      payer: config.crank,
-      ata: destination,
-      owner: leg.owner,
-      mint: asset.mint,
-      tokenProgram: asset.tokenProgram,
-    }),
-    ...jupiter.setupInstructions.map(toKitInstruction),
-    ...prefix,
-    execute,
-    ...(jupiter.cleanupInstruction ? [toKitInstruction(jupiter.cleanupInstruction)] : []),
-  ];
-  const lookupTables = {
-    ...toLookupTables(jupiter.addressesByLookupTableAddress),
-    ...config.protocolLookupTable,
+  const assemble = async (build: JupiterBuild, middles: readonly Address[]) => {
+    const jupiter = build.response;
+    const intermediate = middles[0] ? await ownerIntermediate(config, leg.owner, middles[0]) : null;
+    const execute = await buildExecute({
+      leg,
+      destination,
+      swap: unsignedTaker(jupiter.swapInstruction, leg.authority),
+      priceUpdate: asset.feedId ? (prices.accounts.get(asset.feedId) ?? null) : null,
+      priceUpdate247: asset.feedId247 ? (prices.accounts.get(asset.feedId247) ?? null) : null,
+      usdcPriceUpdate,
+      intermediate: intermediate
+        ? { account: intermediate.account, mint: middles[0] as Address }
+        : null,
+    });
+    const body: Instruction[] = [
+      getCreateAssociatedTokenIdempotentInstruction({
+        payer: config.crank,
+        ata: destination,
+        owner: leg.owner,
+        mint: asset.mint,
+        tokenProgram: asset.tokenProgram,
+      }),
+      ...(intermediate ? [intermediate.create] : []),
+      ...jupiter.setupInstructions.map(toKitInstruction),
+      ...prefix,
+      execute,
+      ...(jupiter.cleanupInstruction ? [toKitInstruction(jupiter.cleanupInstruction)] : []),
+    ];
+    const lookupTables = {
+      ...toLookupTables(jupiter.addressesByLookupTableAddress),
+      ...config.protocolLookupTable,
+    };
+    const message = buildMessage(
+      config.crank,
+      await latestLifetime(config.rpc),
+      [...computeBudgetInstructions(SIMULATION_COMPUTE_UNITS, 0n), ...body],
+      lookupTables,
+    );
+    return { jupiter, body, lookupTables, message, bytes: messageSize(message) };
   };
 
-  const lifetime = await latestLifetime(config.rpc);
-  const simulationMessage = buildMessage(
-    config.crank,
-    lifetime,
-    [...computeBudgetInstructions(SIMULATION_COMPUTE_UNITS, 0n), ...body],
-    lookupTables,
-  );
-  result.transactionBytes = messageSize(simulationMessage);
+  let assembled = await assemble(route.build, route.middles);
+  for (const tighter of OVERSIZE_MAX_ACCOUNTS) {
+    if (assembled.bytes <= MAX_TRANSACTION_BYTES || tighter >= maxAccounts) continue;
+    result.notes.push(
+      `execute transaction was ${assembled.bytes} bytes at maxAccounts=${maxAccounts}; re-quoting at ${tighter}`,
+    );
+    maxAccounts = tighter;
+    route = await quote(maxAccounts);
+    if (route.middles.length > 1) return waitForRoute(result, route.middles);
+    assembled = await assemble(route.build, route.middles);
+  }
+  const { jupiter, body, lookupTables } = assembled;
+  const simulationMessage = assembled.message;
+  result.transactionBytes = assembled.bytes;
   if (result.transactionBytes > MAX_TRANSACTION_BYTES) {
     result.error = `execute transaction is ${result.transactionBytes} bytes, over ${MAX_TRANSACTION_BYTES}`;
     return result;
@@ -470,6 +527,57 @@ export async function attemptLeg<T>(
   }
   result.outcome = "executed";
   return result;
+}
+
+/** A route Jupiter only offers through two or more intermediate mints waits as LANDING. */
+function waitForRoute<T>(result: LegAttempt<T>, middles: readonly Address[]): LegAttempt<T> {
+  result.outcome = "waiting";
+  result.waitReason = WaitReason.LANDING;
+  result.failure = {
+    kind: "landing",
+    detail: `route needs ${middles.length} intermediate mints (${middles.join(", ")}); the program sweeps one`,
+  };
+  result.error = result.failure.detail;
+  return result;
+}
+
+/** Mints a route passes through between USDC and the asset. */
+export function middleMints(
+  response: JupiterBuildResponse,
+  input: Address,
+  output: Address,
+): Address[] {
+  const mints = new Set<string>();
+  for (const hop of response.routePlan) {
+    for (const mint of [hop.swapInfo.inputMint, hop.swapInfo.outputMint]) {
+      if (mint && mint !== input && mint !== output) mints.add(mint);
+    }
+  }
+  return [...mints].map((mint) => mint as Address);
+}
+
+const mintPrograms = new Map<string, Address>();
+
+/** The owner's token account for a route's intermediate mint, created if missing. */
+async function ownerIntermediate(config: PipelineConfig, owner: Address, mint: Address) {
+  let tokenProgram = mintPrograms.get(mint);
+  if (!tokenProgram) {
+    const { value } = await config.rpc.getAccountInfo(mint, { encoding: "base64" }).send();
+    if (!value) throw new Error(`intermediate mint ${mint} not found`);
+    tokenProgram = value.owner;
+    mintPrograms.set(mint, tokenProgram);
+  }
+  const [account] = await findAssociatedTokenPda({ owner, mint, tokenProgram });
+  return {
+    account,
+    create: getCreateAssociatedTokenIdempotentInstruction({
+      payer: config.crank,
+      ata: account,
+      owner,
+      mint,
+      tokenProgram,
+    }),
+  };
 }
 
 function settleFailure<T>(result: LegAttempt<T>, failure: FailureClassification): LegAttempt<T> {
@@ -670,6 +778,8 @@ function crashedAttempt<T>(leg: PendingLeg, attempt: number, nowMs: number, erro
     key: legAttemptKey(leg.router, leg.seq, leg.legIndex, attempt),
     startedAt: new Date(nowMs).toISOString(),
     jupiter: null,
+    jupiterBuilds: [],
+    notes: [],
     attestation: null,
     simulation: null,
     transactionBytes: null,
