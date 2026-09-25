@@ -7,6 +7,7 @@ import { createApp } from "../../../src/app.ts";
 import type { ChainClient } from "../../../src/chain/client.ts";
 import type { Db } from "../../../src/db/client.ts";
 import * as schema from "../../../src/db/schema.ts";
+import type { Engine } from "../../../src/engine/types.ts";
 import type { Env } from "../../../src/env.ts";
 
 const SUPABASE_DIR = resolve(import.meta.dirname, "../../../../../supabase");
@@ -53,6 +54,19 @@ export function testEnv(overrides: Partial<Env> = {}): Env {
   } as Env;
 }
 
-export function testApp(db: Db, chain: ChainClient, now: () => Date = () => new Date()) {
-  return createApp(() => ({ db, chain, now }));
+export function testApp(
+  db: Db,
+  chain: ChainClient,
+  engine: Engine | null = null,
+  now: () => Date = () => new Date(),
+) {
+  return createApp(() => ({
+    db,
+    chain,
+    engine: () => {
+      if (!engine) throw new Error("this test provides no engine");
+      return engine;
+    },
+    now,
+  }));
 }
