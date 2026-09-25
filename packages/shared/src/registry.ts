@@ -168,7 +168,8 @@ export const XSTOCKS: readonly RegistryAsset[] = XSTOCK_SEEDS.map(
     feedId,
     feedId247,
     defaultBandBps: DEFAULT_BANDS.listedEquityBps,
-    maxBandBps: HARD_CAPS.maxBandEquityBps,
+    // The program caps the widest band, max band plus the 24/7 extra, at the equity cap.
+    maxBandBps: HARD_CAPS.maxBandEquityBps - DEFAULT_BANDS.band247ExtraBps,
     band247ExtraBps: DEFAULT_BANDS.band247ExtraBps,
   }),
 );

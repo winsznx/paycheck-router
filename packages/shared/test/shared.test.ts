@@ -66,9 +66,9 @@ describe("registry", () => {
 });
 
 describe("program errors", () => {
-  it("covers every code from 6000 to 6031 exactly once", () => {
+  it("covers every code the program defines, 6000 to 6034, exactly once", () => {
     expect(PROGRAM_ERRORS.map((e) => e.code)).toEqual(
-      Array.from({ length: 32 }, (_, i) => 6000 + i),
+      Array.from({ length: 35 }, (_, i) => 6000 + i),
     );
   });
 
@@ -128,6 +128,7 @@ describe("run manifest schema", () => {
     commit: "12593c0",
     programId: "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
     programSha256: null,
+    programExecutableHash: null,
     crankVersion: "0.1.0",
     rpc: { sender: "http://127.0.0.1:8899", verifier: "http://127.0.0.1:8899" },
     feedIds: [USDC_FEED_ID],
