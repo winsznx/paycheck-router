@@ -29,6 +29,7 @@ import {
   findRouterPda,
   getInitializeConfigInstructionAsync,
   getUpsertAssetInstructionAsync,
+  JsonRpcError,
   jsonRpc,
   latestLifetime,
   type SendOutcome,
@@ -154,6 +155,23 @@ export async function clockDriftSecs(rpcUrl: string): Promise<number> {
 }
 
 /**
+ * Where the surfnet reads mainnet accounts: SURFNET_DATASOURCE_URL, else Helius when
+ * HELIUS_API_KEY is set, else the public mainnet-beta RPC. The label never carries a key.
+ */
+function datasourceArgs(): { args: string[]; label: string } {
+  const url = process.env.SURFNET_DATASOURCE_URL;
+  if (url) return { args: ["--rpc-url", url], label: new URL(url).host };
+  const helius = process.env.HELIUS_API_KEY;
+  if (helius) {
+    return {
+      args: ["--rpc-url", `https://mainnet.helius-rpc.com/?api-key=${helius}`],
+      label: "mainnet.helius-rpc.com",
+    };
+  }
+  return { args: ["--network", "mainnet"], label: "api.mainnet-beta.solana.com" };
+}
+
+/**
  * Starts a fresh surfnet forked from mainnet (Helius as the data source when HELIUS_API_KEY is
  * set) and stops it again if its clock is more than 5 s from wall time.
  */
@@ -162,10 +180,7 @@ export async function startSurfnet(
 ): Promise<Surfnet> {
   const rpcPort = opts.rpcPort ?? (await freePort(8899));
   const wsPort = opts.wsPort ?? (await freePort(rpcPort + 1, [rpcPort]));
-  const helius = process.env.HELIUS_API_KEY;
-  const source = helius
-    ? ["--rpc-url", `https://mainnet.helius-rpc.com/?api-key=${helius}`]
-    : ["--network", "mainnet"];
+  const { args: source, label: datasource } = datasourceArgs();
   const cwd = mkdtempSync(resolve(tmpdir(), "surfnet-"));
   const child = spawn(
     "surfpool",
@@ -223,7 +238,7 @@ export async function startSurfnet(
       wsUrl: `ws://127.0.0.1:${wsPort}`,
       rpcPort,
       wsPort,
-      datasource: helius ? "helius mainnet" : "api.mainnet-beta.solana.com",
+      datasource,
       surfpoolVersion: stdout.trim(),
       startSlot,
       clockDriftSecs: drift,
@@ -254,14 +269,16 @@ export async function fundForkKeys(surfnet: Surfnet, signers: ForkSigners): Prom
     "employer-3": 1n * SOL,
   };
   for (const [name, lamports] of Object.entries(sol) as [ForkKeyName, bigint][]) {
-    await surfnet.cheat.setAccount(signers[name].address, { lamports });
+    await retryDatasource(() => surfnet.cheat.setAccount(signers[name].address, { lamports }));
   }
   for (const name of ["employer-1", "employer-2", "employer-3"] as const) {
-    await surfnet.cheat.setTokenAccount(
-      signers[name].address,
-      USDC_MINT,
-      { amount: 10_000n * 10n ** BigInt(USDC_DECIMALS), state: "initialized" },
-      TOKEN_PROGRAM_ID,
+    await retryDatasource(() =>
+      surfnet.cheat.setTokenAccount(
+        signers[name].address,
+        USDC_MINT,
+        { amount: 10_000n * 10n ** BigInt(USDC_DECIMALS), state: "initialized" },
+        TOKEN_PROGRAM_ID,
+      ),
     );
   }
 }
@@ -272,6 +289,23 @@ function cliKeysDir(): string {
   const link = resolve(mkdtempSync(resolve(tmpdir(), "fork-keys-")), "keys");
   symlinkSync(KEYS_DIR, link);
   return link;
+}
+
+/**
+ * Retries an operation that failed because the surfnet could not reach its mainnet data source
+ * (a public RPC rate-limits many forks at once). Anything else fails immediately.
+ */
+export async function retryDatasource<T>(operation: () => Promise<T>, attempts = 3): Promise<T> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await operation();
+    } catch (error) {
+      const detail =
+        error instanceof JsonRpcError ? `${error.message} ${String(error.data)}` : String(error);
+      if (attempt >= attempts || !detail.includes("error sending request")) throw error;
+      await new Promise((r) => setTimeout(r, 2_000 * attempt));
+    }
+  }
 }
 
 export type Deployment = { programId: Address; signature: string; sha256: string; soPath: string };
@@ -293,27 +327,29 @@ export async function deployProgram(
   }
   const sha256 = createHash("sha256").update(readFileSync(soPath)).digest("hex");
   const keys = cliKeysDir();
-  const { stdout } = await run(
-    "solana",
-    [
-      "program",
-      "deploy",
-      "--url",
-      surfnet.rpcUrl,
-      "--keypair",
-      resolve(keys, "deployer.json"),
-      "--program-id",
-      resolve(keys, "program-id.json"),
-      "--upgrade-authority",
-      resolve(keys, "deployer.json"),
-      "--commitment",
-      "confirmed",
-      "--output",
-      "json",
-      soPath,
-    ],
-    { maxBuffer: 16 * 1024 * 1024 },
-  );
+  const deploy = () =>
+    run(
+      "solana",
+      [
+        "program",
+        "deploy",
+        "--url",
+        surfnet.rpcUrl,
+        "--keypair",
+        resolve(keys, "deployer.json"),
+        "--program-id",
+        resolve(keys, "program-id.json"),
+        "--upgrade-authority",
+        resolve(keys, "deployer.json"),
+        "--commitment",
+        "confirmed",
+        "--output",
+        "json",
+        soPath,
+      ],
+      { maxBuffer: 16 * 1024 * 1024 },
+    );
+  const { stdout } = await retryDatasource(deploy);
   const result = JSON.parse(stdout) as { programId: string; signature?: string };
   if (result.programId !== PROGRAM_ID) {
     throw new Error(`deployed ${result.programId}, expected ${PROGRAM_ID}`);
