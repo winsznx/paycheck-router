@@ -2,7 +2,12 @@ import { api } from "@paycheck-router/shared";
 import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 import { REFRESH_COOKIE } from "@/lib/api/session-contract.ts";
-import { forwardHeaders, issueClientSession, problemResponse } from "@/lib/api/session-server.ts";
+import {
+  clearSessionCookies,
+  forwardHeaders,
+  issueClientSession,
+  problemResponse,
+} from "@/lib/api/session-server.ts";
 import { apiUrl } from "@/lib/env.ts";
 
 export const dynamic = "force-dynamic";
@@ -36,6 +41,6 @@ export async function DELETE(request: NextRequest): Promise<Response> {
       cache: "no-store",
     }).catch(() => undefined);
   }
-  store.delete(REFRESH_COOKIE);
+  await clearSessionCookies();
   return new Response(null, { status: 204 });
 }

@@ -9,4 +9,9 @@ export const ClientSession = api.SessionResponse.omit({
 export type ClientSession = z.infer<typeof ClientSession>;
 
 export const REFRESH_COOKIE = "pr_refresh";
+/**
+ * Readable by scripts and set beside the HttpOnly refresh cookie, with the same lifetime, so a
+ * visitor who never signed in makes no refresh call at all.
+ */
+export const SESSION_MARKER_COOKIE = "pr_signed_in";
 export const SESSION_ROUTE = "/api/session";
