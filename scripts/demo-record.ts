@@ -31,7 +31,7 @@ const CORE_PORT = Number(process.env.DEMO_CORE_PORT ?? 8787);
 const DB_PORT = Number(process.env.DEMO_DB_PORT ?? 54322);
 const WEB_PORT = Number(process.env.DEMO_WEB_PORT ?? 3000);
 const WITH_WEB = !process.argv.includes("--no-web");
-const WEB_URL = `http://127.0.0.1:${WEB_PORT}`;
+const WEB_URL = `http://localhost:${WEB_PORT}`;
 const PAYCHECK_USDC = 1_850_000_000n;
 const TURNSTILE_SITE_KEY = "0x4AAAAAAFDQGy1MnmLBUS_3";
 
@@ -188,7 +188,7 @@ async function main(): Promise<void> {
       CONFIG_PDA: protocol.config,
       PROTOCOL_ALT: protocol.lookupTable.address,
       APP_ORIGIN: `http://localhost:${WEB_PORT}`,
-      CORS_ORIGINS: WEB_URL,
+      CORS_ORIGINS: `http://127.0.0.1:${WEB_PORT}`,
       SIWS_DOMAIN: `localhost:${WEB_PORT},127.0.0.1:${WEB_PORT}`,
     },
     requirePyth: true,
@@ -252,8 +252,8 @@ async function main(): Promise<void> {
         "exec",
         "next",
         "dev",
-        "--hostname",
-        "127.0.0.1",
+        // No --hostname: bound to 127.0.0.1, next dev resolves the locale rewrite to
+        // localhost:<port>, treats it as external and redirects every public page to itself.
         "--port",
         String(WEB_PORT),
       ],
