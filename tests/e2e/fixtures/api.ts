@@ -104,21 +104,43 @@ export const paycheckDetail = api.PaycheckDetail.parse({
   links: [],
 });
 
+/** OpenAI PreStocks' Scaled UI multiplier on Sep 25, 2026, and a raw holding of 0.0247. */
+export const OPENAI_MULTIPLIER = "1.4861347";
+export const OPENAI_RAW = "24700000";
+
 export const portfolio = api.PortfolioResponse.parse({
-  holdings: SPLIT.slice(0, 3).map(([symbol, weightBps], index) => {
-    const asset = assetBySymbol(symbol);
-    return {
-      mint: asset.mint,
-      symbol,
-      amountRaw: "41130000",
-      decimals: asset.decimals,
-      valueUsdc: String(222_000_000 - index * 1_000_000),
-      costBasisUsdc: "222000000",
-      pnlUsdc: "-1000000",
-      targetWeightBps: weightBps,
-      actualWeightBps: weightBps,
-    };
-  }),
+  holdings: [
+    ...SPLIT.slice(0, 3).map(([symbol, weightBps], index) => {
+      const asset = assetBySymbol(symbol);
+      return {
+        mint: asset.mint,
+        symbol,
+        amountRaw: "41130000",
+        decimals: asset.decimals,
+        uiMultiplier: "1",
+        sharesUi: (41_130_000 / 10 ** asset.decimals).toString(),
+        valueUsdc: String(222_000_000 - index * 1_000_000),
+        costBasisUsdc: "222000000",
+        pnlUsdc: "-1000000",
+        targetWeightBps: weightBps,
+        actualWeightBps: weightBps,
+      };
+    }),
+    {
+      mint: assetBySymbol("OpenAI").mint,
+      symbol: "OpenAI",
+      amountRaw: OPENAI_RAW,
+      decimals: 9,
+      uiMultiplier: OPENAI_MULTIPLIER,
+      // Core's exact decimal: 24,700,000 × 1.4861347 / 1e9.
+      sharesUi: "0.03670752709",
+      valueUsdc: "37000000",
+      costBasisUsdc: "37000000",
+      pnlUsdc: "0",
+      targetWeightBps: 1000,
+      actualWeightBps: 1000,
+    },
+  ],
   totals: {
     valueUsdc: "330000000",
     costBasisUsdc: "333000000",

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { expectForkBanner, expectNoAxeViolations } from "../a11y.ts";
-import { mockSignedInApi, PAYCHECK_ID } from "../fixtures/api.ts";
+import { mockSignedInApi, OPENAI_MULTIPLIER, OPENAI_RAW, PAYCHECK_ID } from "../fixtures/api.ts";
 
 test.describe("signed-in app screens", () => {
   test.beforeEach(async ({ page }) => {
@@ -61,6 +61,28 @@ test.describe("signed-in app screens", () => {
     // #then
     await expect(page.getByRole("heading", { name: "Portfolio", level: 1 })).toBeVisible();
     await expectNoAxeViolations(page);
+  });
+
+  test("portfolio shows OpenAI shares with the Scaled UI multiplier applied", async ({ page }) => {
+    // #given a raw OpenAI holding and its multiplier, both from the API
+    const [whole = "0", fraction = ""] = OPENAI_MULTIPLIER.split(".");
+    const scaled = BigInt(OPENAI_RAW) * BigInt(`${whole}${fraction}`);
+    const expected = Number(scaled) / 10 ** (9 + fraction.length);
+    // #when
+    await page.goto("/app/portfolio");
+    // #then the wallet amount is raw × 1.4861347 / 1e9, not the raw 0.0247
+    const shown = new Intl.NumberFormat("en", {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4,
+    }).format(expected);
+    expect(shown).toBe("0.0367");
+    // A table row from tablet up, a card on phones.
+    const holding = page
+      .locator(".portfolio-table tr, .portfolio-cards > li")
+      .filter({ hasText: "OpenAI" })
+      .filter({ visible: true });
+    await expect(holding).toContainText(shown);
+    await expect(holding).not.toContainText("0.0247");
   });
 });
 
