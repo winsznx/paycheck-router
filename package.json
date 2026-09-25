@@ -20,7 +20,8 @@
     "e2e": "pnpm --filter @paycheck-router/e2e e2e",
     "campaign": "tsx scripts/campaign/run.ts",
     "campaign:summary": "tsx scripts/campaign/summary.ts",
-    "verify:campaign": "tsx scripts/campaign/verify.ts"
+    "verify:campaign": "tsx scripts/campaign/verify.ts",
+    "e2e:live": "pnpm --filter @paycheck-router/e2e e2e:live"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
