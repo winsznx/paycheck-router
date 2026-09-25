@@ -2,6 +2,22 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: Program size, math limits and layout as built
+
+**Observed.** The release build of `paycheck_router` is 693,272 bytes with all 21 instructions, against a planned 350–450 KB. At 5,080 lamports per byte, program rent on mainnet is about 3.52 SOL rather than 2.34 SOL. In LiteSVM, `execute_leg` uses about 95,700 compute units including the test swap's two token CPIs, so the program's own work sits near the planned 80,000.
+
+The guard is one u128 fraction per formula, so a buy overflows (MathOverflow) above about 33,900 USDC for 9-decimal tokens, or about 339,000 USDC for 8 decimals. The golden vector `buy_large_leg_50000_usdc_d9` documents it.
+
+**Changed.**
+- The mainnet deploy needs about 3.6 SOL for the program plus the 1.0 SOL crank float. The first rent cut after deploy refunds the difference.
+- `max_leg_usdc` (5,000 USDC at launch) must stay below about 33,000 USDC while pre-IPO assets are listed.
+- The Scaled UI multiplier is truncated to 1e12 fixed point, matching `packages/guard-math`. Buy minimums still round toward the owner; sell and conversion minimums can be low by less than one part in 10^12.
+- Errors 6032 `InvalidParameter`, 6033 `Unauthorized` and 6034 `LegNotExpired` follow the planned 6000–6031.
+- Router gains `pending_legs` (for `close_router`). Each paycheck leg is 81 bytes with `issuer_fee`. Paycheck stores its bump. `RouterClosed` and `PaycheckClosed` events exist. `LegExecuted` and `GuardedSwap` carry the attestation and the price source.
+- `initialize_config` requires the program's upgrade authority, so it can't be front-run. `upsert_asset` rejects mints with an active transfer-hook program.
+- Authority token accounts that Jupiter creates for output mints stay open after `close_router`; the crank paid their rent.
+- Every mint read on the fork (SPYx, QQQx, NVDAx, AAPLx, TSLAx, OpenAI, Anthropic, SpaceX) has DefaultAccountState initialized, a null transfer-hook program and pausable not paused.
+
 ## 2026-09-25: The demo environment runs Postgres 17 in PGlite
 
 **Observed.** The recording machine's Docker engine answers HTTP 500, and the disk had 1.6 GB free at 12:43 WAT, while `supabase start` pulls several GB of images. The demo database only mirrors offchain state; the money state it describes lives onchain.
