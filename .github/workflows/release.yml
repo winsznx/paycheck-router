@@ -4,12 +4,19 @@ on:
   push:
     tags: ["stocklana-submission", "v*"]
   workflow_dispatch:
+    inputs:
+      base_image:
+        description: Verifiable-build Docker image
+        default: solanafoundation/solana-verifiable-build:4.3.0
 
 permissions:
   contents: write
 
 env:
   SOLANA_VERIFY_VERSION: 0.5.2
+  # solana-verify maps the solana-program crate version (5.1.0) to an image tag and finds none,
+  # so the image is pinned explicitly.
+  BASE_IMAGE: ${{ inputs.base_image || 'solanafoundation/solana-verifiable-build:4.3.0' }}
 
 jobs:
   verifiable-build:
@@ -26,7 +33,7 @@ jobs:
           install -m 0755 "solana-verify-${SOLANA_VERIFY_VERSION}-linux" /usr/local/bin/solana-verify
 
       - name: Verifiable build
-        run: solana-verify build --library-name paycheck_router
+        run: solana-verify build --library-name paycheck_router --base-image "${BASE_IMAGE}"
 
       - name: Executable hash
         id: hash
@@ -49,7 +56,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           tag="${GITHUB_REF_NAME}"
-          notes="Program binary built with solana-verify ${SOLANA_VERIFY_VERSION}. Executable hash: ${{ steps.hash.outputs.hash }}"
+          notes="Program binary built with solana-verify ${SOLANA_VERIFY_VERSION} on ${BASE_IMAGE}. Executable hash: ${{ steps.hash.outputs.hash }}"
           if gh release view "${tag}" >/dev/null 2>&1; then
             gh release upload "${tag}" target/deploy/paycheck_router.so target/deploy/paycheck_router.so.hash --clobber
           else
