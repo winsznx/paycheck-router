@@ -14,4 +14,5 @@ export * from "./rpc.ts";
 export * from "./schedule.ts";
 export * from "./surfnet.ts";
 export * from "./transaction.ts";
+export * from "./verify.ts";
 export * from "./waits.ts";
