@@ -121,4 +121,20 @@ pub mod paycheck_router {
     pub fn close_paycheck(ctx: Context<ClosePaycheck>) -> Result<()> {
         instructions::lifecycle::close_paycheck(ctx)
     }
+
+    pub fn swap_guarded<'info>(
+        ctx: Context<'info, SwapGuarded<'info>>,
+        params: GuardedSwapParams,
+        swap_data: Vec<u8>,
+    ) -> Result<()> {
+        instructions::swap::swap_guarded(ctx, params, swap_data)
+    }
+
+    pub fn convert_holding<'info>(
+        ctx: Context<'info, ConvertHolding<'info>>,
+        amount: u64,
+        swap_data: Vec<u8>,
+    ) -> Result<()> {
+        instructions::convert::convert_holding(ctx, amount, swap_data)
+    }
 }
