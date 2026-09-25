@@ -1,0 +1,43 @@
+{
+  "$comment": "Single source for every public number and link. README, docs/SUBMISSION.md, video captions and the site read from here; values stay \"target\" until a run measures them.",
+  "name": "Paycheck Router",
+  "tagline": "Your USDC paycheck, turned into US stocks the moment it lands, in your own wallet, at a Pyth-checked price",
+  "oneLine": "Paycheck Router turns a slice of every USDC paycheck into US stocks the moment it lands, in your own wallet, at a Pyth-checked price.",
+  "environmentLine": "Runs on a Surfpool fork of mainnet until the mainnet deploy: the real xStocks, PreStocks, Jupiter and Pyth programs and prices, no real funds.",
+  "descriptionFirstLine": "Runs on a Surfpool fork of mainnet: the real xStocks, PreStocks, Jupiter and Pyth programs and prices, no real funds. Replay it with `pnpm demo:fork`.",
+  "tracks": ["Main", "PreStocks: Best Use of PreStocks", "Pyth: Best use of Pyth market data"],
+  "urls": {
+    "repository": "https://github.com/winsznx/paycheck-router",
+    "site": null,
+    "proof": null,
+    "pitchVideo": null,
+    "walkthroughVideo": null
+  },
+  "program": {
+    "id": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+    "deployedOn": "fork",
+    "mainnetDeployed": false,
+    "buildHash": null,
+    "releaseTag": "stocklana-submission"
+  },
+  "runs": [],
+  "canonicalRun": null,
+  "headline": {
+    "paychecksRouted": { "value": null, "status": "target", "environment": "fork" },
+    "slicesBought": { "value": null, "status": "target", "environment": "fork" },
+    "verifiedRate": { "value": null, "denominator": null, "status": "target", "environment": "fork" },
+    "openAiWaitPremiumPct": { "value": null, "status": "target", "environment": "fork" },
+    "medianTimeToSharesSecs": {
+      "value": null,
+      "status": "not-claimed",
+      "environment": "mainnet",
+      "reason": "A fork has no network contention, so speed is only claimed from mainnet runs."
+    }
+  },
+  "limitations": [
+    "Every run so far is on a Surfpool fork of mainnet: balances come from cheatcodes, nothing appears on a mainnet explorer, and there is no congestion or competing flow.",
+    "Fork routes exclude proprietary AMMs whose quote state is updated off-chain on mainnet only, so fork fills can be slightly worse than mainnet fills.",
+    "On a fork there is no second RPC provider; Verified means the surfnet readback matches the event and each Pyth price matches Hermes history.",
+    "Speed is not claimed from a fork."
+  ]
+}
