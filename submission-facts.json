@@ -143,6 +143,6 @@
     "On a fork there is no second RPC provider; Verified means the surfnet readback matches the event and each Pyth price matches Hermes history.",
     "Speed is not claimed from a fork.",
     "In the canonical run the xStock slices (SPYx, NVDAx) waited with PRICE_UNAVAILABLE: the Pyth API key used lacks the US equities grant, so Hermes refused those feeds. No substitute price source is used.",
-    "The campaign's harmful-action cases (P4) never reached the program's checks on the fork (stale prices, Jupiter rate limits, RPC errors); those protections rest on the program's invariant tests."
+    "In the campaign's harmful-action case (P4), two attacks were refused by the program (DestinationOwnerMismatch, OutputBelowMinimum); the extra-USDC attack was refused by Jupiter's own program before the program's InputOverspent check ran, so that check is shown by the program's invariant tests rather than on the fork."
   ]
 }
