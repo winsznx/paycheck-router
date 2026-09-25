@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "siteName": "Paycheck Router",
+    "shortName": "Paycheck",
+    "title": "Paycheck Router: tu sueldo, convertido en acciones en cuanto llega",
+    "description": "Define tu reparto una vez. Cada sueldo en USDC compra acciones de EE. UU. y acciones pre-IPO en tu propia billetera, solo a un precio justo."
+  },
+  "chrome": {
+    "forkBanner": "Bifurcación de mainnet (Surfpool) · sin fondos reales",
+    "skipToContent": "Saltar al contenido"
+  },
+  "landing": {
+    "heroLabel": "Para quienes cobran en USDC en Solana",
+    "heroTitle": "Tu sueldo, convertido en acciones en cuanto llega.",
+    "heroBody": "Define tu reparto una vez. Cada sueldo en USDC compra acciones de EE. UU. y acciones pre-IPO en tu propia billetera, solo a un precio justo. Funciona con Deel, Rise, Toku y cualquier pagador en USDC.",
+    "forkRunLabel": "Grabado en una bifurcación de mainnet con Surfpool",
+    "start": "Empieza en 2 minutos",
+    "seeForkRun": "Ver la ejecución en la bifurcación"
+  },
+  "notFound": {
+    "title": "Esta página no existe.",
+    "body": "Revisa la dirección o vuelve al inicio.",
+    "action": "Ir al inicio"
+  }
+}
