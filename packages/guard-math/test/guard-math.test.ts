@@ -252,11 +252,12 @@ describe("sellMinUsdc", () => {
   it("matches the formula evaluated literally over random inputs", () => {
     const next = rng(0x2545f4914f6cdd1dn);
     for (let i = 0; i < 2_000; i++) {
-      const S = 1n + next(100_000_000_000n);
+      // Ranges keep the u128 numerator in bounds, as a real sell of up to 100 shares does.
+      const S = 1n + next(10_000_000_000n);
       const uE9 = 990_000_000n + next(20_000_000n);
-      const pE9 = 1_000_000n + next(5_000_000_000_000n);
+      const pE9 = 1_000_000n + next(1_000_000_000_000n);
       const b = Number(next(1_001n));
-      const mE12 = 500_000_000_000n + next(5_000_000_000_000n);
+      const mE12 = 500_000_000_000n + next(1_500_000_000_000n);
       const d = Number(next(10n));
       expectSameOrOverflow(
         () =>

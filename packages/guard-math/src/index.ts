@@ -1,14 +1,14 @@
 /**
- * Reference model of the program's price guard. Values are unsigned integers held in bigints
- * and range-checked against the program's Rust types. Each formula is one numerator over one
- * denominator, each checked against 256 bits, floored once, and the result must fit a u64: a
- * value here is exactly what the program computes and a `GuardMathError` here is its
- * `MathOverflow`.
+ * Reference model of the program's price guard (`guard.rs`). Values are unsigned integers held in
+ * bigints and range-checked against the program's Rust types. Each formula is one numerator over
+ * one denominator, each a u128 product checked factor by factor in the program's order, floored
+ * once, and the result must fit a u64: a value here is exactly what the program computes and a
+ * `GuardMathError` here is its `MathOverflow`. The golden vectors in tests/vectors/guard.json
+ * hold both sides to that.
  *
  * Fixed point: prices at 1e9, Scaled UI multipliers at 1e12, bands in basis points.
  */
 
-export const U256_MAX = (1n << 256n) - 1n;
 export const U128_MAX = (1n << 128n) - 1n;
 export const U64_MAX = (1n << 64n) - 1n;
 export const U16_MAX = 65_535;
@@ -16,8 +16,8 @@ export const U8_MAX = 255;
 export const PRICE_SCALE = 1_000_000_000n;
 export const MULTIPLIER_SCALE = 1_000_000_000_000n;
 export const BPS = 10_000n;
-/** 10^6 USDC base units times 10^12 / 10^6 of multiplier scale folded into one factor. */
-const TEN_POW_10 = 10_000_000_000n;
+/** The 1e12 multiplier scale over the 1e6 USDC scale. */
+const MULTIPLIER_OVER_USDC_SCALE = 1_000_000n;
 
 export class GuardMathError extends Error {
   readonly code = "MathOverflow";
@@ -27,11 +27,13 @@ export class GuardMathError extends Error {
   }
 }
 
+/** Multiplies in order, failing as soon as a partial product leaves u128, like `checked_mul`. */
 function product(...factors: bigint[]): bigint {
   let acc = 1n;
   for (const factor of factors) {
+    if (factor > U128_MAX) throw new GuardMathError("factor exceeds u128");
     acc *= factor;
-    if (acc > U256_MAX) throw new GuardMathError("256-bit product overflow");
+    if (acc > U128_MAX) throw new GuardMathError("u128 product overflow");
   }
   return acc;
 }
@@ -88,7 +90,13 @@ export function buyMinOut(inputs: BuyInputs): bigint {
   requireUint("multiplierE12", inputs.multiplierE12, U128_MAX);
   const decimals = requireSmallUint("decimals", inputs.decimals, U8_MAX);
   const band = requireSmallUint("bandBps", inputs.bandBps, U16_MAX);
-  const numerator = product(inputs.usdcIn, inputs.usdcPriceE9, pow10(Number(decimals)), TEN_POW_10);
+  const numerator = product(
+    inputs.usdcIn,
+    inputs.usdcPriceE9,
+    pow10(Number(decimals)),
+    BPS,
+    MULTIPLIER_OVER_USDC_SCALE,
+  );
   const denominator = product(inputs.priceE9, BPS + band, inputs.multiplierE12);
   return floorDivToU64(numerator, denominator);
 }
@@ -117,7 +125,12 @@ export function sellMinUsdc(inputs: SellInputs): bigint {
     inputs.priceE9,
     bandBelow(inputs.bandBps),
   );
-  const denominator = product(pow10(Number(decimals)), inputs.usdcPriceE9, TEN_POW_10);
+  const denominator = product(
+    pow10(Number(decimals)),
+    inputs.usdcPriceE9,
+    BPS,
+    MULTIPLIER_OVER_USDC_SCALE,
+  );
   return floorDivToU64(numerator, denominator);
 }
 
@@ -183,17 +196,17 @@ export function pythPriceToE9(price: bigint, exponent: number): bigint {
 export type Rounding = "down" | "up";
 
 /**
- * Converts the mint's f64 multiplier to 1e12 fixed point. Round down where the multiplier
- * divides the minimum (buy, convert target) and up where it multiplies it (sell, convert source),
- * so the minimum always favours the owner.
+ * Converts the mint's f64 multiplier to 1e12 fixed point. The program truncates (`as u128`), which
+ * is "down" for a positive multiplier; "up" is for offchain bounds only. Zero after conversion
+ * would disable the guard and is rejected, as are non-finite and non-positive multipliers.
  */
-export function multiplierToE12(multiplier: number, rounding: Rounding): bigint {
+export function multiplierToE12(multiplier: number, rounding: Rounding = "down"): bigint {
   if (!Number.isFinite(multiplier) || multiplier <= 0) {
     throw new GuardMathError(`invalid multiplier ${multiplier}`);
   }
   const scaled = multiplier * 1e12;
-  const rounded = rounding === "down" ? Math.floor(scaled) : Math.ceil(scaled);
-  if (rounded < 1 || rounded >= 2 ** 64) throw new GuardMathError("multiplier out of range");
+  const rounded = rounding === "down" ? Math.trunc(scaled) : Math.ceil(scaled);
+  if (rounded < 1) throw new GuardMathError("multiplier rounds to zero");
   return BigInt(rounded);
 }
 
@@ -209,9 +222,9 @@ export function effectiveMultiplier(config: ScaledUiAmountConfig | null, now: bi
   return now >= config.newMultiplierEffectiveTimestamp ? config.newMultiplier : config.multiplier;
 }
 
-/** conf / price ≤ maxConfBps / 10^4. */
+/** conf / price ≤ maxConfBps / 10^4, and never for a zero price. */
 export function confidenceWithin(price: bigint, conf: bigint, maxConfBps: number): boolean {
-  return conf * BPS <= price * BigInt(maxConfBps);
+  return price > 0n && conf * BPS <= price * BigInt(maxConfBps);
 }
 
 /** USDC/USD at 1e9 within `pegBps` of 1.00. */
@@ -236,7 +249,12 @@ export type FillInputs = {
  */
 export function buyPremiumBps(fill: FillInputs): bigint {
   if (fill.sharesOut <= 0n) throw new RangeError("sharesOut must be positive");
-  const paid = fill.usdcIn * fill.usdcPriceE9 * 10n ** BigInt(fill.decimals) * TEN_POW_10;
+  const paid =
+    fill.usdcIn *
+    fill.usdcPriceE9 *
+    10n ** BigInt(fill.decimals) *
+    BPS *
+    MULTIPLIER_OVER_USDC_SCALE;
   const reference = fill.sharesOut * fill.multiplierE12 * fill.priceE9;
   return paid / reference - BPS;
 }
