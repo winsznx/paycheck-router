@@ -2,12 +2,15 @@ import "@paycheck-router/ui/tokens.css";
 import "@paycheck-router/ui/components.css";
 import "../../globals.css";
 import "../../app-shell.css";
+import "../../site.css";
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 import { Document } from "@/components/document.tsx";
+import { SiteFooter } from "@/components/site/site-footer.tsx";
+import { SiteHeader } from "@/components/site/site-header.tsx";
 import { routing } from "@/i18n/routing.ts";
 import { siteUrl } from "@/lib/env.ts";
 
@@ -60,7 +63,11 @@ export default async function SiteLayout({
   setRequestLocale(locale);
   return (
     <Document locale={locale} surface="site">
-      <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      <NextIntlClientProvider>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
+      </NextIntlClientProvider>
     </Document>
   );
 }

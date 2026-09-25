@@ -1,0 +1,5 @@
+Contact: https://github.com/winsznx/paycheck-router/security/advisories/new
+Expires: 2027-09-25T00:00:00.000Z
+Preferred-Languages: en, es, pt, fr
+Canonical: https://paycheck-router.timjosh507.workers.dev/.well-known/security.txt
+Policy: https://paycheck-router.timjosh507.workers.dev/security
