@@ -9,10 +9,11 @@
   },
   "scripts": {
     "build": "tsc -p .",
-    "typecheck": "tsc -p .",
+    "typecheck": "tsc -p . && tsc -p tsconfig.node.json",
     "test": "vitest run"
   },
   "devDependencies": {
+    "@types/node": "22.20.4",
     "vitest": "5.0.1"
   }
 }
