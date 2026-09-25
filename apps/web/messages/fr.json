@@ -194,7 +194,35 @@
       "seeAll": "Tout voir",
       "noHoldings": "Votre première tranche exécutée apparaît ici.",
       "weightVsTarget": "{actual} sur {target} visés",
-      "activity": "Activité"
+      "activity": "Activité",
+      "chart": {
+        "title": "Investi par salaire",
+        "caption": "L'USDC converti en actions, salaire après salaire. Une part en attente compte quand elle achète.",
+        "empty": "Votre premier salaire lance ce graphique.",
+        "summary": "{total} investis sur {count, plural, one {# salaire} other {# salaires}}",
+        "tooltip": "Salaire {n}",
+        "bought": "+{amount} acheté",
+        "total": "{amount} investis jusqu'ici",
+        "open": "{amount} encore en attente",
+        "tableCaption": "Investi par salaire",
+        "colPaycheck": "Salaire",
+        "colDate": "Enregistré",
+        "colBought": "Acheté",
+        "colTotal": "Investi jusqu'ici"
+      },
+      "kpi": {
+        "investedLabel": "Investi jusqu'ici",
+        "investedDelta": "+{amount} du salaire {n}",
+        "investedNone": "Rien d'acheté pour l'instant",
+        "waitingLabel": "En attente d'achat",
+        "waitingDelta": "{count, plural, one {# part} other {# parts}}, chacune avec sa raison",
+        "waitingNone": "Rien en attente",
+        "paychecksLabel": "Salaires routés",
+        "paychecksDelta": "Dernier {time}",
+        "paychecksNone": "Aucun pour l'instant",
+        "shareLabel": "Investi de chaque salaire",
+        "shareDelta": "Réparti sur {count, plural, one {# actif} other {# actifs}}"
+      }
     },
     "paycheck": {
       "metaTitle": "Salaire",
