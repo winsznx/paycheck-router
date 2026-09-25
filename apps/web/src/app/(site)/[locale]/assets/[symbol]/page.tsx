@@ -1,5 +1,5 @@
 import { AssetKind, AssetStatus, api, REGISTRY } from "@paycheck-router/shared";
-import { Banner, PreIpoBadge } from "@paycheck-router/ui/components";
+import { AssetIcon, Banner, PreIpoBadge } from "@paycheck-router/ui/components";
 import { formatPremiumBps, formatPrice } from "@paycheck-router/ui/format";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -55,6 +55,7 @@ export default async function AssetPage({ params }: PageProps<"/[locale]/assets/
       </p>
       <header className="stack reading">
         <p className="row">
+          <AssetIcon asset={asset.mint} size="xl" eager decorative />
           <span className="pr-label pr-muted" translate="no">
             {asset.symbol}
           </span>

@@ -6,6 +6,16 @@ export {
 } from "./allowance-meter.tsx";
 export { AmountInput, type AmountInputProps } from "./amount-input.tsx";
 export { AssetChip, type AssetChipProps } from "./asset-chip.tsx";
+export {
+  AssetIcon,
+  type AssetIconEntry,
+  type AssetIconProps,
+  type AssetIconSize,
+  AssetIconStack,
+  AssetTicker,
+  type AssetTickerProps,
+  assetIconFor,
+} from "./asset-icon.tsx";
 export { Banner, type BannerProps, type BannerTone } from "./banner.tsx";
 export {
   Button,

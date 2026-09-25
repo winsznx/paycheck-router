@@ -321,6 +321,21 @@ body:has(.fork-banner) {
   text-decoration: none;
 }
 
+.activity-row__what {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.activity-row__what > .pr-asset-icon {
+  margin-block-start: 2px;
+}
+
+.activity-row__what > span {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
 /* Paycheck detail */
 .paycheck-detail__title {
   display: flex;

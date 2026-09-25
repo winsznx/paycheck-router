@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { type SeriesSlot, seriesVar } from "../tokens/series.ts";
+import { AssetIcon } from "./asset-icon.tsx";
 
 /**
  * planned: outline only; filling: executing; filled: executed or verified;
@@ -9,6 +10,8 @@ export type SegmentState = "planned" | "filling" | "filled" | "waiting" | "empty
 
 export type SplitSegment = {
   key: string;
+  /** Mint, or registry symbol, for the legend logo. */
+  asset: string;
   ticker: string;
   weightBps: number;
   colorSlot: SeriesSlot;
@@ -82,6 +85,7 @@ export function SplitBar({
             data-state={segment.state}
             style={{ "--seg": seriesVar(segment.colorSlot) } as CSSProperties}
           >
+            <AssetIcon asset={segment.asset} size="xs" decorative />
             <span translate="no">{segment.ticker}</span>
             <span>{segment.valueText}</span>
             {segment.stateText ? <span className="pr-muted">{segment.stateText}</span> : null}

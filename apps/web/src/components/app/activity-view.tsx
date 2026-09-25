@@ -1,7 +1,13 @@
 "use client";
 
 import type { api } from "@paycheck-router/shared";
-import { Banner, EmptyState, Skeleton, StatusChip } from "@paycheck-router/ui/components";
+import {
+  AssetIcon,
+  Banner,
+  EmptyState,
+  Skeleton,
+  StatusChip,
+} from "@paycheck-router/ui/components";
 import { formatTime, formatTimestamp } from "@paycheck-router/ui/format";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
@@ -79,10 +85,13 @@ export function ActivityView() {
                   label={copy.statusLabel(leg)}
                   description={copy.statusDescription(leg)}
                 />
-                <span className="pr-body">
-                  {leg.status === "waiting" || leg.status === "expired"
-                    ? copy.reasonSentence(leg)
-                    : (copy.bought(leg) ?? leg.symbol)}
+                <span className="activity-row__what">
+                  <AssetIcon asset={leg.mint} size="md" decorative />
+                  <span className="pr-body">
+                    {leg.status === "waiting" || leg.status === "expired"
+                      ? copy.reasonSentence(leg)
+                      : (copy.bought(leg) ?? leg.symbol)}
+                  </span>
                 </span>
                 <time
                   className="pr-small pr-muted"

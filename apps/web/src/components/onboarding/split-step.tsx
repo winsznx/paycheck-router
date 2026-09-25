@@ -3,6 +3,8 @@
 import { api } from "@paycheck-router/shared";
 import {
   AssetChip,
+  AssetIconStack,
+  AssetTicker,
   Banner,
   Button,
   PriceCheckBadge,
@@ -137,6 +139,7 @@ export function SplitStep() {
     .filter((l) => l.weightBps > 0)
     .map((l) => ({
       key: l.mint,
+      asset: l.mint,
       ticker: l.symbol,
       weightBps: l.weightBps,
       colorSlot: slotOf(legs.indexOf(l)),
@@ -185,6 +188,7 @@ export function SplitStep() {
               size="s"
               onClick={() => updateDraft({ legs: presetLegs(name) })}
             >
+              <AssetIconStack assets={presetLegs(name).map((leg) => leg.mint)} />
               {t(`preset.${name}`)}
             </Button>
           ))}
@@ -212,9 +216,7 @@ export function SplitStep() {
                         aria-pressed={selected}
                         onClick={() => toggle(asset)}
                       >
-                        <span translate="no" className="pr-num">
-                          {asset.symbol}
-                        </span>
+                        <AssetTicker asset={asset.mint} ticker={asset.symbol} />
                         <span className="pr-small pr-muted">
                           {t(`market.${asset.market.state}`)}
                         </span>
@@ -254,7 +256,7 @@ export function SplitStep() {
           <ul className="weight-list">
             {legs.map((leg, index) => (
               <li key={leg.mint} className="weight-row">
-                <AssetChip ticker={leg.symbol} colorSlot={slotOf(index)} />
+                <AssetChip asset={leg.mint} ticker={leg.symbol} colorSlot={slotOf(index)} />
                 <label className="pr-sr-only" htmlFor={`weight-${leg.mint}`}>
                   {t("weightFor", { asset: leg.symbol })}
                 </label>
@@ -297,9 +299,7 @@ export function SplitStep() {
           <ul className="preview-list">
             {preview.legs.map((leg) => (
               <li key={leg.mint} className="preview-row">
-                <span translate="no" className="pr-num">
-                  {leg.symbol}
-                </span>
+                <AssetTicker asset={leg.mint} ticker={leg.symbol} />
                 <span className="pr-num">{formatUsd(usdc(leg.amountIn), locale)}</span>
                 <span className="pr-small pr-muted">
                   {leg.referenceError

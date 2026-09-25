@@ -215,6 +215,7 @@ export function SliceItem({ leg, colorSlot, bandBps, buyNowAt, now }: SliceItemP
     <SliceRow
       asset={
         <AssetChip
+          asset={leg.mint}
           ticker={leg.symbol}
           colorSlot={colorSlot}
           preIpoLabel={isPreIpo(leg.mint) ? t("preIpo") : undefined}

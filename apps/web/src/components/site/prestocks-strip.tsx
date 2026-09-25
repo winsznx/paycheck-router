@@ -1,5 +1,5 @@
 import { DEFAULT_BANDS } from "@paycheck-router/shared";
-import { Banner, PriceCheckBadge, Table } from "@paycheck-router/ui/components";
+import { AssetTicker, Banner, PriceCheckBadge, Table } from "@paycheck-router/ui/components";
 import { formatPremiumBps, formatPrice, formatTimestamp } from "@paycheck-router/ui/format";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { PreStocksQuote, PreStocksSnapshot } from "@/lib/prestocks.ts";
@@ -15,7 +15,13 @@ export async function PreStocksStrip({ snapshot }: { snapshot: PreStocksSnapshot
       <Table
         caption={t("caption")}
         columns={[
-          { key: "name", header: t("name"), cell: (q: PreStocksQuote) => q.name },
+          {
+            key: "name",
+            header: t("name"),
+            cell: (q: PreStocksQuote) => (
+              <AssetTicker asset={q.mint} ticker={q.name} className="" />
+            ),
+          },
           {
             key: "mark",
             header: t("mark"),

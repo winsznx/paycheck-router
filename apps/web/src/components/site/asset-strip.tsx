@@ -1,5 +1,5 @@
 import type { api } from "@paycheck-router/shared";
-import { Banner, PriceCheckBadge } from "@paycheck-router/ui/components";
+import { AssetTicker, Banner, PriceCheckBadge } from "@paycheck-router/ui/components";
 import { formatPremiumBps, formatPrice, formatTimestamp } from "@paycheck-router/ui/format";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation.ts";
@@ -24,9 +24,7 @@ export async function AssetStrip({ assets }: { assets: api.AssetsResponse | null
           return (
             <li key={asset.mint}>
               <Link href={`/assets/${asset.symbol}`} className="ticker">
-                <span className="pr-num" translate="no">
-                  {asset.symbol}
-                </span>
+                <AssetTicker asset={asset.mint} ticker={asset.symbol} />
                 {price === null ? (
                   <span className="pr-small">{t("priceUnavailable")}</span>
                 ) : (

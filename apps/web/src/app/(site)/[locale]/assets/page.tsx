@@ -1,5 +1,5 @@
 import { AssetKind, api, REGISTRY, type RegistryAsset } from "@paycheck-router/shared";
-import { Banner, PreIpoBadge, Table } from "@paycheck-router/ui/components";
+import { AssetIcon, Banner, PreIpoBadge, Table } from "@paycheck-router/ui/components";
 import { formatPremiumBps, formatPrice, formatTimestamp } from "@paycheck-router/ui/format";
 import type { Metadata } from "next";
 import { pythPrice } from "@/components/site/asset-strip.tsx";
@@ -64,6 +64,7 @@ export default async function AssetsPage({ params }: PageProps<"/[locale]/assets
             header: t("columns.ticker"),
             cell: (row: Row) => (
               <span className="row">
+                <AssetIcon asset={row.asset.mint} size="md" decorative />
                 <Link href={`/assets/${row.asset.symbol}`} translate="no">
                   {row.asset.symbol}
                 </Link>

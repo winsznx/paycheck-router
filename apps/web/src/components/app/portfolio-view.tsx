@@ -46,6 +46,7 @@ export function PortfolioView() {
       header: t("asset"),
       cell: (h: api.Holding) => (
         <AssetChip
+          asset={h.mint}
           ticker={h.symbol}
           colorSlot={colorSlotFor(h.mint, holdings.indexOf(h), routerLegs)}
         />
@@ -120,7 +121,11 @@ export function PortfolioView() {
           <ul className="portfolio-cards card-list">
             {holdings.map((h, index) => (
               <li key={h.mint} className="pr-card stack">
-                <AssetChip ticker={h.symbol} colorSlot={colorSlotFor(h.mint, index, routerLegs)} />
+                <AssetChip
+                  asset={h.mint}
+                  ticker={h.symbol}
+                  colorSlot={colorSlotFor(h.mint, index, routerLegs)}
+                />
                 <dl className="totals">
                   {columns.slice(1).map((column) => (
                     <div key={column.key}>

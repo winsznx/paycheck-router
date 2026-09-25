@@ -59,6 +59,7 @@ export function toSegments(
     .sort((a, b) => a.idx - b.idx)
     .map((leg, index) => ({
       key: leg.id,
+      asset: leg.mint,
       ticker: leg.symbol,
       weightBps: Number(leg.amountIn),
       colorSlot: colorSlotFor(leg.mint, index, routerLegs),

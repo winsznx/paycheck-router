@@ -383,6 +383,32 @@ a {
   letter-spacing: 0.08em;
 }
 
+/* Asset logo: the issuer's mark, round, on a neutral field while it loads. */
+.pr-asset-icon {
+  display: inline-block;
+  flex: none;
+  border-radius: 50%;
+  background: var(--surface-3);
+  object-fit: cover;
+  vertical-align: middle;
+}
+.pr-asset-ticker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-inline-size: 0;
+}
+.pr-asset-stack {
+  display: inline-flex;
+  flex: none;
+}
+.pr-asset-stack > .pr-asset-icon {
+  outline: 2px solid var(--surface-1);
+}
+.pr-asset-stack > .pr-asset-icon + .pr-asset-icon {
+  margin-inline-start: -6px;
+}
+
 .pr-asset-chip {
   display: inline-flex;
   align-items: center;

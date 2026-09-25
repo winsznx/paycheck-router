@@ -1,6 +1,12 @@
 "use client";
 
-import { AmountInput, Slider, SplitBar, splitBarLabel } from "@paycheck-router/ui/components";
+import {
+  AmountInput,
+  AssetTicker,
+  Slider,
+  SplitBar,
+  splitBarLabel,
+} from "@paycheck-router/ui/components";
 import { formatPercent, formatPrice, formatShares, formatUsd } from "@paycheck-router/ui/format";
 import { isSeriesSlot } from "@paycheck-router/ui/tokens";
 import { useLocale, useTranslations } from "next-intl";
@@ -39,6 +45,7 @@ export function Calculator({
   });
   const segments = rows.map((row) => ({
     key: row.mint,
+    asset: row.mint,
     ticker: row.symbol,
     weightBps: row.weightBps,
     colorSlot: isSeriesSlot(row.slot) ? row.slot : 1,
@@ -95,9 +102,7 @@ export function Calculator({
         <ul className="preview-list">
           {rows.map((row) => (
             <li key={row.mint} className="preview-row">
-              <span className="pr-num" translate="no">
-                {row.symbol}
-              </span>
+              <AssetTicker asset={row.mint} ticker={row.symbol} />
               <span className="pr-num">{formatUsd(row.slice, locale)}</span>
               <span className="pr-small pr-muted">
                 {row.shares !== null && row.price !== null
