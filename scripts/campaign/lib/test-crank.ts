@@ -177,7 +177,7 @@ export async function runTamperedLeg(
     status: null,
     transactionRef: null,
   };
-  if (send) {
+  if (send && !isPriceStale(run)) {
     const outcome = await signSendConfirm(fork.surfnet.rpc, message);
     run.signature = outcome.signature;
     run.status = outcome.status;
@@ -242,4 +242,32 @@ export async function withPrices<T>(
       await fork.transactions.add("pyth close", signature);
     }
   }
+}
+
+function isPriceStale(run: ProbeRun): boolean {
+  return run.failure?.kind === "program" && run.failure.error.name === "PriceStale";
+}
+
+/**
+ * A tampered leg with freshly posted prices. The first simulation of a route on a fork fetches
+ * its pools from mainnet, which can age the post past the 30 s guard; as in the product pipeline,
+ * a PriceStale gets one retry with a fresh post. Both attempts keep their artifacts, and nothing
+ * is sent while the result is only PriceStale.
+ */
+export async function tamperedLeg(
+  fork: ForkState,
+  bundle: EvidenceBundle,
+  pipeline: PipelineConfig,
+  leg: PendingLeg,
+  treasury: Address,
+  name: string,
+  tamper: Tamper,
+  send: boolean,
+): Promise<ProbeRun> {
+  const attempt = (label: string) =>
+    withPrices(fork, pipeline, [leg], (prices) =>
+      runTamperedLeg(fork, bundle, pipeline, leg, prices, treasury, label, tamper, send),
+    );
+  const first = await attempt(name);
+  return isPriceStale(first) ? attempt(`${name}-fresh-prices`) : first;
 }

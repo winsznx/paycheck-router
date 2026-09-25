@@ -9,9 +9,8 @@ import {
   observedError,
   type ProbeRun,
   replaceAccount,
-  runTamperedLeg,
   type Tamper,
-  withPrices,
+  tamperedLeg,
 } from "../lib/test-crank.ts";
 
 const USDC = 1_000_000n;
@@ -92,18 +91,15 @@ export const p4Harmful: CaseDefinition = {
         for (const attack of attacks) {
           let run: ProbeRun;
           try {
-            run = await withPrices(fork, pipeline, [leg], (prices) =>
-              runTamperedLeg(
-                fork,
-                ctx.bundle,
-                pipeline,
-                leg,
-                prices,
-                treasury,
-                attack.name.replaceAll(" ", "-"),
-                attack.tamper,
-                true,
-              ),
+            run = await tamperedLeg(
+              fork,
+              ctx.bundle,
+              pipeline,
+              leg,
+              treasury,
+              attack.name.replaceAll(" ", "-"),
+              attack.tamper,
+              true,
             );
           } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
