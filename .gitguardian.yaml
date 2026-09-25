@@ -1,0 +1,17 @@
+version: 2
+secret:
+  ignored-matches:
+    - name: Token-2022 program address (public)
+      match: TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb
+    - name: SPL Token program address (public)
+      match: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
+    - name: Associated Token program address (public)
+      match: ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL
+    - name: Jupiter aggregator program address (public)
+      match: JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4
+    - name: Pyth Solana receiver program address (public)
+      match: rec5EKMGg6MxZYaMdyBfgwp4d5rB9T1VQH5pJv5LtFJ
+    - name: Paycheck Router program address (public)
+      match: PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H
+    - name: USDC mint address (public)
+      match: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
