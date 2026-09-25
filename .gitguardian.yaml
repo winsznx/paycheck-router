@@ -1,0 +1,10 @@
+version: 2
+secret:
+  # Codama output renders well-known Solana program ids as string literals.
+  ignored_paths:
+    - "packages/sdk/src/generated/**"
+  ignored_matches:
+    - name: SPL Token program id
+      match: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
+    - name: Associated Token program id
+      match: ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL
