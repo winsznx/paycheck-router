@@ -25,29 +25,88 @@
     "binaryBytes": 616160,
     "$comment": "buildHash is replaced by the stocklana-submission release build at the freeze."
   },
-  "runs": [],
-  "canonicalRun": null,
+  "runs": [
+    {
+      "runId": "2026-09-25T14-38-25-466Z",
+      "environment": "fork",
+      "bundle": "evidence/stocklana-fork",
+      "forkStartSlot": 450381805,
+      "commit": "44315cabe8b7ff4e9027bf91047332f678e0231f",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4",
+      "programSource": "https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "paycheck": {
+        "from": "employer-1 (team-controlled, fork)",
+        "usdc": "1850.000000",
+        "invested": "370.000000",
+        "signature": "2eJdci26KS4nEk4ydvF5xMiS5YsJKygT4pdDBWqgh8j1R2G3L6MADTURESLtkQRifgLz2GzaejcY2uFxK6DPxTtS"
+      },
+      "slices": [
+        {
+          "symbol": "SPYx",
+          "state": "WAITING",
+          "reason": "PRICE_UNAVAILABLE",
+          "detail": "Hermes 403: the Pyth key lacks the US equities grant"
+        },
+        {
+          "symbol": "NVDAx",
+          "state": "WAITING",
+          "reason": "PRICE_UNAVAILABLE",
+          "detail": "Hermes 403: the Pyth key lacks the US equities grant"
+        },
+        {
+          "symbol": "Anthropic",
+          "state": "VERIFIED",
+          "signature": "5qYWdx9GYynbLttsZRWJtfxE4GHS8i2CzdEnYXQJQorvyzxe6DnsoD6UPoXc4aqygjemjRAJoFB1bA94h2LkKZTC",
+          "usdcIn": "92.500000",
+          "protocolFee": "0.185000",
+          "outRaw": "86315830",
+          "issuerFeeRaw": "871878",
+          "minOutRaw": "84991267",
+          "markUsd": "1054.450390870",
+          "premiumBps": 40,
+          "allInCostBps": 162
+        },
+        {
+          "symbol": "OpenAI",
+          "state": "WAITING",
+          "reason": "PREMIUM_TOO_HIGH",
+          "simulationError": "OutputBelowMinimum (6022)",
+          "markUsd": "1023.667475142",
+          "quotedUsdPerScaledToken": "1334.81",
+          "premiumPct": 30.4,
+          "premiumProvenance": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_3_0.json (inAmount 92315000, outAmount 46536649) with the mint's Scaled UI multiplier 1.4861347 and the attested mark in the same attempt"
+        }
+      ]
+    }
+  ],
+  "canonicalRun": "2026-09-25T14-38-25-466Z",
   "headline": {
     "paychecksRouted": {
-      "value": null,
-      "status": "target",
-      "environment": "fork"
+      "value": 1,
+      "status": "measured",
+      "environment": "fork",
+      "source": "evidence/stocklana-fork/manifest.json"
     },
     "slicesBought": {
-      "value": null,
-      "status": "target",
-      "environment": "fork"
+      "value": 1,
+      "denominator": 4,
+      "status": "measured",
+      "environment": "fork",
+      "note": "Anthropic bought and verified; OpenAI waited on its premium; SPYx and NVDAx waited because the Pyth key lacks the US equities grant",
+      "source": "evidence/stocklana-fork/manifest.json"
     },
     "verifiedRate": {
-      "value": null,
-      "denominator": null,
-      "status": "target",
-      "environment": "fork"
+      "value": 1,
+      "denominator": 1,
+      "status": "measured",
+      "environment": "fork",
+      "source": "evidence/stocklana-fork/manifest.json legs[2].verification"
     },
     "openAiWaitPremiumPct": {
-      "value": null,
-      "status": "target",
-      "environment": "fork"
+      "value": 30.4,
+      "status": "measured",
+      "environment": "fork",
+      "source": "evidence/stocklana-fork/raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_3_0.json"
     },
     "medianTimeToSharesSecs": {
       "value": null,
@@ -60,6 +119,7 @@
     "Every run so far is on a Surfpool fork of mainnet: balances come from cheatcodes, nothing appears on a mainnet explorer, and there is no congestion or competing flow.",
     "Fork routes exclude proprietary AMMs whose quote state is updated off-chain on mainnet only, so fork fills can be slightly worse than mainnet fills.",
     "On a fork there is no second RPC provider; Verified means the surfnet readback matches the event and each Pyth price matches Hermes history.",
-    "Speed is not claimed from a fork."
+    "Speed is not claimed from a fork.",
+    "In the canonical run the xStock slices (SPYx, NVDAx) waited with PRICE_UNAVAILABLE: the Pyth API key used lacks the US equities grant, so Hermes refused those feeds. No substitute price source is used."
   ]
 }
