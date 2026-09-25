@@ -15,6 +15,7 @@ import {
   executeInstructionBuilder,
   type FailureClassification,
   feedsFor,
+  fetchProgramLabels,
   type JupiterBuildResponse,
   jsonRpc,
   latestLifetime,
@@ -192,7 +193,7 @@ export async function runTamperedLeg(
   };
   // An oversized transaction is re-quoted with fewer accounts, as the product pipeline does.
   let message = await assemble(build);
-  for (const maxAccounts of OVERSIZE_MAX_ACCOUNTS) {
+  for (const maxAccounts of [...OVERSIZE_MAX_ACCOUNTS, ...HOSTILE_MAX_ACCOUNTS]) {
     if (messageSize(message) <= MAX_TRANSACTION_BYTES) break;
     bundle.write(`raw/jupiter/${name}-oversize-${messageSize(message)}.json`, build.raw);
     build = await quote(maxAccounts);
@@ -280,6 +281,24 @@ export async function withPrices<T>(
   }
 }
 
+const MAX_REROUTES = 2;
+/** Smaller route budgets the hostile crank tries after the product's, to fit its extra accounts. */
+const HOSTILE_MAX_ACCOUNTS = [24, 20] as const;
+let programLabels: Promise<Record<string, string>> | null = null;
+
+/**
+ * The route's DEX whose program failed inside the swap. On a fork some DEX programs fail against
+ * the stale copy of their state; the product excludes such a DEX and re-quotes, and so does this
+ * crank, so the probe reaches the program's own checks.
+ */
+async function failedRouteDex(pipeline: PipelineConfig, run: ProbeRun): Promise<string | null> {
+  if (run.failure?.kind !== "external") return null;
+  programLabels ??= fetchProgramLabels(pipeline.jupiter);
+  const label = (await programLabels)[run.failure.program];
+  if (!label) return null;
+  return run.jupiter.response.routePlan.some((hop) => hop.swapInfo.label === label) ? label : null;
+}
+
 function isPriceStale(run: ProbeRun): boolean {
   return run.failure?.kind === "program" && run.failure.error.name === "PriceStale";
 }
@@ -304,8 +323,15 @@ export async function tamperedLeg(
     withPrices(fork, pipeline, [leg], (prices) =>
       runTamperedLeg(fork, bundle, pipeline, leg, prices, treasury, label, tamper, send),
     );
-  const first = await attempt(name);
-  return isPriceStale(first) ? attempt(`${name}-fresh-prices`) : first;
+  let run = await attempt(name);
+  if (isPriceStale(run)) run = await attempt(`${name}-fresh-prices`);
+  for (let rerouted = 0; rerouted < MAX_REROUTES; rerouted++) {
+    const dex = await failedRouteDex(pipeline, run);
+    if (!dex) break;
+    pipeline.forkExcludedDexes?.add(dex);
+    run = await attempt(`${name}-without-${dex.replaceAll(" ", "-")}`);
+  }
+  return run;
 }
 
 /** The owner's token account for a route's intermediate mint, created in the same transaction. */
