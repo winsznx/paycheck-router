@@ -146,7 +146,10 @@ async function upsertWalletUser(
   ipCountry: string | null,
   now: Date,
 ): Promise<UserRow> {
-  return db.transaction(async (tx) => {
+  // Autocommit on purpose (see the note in mirror.ts); a lost race on the wallet's unique address
+  // is resolved by reading the winner.
+  const tx = db;
+  {
     const [linked] = await tx
       .select({ user: users })
       .from(wallets)
@@ -164,14 +167,22 @@ async function upsertWalletUser(
     }
     const [created] = await tx.insert(users).values({ countryIpLast: ipCountry }).returning();
     if (!created) throw new Error("user insert returned no row");
-    await tx.insert(wallets).values({
-      userId: created.id,
-      address: walletAddress,
-      kind: "external",
-      verifiedAt: now,
-    });
-    return created;
-  });
+    const linkedNow = await tx
+      .insert(wallets)
+      .values({ userId: created.id, address: walletAddress, kind: "external", verifiedAt: now })
+      .onConflictDoNothing({ target: wallets.address })
+      .returning({ userId: wallets.userId });
+    if (linkedNow.length > 0) return created;
+    await tx.delete(users).where(eq(users.id, created.id));
+    const [winner] = await tx
+      .select({ user: users })
+      .from(wallets)
+      .innerJoin(users, eq(users.id, wallets.userId))
+      .where(eq(wallets.address, walletAddress))
+      .limit(1);
+    if (!winner) throw new Error("wallet link vanished during sign-in");
+    return winner.user;
+  }
 }
 
 async function issueSession(

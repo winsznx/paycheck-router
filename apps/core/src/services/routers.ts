@@ -45,7 +45,9 @@ export async function registerRouter(
     closedAt: null,
     updatedAt: services.now(),
   };
-  const row = await services.db.transaction(async (tx) => {
+  // Autocommit statements (see the note in mirror.ts); every step is an idempotent upsert.
+  const tx = services.db;
+  const row = await (async () => {
     const [saved] = await tx
       .insert(routers)
       .values(values)
@@ -67,7 +69,7 @@ export async function registerRouter(
     }));
     if (legs.length > 0) await tx.insert(routerLegs).values(legs);
     return saved;
-  });
+  })();
   await activateRouter(env, services.db, row);
   return row;
 }
