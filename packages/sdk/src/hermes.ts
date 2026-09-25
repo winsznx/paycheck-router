@@ -91,6 +91,38 @@ export class HermesError extends Error {
     super(`Hermes ${status} for ${url}: ${body.slice(0, 300)}`);
     this.name = "HermesError";
   }
+
+  /** Feeds a 403 names as refused, e.g. `Not entitled: feed <id> (...)`. */
+  rejectedFeeds(): string[] {
+    if (this.status !== 403) return [];
+    return [...this.body.matchAll(/feed (?:0x)?([0-9a-f]{64})/g)].map((m) => m[1] ?? "");
+  }
+}
+
+export type FeedRejection = { feedId: string; status: number; body: string };
+
+/**
+ * One batched update for every feed (PRD 8.5). When Hermes refuses named feeds, they are dropped
+ * and the rest requested again, so one refused feed never blocks the others.
+ */
+export async function fetchEntitledUpdate(
+  feedIds: readonly string[],
+  options: HermesOptions = {},
+): Promise<{ update: HermesUpdate | null; rejected: FeedRejection[] }> {
+  let remaining = [...new Set(feedIds.map(stripHex))];
+  const rejected: FeedRejection[] = [];
+  while (remaining.length > 0) {
+    try {
+      return { update: await fetchLatestUpdate(remaining, options), rejected };
+    } catch (error) {
+      if (!(error instanceof HermesError)) throw error;
+      const named = error.rejectedFeeds().filter((feed) => remaining.includes(feed));
+      if (named.length === 0) throw error;
+      for (const feedId of named) rejected.push({ feedId, status: error.status, body: error.body });
+      remaining = remaining.filter((feed) => !named.includes(feed));
+    }
+  }
+  return { update: null, rejected };
 }
 
 export function parsedPriceFor(

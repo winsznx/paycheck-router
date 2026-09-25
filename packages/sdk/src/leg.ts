@@ -28,7 +28,12 @@ import {
   type SignedAttestation,
 } from "./attester.ts";
 import { bigintReplacer, classifyFailure, type FailureClassification } from "./errors.ts";
-import { fetchLatestUpdate, type HermesOptions, type HermesUpdate } from "./hermes.ts";
+import {
+  type FeedRejection,
+  fetchEntitledUpdate,
+  type HermesOptions,
+  type HermesUpdate,
+} from "./hermes.ts";
 import { legAttemptKey } from "./idempotency.ts";
 import { jsonRpc } from "./json-rpc.ts";
 import {
@@ -120,6 +125,8 @@ export type LegAttempt<T> = {
   attestation: { signed: SignedAttestation; read: PreStocksRead } | null;
   simulation: { logs: readonly string[]; unitsConsumed: bigint | null; err: unknown } | null;
   transactionBytes: number | null;
+  /** Hermes refusals that kept this leg from being priced. */
+  priceRejections: FeedRejection[];
   outcome: "executed" | "waiting" | "failed";
   waitReason: WaitReason | null;
   failure: FailureClassification | null;
@@ -149,13 +156,25 @@ export function feedsFor(legs: readonly PendingLeg[]): string[] {
   return [...feeds];
 }
 
-/** Fetches one Hermes update for every feed and posts it, fully verified, in order. */
+/**
+ * Fetches one Hermes update for every feed, dropping any Hermes refuses, and posts it fully
+ * verified, in order. `posts` is null when Hermes refused every feed.
+ */
 export async function postPrices(
   config: PipelineConfig,
   feeds: readonly string[],
-): Promise<PricePosts> {
+): Promise<{ posts: PricePosts | null; rejected: FeedRejection[] }> {
   const fetchedAtMs = (config.now ?? Date.now)();
-  const hermes = await fetchLatestUpdate(feeds, config.hermes);
+  const { update, rejected } = await fetchEntitledUpdate(feeds, config.hermes);
+  if (!update) return { posts: null, rejected };
+  return { posts: await postUpdate(config, update, fetchedAtMs), rejected };
+}
+
+async function postUpdate(
+  config: PipelineConfig,
+  hermes: HermesUpdate,
+  fetchedAtMs: number,
+): Promise<PricePosts> {
   const plan = await planPythPosts({
     rpc: config.rpc,
     payer: config.crank,
@@ -272,6 +291,7 @@ export async function attemptLeg<T>(
     attestation: null,
     simulation: null,
     transactionBytes: null,
+    priceRejections: [],
     outcome: "failed",
     waitReason: null,
     failure: null,
@@ -457,6 +477,8 @@ export type PaycheckRun<T> = {
   legs: LegRun<T>[];
   posts: PricePosts[];
   closeSignatures: Signature[];
+  /** Feeds Hermes refused during the run, with its status and body as evidence. */
+  rejected: FeedRejection[];
 };
 
 /**
@@ -476,9 +498,11 @@ export async function executePaycheckLegs<T>(
   const ordered = [...legs].sort((a, b) =>
     a.amountIn === b.amountIn ? a.legIndex - b.legIndex : a.amountIn > b.amountIn ? -1 : 1,
   );
-  const feeds = feedsFor(ordered);
-  let latest = await postPrices(config, feeds);
-  const posts: PricePosts[] = [latest];
+  const rejected = new Map<string, FeedRejection>();
+  const first = await postPrices(config, feedsFor(ordered));
+  for (const rejection of first.rejected) rejected.set(rejection.feedId, rejection);
+  let latest = first.posts;
+  const posts: PricePosts[] = latest ? [latest] : [];
   const runs: LegRun<T>[] = [];
   for (const leg of ordered) {
     const run: LegRun<T> = { leg, attempts: [], posts: [] };
@@ -489,20 +513,28 @@ export async function executePaycheckLegs<T>(
     for (let attempt = 0; ; attempt++) {
       let result: LegAttempt<T>;
       try {
-        if (now() - latest.fetchedAtMs > PRICE_REFRESH_AGE_SECS * 1000) {
-          latest = await postPrices(config, feeds);
-          posts.push(latest);
+        if (latest && now() - latest.fetchedAtMs > PRICE_REFRESH_AGE_SECS * 1000) {
+          const feeds = feedsFor(ordered).filter((feed) => !rejected.has(feed));
+          const refreshed = await postPrices(config, feeds);
+          for (const rejection of refreshed.rejected) rejected.set(rejection.feedId, rejection);
+          latest = refreshed.posts;
+          if (latest) posts.push(latest);
         }
-        if (!run.posts.includes(latest)) run.posts.push(latest);
-        result = await attemptLeg(
-          config,
-          leg,
-          attempt,
-          latest,
-          marks,
-          buildExecute,
-          decodeExecuted,
-        );
+        const refused = requiredFeeds(leg).flatMap((feed) => rejected.get(feed) ?? []);
+        if (refused.length > 0 || !latest) {
+          result = unavailableAttempt<T>(leg, attempt, now(), refused);
+        } else {
+          if (!run.posts.includes(latest)) run.posts.push(latest);
+          result = await attemptLeg(
+            config,
+            leg,
+            attempt,
+            latest,
+            marks,
+            buildExecute,
+            decodeExecuted,
+          );
+        }
       } catch (error) {
         result = crashedAttempt<T>(leg, attempt, now(), error);
       }
@@ -526,7 +558,36 @@ export async function executePaycheckLegs<T>(
   }
   const closeSignatures: Signature[] = [];
   for (const post of posts) closeSignatures.push(...(await closePricePosts(config, post)));
-  return { legs: runs, posts, closeSignatures };
+  return { legs: runs, posts, closeSignatures, rejected: [...rejected.values()] };
+}
+
+/**
+ * Feeds a leg cannot execute without: USDC/USD always, and a listed equity's regular feed. The
+ * program reads the regular feed account first and turns to the 24/7 feed only when that price
+ * is stale, so a refused regular feed leaves the leg unpriceable even if its 24/7 feed is served.
+ */
+export function requiredFeeds(leg: PendingLeg): string[] {
+  const feeds = [USDC_FEED_ID];
+  if (leg.asset.kind === AssetKind.listedEquity && leg.asset.feedId) feeds.push(leg.asset.feedId);
+  return feeds;
+}
+
+function unavailableAttempt<T>(
+  leg: PendingLeg,
+  attempt: number,
+  nowMs: number,
+  refused: FeedRejection[],
+): LegAttempt<T> {
+  return {
+    ...crashedAttempt<T>(leg, attempt, nowMs, null),
+    priceRejections: refused,
+    outcome: "waiting",
+    waitReason: WaitReason.PRICE_UNAVAILABLE,
+    error:
+      refused.length > 0
+        ? refused.map((r) => `Hermes ${r.status} for ${r.feedId}: ${r.body}`).join("; ")
+        : "Hermes refused every feed this paycheck needs",
+  };
 }
 
 function crashedAttempt<T>(leg: PendingLeg, attempt: number, nowMs: number, error: unknown) {
@@ -537,6 +598,7 @@ function crashedAttempt<T>(leg: PendingLeg, attempt: number, nowMs: number, erro
     attestation: null,
     simulation: null,
     transactionBytes: null,
+    priceRejections: [],
     outcome: "failed",
     waitReason: null,
     failure: null,
@@ -544,7 +606,7 @@ function crashedAttempt<T>(leg: PendingLeg, attempt: number, nowMs: number, erro
     slot: null,
     event: null,
     rawTransaction: null,
-    error: error instanceof Error ? error.message : String(error),
+    error: error === null ? null : error instanceof Error ? error.message : String(error),
   };
   return attemptResult;
 }
