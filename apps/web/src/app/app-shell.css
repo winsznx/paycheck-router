@@ -529,6 +529,10 @@ body:has(.fork-banner) {
 }
 
 .pr-select {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  text-overflow: ellipsis;
   appearance: none;
   font-family: var(--font-display);
   font-size: 16px;
@@ -657,4 +661,28 @@ fieldset.stack {
 .summary-list li {
   padding-inline-start: var(--space-4);
   border-inline-start: 2px solid var(--accent);
+}
+
+/* Long chain values and live rows never widen the page (PRD 16.1, 320 px phones). */
+.proof-list > div,
+.proof-list__value,
+.pr-slice__main,
+.pr-slice__side,
+.pr-slice__facts > div,
+.pr-slice__facts dd,
+.pr-paycheck,
+.pr-paycheck__head > *,
+.activity-row > *,
+.home-grid > *,
+.card-list > li,
+.app-frame__main,
+.app-content {
+  min-inline-size: 0;
+}
+
+.proof-list__value,
+.pr-slice__facts dd,
+.pr-banner__text,
+.status-row p {
+  overflow-wrap: anywhere;
 }
