@@ -13,7 +13,7 @@ export default defineConfig({
   expect: { timeout: 30_000 },
   reporter: [["list"]],
   use: {
-    baseURL: process.env.E2E_BASE_URL ?? "http://localhost:3000",
+    baseURL: process.env.E2E_BASE_URL ?? "http://127.0.0.1:3000",
     trace: "retain-on-failure",
     actionTimeout: 60_000,
     navigationTimeout: 120_000,
