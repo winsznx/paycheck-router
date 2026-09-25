@@ -17,6 +17,7 @@ use anchor_spl::{
 use crate::error::RouterError;
 
 /// A mint with the program that owns it, as every checked transfer needs.
+#[derive(Clone, Copy)]
 pub struct MintRef<'a, 'info> {
     pub mint: &'a AccountInfo<'info>,
     pub token_program: &'a AccountInfo<'info>,
@@ -78,19 +79,22 @@ pub fn token_amount(account: &AccountInfo) -> Result<u64> {
 
 /// Calls the allowlisted swap program with the crank's accounts, signing as
 /// `signer`. The outer transaction lists the PDA as a non-signer; the program
-/// upgrades it to a signer here, which only `invoke_signed` can satisfy.
+/// upgrades it to a signer here, which only `invoke_signed` can satisfy. The
+/// router owner's signature is never lent to the route, so an owner-signed
+/// instruction cannot give the swap program power over the owner's wallet.
 pub fn invoke_swap<'info>(
     swap_program: &AccountInfo<'info>,
     route_accounts: &[AccountInfo<'info>],
     data: Vec<u8>,
     signer: &Pubkey,
     signer_seeds: &[&[u8]],
+    owner: &Pubkey,
 ) -> Result<()> {
     let metas = route_accounts
         .iter()
         .map(|account| AccountMeta {
             pubkey: *account.key,
-            is_signer: account.is_signer || account.key == signer,
+            is_signer: account.key == signer || (account.is_signer && account.key != owner),
             is_writable: account.is_writable,
         })
         .collect();

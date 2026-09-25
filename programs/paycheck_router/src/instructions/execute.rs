@@ -205,6 +205,7 @@ pub fn settle_leg<'info>(
         swap_data,
         &authority_key,
         authority_seeds,
+        &router.owner,
     )?;
 
     pay_in.reload()?;
@@ -396,7 +397,7 @@ pub fn execute_leg<'info>(
     )
 }
 
-fn listed_reference(
+pub(crate) fn listed_reference(
     config: &Config,
     asset: &Asset,
     band_bps: u16,
@@ -438,7 +439,7 @@ fn listed_reference(
     })
 }
 
-fn attested_reference(
+pub(crate) fn attested_reference(
     config: &Config,
     asset: &Asset,
     band_bps: u16,
