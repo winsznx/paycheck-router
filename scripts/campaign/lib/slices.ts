@@ -261,7 +261,7 @@ function executedOf(
  * call itself failed. They say nothing about the product and are tallied apart from its outcomes.
  */
 export const INFRASTRUCTURE_FAILURE =
-  /Failed to fetch accounts from remote|error sending request|Cannot destructure property|fetch failed|ECONNRESET|ETIMEDOUT|socket hang up|Too Many Requests|\b429\b|Internal error|Command failed: solana program deploy/i;
+  /Failed to fetch accounts from remote|error sending request|Cannot destructure property|fetch failed|ECONNRESET|ETIMEDOUT|socket hang up|Too Many Requests|\b429\b|Internal error|Command failed: solana program deploy|Archive requests require a personal token/i;
 
 /**
  * Whether a reference is the last one recorded for its path. A runner that wrote one path twice
