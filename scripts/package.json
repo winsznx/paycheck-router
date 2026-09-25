@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "@electric-sql/pglite": "0.5.8",
-    "@electric-sql/pglite-socket": "0.2.11",
     "@paycheck-router/guard-math": "workspace:*",
     "@paycheck-router/sdk": "workspace:*",
     "@paycheck-router/shared": "workspace:*",
@@ -22,6 +21,7 @@
   },
   "devDependencies": {
     "@types/node": "22.20.4",
+    "postgres": "3.4.9",
     "vitest": "5.0.1"
   }
 }
