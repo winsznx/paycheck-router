@@ -184,6 +184,7 @@ function attemptRows(attempts: readonly AttemptRecord[]): AttemptRow[] {
     cuUsed: attempt.cuUsed,
     priorityFeeLamports: attempt.priorityFeeLamports?.toString() ?? null,
     quote: attempt.quote,
+    reference: attempt.reference,
   }));
 }
 
@@ -644,6 +645,13 @@ export class RouterActor extends DurableObject<Env> {
       nextAttemptAt: delaySecs === null ? null : Date.now() + delaySecs * 1000,
       attemptCount,
       executingSince: null,
+      // The last attempt's quote against its reference, so a PREMIUM_TOO_HIGH wait shows both.
+      refPriceE9:
+        outcome.kind === "waiting" && outcome.measured
+          ? outcome.measured.refPriceE9.toString()
+          : null,
+      premiumBps:
+        outcome.kind === "waiting" && outcome.measured ? outcome.measured.premiumBps : null,
     };
     this.updateLeg(waiting);
     await this.mirror({ op: "leg", leg: waiting });

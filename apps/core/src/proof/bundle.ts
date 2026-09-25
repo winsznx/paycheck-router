@@ -1,6 +1,6 @@
 import { type api, assetByMint, type LegRecord } from "@paycheck-router/shared";
 import { multiplierFromE12, sharesUi } from "../chain/shares.ts";
-import { FORK_MANIFEST, FORK_REPORT, FORK_TIMES } from "./generated/fork-bundle.ts";
+import { FORK_MANIFEST, FORK_QUOTES, FORK_REPORT, FORK_TIMES } from "./generated/fork-bundle.ts";
 
 const BUNDLE_PATH = "evidence/stocklana-fork";
 const REPO = "https://github.com/winsznx/paycheck-router";
@@ -111,6 +111,13 @@ export function bundleProof(environment: api.Environment): api.ProofResponse {
         state: leg.state,
         waitReason: leg.waitReason,
         verified: reportSlice(leg.index)?.pass === true,
+        premiumBps: leg.executed
+          ? Number(leg.executed.premiumBps)
+          : (FORK_QUOTES[leg.index]?.premiumBps ?? null),
+        refPriceE9: leg.executed?.refPriceE9 ?? FORK_QUOTES[leg.index]?.refPriceE9 ?? null,
+        premiumNote: leg.executed
+          ? "Delivered shares against the reference the program checked"
+          : (FORK_QUOTES[leg.index]?.note ?? null),
         findings: reportSlice(leg.index)?.findings ?? [],
       })),
     },

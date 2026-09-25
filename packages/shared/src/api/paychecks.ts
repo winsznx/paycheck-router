@@ -62,6 +62,10 @@ export const Leg = z.object({
   sharesUi: z.string().nullable().optional(),
   refPriceE9: U64String.nullable(),
   execPriceE9: U64String.nullable(),
+  /**
+   * Executed legs: the fill over the reference. Waiting legs: what the last attempt's quote
+   * implied against the reference it priced with (`refPriceE9`), null when it could not price.
+   */
   premiumBps: z.number().int().nullable(),
   executedSig: SignatureString.nullable(),
   executedAt: IsoDateTime.nullable(),

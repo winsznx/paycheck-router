@@ -1202,3 +1202,12 @@ export const FORK_TIMES: { recordedAt: string | null; executedAt: Record<number,
     "2": "2026-09-25T14:40:11.000Z"
   }
 };
+
+/** Waiting slices: the premium the last attempt's quote implied against its reference. */
+export const FORK_QUOTES: Record<number, { premiumBps: number; refPriceE9: string; note: string }> = {
+  "3": {
+    "premiumBps": 3038,
+    "refPriceE9": "1023667475142",
+    "note": "Jupiter quote in the bundle against the signed PreStocks mark; Scaled UI multiplier 1.4861347 read from the mainnet mint at build time"
+  }
+};

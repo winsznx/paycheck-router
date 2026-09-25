@@ -19,6 +19,13 @@ describe("/proof from the committed fork bundle", () => {
     expect(proof.bundle?.slices.map((slice) => [slice.symbol, slice.state])).toEqual(
       FORK_MANIFEST.legs.map((leg) => [leg.symbol, leg.state]),
     );
+    const openai = proof.bundle?.slices.find((slice) => slice.symbol === "OpenAI");
+    expect(openai).toMatchObject({
+      state: "WAITING",
+      waitReason: "PREMIUM_TOO_HIGH",
+      premiumBps: 3038,
+      refPriceE9: "1023667475142",
+    });
     const verified = proof.recentLegs.filter((leg) => leg.verification?.matches);
     expect(verified.length).toBe(proof.campaign.slicesVerified);
 
