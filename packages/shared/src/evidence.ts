@@ -170,6 +170,8 @@ export const RunManifest = z.object({
   programSha256: Sha256Hex.nullable(),
   /** `solana-verify get-executable-hash` of the deployed binary. */
   programExecutableHash: Sha256Hex.nullable(),
+  /** Where the deployed binary came from, e.g. the CI release run that built it. */
+  programSource: z.string().nullable(),
   crankVersion: z.string(),
   rpc: z.object({ sender: z.string(), verifier: z.string() }),
   feedIds: z.array(FeedIdHex),
