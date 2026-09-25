@@ -8,6 +8,7 @@ import type { AppEnv, Services } from "../http/context.ts";
 import { readJson } from "../http/json.ts";
 import { ApiError, notConfigured, parseOrThrow } from "../http/problem.ts";
 import { rateLimit } from "../http/rate-limit.ts";
+import { openApiDocument } from "../openapi.ts";
 import { latestPrices } from "../pricing/hermes.ts";
 
 export const publicRoutes = new Hono<AppEnv>();
@@ -118,3 +119,5 @@ publicRoutes.post("/waitlist", async (c) => {
   const response: api.WaitlistResponse = { ok: true };
   return c.json(response, 201);
 });
+
+publicRoutes.get("/openapi.json", (c) => c.json(openApiDocument(new URL(c.req.url).origin)));
