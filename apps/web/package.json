@@ -7,7 +7,7 @@
     "build": "next build && serwist build && node scripts/assert-no-demo-signer.mjs",
     "start": "next start",
     "typecheck": "next typegen && tsc --noEmit -p . && tsc --noEmit -p tsconfig.sw.json",
-    "test": "node scripts/check-messages.mjs",
+    "test": "node scripts/check-messages.mjs && vitest run",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },
@@ -40,6 +40,7 @@
     "@types/react-dom": "19.3.0",
     "esbuild": "0.28.2",
     "typescript": "5.9.3",
+    "vitest": "5.0.1",
     "wrangler": "4.137.0"
   }
 }
