@@ -831,7 +831,7 @@ fn execute_prestock_leg_rejects_bad_attestations() {
 #[test]
 fn transfer_fee_mint_is_guarded_on_gross_delivery() {
     let fee_bps = 100;
-    let mut m = market_with(Some(fee_bps));
+    let mut m = market_with(|env| add_fee_preipo_asset(env, fee_bps));
     let leg = m.leg(2);
     let mark = (PRE_USD * 1e9) as u64;
     let min_out = m.min_out(&leg, mark, 300, 1.0);
@@ -853,7 +853,7 @@ fn transfer_fee_mint_is_guarded_on_gross_delivery() {
         min_out - expected_fee
     );
 
-    let mut m = market_with(Some(fee_bps));
+    let mut m = market_with(|env| add_fee_preipo_asset(env, fee_bps));
     let leg = m.leg(2);
     let attestation = m.attestation(m.pre, PRE_USD);
     let short = m.honest_route(&leg, min_out - 1);

@@ -10,5 +10,6 @@ mod fuzz;
 mod inflow;
 mod market;
 mod router;
+mod snapshots;
 mod swap;
 mod vectors;
