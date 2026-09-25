@@ -12,7 +12,8 @@
     {
       "tag": "init",
       "new_sqlite_classes": ["RouterActor", "UserHub", "InflowWatcher", "RateGate"]
-    }
+    },
+    { "tag": "mark-book", "new_sqlite_classes": ["MarkBook"] }
   ],
   "triggers": { "crons": ["* * * * *", "*/5 * * * *", "0 * * * *", "15 3 * * *", "0 9 * * 1"] },
   "durable_objects": {
@@ -20,7 +21,8 @@
       { "name": "ROUTER_ACTOR", "class_name": "RouterActor" },
       { "name": "USER_HUB", "class_name": "UserHub" },
       { "name": "INFLOW_WATCHER", "class_name": "InflowWatcher" },
-      { "name": "RATE_GATE", "class_name": "RateGate" }
+      { "name": "RATE_GATE", "class_name": "RateGate" },
+      { "name": "MARK_BOOK", "class_name": "MarkBook" }
     ]
   },
   "queues": {
@@ -116,14 +118,16 @@
         {
           "tag": "init",
           "new_sqlite_classes": ["RouterActor", "UserHub", "InflowWatcher", "RateGate"]
-        }
+        },
+        { "tag": "mark-book", "new_sqlite_classes": ["MarkBook"] }
       ],
       "durable_objects": {
         "bindings": [
           { "name": "ROUTER_ACTOR", "class_name": "RouterActor" },
           { "name": "USER_HUB", "class_name": "UserHub" },
           { "name": "INFLOW_WATCHER", "class_name": "InflowWatcher" },
-          { "name": "RATE_GATE", "class_name": "RateGate" }
+          { "name": "RATE_GATE", "class_name": "RateGate" },
+          { "name": "MARK_BOOK", "class_name": "MarkBook" }
         ]
       },
       "queues": {
@@ -239,7 +243,8 @@
         {
           "tag": "init",
           "new_sqlite_classes": ["RouterActor", "UserHub", "InflowWatcher", "RateGate"]
-        }
+        },
+        { "tag": "mark-book", "new_sqlite_classes": ["MarkBook"] }
       ],
       "triggers": { "crons": [] },
       "durable_objects": {
@@ -302,14 +307,16 @@
         {
           "tag": "init",
           "new_sqlite_classes": ["RouterActor", "UserHub", "InflowWatcher", "RateGate"]
-        }
+        },
+        { "tag": "mark-book", "new_sqlite_classes": ["MarkBook"] }
       ],
       "durable_objects": {
         "bindings": [
           { "name": "ROUTER_ACTOR", "class_name": "RouterActor" },
           { "name": "USER_HUB", "class_name": "UserHub" },
           { "name": "INFLOW_WATCHER", "class_name": "InflowWatcher" },
-          { "name": "RATE_GATE", "class_name": "RateGate" }
+          { "name": "RATE_GATE", "class_name": "RateGate" },
+          { "name": "MARK_BOOK", "class_name": "MarkBook" }
         ]
       },
       "queues": {
@@ -415,14 +422,16 @@
         {
           "tag": "init",
           "new_sqlite_classes": ["RouterActor", "UserHub", "InflowWatcher", "RateGate"]
-        }
+        },
+        { "tag": "mark-book", "new_sqlite_classes": ["MarkBook"] }
       ],
       "durable_objects": {
         "bindings": [
           { "name": "ROUTER_ACTOR", "class_name": "RouterActor" },
           { "name": "USER_HUB", "class_name": "UserHub" },
           { "name": "INFLOW_WATCHER", "class_name": "InflowWatcher" },
-          { "name": "RATE_GATE", "class_name": "RateGate" }
+          { "name": "RATE_GATE", "class_name": "RateGate" },
+          { "name": "MARK_BOOK", "class_name": "MarkBook" }
         ]
       },
       "queues": {

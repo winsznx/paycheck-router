@@ -31,8 +31,10 @@ import { hotSigner } from "../chain/keys.ts";
 import { multiplierFromE12 } from "../chain/shares.ts";
 import { chainEndpoints } from "../config.ts";
 import { throughGate } from "../do/rate-gate.ts";
+import { markBookFor } from "../do/stubs.ts";
 import type { Env } from "../env.ts";
 import { log } from "../log.ts";
+import { fromMarkState, toMarkState } from "./marks.ts";
 import type {
   AttemptRecord,
   BuiltTransaction,
@@ -352,13 +354,15 @@ export function createSdkEngine(env: Env): Engine {
       const { treasury } = await protocolConfig();
       const byIndex = new Map(jobs.map((job) => [job.idx, job]));
       const reported = new Set<number>();
+      const book = markBookFor(env);
+      const marks = toMarkState(await book.load());
       try {
         await sdk.executePaycheckLegs(
           config,
           jobs.map(pendingLegOf),
           sdk.executeInstructionBuilder({ treasury }),
           sdk.decodeLegExecuted,
-          sdk.newMarkState(),
+          marks,
           {
             onLegStart: async (leg) => {
               const job = byIndex.get(leg.legIndex);
@@ -397,6 +401,7 @@ export function createSdkEngine(env: Env): Engine {
           });
         }
       }
+      await book.save(fromMarkState(marks));
     },
 
     async expireLeg(job) {

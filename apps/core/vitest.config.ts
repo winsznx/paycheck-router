@@ -17,6 +17,8 @@ export default defineConfig({
           include: ["test/node/**/*.test.ts"],
           environment: "node",
           testTimeout: 30_000,
+          // PGlite boots and applies every migration in beforeAll; slow machines need headroom.
+          hookTimeout: 60_000,
         },
       },
       {
