@@ -61,7 +61,11 @@
         "max_retries": 5,
         "max_concurrency": 2,
         "dead_letter_queue": "notify-dlq"
-      }
+      },
+      { "queue": "inflows-dlq", "max_batch_size": 10, "max_retries": 0 },
+      { "queue": "executions-dlq", "max_batch_size": 10, "max_retries": 0 },
+      { "queue": "verify-dlq", "max_batch_size": 10, "max_retries": 0 },
+      { "queue": "notify-dlq", "max_batch_size": 10, "max_retries": 0 }
     ]
   },
   "kv_namespaces": [{ "binding": "REGISTRY", "id": "local-registry" }],
@@ -160,7 +164,11 @@
             "max_retries": 5,
             "max_concurrency": 2,
             "dead_letter_queue": "notify-dlq"
-          }
+          },
+          { "queue": "inflows-dlq", "max_batch_size": 10, "max_retries": 0 },
+          { "queue": "executions-dlq", "max_batch_size": 10, "max_retries": 0 },
+          { "queue": "verify-dlq", "max_batch_size": 10, "max_retries": 0 },
+          { "queue": "notify-dlq", "max_batch_size": 10, "max_retries": 0 }
         ]
       },
       "kv_namespaces": [{ "binding": "REGISTRY", "id": "demo-registry" }],
@@ -273,7 +281,11 @@
             "max_retries": 5,
             "max_concurrency": 2,
             "dead_letter_queue": "staging-notify-dlq"
-          }
+          },
+          { "queue": "staging-inflows-dlq", "max_batch_size": 10, "max_retries": 0 },
+          { "queue": "staging-executions-dlq", "max_batch_size": 10, "max_retries": 0 },
+          { "queue": "staging-verify-dlq", "max_batch_size": 10, "max_retries": 0 },
+          { "queue": "staging-notify-dlq", "max_batch_size": 10, "max_retries": 0 }
         ]
       },
       // Resource IDs are filled in when the staging resources are created at deploy time.
@@ -382,7 +394,11 @@
             "max_retries": 5,
             "max_concurrency": 2,
             "dead_letter_queue": "notify-dlq"
-          }
+          },
+          { "queue": "inflows-dlq", "max_batch_size": 10, "max_retries": 0 },
+          { "queue": "executions-dlq", "max_batch_size": 10, "max_retries": 0 },
+          { "queue": "verify-dlq", "max_batch_size": 10, "max_retries": 0 },
+          { "queue": "notify-dlq", "max_batch_size": 10, "max_retries": 0 }
         ]
       },
       // Resource IDs are filled in when the production resources are created at deploy time.
