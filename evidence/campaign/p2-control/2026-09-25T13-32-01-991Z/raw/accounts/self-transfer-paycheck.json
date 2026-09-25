@@ -1,0 +1,25 @@
+{
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "getAccountInfo",
+    "params": [
+      "86p8DmfvC4abd1aDutoeJC7nYNWih3FgvQKAKaKZqnfN",
+      {
+        "encoding": "jsonParsed",
+        "commitment": "confirmed"
+      }
+    ]
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "result": {
+      "context": {
+        "slot": 450367322,
+        "apiVersion": "4.1.2"
+      },
+      "value": null
+    },
+    "id": 1
+  }
+}

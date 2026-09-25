@@ -1,0 +1,1 @@
+{"jsonrpc":"2.0","id":1,"result":{"baseFeePerGas":["0x45deb735","0x3f7d2dbb"],"gasUsedRatio":[0.13469268333333334],"baseFeePerBlobGas":["0x4055ef9","0x40d1906"],"blobGasUsedRatio":[0.09523809523809523],"oldestBlock":"0x18d9212","reward":[["0x258d0980"]]}}

@@ -1,0 +1,53 @@
+{
+  "err": {
+    "InstructionError": [
+      "4",
+      "InvalidAccountData"
+    ]
+  },
+  "logs": [
+    "Program ComputeBudget111111111111111111111111111111 invoke [1]",
+    "Program ComputeBudget111111111111111111111111111111 success",
+    "Program ComputeBudget111111111111111111111111111111 invoke [1]",
+    "Program ComputeBudget111111111111111111111111111111 success",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL invoke [1]",
+    "Program log: CreateIdempotent",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL consumed 7456 of 1399700 compute units",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL success",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL invoke [1]",
+    "Program log: CreateIdempotent",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL consumed 14956 of 1392244 compute units",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL success",
+    "Program PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H invoke [1]",
+    "Program log: Instruction: ExecuteLeg",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 113 of 1328578 compute units",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 113 of 1326160 compute units",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success",
+    "Program JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4 invoke [2]",
+    "Program log: Instruction: RouteV2",
+    "Program CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK invoke [3]",
+    "Program log: Instruction: SwapV2",
+    "Program data: QMbN6CYIceLL0D/trwDgokS1AyiA2GC7fcZaoEipP6m8YL/ZnPk0Ye/viu5XJoQryEKRXQzaCeY6jGqkq9PM2xp8ICbjXBpp7U8tGbCdfNTGqdVxdPsx8DQ3mEf5YOYDwg80E27zs6vL8mak/1MzqdCGp0GdrMoSepCjSrC4CgtIuoaI7VF40PzdBwAAAAAAAAAAAAAAAAD8oDoAAAAAAAAAAAAAAAAAACGnrNRYNO26AgAAAAAAAACHPXMUAQAAAAAAAAAAAAAAeE4AAAAAAAAAAAAAgQEAAAAAAAA=",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [4]",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 105 of 1269618 compute units",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success",
+    "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb invoke [4]",
+    "Program log: Instruction: TransferChecked",
+    "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb consumed 3686 of 1266903 compute units",
+    "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb success",
+    "Program CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK consumed 50477 of 1311427 compute units",
+    "Program CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK success",
+    "Program riptK81hDxhe5pW5jSzSM9iRA8azgEgLJ4dXkPtBS7j invoke [3]",
+    "Program log: Instruction: SwapExactIn",
+    "Program log: Oracle data is invalid",
+    "Program riptK81hDxhe5pW5jSzSM9iRA8azgEgLJ4dXkPtBS7j consumed 9716 of 1257446 compute units",
+    "Program riptK81hDxhe5pW5jSzSM9iRA8azgEgLJ4dXkPtBS7j failed: invalid account data for instruction",
+    "Program JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4 consumed 69436 of 1317166 compute units",
+    "Program JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4 failed: invalid account data for instruction",
+    "Program PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H consumed 129558 of 1377288 compute units",
+    "Program PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H failed: invalid account data for instruction"
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "getAccountInfo",
+    "params": [
+      "XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN",
+      {
+        "encoding": "jsonParsed",
+        "commitment": "confirmed"
+      }
+    ]
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "result": {
+      "context": {
+        "slot": 450390688,
+        "apiVersion": "4.1.2"
+      },
+      "value": {
+        "lamports": 31644560,
+        "data": {
+          "program": "spl-token-2022",
+          "parsed": {
+            "type": "mint",
+            "info": {
+              "mintAuthority": "7pt9tkctJPK7PPNQJ77GKg8ZffSF6QxoMiCFYHxrtaCj",
+              "supply": "16040612141066",
+              "decimals": 8,
+              "isInitialized": true,
+              "freezeAuthority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+              "extensions": [
+                {
+                  "extension": "metadataPointer",
+                  "state": {
+                    "authority": "5aMNNLQJwAEeoemTEMkv5NVjqKwvvefRYCQ5Z67HFvEq",
+                    "metadataAddress": "XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN"
+                  }
+                },
+                {
+                  "extension": "permanentDelegate",
+                  "state": {
+                    "delegate": "5aMNNLQJwAEeoemTEMkv5NVjqKwvvefRYCQ5Z67HFvEq"
+                  }
+                },
+                {
+                  "extension": "defaultAccountState",
+                  "state": {
+                    "accountState": "initialized"
+                  }
+                },
+                {
+                  "extension": "scaledUiAmountConfig",
+                  "state": {
+                    "authority": "S7vYFFWH6BjJyEsdrPQpqpYTqLTrPRK6KW3VwsJuRaS",
+                    "multiplier": "1.001926722393864",
+                    "newMultiplierEffectiveTimestamp": 1788481800,
+                    "newMultiplier": "1.0023772500603487"
+                  }
+                },
+                {
+                  "extension": "pausableConfig",
+                  "state": {
+                    "authority": "JDq14BWvqCRFNu1krb12bcRpbGtJZ1FLEakMw6FdxJNs",
+                    "paused": false
+                  }
+                },
+                {
+                  "extension": "confidentialTransferMint",
+                  "state": {
+                    "authority": "5aMNNLQJwAEeoemTEMkv5NVjqKwvvefRYCQ5Z67HFvEq",
+                    "autoApproveNewAccounts": false,
+                    "auditorElgamalPubkey": null
+                  }
+                },
+                {
+                  "extension": "transferHook",
+                  "state": {
+                    "authority": "5aMNNLQJwAEeoemTEMkv5NVjqKwvvefRYCQ5Z67HFvEq",
+                    "programId": null
+                  }
+                },
+                {
+                  "extension": "tokenMetadata",
+                  "state": {
+                    "updateAuthority": "5aMNNLQJwAEeoemTEMkv5NVjqKwvvefRYCQ5Z67HFvEq",
+                    "mint": "XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN",
+                    "name": "Alphabet xStock",
+                    "symbol": "GOOGLx",
+                    "uri": "https://xstocks-metadata.backed.fi/tokens/Solana/GOOGLx/metadata.json",
+                    "additionalMetadata": []
+                  }
+                }
+              ]
+            }
+          },
+          "space": 683
+        },
+        "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+        "executable": false,
+        "rentEpoch": 18446744073709552000,
+        "space": 683
+      }
+    },
+    "id": 1
+  }
+}

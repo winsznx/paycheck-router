@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "kind": "campaign-case",
+  "caseId": "P6",
+  "module": "p6-replay",
+  "runId": "2026-09-25T14-49-28-018Z",
+  "environment": "fork",
+  "title": "Replay",
+  "scenario": "A $200 paycheck, half to Anthropic, executes; then record_paycheck and execute_leg are resubmitted and the executed transaction is re-sent byte for byte",
+  "expected": "NoNewInflow; LegNotPending",
+  "fork": {
+    "startSlot": 450384269,
+    "rpcUrl": "http://127.0.0.1:48899",
+    "datasource": "solana-rpc.publicnode.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -1.053999900817871
+  },
+  "startedAt": "2026-09-25T14:49:28.019Z",
+  "finishedAt": "2026-09-25T14:49:47.914Z",
+  "commit": "1645b9d4207501293feb04f748e6857cb1eab4d9",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": null,
+  "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4",
+  "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:48899",
+    "verifier": "http://127.0.0.1:48899"
+  },
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ"
+  },
+  "setup": [],
+  "paychecks": [],
+  "probes": [],
+  "inputs": [],
+  "observed": {
+    "outcome": "run stopped: Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so",
+    "pass": false,
+    "notes": []
+  },
+  "artifacts": [
+    {
+      "path": "surfpool.log",
+      "sha256": "1aa4e7c54c3843c95f6b26b75e897334915e85108c0ace55e652f792f604de91"
+    }
+  ],
+  "error": "Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so\nError: RPC response error -32603: Internal error; \n\n    at genericNodeError (node:internal/errors:985:15)\n    at wrappedFn (node:internal/errors:539:14)\n    at ChildProcess.exithandler (node:child_process:417:12)\n    at ChildProcess.emit (node:events:509:28)\n    at maybeClose (node:internal/child_process:1141:16)\n    at ChildProcess._handle.onexit (node:internal/child_process:306:5)"
+}

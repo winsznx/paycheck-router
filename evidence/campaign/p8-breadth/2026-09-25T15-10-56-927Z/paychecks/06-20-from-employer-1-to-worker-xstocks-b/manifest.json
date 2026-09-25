@@ -1,0 +1,340 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-09-25T15-10-56-927Z/paychecks/06-20-from-employer-1-to-worker-xstocks-b",
+  "environment": "fork",
+  "fork": {
+    "startSlot": 450389080,
+    "rpcUrl": "http://127.0.0.1:48949",
+    "datasource": "api.mainnet-beta.solana.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -0.9800000190734863
+  },
+  "startedAt": "2026-09-25T15:21:38.827Z",
+  "finishedAt": "2026-09-25T15:21:54.913Z",
+  "commit": "4b55e3641e22201d5b40a617ab356c9443ae5a5f",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+  "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4",
+  "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:48949",
+    "verifier": "http://127.0.0.1:48949"
+  },
+  "feedIds": [],
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ",
+    "worker-xstocks-a": "7EGr1vnWMcYKH5B5SUpqSDRjJ3FPnfJeu4CXbCtSafJe",
+    "worker-xstocks-b": "5G5wLFRqSRSxMJr13BLwhXTzYoG7in6yVQQWa1aYyNRq",
+    "worker-prestocks": "ECs7KtFZmSYhSRByHdCm3RUZHGDN5bHcnaUEh8ShCHGG"
+  },
+  "router": {
+    "address": "64ufnxo2fpbsmJ1K4Gv5SsBqvX3At9nwRWV62DDKWYpR",
+    "owner": "5G5wLFRqSRSxMJr13BLwhXTzYoG7in6yVQQWa1aYyNRq",
+    "authority": "81SR21iSZ6xkYaVyfzsLwRagFigRgXWz2DxXDPV948sx",
+    "investBps": 10000,
+    "legs": [
+      {
+        "mint": "XspzcW1PRtgf6Wj92HCiZdjzKCyFekVD8P5Ueh3dRMX",
+        "symbol": "MSFTx",
+        "weightBps": 2500
+      },
+      {
+        "mint": "XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN",
+        "symbol": "GOOGLx",
+        "weightBps": 2500
+      },
+      {
+        "mint": "Xs3eBt7uRfJX8QUs4suhyU8p2M6DoUDrJyWBa8LLZsg",
+        "symbol": "AMZNx",
+        "weightBps": 2500
+      },
+      {
+        "mint": "Xsa62P5mvPszXL1krVUnU5ar38bBSVcWAB6fmPCo5Zu",
+        "symbol": "METAx",
+        "weightBps": 2500
+      }
+    ]
+  },
+  "paycheck": {
+    "address": "J73dE9V7ydUWVo7cTrhPDSUFPWMWi7fVVfnjnWbgkcSD",
+    "seq": "1",
+    "inflow": "20000000",
+    "investTotal": "20000000",
+    "sender": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "inflowSignature": "MKpQ63C3HKBSMk5rDdm7V5FvbSDUvdsCY7bZnEKkp2xdHxeULvJZGnkvwn1JXmADGpTy2tY26kUfVzGpygg4K4E",
+    "recordSignature": "5QQeU3K6V6fXYj3SsjDQozdNYzrKrBHbh87fYASq2dJPTzmU535gUJxugt1RvwMHqsz4Nd5DmJxvfLvfVFAeXP4h"
+  },
+  "transactions": [
+    {
+      "label": "paycheck: employer-1 transferChecked",
+      "signature": "MKpQ63C3HKBSMk5rDdm7V5FvbSDUvdsCY7bZnEKkp2xdHxeULvJZGnkvwn1JXmADGpTy2tY26kUfVzGpygg4K4E",
+      "slot": 450390688,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/MKpQ63C3HKBSMk5rDdm7V5FvbSDUvdsCY7bZnEKkp2xdHxeULvJZGnkvwn1JXmADGpTy2tY26kUfVzGpygg4K4E.json",
+        "sha256": "28786af1ab7185f5b68719862d136a73ef2298b2bf8baa8bcc4a36224e87b937"
+      }
+    },
+    {
+      "label": "record_paycheck",
+      "signature": "5QQeU3K6V6fXYj3SsjDQozdNYzrKrBHbh87fYASq2dJPTzmU535gUJxugt1RvwMHqsz4Nd5DmJxvfLvfVFAeXP4h",
+      "slot": 450390695,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5QQeU3K6V6fXYj3SsjDQozdNYzrKrBHbh87fYASq2dJPTzmU535gUJxugt1RvwMHqsz4Nd5DmJxvfLvfVFAeXP4h.json",
+        "sha256": "20ef675745d918b211700bf08e2b00b53e907df9df2b3145659590647de0369c"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "3BoUvVQK24sSycvh9cUYLLj1BzGpjtPocMUHYKRm6qPcDYteRKH4v6F3Ysxj2qDuBvryN6esYV6ugdMRuJQtEEs4",
+      "slot": 450390710,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3BoUvVQK24sSycvh9cUYLLj1BzGpjtPocMUHYKRm6qPcDYteRKH4v6F3Ysxj2qDuBvryN6esYV6ugdMRuJQtEEs4.json",
+        "sha256": "77cedfa119eeeae2d3ace19f9bd9c0403c1bdc99326d71ddcf2451a65e815311"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "61okoqB9yJDsC2Pp68RrACMRQRAbRi3NXx8QNWB1mxnD9iJNs9o1h3NHEpdyQh7H9rEUGWdFoWZCzsgTZ3kmaU5F",
+      "slot": 450390715,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/61okoqB9yJDsC2Pp68RrACMRQRAbRi3NXx8QNWB1mxnD9iJNs9o1h3NHEpdyQh7H9rEUGWdFoWZCzsgTZ3kmaU5F.json",
+        "sha256": "d4537e9fbef607a75ae7fe10c5c8e8ee3607d3c5d048402b9d6c1dc7bb502165"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "5ghwxGEmjHzpk1d1G9HZ6EmKkvWmVgP89AFsuNyemVPJ3qaP5ivwzocXxAxpnNYFTDvQHigx2yNEu8CUDQr1jCsq",
+      "slot": 450390717,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5ghwxGEmjHzpk1d1G9HZ6EmKkvWmVgP89AFsuNyemVPJ3qaP5ivwzocXxAxpnNYFTDvQHigx2yNEu8CUDQr1jCsq.json",
+        "sha256": "903b9533b2a32bce8b412964d880b119d5038b99204b5b7732774aa8fa792f63"
+      }
+    }
+  ],
+  "legs": [
+    {
+      "index": 0,
+      "mint": "XspzcW1PRtgf6Wj92HCiZdjzKCyFekVD8P5Ueh3dRMX",
+      "symbol": "MSFTx",
+      "kind": "listed_equity",
+      "amountIn": "5000000",
+      "bandBps": 50,
+      "state": "WAITING",
+      "waitReason": "PRICE_UNAVAILABLE",
+      "attempts": [
+        {
+          "key": "64ufnxo2fpbsmJ1K4Gv5SsBqvX3At9nwRWV62DDKWYpR:1:0:0",
+          "startedAt": "2026-09-25T15:21:52.004Z",
+          "jupiterBuild": null,
+          "jupiterBuilds": [],
+          "notes": [],
+          "hermesUpdate": null,
+          "prices": [],
+          "attestation": null,
+          "simulation": null,
+          "transactionBytes": null,
+          "priceRejections": [
+            {
+              "feedId": "d0ca23c1cc005e004ccf1db5bf76aeb6a49218f43dac3d4b275e92de12ded4d1",
+              "status": 403,
+              "body": "Not entitled: feed d0ca23c1cc005e004ccf1db5bf76aeb6a49218f43dac3d4b275e92de12ded4d1 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+            }
+          ],
+          "signatures": [],
+          "outcome": "waiting",
+          "waitReason": "PRICE_UNAVAILABLE",
+          "error": "Hermes 403 for d0ca23c1cc005e004ccf1db5bf76aeb6a49218f43dac3d4b275e92de12ded4d1: Not entitled: feed d0ca23c1cc005e004ccf1db5bf76aeb6a49218f43dac3d4b275e92de12ded4d1 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+        }
+      ],
+      "executed": null,
+      "verification": null
+    },
+    {
+      "index": 1,
+      "mint": "XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN",
+      "symbol": "GOOGLx",
+      "kind": "listed_equity",
+      "amountIn": "5000000",
+      "bandBps": 50,
+      "state": "WAITING",
+      "waitReason": "PRICE_UNAVAILABLE",
+      "attempts": [
+        {
+          "key": "64ufnxo2fpbsmJ1K4Gv5SsBqvX3At9nwRWV62DDKWYpR:1:1:0",
+          "startedAt": "2026-09-25T15:21:52.009Z",
+          "jupiterBuild": null,
+          "jupiterBuilds": [],
+          "notes": [],
+          "hermesUpdate": null,
+          "prices": [],
+          "attestation": null,
+          "simulation": null,
+          "transactionBytes": null,
+          "priceRejections": [
+            {
+              "feedId": "5a48c03e9b9cb337801073ed9d166817473697efff0d138874e0f6a33d6d5aa6",
+              "status": 403,
+              "body": "Not entitled: feed 5a48c03e9b9cb337801073ed9d166817473697efff0d138874e0f6a33d6d5aa6 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+            }
+          ],
+          "signatures": [],
+          "outcome": "waiting",
+          "waitReason": "PRICE_UNAVAILABLE",
+          "error": "Hermes 403 for 5a48c03e9b9cb337801073ed9d166817473697efff0d138874e0f6a33d6d5aa6: Not entitled: feed 5a48c03e9b9cb337801073ed9d166817473697efff0d138874e0f6a33d6d5aa6 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+        }
+      ],
+      "executed": null,
+      "verification": null
+    },
+    {
+      "index": 2,
+      "mint": "Xs3eBt7uRfJX8QUs4suhyU8p2M6DoUDrJyWBa8LLZsg",
+      "symbol": "AMZNx",
+      "kind": "listed_equity",
+      "amountIn": "5000000",
+      "bandBps": 50,
+      "state": "WAITING",
+      "waitReason": "PRICE_UNAVAILABLE",
+      "attempts": [
+        {
+          "key": "64ufnxo2fpbsmJ1K4Gv5SsBqvX3At9nwRWV62DDKWYpR:1:2:0",
+          "startedAt": "2026-09-25T15:21:52.009Z",
+          "jupiterBuild": null,
+          "jupiterBuilds": [],
+          "notes": [],
+          "hermesUpdate": null,
+          "prices": [],
+          "attestation": null,
+          "simulation": null,
+          "transactionBytes": null,
+          "priceRejections": [
+            {
+              "feedId": "b5d0e0fa58a1f8b81498ae670ce93c872d14434b72c364885d4fa1b257cbb07a",
+              "status": 403,
+              "body": "Not entitled: feed b5d0e0fa58a1f8b81498ae670ce93c872d14434b72c364885d4fa1b257cbb07a (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+            }
+          ],
+          "signatures": [],
+          "outcome": "waiting",
+          "waitReason": "PRICE_UNAVAILABLE",
+          "error": "Hermes 403 for b5d0e0fa58a1f8b81498ae670ce93c872d14434b72c364885d4fa1b257cbb07a: Not entitled: feed b5d0e0fa58a1f8b81498ae670ce93c872d14434b72c364885d4fa1b257cbb07a (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+        }
+      ],
+      "executed": null,
+      "verification": null
+    },
+    {
+      "index": 3,
+      "mint": "Xsa62P5mvPszXL1krVUnU5ar38bBSVcWAB6fmPCo5Zu",
+      "symbol": "METAx",
+      "kind": "listed_equity",
+      "amountIn": "5000000",
+      "bandBps": 50,
+      "state": "WAITING",
+      "waitReason": "PRICE_UNAVAILABLE",
+      "attempts": [
+        {
+          "key": "64ufnxo2fpbsmJ1K4Gv5SsBqvX3At9nwRWV62DDKWYpR:1:3:0",
+          "startedAt": "2026-09-25T15:21:52.010Z",
+          "jupiterBuild": null,
+          "jupiterBuilds": [],
+          "notes": [],
+          "hermesUpdate": null,
+          "prices": [],
+          "attestation": null,
+          "simulation": null,
+          "transactionBytes": null,
+          "priceRejections": [
+            {
+              "feedId": "78a3e3b8e676a8f73c439f5d749737034b139bbbe899ba5775216fba596607fe",
+              "status": 403,
+              "body": "Not entitled: feed 78a3e3b8e676a8f73c439f5d749737034b139bbbe899ba5775216fba596607fe (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+            }
+          ],
+          "signatures": [],
+          "outcome": "waiting",
+          "waitReason": "PRICE_UNAVAILABLE",
+          "error": "Hermes 403 for 78a3e3b8e676a8f73c439f5d749737034b139bbbe899ba5775216fba596607fe: Not entitled: feed 78a3e3b8e676a8f73c439f5d749737034b139bbbe899ba5775216fba596607fe (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+        }
+      ],
+      "executed": null,
+      "verification": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "raw/balances/before.json",
+      "sha256": "3d2765d297ccdaebb0015b04d866e1e7e53336096e42b60be118c3c400e04903"
+    },
+    {
+      "path": "raw/mints/MSFTx.json",
+      "sha256": "ade73e6bc6fed2f8b58d6ee554fdd7e94988b2746ed66f0a0a2b2a121f597e0a"
+    },
+    {
+      "path": "raw/mints/GOOGLx.json",
+      "sha256": "385f97c6fc0527723bb35943f2a92802069654085e19b66fdb079bbdc9667a40"
+    },
+    {
+      "path": "raw/mints/AMZNx.json",
+      "sha256": "ed12f4abd3afec3b31510fb85a9358b7516faa01eaccdd50efeb52c5c2700e5d"
+    },
+    {
+      "path": "raw/mints/METAx.json",
+      "sha256": "59f06bbdfff5d6875a1f55fdd103256a3b75c3638827655e3019c0127daa12c3"
+    },
+    {
+      "path": "raw/epoch.json",
+      "sha256": "32903fdce364fe2794caf0786f5f64f830316dd2b4b476dc3fc42793f37e4e06"
+    },
+    {
+      "path": "raw/tx/MKpQ63C3HKBSMk5rDdm7V5FvbSDUvdsCY7bZnEKkp2xdHxeULvJZGnkvwn1JXmADGpTy2tY26kUfVzGpygg4K4E.json",
+      "sha256": "28786af1ab7185f5b68719862d136a73ef2298b2bf8baa8bcc4a36224e87b937"
+    },
+    {
+      "path": "raw/tx/5QQeU3K6V6fXYj3SsjDQozdNYzrKrBHbh87fYASq2dJPTzmU535gUJxugt1RvwMHqsz4Nd5DmJxvfLvfVFAeXP4h.json",
+      "sha256": "20ef675745d918b211700bf08e2b00b53e907df9df2b3145659590647de0369c"
+    },
+    {
+      "path": "raw/hermes/rejected-round-0.json",
+      "sha256": "9253a2313d303ae41761b64192959d74c15df49faf8011dfa24b80021021c402"
+    },
+    {
+      "path": "raw/hermes/posted-0.json",
+      "sha256": "d27d2f6c5328300b1345497c3baef477a6b5d5732722fc88dd0c9094c4618e7a"
+    },
+    {
+      "path": "raw/tx/3BoUvVQK24sSycvh9cUYLLj1BzGpjtPocMUHYKRm6qPcDYteRKH4v6F3Ysxj2qDuBvryN6esYV6ugdMRuJQtEEs4.json",
+      "sha256": "77cedfa119eeeae2d3ace19f9bd9c0403c1bdc99326d71ddcf2451a65e815311"
+    },
+    {
+      "path": "raw/tx/61okoqB9yJDsC2Pp68RrACMRQRAbRi3NXx8QNWB1mxnD9iJNs9o1h3NHEpdyQh7H9rEUGWdFoWZCzsgTZ3kmaU5F.json",
+      "sha256": "d4537e9fbef607a75ae7fe10c5c8e8ee3607d3c5d048402b9d6c1dc7bb502165"
+    },
+    {
+      "path": "raw/tx/5ghwxGEmjHzpk1d1G9HZ6EmKkvWmVgP89AFsuNyemVPJ3qaP5ivwzocXxAxpnNYFTDvQHigx2yNEu8CUDQr1jCsq.json",
+      "sha256": "903b9533b2a32bce8b412964d880b119d5038b99204b5b7732774aa8fa792f63"
+    },
+    {
+      "path": "raw/balances/after.json",
+      "sha256": "83098e1a80843c71bbdc935d08368a5be8981a8a1b70609265327b0bbbbd6a16"
+    }
+  ],
+  "error": null
+}

@@ -1,0 +1,487 @@
+{
+  "schemaVersion": 1,
+  "kind": "campaign-case",
+  "caseId": "P7",
+  "module": "p7-ablations",
+  "runId": "2026-09-25T16-55-40-781Z",
+  "environment": "fork",
+  "title": "Ablations",
+  "scenario": "Arm D (no guard: buy at the first-attempt Jupiter quote) and Jupiter's own price as the only reference, replayed from the fork runs' recorded quotes; the same slices costed in Ethereum gas from eth_feeHistory and Pyth ETH/USD at the same timestamps",
+  "expected": "Overpayment the guard prevented per slice; count of slices that would have executed out of band; computed (not executed) Ethereum cost per $20 slice",
+  "fork": null,
+  "startedAt": "2026-09-25T16:55:40.782Z",
+  "finishedAt": "2026-09-25T16:57:37.284Z",
+  "commit": "f7ba442d3f1ae34b22e3644930b1bc93790c7c37",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+  "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4",
+  "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "none",
+    "verifier": "none"
+  },
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ"
+  },
+  "setup": [],
+  "paychecks": [],
+  "probes": [
+    {
+      "name": "guard and oracle ablations have inputs",
+      "description": "Headline slices with a recorded first-attempt quote and an independent reference",
+      "expected": [
+        "replayable"
+      ],
+      "observed": "replayable",
+      "pass": true,
+      "source": {
+        "kind": "computed",
+        "artifacts": [
+          {
+            "path": "../../p1-positive/2026-09-25T13-40-58-172Z/manifest.json",
+            "sha256": "08285fdfdfea57633eaccbf75e3bd6532a6cd21d428ccd0e56124393de404a30"
+          },
+          {
+            "path": "../../p1-positive/2026-09-25T13-50-09-043Z/manifest.json",
+            "sha256": "0862a73da14432c1b2ef235a216a9773778b2154e80e3dae991ab03d7416b585"
+          },
+          {
+            "path": "../../p1-positive/2026-09-25T14-27-30-905Z/manifest.json",
+            "sha256": "55f0cc67eeb9b9e4cef5a4559ca25994c9c511376222ec1d430b0a0181f3c14c"
+          },
+          {
+            "path": "../../p1-positive/2026-09-25T14-49-07-830Z/manifest.json",
+            "sha256": "665cc54821b3a8812cfaeb4c20a78637b2eae350fa3e54af5afb58236baffb2f"
+          },
+          {
+            "path": "../../p1-positive/2026-09-25T14-51-05-754Z/manifest.json",
+            "sha256": "d28080e6a3c66f0833260f585a73a4d5e963a29903759d5bb35f35fe68809899"
+          },
+          {
+            "path": "../../p2-control/2026-09-25T13-32-01-991Z/manifest.json",
+            "sha256": "ccb40fc0ffdbc249a961155d6a5cb6af4de53cfa0598625f2cc01cda724a1a89"
+          },
+          {
+            "path": "../../p3-closed-market/2026-09-25T13-43-21-590Z/manifest.json",
+            "sha256": "c528d9f7bd36537c2e879fa4b10e14758d6130b93cb25e482e66c4c4e29377b8"
+          },
+          {
+            "path": "../../p4-harmful/2026-09-25T13-34-25-383Z/manifest.json",
+            "sha256": "4a3e7af1720859b64166cd8a38439c362c7d545bdd8570d8a9209bf3934f08dd"
+          },
+          {
+            "path": "../../p4-harmful/2026-09-25T14-33-38-448Z/manifest.json",
+            "sha256": "348189cab56f046e6cce328a38601f1e362f6894a6c0c198110ec9763a78909e"
+          },
+          {
+            "path": "../../p4-harmful/2026-09-25T14-49-47-915Z/manifest.json",
+            "sha256": "12c566424731f21e340fddc350aa8aef785cefa5b69033668b94e4d4cea90fa6"
+          },
+          {
+            "path": "../../p4-harmful/2026-09-25T14-55-10-011Z/manifest.json",
+            "sha256": "3cee4c137da063580fd7396fd95837b425a33f43c26e05f2a319be451e89e8f2"
+          },
+          {
+            "path": "../../p4-harmful/2026-09-25T15-07-45-674Z/manifest.json",
+            "sha256": "ae1cb843c78110bbd359df71a3677cb31ab6c7c896201f203220dbbcadd7e3fc"
+          },
+          {
+            "path": "../../p4-harmful/2026-09-25T16-44-42-741Z/manifest.json",
+            "sha256": "2a7af3aafa196fc57adf1609fcde059b669e0b6a08540b760c612bd0243e76fd"
+          },
+          {
+            "path": "../../p4-real-market/2026-09-25T13-31-17-574Z/manifest.json",
+            "sha256": "abb67daa9c35b88deba4069151eec9c5252ce21fe8f60c2f24de4ac58735f7e5"
+          },
+          {
+            "path": "../../p5-stale-context/2026-09-25T14-34-01-882Z/manifest.json",
+            "sha256": "69998c3fb482ed724a67c5b88cc680bfea615fbe1e53c2312039b8c39d93ec0f"
+          },
+          {
+            "path": "../../p5-stale-context/2026-09-25T14-50-07-493Z/manifest.json",
+            "sha256": "1c9d6d7d720d734b4a6efdf7adb959a8fcdf741a4ff3994829f40ed60ba48d7b"
+          },
+          {
+            "path": "../../p5-stale-context/2026-09-25T14-57-22-884Z/manifest.json",
+            "sha256": "9b2b9677afea5f729b4a3a2dea54f1c5d9bee156dfec90d434ab59600efadae1"
+          },
+          {
+            "path": "../../p5-stale-context/2026-09-25T15-10-14-614Z/manifest.json",
+            "sha256": "bc316108e46b80af3993e168a46a31d23d37c1dd96169b2321fa3999dff16eca"
+          },
+          {
+            "path": "../../p5-stale-context/2026-09-25T15-20-35-490Z/manifest.json",
+            "sha256": "7207dfc5af3349b02ed1507b9c777f1d82132084af50ac400f5690299f48d8f8"
+          },
+          {
+            "path": "../../p5-stale-context/2026-09-25T16-47-16-120Z/manifest.json",
+            "sha256": "79bb4d9057b9e1cc43a7a330b41c3e0c6c8d1792507849f31c2c0dea5e8900cc"
+          },
+          {
+            "path": "../../p6-replay/2026-09-25T13-37-49-918Z/manifest.json",
+            "sha256": "c62b540991cefe7deaec4a18c4cfa3b35712b3486a8eb5ee86c065c24829e4c7"
+          },
+          {
+            "path": "../../p6-replay/2026-09-25T14-31-49-239Z/manifest.json",
+            "sha256": "ec56705fe82bef70e5447df39d2fe3270b01202226fc07ffc29ee233f98d3c7e"
+          },
+          {
+            "path": "../../p6-replay/2026-09-25T14-49-28-018Z/manifest.json",
+            "sha256": "0c7e91608cccb410b9c1dd068ed9e7ce628bfe2250e586b5c9331f76b940d471"
+          },
+          {
+            "path": "../../p6-replay/2026-09-25T14-53-11-173Z/manifest.json",
+            "sha256": "411ead1d1bd41cbe091f095f2f8aed207431c873f5f53a1d3f15db9ab15e13c8"
+          },
+          {
+            "path": "../../p8-breadth/2026-09-25T14-34-36-065Z/manifest.json",
+            "sha256": "fe702612bcfe3590920f6fb4db7668c27647e29fbd719e44f11e361c2352b117"
+          },
+          {
+            "path": "../../p8-breadth/2026-09-25T14-49-10-631Z/manifest.json",
+            "sha256": "4c29c2155dbf2bed1b859df230a620f48bd9d242089fe2838c760f0ce03669d7"
+          },
+          {
+            "path": "../../p8-breadth/2026-09-25T14-51-10-324Z/manifest.json",
+            "sha256": "10f485fca4c4bdd8cd509815e6f193189e00aad9187bae5732659411d2948ce0"
+          },
+          {
+            "path": "../../p8-breadth/2026-09-25T15-05-34-466Z/manifest.json",
+            "sha256": "28ff46531730910ecc2ef6a13b45b69348bd5b01667a36c30e66d02fdfe497ae"
+          },
+          {
+            "path": "../../p8-breadth/2026-09-25T15-10-56-927Z/manifest.json",
+            "sha256": "d163cbfee0ac13b4d99246293859c14caf6e94e83c4fc4f33cc41345e0f252cc"
+          }
+        ]
+      },
+      "signature": null
+    }
+  ],
+  "inputs": [
+    {
+      "path": "../../p1-positive/2026-09-25T13-40-58-172Z/manifest.json",
+      "sha256": "08285fdfdfea57633eaccbf75e3bd6532a6cd21d428ccd0e56124393de404a30"
+    },
+    {
+      "path": "../../p1-positive/2026-09-25T13-50-09-043Z/manifest.json",
+      "sha256": "0862a73da14432c1b2ef235a216a9773778b2154e80e3dae991ab03d7416b585"
+    },
+    {
+      "path": "../../p1-positive/2026-09-25T14-27-30-905Z/manifest.json",
+      "sha256": "55f0cc67eeb9b9e4cef5a4559ca25994c9c511376222ec1d430b0a0181f3c14c"
+    },
+    {
+      "path": "../../p1-positive/2026-09-25T14-49-07-830Z/manifest.json",
+      "sha256": "665cc54821b3a8812cfaeb4c20a78637b2eae350fa3e54af5afb58236baffb2f"
+    },
+    {
+      "path": "../../p1-positive/2026-09-25T14-51-05-754Z/manifest.json",
+      "sha256": "d28080e6a3c66f0833260f585a73a4d5e963a29903759d5bb35f35fe68809899"
+    },
+    {
+      "path": "../../p2-control/2026-09-25T13-32-01-991Z/manifest.json",
+      "sha256": "ccb40fc0ffdbc249a961155d6a5cb6af4de53cfa0598625f2cc01cda724a1a89"
+    },
+    {
+      "path": "../../p3-closed-market/2026-09-25T13-43-21-590Z/manifest.json",
+      "sha256": "c528d9f7bd36537c2e879fa4b10e14758d6130b93cb25e482e66c4c4e29377b8"
+    },
+    {
+      "path": "../../p4-harmful/2026-09-25T13-34-25-383Z/manifest.json",
+      "sha256": "4a3e7af1720859b64166cd8a38439c362c7d545bdd8570d8a9209bf3934f08dd"
+    },
+    {
+      "path": "../../p4-harmful/2026-09-25T14-33-38-448Z/manifest.json",
+      "sha256": "348189cab56f046e6cce328a38601f1e362f6894a6c0c198110ec9763a78909e"
+    },
+    {
+      "path": "../../p4-harmful/2026-09-25T14-49-47-915Z/manifest.json",
+      "sha256": "12c566424731f21e340fddc350aa8aef785cefa5b69033668b94e4d4cea90fa6"
+    },
+    {
+      "path": "../../p4-harmful/2026-09-25T14-55-10-011Z/manifest.json",
+      "sha256": "3cee4c137da063580fd7396fd95837b425a33f43c26e05f2a319be451e89e8f2"
+    },
+    {
+      "path": "../../p4-harmful/2026-09-25T15-07-45-674Z/manifest.json",
+      "sha256": "ae1cb843c78110bbd359df71a3677cb31ab6c7c896201f203220dbbcadd7e3fc"
+    },
+    {
+      "path": "../../p4-harmful/2026-09-25T16-44-42-741Z/manifest.json",
+      "sha256": "2a7af3aafa196fc57adf1609fcde059b669e0b6a08540b760c612bd0243e76fd"
+    },
+    {
+      "path": "../../p4-real-market/2026-09-25T13-31-17-574Z/manifest.json",
+      "sha256": "abb67daa9c35b88deba4069151eec9c5252ce21fe8f60c2f24de4ac58735f7e5"
+    },
+    {
+      "path": "../../p5-stale-context/2026-09-25T14-34-01-882Z/manifest.json",
+      "sha256": "69998c3fb482ed724a67c5b88cc680bfea615fbe1e53c2312039b8c39d93ec0f"
+    },
+    {
+      "path": "../../p5-stale-context/2026-09-25T14-50-07-493Z/manifest.json",
+      "sha256": "1c9d6d7d720d734b4a6efdf7adb959a8fcdf741a4ff3994829f40ed60ba48d7b"
+    },
+    {
+      "path": "../../p5-stale-context/2026-09-25T14-57-22-884Z/manifest.json",
+      "sha256": "9b2b9677afea5f729b4a3a2dea54f1c5d9bee156dfec90d434ab59600efadae1"
+    },
+    {
+      "path": "../../p5-stale-context/2026-09-25T15-10-14-614Z/manifest.json",
+      "sha256": "bc316108e46b80af3993e168a46a31d23d37c1dd96169b2321fa3999dff16eca"
+    },
+    {
+      "path": "../../p5-stale-context/2026-09-25T15-20-35-490Z/manifest.json",
+      "sha256": "7207dfc5af3349b02ed1507b9c777f1d82132084af50ac400f5690299f48d8f8"
+    },
+    {
+      "path": "../../p5-stale-context/2026-09-25T16-47-16-120Z/manifest.json",
+      "sha256": "79bb4d9057b9e1cc43a7a330b41c3e0c6c8d1792507849f31c2c0dea5e8900cc"
+    },
+    {
+      "path": "../../p6-replay/2026-09-25T13-37-49-918Z/manifest.json",
+      "sha256": "c62b540991cefe7deaec4a18c4cfa3b35712b3486a8eb5ee86c065c24829e4c7"
+    },
+    {
+      "path": "../../p6-replay/2026-09-25T14-31-49-239Z/manifest.json",
+      "sha256": "ec56705fe82bef70e5447df39d2fe3270b01202226fc07ffc29ee233f98d3c7e"
+    },
+    {
+      "path": "../../p6-replay/2026-09-25T14-49-28-018Z/manifest.json",
+      "sha256": "0c7e91608cccb410b9c1dd068ed9e7ce628bfe2250e586b5c9331f76b940d471"
+    },
+    {
+      "path": "../../p6-replay/2026-09-25T14-53-11-173Z/manifest.json",
+      "sha256": "411ead1d1bd41cbe091f095f2f8aed207431c873f5f53a1d3f15db9ab15e13c8"
+    },
+    {
+      "path": "../../p8-breadth/2026-09-25T14-34-36-065Z/manifest.json",
+      "sha256": "fe702612bcfe3590920f6fb4db7668c27647e29fbd719e44f11e361c2352b117"
+    },
+    {
+      "path": "../../p8-breadth/2026-09-25T14-49-10-631Z/manifest.json",
+      "sha256": "4c29c2155dbf2bed1b859df230a620f48bd9d242089fe2838c760f0ce03669d7"
+    },
+    {
+      "path": "../../p8-breadth/2026-09-25T14-51-10-324Z/manifest.json",
+      "sha256": "10f485fca4c4bdd8cd509815e6f193189e00aad9187bae5732659411d2948ce0"
+    },
+    {
+      "path": "../../p8-breadth/2026-09-25T15-05-34-466Z/manifest.json",
+      "sha256": "28ff46531730910ecc2ef6a13b45b69348bd5b01667a36c30e66d02fdfe497ae"
+    },
+    {
+      "path": "../../p8-breadth/2026-09-25T15-10-56-927Z/manifest.json",
+      "sha256": "d163cbfee0ac13b4d99246293859c14caf6e94e83c4fc4f33cc41345e0f252cc"
+    }
+  ],
+  "observed": {
+    "outcome": "run stopped: TypeError: fetch failed",
+    "pass": false,
+    "notes": []
+  },
+  "artifacts": [
+    {
+      "path": "raw/ethereum/latest-block.json",
+      "sha256": "ec47709908adef1f1dafd124005bba19f86af4b8a79f24b12277423b5907ef69"
+    },
+    {
+      "path": "raw/ethereum/nvdax-transfers.json",
+      "sha256": "fd9c2fb0086acb89e1fc9ecaf98f2ac0bc78e997373c16af67776fff081c257e"
+    },
+    {
+      "path": "raw/ethereum/receipts/0x2e5b0a8df75f751675334e73b59ca8b8951e9487a2e83579e3e245006d90e38f.json",
+      "sha256": "8c84f6e0b300ff614aae4d82c7767c0d301ffe7bc69c821d4f6dae9b82bfe9d7"
+    },
+    {
+      "path": "raw/ethereum/receipts/0xf4ea94c21696d6f8810121cea56bd4420930770edf0b4a753336d02be6eebb97.json",
+      "sha256": "812d8024028e04c84858bf8539314e377c1a735658ebc18396da79609062e8b8"
+    },
+    {
+      "path": "raw/ethereum/receipts/0x45608bb258e6d4ca1c789c678caae9b02888c4d7c23904d0bf23825f50884078.json",
+      "sha256": "699ee1e3cdc58b137475d5113bceaad7bf9646826bba4def33ce1ef7530ce3c6"
+    },
+    {
+      "path": "raw/ethereum/receipts/0xcb9dae241b232115ef0763fff94221501154ef79e50d22ec1be6895c0dba6cf6.json",
+      "sha256": "cacc90fab2eedf2536833fcb66fb24ae4c57159ae004ac65838fa461bd76a23a"
+    },
+    {
+      "path": "raw/ethereum/receipts/0x9a5b051bb368aa434745682a293a23543b90c51c0d01703f07986a790fd28503.json",
+      "sha256": "f360a8605a329821f19a8ed8faca2e1bc56be3356774b9c2b3d898eee5d10bad"
+    },
+    {
+      "path": "raw/ethereum/receipts/0xfae0b851bacc4600d762df6646a102944d9b42cee0e5da5ad2fc58d87913d171.json",
+      "sha256": "576cb553f26684540828dda454793c2da7dc26db47e47aead81c97b3131202fe"
+    },
+    {
+      "path": "raw/ethereum/receipts/0x5530bb4cf52847616a284118bd3f5c52cdd6493b52004858387f81baf66269cf.json",
+      "sha256": "60ee51250a68c7c1df886b3e0fea731834861aa2d3f535556bee3e96922f9682"
+    },
+    {
+      "path": "raw/ethereum/receipts/0x8e1bf4f04186c580522d37f791aa1997dd5c45c021d2b8539c0a1b825f763f09.json",
+      "sha256": "f29f36b21897b76dd0645995887236edcc33704675f029d370c39d9978228f45"
+    },
+    {
+      "path": "raw/ethereum/receipts/0xfc48780332f28b2a531b482650025b390a4cfc19b047671d4c9eb1b644b1354d.json",
+      "sha256": "43531ba67b83306b5ca4dd7c55db847e5f9598db346d165e17bbe1328057e60c"
+    },
+    {
+      "path": "raw/ethereum/receipts/0x14cf075143c92a5f38ebfbf9a879caf00a62434ab649e5b4be63e0c8d295ef0c.json",
+      "sha256": "7a6583dfd8d4401ab4801f20f7dd3761d6b7c567e0fac6f130a7c035ea080860"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054884.json",
+      "sha256": "c27c3bef1b6a284fd6df515b030f29fb5b8603a938710ed5b18423b9621e7314"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054884.json",
+      "sha256": "858bf25a736988fdda58d996fa7a4b8e31f3f70e5154c6aaf4a46d945350a6e2"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790344320.json",
+      "sha256": "a272431102e5819d0d780b041b72728993692018a4df7b7c7dde62d0a808b937"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054889.json",
+      "sha256": "09dcc4ba62d10c43766838dae59b1668455bfa9eff64ec2abb8170e9275329a9"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054889.json",
+      "sha256": "bdff765a40f5e897e9d19bda86f5a6f668c7e391ea7a7feb933e2359edc4287a"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790344380.json",
+      "sha256": "9a4b8cba6edc634f04732a9e48b3440955c1f855bb9257a17ff9d0fa346cb168"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055078.json",
+      "sha256": "0c2b3129d14ebfba27b934470ca42714730f3ce9477a070207db1d6c999622d7"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055078.json",
+      "sha256": "b317c89d1f03fddc762844c5d5154a7545bcadcfb1d95fb37d737cd157fbdf1e"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790346660.json",
+      "sha256": "4c0f5bf44b9e5f368376c04d455c60cb388f7b0013cc03da9f083b7eafc1adc9"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055181.json",
+      "sha256": "ba50122ebc987c2cc07270d6f5753137074aefd806ca5a233b3b5f1d6e69e08f"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055181.json",
+      "sha256": "c0e41231b71710b01139af81fe97f18282cdac5ea63f04e7659bc57cda6ee91f"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790347920.json",
+      "sha256": "6322356741c89acbdc8016a4a840622fb7220e50c7b854da7aab9d479517e0f7"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055186.json",
+      "sha256": "e4d76480986b0911b516449b9455f3eed4501c9778b2f7659b7abda368ff0a8d"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055186.json",
+      "sha256": "d5e4aeb9787c7f696e84be3d8bd86296ca3be67c06f636d8f361fceb8a75f62b"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790347980.json",
+      "sha256": "faf6943b7e8eff5edf7f97cd7987d5e37f0218c48e8ca6e61c809c3176b42c65"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054810.json",
+      "sha256": "cfd68461e31170f6eae52943fc5145482b22736d4724842252bf72faa783f79a"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054810.json",
+      "sha256": "f4ac63d111e2c13fa99e5e0e86b5ee68fb11bcd511829fb4b3f557c6eb8fdea6"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790343420.json",
+      "sha256": "621b002f543094b8b16d6e929e062271406abee8fb317a70988a3169880571f4"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055205.json",
+      "sha256": "44b286942d8af083d74e38fb79b4c09d72199dda96ac5dfc72c8c9daf4f68f5f"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055205.json",
+      "sha256": "4a6dbb06f8d527cd47a3d8b21f0f0486790bb5dc736208eb206f19bd40ffa48b"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790348220.json",
+      "sha256": "cd03abf814ff41e3a840876c102a2063ee0e3e25991ef84d5ce19f0f106b7d71"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055264.json",
+      "sha256": "248c58759ed361f5c69e71462e8de32ee4d31d20f8c845328272eff30f418b8d"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055264.json",
+      "sha256": "fc43bcd7090d7eb0c642d66abf004b2a469bf390e8d3f1a6694a0b41129acad5"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790348940.json",
+      "sha256": "a57ffca94607df69e0a8b58437e18ee51b23bb2df5252711cfea72635d13a5c0"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055749.json",
+      "sha256": "0c3702b574236d995fd422f6096f45aba90e59bc67528df54751fead6709af37"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055749.json",
+      "sha256": "1a590fd49bee14d344c05b1f06705c9a9b5e3dffbdb19f54c2e7188e631ec8da"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790354820.json",
+      "sha256": "466a1e62699c0a31ee99d5b64926ecc0432c09c2d337bdbd5e486dfe4160ccae"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054790.json",
+      "sha256": "ede52f1630104b1adfc60c98908d4d1463a67e0a81938b17a1aa88f36c864a94"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054790.json",
+      "sha256": "b5d31bdd118378d349e8bb9c8e454c50e4ec0000a63503ed4fb2d9fddc0890cb"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790343180.json",
+      "sha256": "d0e56d90a1cc8196d8b56d67420d6d92c917c90080e1187e09357db27403becf"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054795.json",
+      "sha256": "aee4636dd981d8bd5bb22f872feaa3dd3468376b167ba1795c49252b64f1bdd7"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054795.json",
+      "sha256": "be27c80c28396dad228e01a03b02f0d27359014e14c9c7df7a373ed8897d8ef9"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790343240.json",
+      "sha256": "7d4e865c4608410b383fdc334db597f2ab7ee5aee2643ceb915b299ad6210b44"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054825.json",
+      "sha256": "07b18b2661a10ce79eb09a5ab96d2a77c020af469fd576d07a5fa4bcfe50e5ca"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054825.json",
+      "sha256": "ba32a16be665416620038f2e38596b3f4334ad30e83c149c1b010e07cf3698bf"
+    }
+  ],
+  "error": "TypeError: fetch failed"
+}

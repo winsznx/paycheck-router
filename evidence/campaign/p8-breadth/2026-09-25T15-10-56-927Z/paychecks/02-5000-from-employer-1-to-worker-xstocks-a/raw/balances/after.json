@@ -1,0 +1,149 @@
+{
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "getMultipleAccounts",
+    "params": [
+      [
+        "zSgvEjif6RkYZnX5G5W9ZLGJaAZAnU8oDCCRZo2ns2j",
+        "9N147fiVouuL8UoJw2ka4hmues5y3HGSeWaJ5xnyW4X1",
+        "EgGnznhH8dtXF5BnzfBdzxE7KxfSoZvuMfPxTqadfbZW",
+        "APQXhKK4mPJXvwqgh3Cn4xqmogDEkkMkJaH27HPWaNNC",
+        "2ES397NpXezgptkmuBn3KPwtur2xyn7kSLgZa4w4smKz",
+        "66fR28qcLmCdqhEGEcbJ19HCSgukXvZkk2JyDSpYu214"
+      ],
+      {
+        "encoding": "jsonParsed",
+        "commitment": "confirmed"
+      }
+    ]
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "result": {
+      "context": {
+        "slot": 450390095,
+        "apiVersion": "4.1.2"
+      },
+      "value": [
+        {
+          "lamports": 2039280,
+          "data": {
+            "program": "spl-token",
+            "parsed": {
+              "type": "account",
+              "info": {
+                "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                "owner": "7EGr1vnWMcYKH5B5SUpqSDRjJ3FPnfJeu4CXbCtSafJe",
+                "tokenAmount": {
+                  "uiAmount": 3000,
+                  "decimals": 6,
+                  "amount": "3000000000",
+                  "uiAmountString": "3000"
+                },
+                "delegate": "H9cHy7ZG1wB5DQq9kou1xVWkTskeAmZyRtPMFS68brnt",
+                "state": "initialized",
+                "isNative": false,
+                "delegatedAmount": {
+                  "uiAmount": 18000,
+                  "decimals": 6,
+                  "amount": "18000000000",
+                  "uiAmountString": "18000"
+                }
+              }
+            },
+            "space": 165
+          },
+          "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "executable": false,
+          "rentEpoch": 0,
+          "space": 165
+        },
+        null,
+        {
+          "lamports": 2136720,
+          "data": {
+            "program": "spl-token-2022",
+            "parsed": {
+              "type": "account",
+              "info": {
+                "mint": "Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
+                "owner": "7EGr1vnWMcYKH5B5SUpqSDRjJ3FPnfJeu4CXbCtSafJe",
+                "tokenAmount": {
+                  "uiAmount": 1.34292214,
+                  "decimals": 8,
+                  "amount": "133829689",
+                  "uiAmountString": "1.34292214"
+                },
+                "state": "initialized",
+                "isNative": false,
+                "extensions": [
+                  {
+                    "extension": "immutableOwner"
+                  },
+                  {
+                    "extension": "pausableAccount"
+                  },
+                  {
+                    "extension": "transferHookAccount",
+                    "state": {
+                      "transferring": false
+                    }
+                  }
+                ]
+              }
+            },
+            "space": 179
+          },
+          "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+          "executable": false,
+          "rentEpoch": 0,
+          "space": 179
+        },
+        null,
+        null,
+        {
+          "lamports": 2136720,
+          "data": {
+            "program": "spl-token-2022",
+            "parsed": {
+              "type": "account",
+              "info": {
+                "mint": "XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
+                "owner": "7EGr1vnWMcYKH5B5SUpqSDRjJ3FPnfJeu4CXbCtSafJe",
+                "tokenAmount": {
+                  "uiAmount": 2.68925737,
+                  "decimals": 8,
+                  "amount": "268925737",
+                  "uiAmountString": "2.68925737"
+                },
+                "state": "initialized",
+                "isNative": false,
+                "extensions": [
+                  {
+                    "extension": "immutableOwner"
+                  },
+                  {
+                    "extension": "pausableAccount"
+                  },
+                  {
+                    "extension": "transferHookAccount",
+                    "state": {
+                      "transferring": false
+                    }
+                  }
+                ]
+              }
+            },
+            "space": 179
+          },
+          "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+          "executable": false,
+          "rentEpoch": 0,
+          "space": 179
+        }
+      ]
+    },
+    "id": 1
+  }
+}

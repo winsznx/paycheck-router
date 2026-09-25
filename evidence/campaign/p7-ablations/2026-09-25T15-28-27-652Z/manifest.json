@@ -1,0 +1,616 @@
+{
+  "schemaVersion": 1,
+  "kind": "campaign-case",
+  "caseId": "P7",
+  "module": "p7-ablations",
+  "runId": "2026-09-25T15-28-27-652Z",
+  "environment": "fork",
+  "title": "Ablations",
+  "scenario": "Arm D (no guard: buy at the first-attempt Jupiter quote) and Jupiter's own price as the only reference, replayed from the fork runs' recorded quotes; the same slices costed in Ethereum gas from eth_feeHistory and Pyth ETH/USD at the same timestamps",
+  "expected": "Overpayment the guard prevented per slice; count of slices that would have executed out of band; computed (not executed) Ethereum cost per $20 slice",
+  "fork": null,
+  "startedAt": "2026-09-25T15:28:27.653Z",
+  "finishedAt": "2026-09-25T15:29:21.606Z",
+  "commit": "e2b634327964fbe617c248820ab59f1d8e3db403",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+  "programExecutableHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b",
+  "programSource": "verifiable CI build of main@eade508, https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "none",
+    "verifier": "none"
+  },
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ"
+  },
+  "setup": [],
+  "paychecks": [],
+  "probes": [
+    {
+      "name": "guard and oracle ablations have inputs",
+      "description": "Headline slices with a recorded first-attempt quote and an independent reference",
+      "expected": [
+        "replayable"
+      ],
+      "observed": "replayable",
+      "pass": true,
+      "source": {
+        "kind": "computed",
+        "artifacts": [
+          {
+            "path": "../../p1-positive/2026-09-25T13-40-58-172Z/manifest.json",
+            "sha256": "08285fdfdfea57633eaccbf75e3bd6532a6cd21d428ccd0e56124393de404a30"
+          },
+          {
+            "path": "../../p1-positive/2026-09-25T13-50-09-043Z/manifest.json",
+            "sha256": "0862a73da14432c1b2ef235a216a9773778b2154e80e3dae991ab03d7416b585"
+          },
+          {
+            "path": "../../p1-positive/2026-09-25T14-27-30-905Z/manifest.json",
+            "sha256": "55f0cc67eeb9b9e4cef5a4559ca25994c9c511376222ec1d430b0a0181f3c14c"
+          },
+          {
+            "path": "../../p1-positive/2026-09-25T14-49-07-830Z/manifest.json",
+            "sha256": "665cc54821b3a8812cfaeb4c20a78637b2eae350fa3e54af5afb58236baffb2f"
+          },
+          {
+            "path": "../../p1-positive/2026-09-25T14-51-05-754Z/manifest.json",
+            "sha256": "d28080e6a3c66f0833260f585a73a4d5e963a29903759d5bb35f35fe68809899"
+          },
+          {
+            "path": "../../p2-control/2026-09-25T13-32-01-991Z/manifest.json",
+            "sha256": "ccb40fc0ffdbc249a961155d6a5cb6af4de53cfa0598625f2cc01cda724a1a89"
+          },
+          {
+            "path": "../../p3-closed-market/2026-09-25T13-43-21-590Z/manifest.json",
+            "sha256": "c528d9f7bd36537c2e879fa4b10e14758d6130b93cb25e482e66c4c4e29377b8"
+          },
+          {
+            "path": "../../p4-harmful/2026-09-25T13-34-25-383Z/manifest.json",
+            "sha256": "4a3e7af1720859b64166cd8a38439c362c7d545bdd8570d8a9209bf3934f08dd"
+          },
+          {
+            "path": "../../p4-harmful/2026-09-25T14-33-38-448Z/manifest.json",
+            "sha256": "348189cab56f046e6cce328a38601f1e362f6894a6c0c198110ec9763a78909e"
+          },
+          {
+            "path": "../../p4-harmful/2026-09-25T14-49-47-915Z/manifest.json",
+            "sha256": "12c566424731f21e340fddc350aa8aef785cefa5b69033668b94e4d4cea90fa6"
+          },
+          {
+            "path": "../../p4-harmful/2026-09-25T14-55-10-011Z/manifest.json",
+            "sha256": "3cee4c137da063580fd7396fd95837b425a33f43c26e05f2a319be451e89e8f2"
+          },
+          {
+            "path": "../../p4-harmful/2026-09-25T15-07-45-674Z/manifest.json",
+            "sha256": "ae1cb843c78110bbd359df71a3677cb31ab6c7c896201f203220dbbcadd7e3fc"
+          },
+          {
+            "path": "../../p4-real-market/2026-09-25T13-31-17-574Z/manifest.json",
+            "sha256": "abb67daa9c35b88deba4069151eec9c5252ce21fe8f60c2f24de4ac58735f7e5"
+          },
+          {
+            "path": "../../p5-stale-context/2026-09-25T14-34-01-882Z/manifest.json",
+            "sha256": "69998c3fb482ed724a67c5b88cc680bfea615fbe1e53c2312039b8c39d93ec0f"
+          },
+          {
+            "path": "../../p5-stale-context/2026-09-25T14-50-07-493Z/manifest.json",
+            "sha256": "1c9d6d7d720d734b4a6efdf7adb959a8fcdf741a4ff3994829f40ed60ba48d7b"
+          },
+          {
+            "path": "../../p5-stale-context/2026-09-25T14-57-22-884Z/manifest.json",
+            "sha256": "9b2b9677afea5f729b4a3a2dea54f1c5d9bee156dfec90d434ab59600efadae1"
+          },
+          {
+            "path": "../../p5-stale-context/2026-09-25T15-10-14-614Z/manifest.json",
+            "sha256": "bc316108e46b80af3993e168a46a31d23d37c1dd96169b2321fa3999dff16eca"
+          },
+          {
+            "path": "../../p5-stale-context/2026-09-25T15-20-35-490Z/manifest.json",
+            "sha256": "7207dfc5af3349b02ed1507b9c777f1d82132084af50ac400f5690299f48d8f8"
+          },
+          {
+            "path": "../../p6-replay/2026-09-25T13-37-49-918Z/manifest.json",
+            "sha256": "c62b540991cefe7deaec4a18c4cfa3b35712b3486a8eb5ee86c065c24829e4c7"
+          },
+          {
+            "path": "../../p6-replay/2026-09-25T14-31-49-239Z/manifest.json",
+            "sha256": "ec56705fe82bef70e5447df39d2fe3270b01202226fc07ffc29ee233f98d3c7e"
+          },
+          {
+            "path": "../../p6-replay/2026-09-25T14-49-28-018Z/manifest.json",
+            "sha256": "0c7e91608cccb410b9c1dd068ed9e7ce628bfe2250e586b5c9331f76b940d471"
+          },
+          {
+            "path": "../../p6-replay/2026-09-25T14-53-11-173Z/manifest.json",
+            "sha256": "411ead1d1bd41cbe091f095f2f8aed207431c873f5f53a1d3f15db9ab15e13c8"
+          },
+          {
+            "path": "../../p8-breadth/2026-09-25T14-34-36-065Z/manifest.json",
+            "sha256": "fe702612bcfe3590920f6fb4db7668c27647e29fbd719e44f11e361c2352b117"
+          },
+          {
+            "path": "../../p8-breadth/2026-09-25T14-49-10-631Z/manifest.json",
+            "sha256": "4c29c2155dbf2bed1b859df230a620f48bd9d242089fe2838c760f0ce03669d7"
+          },
+          {
+            "path": "../../p8-breadth/2026-09-25T14-51-10-324Z/manifest.json",
+            "sha256": "10f485fca4c4bdd8cd509815e6f193189e00aad9187bae5732659411d2948ce0"
+          },
+          {
+            "path": "../../p8-breadth/2026-09-25T15-05-34-466Z/manifest.json",
+            "sha256": "28ff46531730910ecc2ef6a13b45b69348bd5b01667a36c30e66d02fdfe497ae"
+          },
+          {
+            "path": "../../p8-breadth/2026-09-25T15-10-56-927Z/manifest.json",
+            "sha256": "d163cbfee0ac13b4d99246293859c14caf6e94e83c4fc4f33cc41345e0f252cc"
+          }
+        ]
+      },
+      "signature": null
+    },
+    {
+      "name": "chain ablation computed",
+      "description": "Real Ethereum xStock swap gas, fee history and ETH/USD at every slice's timestamp",
+      "expected": [
+        "computed"
+      ],
+      "observed": "computed",
+      "pass": true,
+      "source": {
+        "kind": "computed",
+        "artifacts": [
+          {
+            "path": "raw/ethereum/index.json",
+            "sha256": "e26f27a854b3e20ada79fb8cdaa380b3b77b6749a1460794eec4a148c2c4a6a9"
+          }
+        ]
+      },
+      "signature": null
+    }
+  ],
+  "inputs": [
+    {
+      "path": "../../p1-positive/2026-09-25T13-40-58-172Z/manifest.json",
+      "sha256": "08285fdfdfea57633eaccbf75e3bd6532a6cd21d428ccd0e56124393de404a30"
+    },
+    {
+      "path": "../../p1-positive/2026-09-25T13-50-09-043Z/manifest.json",
+      "sha256": "0862a73da14432c1b2ef235a216a9773778b2154e80e3dae991ab03d7416b585"
+    },
+    {
+      "path": "../../p1-positive/2026-09-25T14-27-30-905Z/manifest.json",
+      "sha256": "55f0cc67eeb9b9e4cef5a4559ca25994c9c511376222ec1d430b0a0181f3c14c"
+    },
+    {
+      "path": "../../p1-positive/2026-09-25T14-49-07-830Z/manifest.json",
+      "sha256": "665cc54821b3a8812cfaeb4c20a78637b2eae350fa3e54af5afb58236baffb2f"
+    },
+    {
+      "path": "../../p1-positive/2026-09-25T14-51-05-754Z/manifest.json",
+      "sha256": "d28080e6a3c66f0833260f585a73a4d5e963a29903759d5bb35f35fe68809899"
+    },
+    {
+      "path": "../../p2-control/2026-09-25T13-32-01-991Z/manifest.json",
+      "sha256": "ccb40fc0ffdbc249a961155d6a5cb6af4de53cfa0598625f2cc01cda724a1a89"
+    },
+    {
+      "path": "../../p3-closed-market/2026-09-25T13-43-21-590Z/manifest.json",
+      "sha256": "c528d9f7bd36537c2e879fa4b10e14758d6130b93cb25e482e66c4c4e29377b8"
+    },
+    {
+      "path": "../../p4-harmful/2026-09-25T13-34-25-383Z/manifest.json",
+      "sha256": "4a3e7af1720859b64166cd8a38439c362c7d545bdd8570d8a9209bf3934f08dd"
+    },
+    {
+      "path": "../../p4-harmful/2026-09-25T14-33-38-448Z/manifest.json",
+      "sha256": "348189cab56f046e6cce328a38601f1e362f6894a6c0c198110ec9763a78909e"
+    },
+    {
+      "path": "../../p4-harmful/2026-09-25T14-49-47-915Z/manifest.json",
+      "sha256": "12c566424731f21e340fddc350aa8aef785cefa5b69033668b94e4d4cea90fa6"
+    },
+    {
+      "path": "../../p4-harmful/2026-09-25T14-55-10-011Z/manifest.json",
+      "sha256": "3cee4c137da063580fd7396fd95837b425a33f43c26e05f2a319be451e89e8f2"
+    },
+    {
+      "path": "../../p4-harmful/2026-09-25T15-07-45-674Z/manifest.json",
+      "sha256": "ae1cb843c78110bbd359df71a3677cb31ab6c7c896201f203220dbbcadd7e3fc"
+    },
+    {
+      "path": "../../p4-real-market/2026-09-25T13-31-17-574Z/manifest.json",
+      "sha256": "abb67daa9c35b88deba4069151eec9c5252ce21fe8f60c2f24de4ac58735f7e5"
+    },
+    {
+      "path": "../../p5-stale-context/2026-09-25T14-34-01-882Z/manifest.json",
+      "sha256": "69998c3fb482ed724a67c5b88cc680bfea615fbe1e53c2312039b8c39d93ec0f"
+    },
+    {
+      "path": "../../p5-stale-context/2026-09-25T14-50-07-493Z/manifest.json",
+      "sha256": "1c9d6d7d720d734b4a6efdf7adb959a8fcdf741a4ff3994829f40ed60ba48d7b"
+    },
+    {
+      "path": "../../p5-stale-context/2026-09-25T14-57-22-884Z/manifest.json",
+      "sha256": "9b2b9677afea5f729b4a3a2dea54f1c5d9bee156dfec90d434ab59600efadae1"
+    },
+    {
+      "path": "../../p5-stale-context/2026-09-25T15-10-14-614Z/manifest.json",
+      "sha256": "bc316108e46b80af3993e168a46a31d23d37c1dd96169b2321fa3999dff16eca"
+    },
+    {
+      "path": "../../p5-stale-context/2026-09-25T15-20-35-490Z/manifest.json",
+      "sha256": "7207dfc5af3349b02ed1507b9c777f1d82132084af50ac400f5690299f48d8f8"
+    },
+    {
+      "path": "../../p6-replay/2026-09-25T13-37-49-918Z/manifest.json",
+      "sha256": "c62b540991cefe7deaec4a18c4cfa3b35712b3486a8eb5ee86c065c24829e4c7"
+    },
+    {
+      "path": "../../p6-replay/2026-09-25T14-31-49-239Z/manifest.json",
+      "sha256": "ec56705fe82bef70e5447df39d2fe3270b01202226fc07ffc29ee233f98d3c7e"
+    },
+    {
+      "path": "../../p6-replay/2026-09-25T14-49-28-018Z/manifest.json",
+      "sha256": "0c7e91608cccb410b9c1dd068ed9e7ce628bfe2250e586b5c9331f76b940d471"
+    },
+    {
+      "path": "../../p6-replay/2026-09-25T14-53-11-173Z/manifest.json",
+      "sha256": "411ead1d1bd41cbe091f095f2f8aed207431c873f5f53a1d3f15db9ab15e13c8"
+    },
+    {
+      "path": "../../p8-breadth/2026-09-25T14-34-36-065Z/manifest.json",
+      "sha256": "fe702612bcfe3590920f6fb4db7668c27647e29fbd719e44f11e361c2352b117"
+    },
+    {
+      "path": "../../p8-breadth/2026-09-25T14-49-10-631Z/manifest.json",
+      "sha256": "4c29c2155dbf2bed1b859df230a620f48bd9d242089fe2838c760f0ce03669d7"
+    },
+    {
+      "path": "../../p8-breadth/2026-09-25T14-51-10-324Z/manifest.json",
+      "sha256": "10f485fca4c4bdd8cd509815e6f193189e00aad9187bae5732659411d2948ce0"
+    },
+    {
+      "path": "../../p8-breadth/2026-09-25T15-05-34-466Z/manifest.json",
+      "sha256": "28ff46531730910ecc2ef6a13b45b69348bd5b01667a36c30e66d02fdfe497ae"
+    },
+    {
+      "path": "../../p8-breadth/2026-09-25T15-10-56-927Z/manifest.json",
+      "sha256": "d163cbfee0ac13b4d99246293859c14caf6e94e83c4fc4f33cc41345e0f252cc"
+    }
+  ],
+  "observed": {
+    "outcome": "every probe matched its pre-registered expectation",
+    "pass": true,
+    "notes": [
+      "Chain ablation: computed, not executed. Guard and oracle ablations: replayed, not executed"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "raw/ethereum/latest-block.json",
+      "sha256": "7ee11ba16df2692dd804404151978c95c39f42d51efbf99c9a72cc06b2f99bce"
+    },
+    {
+      "path": "raw/ethereum/nvdax-transfers.json",
+      "sha256": "a26659ad5c1e04829aa49c58af43ef4870c844507253c271ab2d95c737b326d4"
+    },
+    {
+      "path": "raw/ethereum/receipts/0x2e5b0a8df75f751675334e73b59ca8b8951e9487a2e83579e3e245006d90e38f.json",
+      "sha256": "8c84f6e0b300ff614aae4d82c7767c0d301ffe7bc69c821d4f6dae9b82bfe9d7"
+    },
+    {
+      "path": "raw/ethereum/receipts/0xf4ea94c21696d6f8810121cea56bd4420930770edf0b4a753336d02be6eebb97.json",
+      "sha256": "812d8024028e04c84858bf8539314e377c1a735658ebc18396da79609062e8b8"
+    },
+    {
+      "path": "raw/ethereum/receipts/0x45608bb258e6d4ca1c789c678caae9b02888c4d7c23904d0bf23825f50884078.json",
+      "sha256": "699ee1e3cdc58b137475d5113bceaad7bf9646826bba4def33ce1ef7530ce3c6"
+    },
+    {
+      "path": "raw/ethereum/receipts/0xcb9dae241b232115ef0763fff94221501154ef79e50d22ec1be6895c0dba6cf6.json",
+      "sha256": "50c0b2eeaf7d7ebef22ff0abb2be61b1b5b34c780d8cbf1059749ade41a20f00"
+    },
+    {
+      "path": "raw/ethereum/receipts/0x9a5b051bb368aa434745682a293a23543b90c51c0d01703f07986a790fd28503.json",
+      "sha256": "f360a8605a329821f19a8ed8faca2e1bc56be3356774b9c2b3d898eee5d10bad"
+    },
+    {
+      "path": "raw/ethereum/receipts/0xfae0b851bacc4600d762df6646a102944d9b42cee0e5da5ad2fc58d87913d171.json",
+      "sha256": "576cb553f26684540828dda454793c2da7dc26db47e47aead81c97b3131202fe"
+    },
+    {
+      "path": "raw/ethereum/receipts/0x5530bb4cf52847616a284118bd3f5c52cdd6493b52004858387f81baf66269cf.json",
+      "sha256": "60ee51250a68c7c1df886b3e0fea731834861aa2d3f535556bee3e96922f9682"
+    },
+    {
+      "path": "raw/ethereum/receipts/0x8e1bf4f04186c580522d37f791aa1997dd5c45c021d2b8539c0a1b825f763f09.json",
+      "sha256": "f29f36b21897b76dd0645995887236edcc33704675f029d370c39d9978228f45"
+    },
+    {
+      "path": "raw/ethereum/receipts/0xfc48780332f28b2a531b482650025b390a4cfc19b047671d4c9eb1b644b1354d.json",
+      "sha256": "43531ba67b83306b5ca4dd7c55db847e5f9598db346d165e17bbe1328057e60c"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054884.json",
+      "sha256": "c27c3bef1b6a284fd6df515b030f29fb5b8603a938710ed5b18423b9621e7314"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054884.json",
+      "sha256": "858bf25a736988fdda58d996fa7a4b8e31f3f70e5154c6aaf4a46d945350a6e2"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790344320.json",
+      "sha256": "a0251432f8d271239fef5af664f575e417f1eae04f6fe56be572792aae9eec15"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054889.json",
+      "sha256": "09dcc4ba62d10c43766838dae59b1668455bfa9eff64ec2abb8170e9275329a9"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054889.json",
+      "sha256": "bdff765a40f5e897e9d19bda86f5a6f668c7e391ea7a7feb933e2359edc4287a"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790344380.json",
+      "sha256": "71235d33143d24de945fda397430d37388fccf1f5f5ce015877da52ff1c2e387"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055078.json",
+      "sha256": "0c2b3129d14ebfba27b934470ca42714730f3ce9477a070207db1d6c999622d7"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055078.json",
+      "sha256": "b317c89d1f03fddc762844c5d5154a7545bcadcfb1d95fb37d737cd157fbdf1e"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790346660.json",
+      "sha256": "65349f47a6eb420f545c3599fc3fefffc0ca520f0af04ef46f45915bfa4dbd18"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055181.json",
+      "sha256": "ba50122ebc987c2cc07270d6f5753137074aefd806ca5a233b3b5f1d6e69e08f"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055181.json",
+      "sha256": "c0e41231b71710b01139af81fe97f18282cdac5ea63f04e7659bc57cda6ee91f"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790347920.json",
+      "sha256": "6322356741c89acbdc8016a4a840622fb7220e50c7b854da7aab9d479517e0f7"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055185.json",
+      "sha256": "725bfde3a41939f908a451aa6b6bf3e93d42a5c49f0d16460e8f2b3cb540677f"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055185.json",
+      "sha256": "eaafa715cfa2bd72d9a48a9bd0d13e6d09251e676a3cf3220dddfaa8554a5066"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790347980.json",
+      "sha256": "faf6943b7e8eff5edf7f97cd7987d5e37f0218c48e8ca6e61c809c3176b42c65"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054810.json",
+      "sha256": "cfd68461e31170f6eae52943fc5145482b22736d4724842252bf72faa783f79a"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054810.json",
+      "sha256": "f4ac63d111e2c13fa99e5e0e86b5ee68fb11bcd511829fb4b3f557c6eb8fdea6"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790343420.json",
+      "sha256": "621b002f543094b8b16d6e929e062271406abee8fb317a70988a3169880571f4"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055205.json",
+      "sha256": "44b286942d8af083d74e38fb79b4c09d72199dda96ac5dfc72c8c9daf4f68f5f"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055205.json",
+      "sha256": "4a6dbb06f8d527cd47a3d8b21f0f0486790bb5dc736208eb206f19bd40ffa48b"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790348220.json",
+      "sha256": "cd03abf814ff41e3a840876c102a2063ee0e3e25991ef84d5ce19f0f106b7d71"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055264.json",
+      "sha256": "248c58759ed361f5c69e71462e8de32ee4d31d20f8c845328272eff30f418b8d"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055264.json",
+      "sha256": "ba76faa10e7f46bfbd8507f70c3e519bc27006c923d382ef6fc552052248fd0d"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790348940.json",
+      "sha256": "8839dcff090a88d6411713a0bd8d7f3fce8c4402fef74fdabeceb1fe168b1bb4"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054790.json",
+      "sha256": "ede52f1630104b1adfc60c98908d4d1463a67e0a81938b17a1aa88f36c864a94"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054790.json",
+      "sha256": "b5d31bdd118378d349e8bb9c8e454c50e4ec0000a63503ed4fb2d9fddc0890cb"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790343180.json",
+      "sha256": "c0ebc401e35a0b9245e1e3b4c3624e06ff0c2a6d4155d2e554c4dae2490ee0f6"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054795.json",
+      "sha256": "aee4636dd981d8bd5bb22f872feaa3dd3468376b167ba1795c49252b64f1bdd7"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054795.json",
+      "sha256": "be27c80c28396dad228e01a03b02f0d27359014e14c9c7df7a373ed8897d8ef9"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790343240.json",
+      "sha256": "af0f5281e0e70f0625aea865166e08e6cbb64d5fba408a966d25ab39a3949b91"
+    },
+    {
+      "path": "raw/ethereum/blocks/26054825.json",
+      "sha256": "07b18b2661a10ce79eb09a5ab96d2a77c020af469fd576d07a5fa4bcfe50e5ca"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26054825.json",
+      "sha256": "ba32a16be665416620038f2e38596b3f4334ad30e83c149c1b010e07cf3698bf"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790343600.json",
+      "sha256": "c2fff19be19683925b0ef361661d2e55eb91f22f17edd69843e454b4f41c27a1"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055088.json",
+      "sha256": "b019dfaf6bb136aceed364801c9e2cb3231903f95da1580325e6c76b42404770"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055088.json",
+      "sha256": "3a4418fda7e051856cdb29c7eaa066712e69be15ba62a45bf5bd864b62f9cfcf"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790346780.json",
+      "sha256": "8f5fefc598489858820fb92354884ead50cda378df2b708cd6d3240ac729d475"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055190.json",
+      "sha256": "56f3e55a84dadfef12bb2d74ac871a7c42d3807f45fa367b70a25966d6896acb"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055190.json",
+      "sha256": "ce414c5e202ca94cc15b86d2470422e6c221545ad689b270d6fb0d8bc3568189"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790348040.json",
+      "sha256": "94845c7650e8b98bdcfa2ba8a61ec77c51a716ab95ac214d32929bd47e9f6a1c"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055279.json",
+      "sha256": "550682422faa327b0a1e9d12b722efb43a8a8b8e33c777577795623481ef50f2"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055279.json",
+      "sha256": "822b4fa81e26c13efd276716115f17f7f64f8b37662150070d84d66f68815218"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790349120.json",
+      "sha256": "88dd8c6fb42d056b3646c088220590da7b6424ca70ad11ac13ef9d2511ea6aef"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055284.json",
+      "sha256": "b11532e531654d6603b6db37336363a2eb533ed6905a189c235d2d18a1a52cdd"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055284.json",
+      "sha256": "8f11b548f744815516f5e5ab85f8e815971f48ac054dab846c80667daa285c56"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790349180.json",
+      "sha256": "0d1a747f511616a21a92e3ca752d482292a5fd31c2bef51169b5c3e529e5444b"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055294.json",
+      "sha256": "e51b8206438b3d9dc0aa5fded7e891ff915e5034f02b60ded2e5fe03517595cb"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055294.json",
+      "sha256": "939694c660c0a3742dacb8022de5026b6a7f7848d5baf2bd957485358eed3c17"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790349300.json",
+      "sha256": "800894702f133ddd68653d3704befe19d0a06059d4cb6c86256536c8a1e39ad8"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055299.json",
+      "sha256": "5d3018867667feeaf342b7e27cf12f129a641a2c56190373e0a3ddfade97af87"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055299.json",
+      "sha256": "a6b63928b9b765e9a633c21543214f281048d9560c67eda0bd9216ba58fa5e5c"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790349360.json",
+      "sha256": "45ce712b2c3d5d714d1bed9570e173d91b34abaf3b476ebda9b4a677fb8398cd"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055304.json",
+      "sha256": "72722634eee4388ef99d150ebe3b16ccbedda539a7235a7520ab1262a8a60069"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055304.json",
+      "sha256": "1b47117e99c49a4ffe37c3dee4021b695943862ae6e167f49ded8924ffcaeb88"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790349420.json",
+      "sha256": "2ad84f62256c8490b8259a8f05b53cf1097a309487dceaaea26775c72d3b81a9"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055309.json",
+      "sha256": "edcf1a58581af518e5511b34373d56332333725a2416569d0d9c3fbb64f1b227"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055309.json",
+      "sha256": "5dc8c2ef505bd8c3bbf45bd680fc3b8b4bd9e98b11d88cc6e98d5b7976536857"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790349480.json",
+      "sha256": "f733dd0500536c9acb4c4133b470914cc648c8066772eb7a3a205f6a949f2ebe"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055314.json",
+      "sha256": "a21d944d47f37e779931eb2aec4564f086f2492b2f96cc0977f108ea6f2e84e1"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055314.json",
+      "sha256": "5b61acc26d8e973e0e13758b476c871fdfd960ad7e2069ad768837e5c7d1e7ca"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790349540.json",
+      "sha256": "8d5573a9875b984e78f7542eb437d7085ef4504926ea7d879128c7d4f44020e4"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055319.json",
+      "sha256": "f73396623ea398554db80aab972ec60897bc8687cd162eeb2b58e01a4d909c7c"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055319.json",
+      "sha256": "38344924740f67784a5e534af94760eea0a3a07ffa449f26b86e62eb7b057471"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790349600.json",
+      "sha256": "8a7985888d637e062c835a6b0dba4372c4bf1d77156b6030217d22de3d80f8a1"
+    },
+    {
+      "path": "raw/ethereum/blocks/26055324.json",
+      "sha256": "502f62c7bf397251aa4a25aa167e06f76a2b0eb221b539bb38daeaec2668c9f8"
+    },
+    {
+      "path": "raw/ethereum/fee-history/26055324.json",
+      "sha256": "5826438f6a24000af64243dc903efb187057aea73bd9edf527b5aecfd211d39f"
+    },
+    {
+      "path": "raw/hermes/eth-usd-1790349660.json",
+      "sha256": "4bad7f14f52f9f972d4dc73fdb276aa8009a481458465122aca4f0d75a96cb6d"
+    },
+    {
+      "path": "raw/ethereum/index.json",
+      "sha256": "e26f27a854b3e20ada79fb8cdaa380b3b77b6749a1460794eec4a148c2c4a6a9"
+    }
+  ],
+  "error": null
+}

@@ -1,0 +1,53 @@
+{
+  "err": {
+    "InstructionError": [
+      "5",
+      {
+        "Custom": "60"
+      }
+    ]
+  },
+  "logs": [
+    "Program ComputeBudget111111111111111111111111111111 invoke [1]",
+    "Program ComputeBudget111111111111111111111111111111 success",
+    "Program ComputeBudget111111111111111111111111111111 invoke [1]",
+    "Program ComputeBudget111111111111111111111111111111 success",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL invoke [1]",
+    "Program log: CreateIdempotent",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL consumed 4482 of 1399700 compute units",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL success",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL invoke [1]",
+    "Program log: CreateIdempotent",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL consumed 4456 of 1395218 compute units",
+    "Program ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL success",
+    "Program PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H invoke [1]",
+    "Program log: Instruction: ExecutePrestockLeg",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 113 of 1340307 compute units",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [2]",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 113 of 1337889 compute units",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success",
+    "Program JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4 invoke [2]",
+    "Program log: Instruction: RouteV2",
+    "Program CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK invoke [3]",
+    "Program log: Instruction: SwapV2",
+    "Program data: QMbN6CYIceL7hCr41UMDJGN00rvXbfzXMzDiYencqgP7QH+BZe/izK2/gvrAzUHrG7KVXBGA4vfdfjOlQD5EbhnbaBqeLWdXzz/r9r1hVLCPwID8VD4gWQyVmHAxCvC3MOB9FyMjPSeTmB82gCPls/tEQYl3aE6vX8Jyk+w8tvx2JCvy3olKGGRvD2MAAAAA6icAAQAAAAB1KvwRAAAAAAAAAAAAAAAAADV+B1zkjSVsAAAAAAAAAAAhsJMvOQAAAAAAAAAAAAAArbz//0y+AgEAAAAAAAAAAAAAAAA=",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [4]",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 105 of 1283393 compute units",
+    "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success",
+    "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb invoke [4]",
+    "Program log: Instruction: TransferChecked",
+    "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb consumed 4411 of 1280677 compute units",
+    "Program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb success",
+    "Program CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK consumed 48219 of 1322274 compute units",
+    "Program CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK success",
+    "Program HADRoNbLovyqhCsocfYQYB7QdfCAAinN9HTePvBCVDQ8 invoke [3]",
+    "Program HADRoNbLovyqhCsocfYQYB7QdfCAAinN9HTePvBCVDQ8 consumed 13892 of 1269969 compute units",
+    "Program HADRoNbLovyqhCsocfYQYB7QdfCAAinN9HTePvBCVDQ8 failed: custom program error: 0x3c",
+    "Program JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4 consumed 71715 of 1327792 compute units",
+    "Program JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4 failed: custom program error: 0x3c",
+    "Program PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H consumed 134685 of 1390762 compute units",
+    "Program PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H failed: custom program error: 0x3c"
+  ]
+}

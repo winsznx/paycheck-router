@@ -1,0 +1,1273 @@
+{
+  "schemaVersion": 1,
+  "kind": "campaign-case",
+  "caseId": "P8",
+  "module": "p8-breadth",
+  "runId": "2026-09-25T15-10-56-927Z",
+  "environment": "fork",
+  "title": "Breadth",
+  "scenario": "9 xStocks and 7 PreStocks names (SpaceX excluded: conversion only) across three routers, six paychecks from three employer wallets between $20 and $5,000, fully invested, regular session only",
+  "expected": "Same guarantees across all: every fill in band and Verified, every other slice waits with a reason",
+  "fork": {
+    "startSlot": 450389080,
+    "rpcUrl": "http://127.0.0.1:48949",
+    "datasource": "api.mainnet-beta.solana.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -0.9800000190734863
+  },
+  "startedAt": "2026-09-25T15:10:56.929Z",
+  "finishedAt": "2026-09-25T15:21:54.956Z",
+  "commit": "4b55e3641e22201d5b40a617ab356c9443ae5a5f",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+  "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4",
+  "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:48949",
+    "verifier": "http://127.0.0.1:48949"
+  },
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ",
+    "worker-xstocks-a": "7EGr1vnWMcYKH5B5SUpqSDRjJ3FPnfJeu4CXbCtSafJe",
+    "worker-xstocks-b": "5G5wLFRqSRSxMJr13BLwhXTzYoG7in6yVQQWa1aYyNRq",
+    "worker-prestocks": "ECs7KtFZmSYhSRByHdCm3RUZHGDN5bHcnaUEh8ShCHGG"
+  },
+  "setup": [
+    {
+      "label": "deploy program",
+      "signature": "2h7eHYMXb6okbD2evUyYbkzoYbehJJH3PDQuUU9M5Hwi8dHW3Ut7u79GjNSd2gyVd7wgCejYuMaA67srEK9dVLtp",
+      "slot": 450389220,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2h7eHYMXb6okbD2evUyYbkzoYbehJJH3PDQuUU9M5Hwi8dHW3Ut7u79GjNSd2gyVd7wgCejYuMaA67srEK9dVLtp.json",
+        "sha256": "e731a5e10272c11ab4020e0a347c2f340ba557177c69362466c2b52bf019e777"
+      }
+    },
+    {
+      "label": "initialize_config",
+      "signature": "64UVgTgxWhDSzoogftukovJ2ninnQWaEK84Z8ujFyqLN94EEtaAXahKzBT2Y1irMAeybPG5ptZstnWZpseYvPPCB",
+      "slot": 450389228,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/64UVgTgxWhDSzoogftukovJ2ninnQWaEK84Z8ujFyqLN94EEtaAXahKzBT2Y1irMAeybPG5ptZstnWZpseYvPPCB.json",
+        "sha256": "31ab078954e96e38a3586dd3b81b3970127440db372b98b89df6592bbee72d55"
+      }
+    },
+    {
+      "label": "upsert_asset SPYx",
+      "signature": "5sJHNz5cULmeMCqbzmYUvhJ1SxPx5xQsRpyqZmQeHZUeyKbzdvWn5vdkVtWyFWFTiHu5AEuJPCyLsZba7YzpsEY8",
+      "slot": 450389229,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5sJHNz5cULmeMCqbzmYUvhJ1SxPx5xQsRpyqZmQeHZUeyKbzdvWn5vdkVtWyFWFTiHu5AEuJPCyLsZba7YzpsEY8.json",
+        "sha256": "73a6d5645882485ceda1f96a24df9c6b2b1ec26ceecb25793c78f5c82b39d1c0"
+      }
+    },
+    {
+      "label": "upsert_asset QQQx",
+      "signature": "3pS3LRPMRwnMWMu6dzhGRt1arGj3M4JiNTvCek7wVJ4U8omfYSviLsGhdonUr1qs9ZDXsdizU15MLFJ8mDhvc3zC",
+      "slot": 450389231,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3pS3LRPMRwnMWMu6dzhGRt1arGj3M4JiNTvCek7wVJ4U8omfYSviLsGhdonUr1qs9ZDXsdizU15MLFJ8mDhvc3zC.json",
+        "sha256": "09267d87162e6d3e9bde0091d5152dbc7d7becad42b8dee170ef5257fa86b7a1"
+      }
+    },
+    {
+      "label": "upsert_asset NVDAx",
+      "signature": "27UBmzAXRDZiVCJB4RSrrdN9aFFAZrPfnG5vqxxuKnhXkiLvP9dQjtajnnvuELGQmyDot8uVfG9c8PVfffFANVPB",
+      "slot": 450389233,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/27UBmzAXRDZiVCJB4RSrrdN9aFFAZrPfnG5vqxxuKnhXkiLvP9dQjtajnnvuELGQmyDot8uVfG9c8PVfffFANVPB.json",
+        "sha256": "ac71bb737ef418058e5455cc7dc111f2016382be1296adc50eb4ce4be22f7691"
+      }
+    },
+    {
+      "label": "upsert_asset AAPLx",
+      "signature": "5cgR8YbM4tZsZvmZyywSL4jJ19DNfLDVWiBMGjj32iuTcnF19xn1RncxjeWLjkEEC675LYT9CbKfwB4vUgv6YgcL",
+      "slot": 450389234,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5cgR8YbM4tZsZvmZyywSL4jJ19DNfLDVWiBMGjj32iuTcnF19xn1RncxjeWLjkEEC675LYT9CbKfwB4vUgv6YgcL.json",
+        "sha256": "6844e0f3637e58097760a8561ab46cf349b50a18ba263b596427b166242601e5"
+      }
+    },
+    {
+      "label": "upsert_asset TSLAx",
+      "signature": "jzbSLmSgoW5GwD9vdQLFFjRrzHKMQ9qjLgnLcpqbFNWtgX6QGmZzg86Hc2nHHsdYVAEgfu8gTgBGXv58184pTXp",
+      "slot": 450389236,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/jzbSLmSgoW5GwD9vdQLFFjRrzHKMQ9qjLgnLcpqbFNWtgX6QGmZzg86Hc2nHHsdYVAEgfu8gTgBGXv58184pTXp.json",
+        "sha256": "a2115050fda6c5f98ff95037652e821980b24ae239f390241d622d24ad7b4551"
+      }
+    },
+    {
+      "label": "upsert_asset MSFTx",
+      "signature": "5RdTXHNAvaT9sBrGYgD8BWFG4kjtfSa7Pkew9ud1WDKSSUE9jPRMkouCwBH896KAfkrFqxmNNMNWPVvifZwuzMLA",
+      "slot": 450389237,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5RdTXHNAvaT9sBrGYgD8BWFG4kjtfSa7Pkew9ud1WDKSSUE9jPRMkouCwBH896KAfkrFqxmNNMNWPVvifZwuzMLA.json",
+        "sha256": "acf1c54ab64f389a586120e360a94f3ab80e4c879d14b6520573188b3f8e01bc"
+      }
+    },
+    {
+      "label": "upsert_asset GOOGLx",
+      "signature": "4kE67sGJuDGenS8pgaB7fTTnGqrYXqCdyvYAcpaT6bV3HhVdtAVhXw3EYimpMjVNdpBmJ71cSWnTpGtiuxKfBBMi",
+      "slot": 450389238,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4kE67sGJuDGenS8pgaB7fTTnGqrYXqCdyvYAcpaT6bV3HhVdtAVhXw3EYimpMjVNdpBmJ71cSWnTpGtiuxKfBBMi.json",
+        "sha256": "76b8c8c6c093bca8b42fbcd968fc63ff19fc83be39f2d07efb0f3aab4e958852"
+      }
+    },
+    {
+      "label": "upsert_asset AMZNx",
+      "signature": "2mUwxGYeeGbydJNLkJU5Ws3CkTaiL6tVujeZ24GJdUYN2ZaVeVtSWTmN3SZ2qjWBL7PYsbgBTrJ4fAMzbxUrkFT",
+      "slot": 450389240,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2mUwxGYeeGbydJNLkJU5Ws3CkTaiL6tVujeZ24GJdUYN2ZaVeVtSWTmN3SZ2qjWBL7PYsbgBTrJ4fAMzbxUrkFT.json",
+        "sha256": "c100d7e8ebecd3e077f65c4948cbc9c4da5e2a7b2aee43c0becaacd274a8c22e"
+      }
+    },
+    {
+      "label": "upsert_asset METAx",
+      "signature": "2wW72s3QTyNNf4mvCMvKKLvVgnQLcqLwSSsc2oKwL5fMLsVvAiQu4o1g7oCEP9brNJgVHFVHrqQb26xggN2Xt6PV",
+      "slot": 450389242,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2wW72s3QTyNNf4mvCMvKKLvVgnQLcqLwSSsc2oKwL5fMLsVvAiQu4o1g7oCEP9brNJgVHFVHrqQb26xggN2Xt6PV.json",
+        "sha256": "ff64f311683a6c3fee17f3eeaa2fbf30b959daad36ce9b5a7209f882d35a9498"
+      }
+    },
+    {
+      "label": "upsert_asset OpenAI",
+      "signature": "23ehjYKFHFkki6axJmqMa5Emvi7WgPk6SfGWayApbDEGBgbTmG9obMQPS7w5xdqGFQGvQuX4edwixfm9bsAAoXDu",
+      "slot": 450389243,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/23ehjYKFHFkki6axJmqMa5Emvi7WgPk6SfGWayApbDEGBgbTmG9obMQPS7w5xdqGFQGvQuX4edwixfm9bsAAoXDu.json",
+        "sha256": "0351d3f4f3a0314d4bed2a0c69ecd7a84b0b34b04001247a86edb175a82cc9d5"
+      }
+    },
+    {
+      "label": "upsert_asset Anthropic",
+      "signature": "4uHsMh4GYQNLaRtwyz7xKmyAdGznfEokQCxVwsV1vfpcv4XB1JzbXo5soqTs1USD7svnLh49LEG59qb5B7bqHjq3",
+      "slot": 450389245,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4uHsMh4GYQNLaRtwyz7xKmyAdGznfEokQCxVwsV1vfpcv4XB1JzbXo5soqTs1USD7svnLh49LEG59qb5B7bqHjq3.json",
+        "sha256": "91264e3f02671f275f5bcf89aed9d399c1723ecb261469ea564ecdf47d420024"
+      }
+    },
+    {
+      "label": "upsert_asset Anduril",
+      "signature": "5RkMuJchkyzudfydgApJRR21KQazQjbYuqcFdfZrdQSCYA4rqfXbRtVBBuU7swjZ6LzHWGBkyAaqQuRwvEp8L6DL",
+      "slot": 450389247,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5RkMuJchkyzudfydgApJRR21KQazQjbYuqcFdfZrdQSCYA4rqfXbRtVBBuU7swjZ6LzHWGBkyAaqQuRwvEp8L6DL.json",
+        "sha256": "08825812173a404bb31c6ca270123421fd04d84613301dab49aeebeef4bcd447"
+      }
+    },
+    {
+      "label": "upsert_asset FigureAI",
+      "signature": "2WbrsM5EopKed7KWhwRbStRL98MLYH7yAATrSouCaZ2y1i9PLNsjSf8H3ajZfuGK9dVy1BfqVcFh7qFXWnJTXWZ6",
+      "slot": 450389249,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2WbrsM5EopKed7KWhwRbStRL98MLYH7yAATrSouCaZ2y1i9PLNsjSf8H3ajZfuGK9dVy1BfqVcFh7qFXWnJTXWZ6.json",
+        "sha256": "fab638911f8192da6e49fcfcd00deebb60852debfc4f0e01932225996d70bb89"
+      }
+    },
+    {
+      "label": "upsert_asset Kalshi",
+      "signature": "3rJXVFZ9xTYTJTRnSNQfstKECUfkCu78S3FPy4SuAaGPNZ2cQrzgGhNPhrgVPSitkDqo3jiBcXCX8hyPigJ3m7Fb",
+      "slot": 450389251,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3rJXVFZ9xTYTJTRnSNQfstKECUfkCu78S3FPy4SuAaGPNZ2cQrzgGhNPhrgVPSitkDqo3jiBcXCX8hyPigJ3m7Fb.json",
+        "sha256": "083af2a800e123d7e8af559be3a8470680c359f74b2876d8a251ad08bf750f5a"
+      }
+    },
+    {
+      "label": "upsert_asset Polymarket",
+      "signature": "4D9zC4167Jpi6nreAhetme2E1Tan9L8XwjLWkRb8exEsJfUBeLhec27qXfF8k5FVNBiaxhmXKRnGd7zYCaThFQci",
+      "slot": 450389253,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4D9zC4167Jpi6nreAhetme2E1Tan9L8XwjLWkRb8exEsJfUBeLhec27qXfF8k5FVNBiaxhmXKRnGd7zYCaThFQci.json",
+        "sha256": "f45931b9c8d4aeba1410f3547ff2d860cf765a73148958e9d1c3d9fe6a9ebf07"
+      }
+    },
+    {
+      "label": "upsert_asset Neuralink",
+      "signature": "51CjgKCsRCXjAMNVgG2HheY56HHRgavLFL1UKyQ72SoNqUwDj6evfWCpsYXjYbd8N74rvcb7V71epLJ5jaLuHHbn",
+      "slot": 450389254,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/51CjgKCsRCXjAMNVgG2HheY56HHRgavLFL1UKyQ72SoNqUwDj6evfWCpsYXjYbd8N74rvcb7V71epLJ5jaLuHHbn.json",
+        "sha256": "7161ab7f3e8cf9d7cc3e636421a97cf18bcce7c257e3a10d96815b1f204e44a9"
+      }
+    },
+    {
+      "label": "upsert_asset SpaceX",
+      "signature": "2GG3GG5LK9KqJcBdmPEDJcq2gkTJTJPqdosZkh68o6Bn8wp6n6JURPxBrCUnJWdLKL1ksTN4815arkLhHWR3EN8H",
+      "slot": 450389256,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2GG3GG5LK9KqJcBdmPEDJcq2gkTJTJPqdosZkh68o6Bn8wp6n6JURPxBrCUnJWdLKL1ksTN4815arkLhHWR3EN8H.json",
+        "sha256": "0510b548215ea7759c1c4353afacea2f8117914c3966ced2f5acd87c244f83b6"
+      }
+    },
+    {
+      "label": "create protocol lookup table",
+      "signature": "2YyJE3Ueki3xo227v1eCP4hHw1bWzm7wnGGio6APdNuzFtLW7vAmt2auJv7qhDQGPSkbALxjJAbeme4RWD3NVwqW",
+      "slot": 450389257,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2YyJE3Ueki3xo227v1eCP4hHw1bWzm7wnGGio6APdNuzFtLW7vAmt2auJv7qhDQGPSkbALxjJAbeme4RWD3NVwqW.json",
+        "sha256": "14c496ef48ff57a65a5e93850d3e838770cea74c105247961d2ac118ba8e8998"
+      }
+    },
+    {
+      "label": "extend protocol lookup table 1",
+      "signature": "2NurbSqWLiSSygeC3w6LWAAA4JfuVAbwsuayeYQtJ2PZAJfEfhKMUoAZ2UWe6oEhGFTTAutM4QAsL88Q5apbYi7",
+      "slot": 450389259,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2NurbSqWLiSSygeC3w6LWAAA4JfuVAbwsuayeYQtJ2PZAJfEfhKMUoAZ2UWe6oEhGFTTAutM4QAsL88Q5apbYi7.json",
+        "sha256": "9e91100b4067168ca75ee3f1fe2178fe76e7ba5edbc1cdf3b5917a846a355923"
+      }
+    },
+    {
+      "label": "extend protocol lookup table 2",
+      "signature": "5E9gA7BctqT8eVQ1WDHeheLZXLPYnMLZ2Hx7LNU6bdedTJxFZsG1bNvpqkgRn7qeLvNT8uMekUpHNBRGDj265tHt",
+      "slot": 450389261,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5E9gA7BctqT8eVQ1WDHeheLZXLPYnMLZ2Hx7LNU6bdedTJxFZsG1bNvpqkgRn7qeLvNT8uMekUpHNBRGDj265tHt.json",
+        "sha256": "5e908b041a69bc1a3eaf93a0e18991da63b411fc8f5083ad58549048c9b71084"
+      }
+    },
+    {
+      "label": "extend protocol lookup table 3",
+      "signature": "65ND6ct2Xe92UrmQErY5eUVeZTJcD7qcfJT1xahXhNXd36hZzKphQxwpEAdKMew3eU7CBdbGoE1iLms8pZUg2Tws",
+      "slot": 450389264,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/65ND6ct2Xe92UrmQErY5eUVeZTJcD7qcfJT1xahXhNXd36hZzKphQxwpEAdKMew3eU7CBdbGoE1iLms8pZUg2Tws.json",
+        "sha256": "ce482ec7a933cd06ed31dad6233b32ca335d1e26a531723ffecfbe18f710c984"
+      }
+    },
+    {
+      "label": "setup worker-xstocks-a: create_router and approves",
+      "signature": "5VJVe6ELQQYqW7G2hxdTuMnXnephPhYCAgMUgCW17mWoNrb6P7VjD11s8AwqK9bwQRsxHe48tMb7hWBdKJdxGhuP",
+      "slot": 450389267,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5VJVe6ELQQYqW7G2hxdTuMnXnephPhYCAgMUgCW17mWoNrb6P7VjD11s8AwqK9bwQRsxHe48tMb7hWBdKJdxGhuP.json",
+        "sha256": "57b745006b57637d6992b367f6f3ea84d400edb37912299661ae908f2227c52b"
+      }
+    },
+    {
+      "label": "setup worker-xstocks-b: create_router and approves",
+      "signature": "49MAasPF6KToVtx45Y851RDAqcuaSMD4GQXPuV71LA7roqzk5u3mfD2be5J33df8U55yNh9YyxsyXhCX4mJkGqAF",
+      "slot": 450389268,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/49MAasPF6KToVtx45Y851RDAqcuaSMD4GQXPuV71LA7roqzk5u3mfD2be5J33df8U55yNh9YyxsyXhCX4mJkGqAF.json",
+        "sha256": "5d8606107a21cb76c461a2c1e9c6153a9d2a786ca18177332f29fb6ebe963007"
+      }
+    },
+    {
+      "label": "setup worker-prestocks: create_router and approves (part 1/5)",
+      "signature": "57GjjjYAByrWb2cWc26rbmh8b895tr2UnBi3atUJ8PcK5WhY8Roq5EThotL9LVaWgQs8rvTsbtforem3ASRvatk",
+      "slot": 450389269,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/57GjjjYAByrWb2cWc26rbmh8b895tr2UnBi3atUJ8PcK5WhY8Roq5EThotL9LVaWgQs8rvTsbtforem3ASRvatk.json",
+        "sha256": "f32ebac88f50cc6f13ea781ac01fd17f4f43a7e8a4f68bd0592b5a63864afd36"
+      }
+    },
+    {
+      "label": "setup worker-prestocks: create_router and approves (part 2/5)",
+      "signature": "239M4RfMut6YMuJDrZJsbXgfyWM3EgamDfoLS5RnTToLmBqWqLLr9hLTxX7DoaG2KmjFU7bAKWdZGEC6EDqE2soU",
+      "slot": 450389270,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/239M4RfMut6YMuJDrZJsbXgfyWM3EgamDfoLS5RnTToLmBqWqLLr9hLTxX7DoaG2KmjFU7bAKWdZGEC6EDqE2soU.json",
+        "sha256": "5bbe06d7723388b8b326a63dd96964835cee05c90c683326542dc9a4577a31c6"
+      }
+    },
+    {
+      "label": "setup worker-prestocks: create_router and approves (part 3/5)",
+      "signature": "5KpY23Aon6SvdewtZsYS1goTeHgZGNLQCUTV7fexSNDVHZB4cwA9YMb8WoPpNGLpmgJgBfgscHS9o7foQykeWBZp",
+      "slot": 450389272,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5KpY23Aon6SvdewtZsYS1goTeHgZGNLQCUTV7fexSNDVHZB4cwA9YMb8WoPpNGLpmgJgBfgscHS9o7foQykeWBZp.json",
+        "sha256": "a3e81395cca8aec8abcfbb0b5006d631c5025ab48eb828ba38af4383927aceec"
+      }
+    },
+    {
+      "label": "setup worker-prestocks: create_router and approves (part 4/5)",
+      "signature": "4ppD33rGhz7ojda5tUaAmFHzQkpEHWsh53Hbjiu9GrPCvbqL6caiYT5eGwxT3vvZBkukZ4bVzXHu4hNx4eqy4bRT",
+      "slot": 450389273,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4ppD33rGhz7ojda5tUaAmFHzQkpEHWsh53Hbjiu9GrPCvbqL6caiYT5eGwxT3vvZBkukZ4bVzXHu4hNx4eqy4bRT.json",
+        "sha256": "c1b6795433840ab8fa9b370dbbc679a2ea1ac3f9590f843484144b5bfce7a1d1"
+      }
+    },
+    {
+      "label": "setup worker-prestocks: create_router and approves (part 5/5)",
+      "signature": "3WC7FuUsyV935apitJEwFt6mWp7hku5jsegSVqU3qDsYTZanbizPmxntmvPWypjpVHeDJgjAyDigpgS9TrvMd4BY",
+      "slot": 450389274,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3WC7FuUsyV935apitJEwFt6mWp7hku5jsegSVqU3qDsYTZanbizPmxntmvPWypjpVHeDJgjAyDigpgS9TrvMd4BY.json",
+        "sha256": "cf2c65c413297efe48fb53b379d84aae61efe1274a2b74ee16e90a9584a69f31"
+      }
+    }
+  ],
+  "paychecks": [
+    {
+      "label": "$20 from employer-2 to worker-prestocks",
+      "employer": "employer-2",
+      "employerAddress": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+      "worker": "worker-prestocks",
+      "workerAddress": "ECs7KtFZmSYhSRByHdCm3RUZHGDN5bHcnaUEh8ShCHGG",
+      "router": "EvEmvfRqtR6hAK37D1K6yPWk3jHGUg4TbUPvANg5inT2",
+      "amount": "20000000",
+      "bundle": {
+        "path": "paychecks/01-20-from-employer-2-to-worker-prestocks/manifest.json",
+        "sha256": "ae90652e2948274dfbce1fdfaea0aff90628bed3e09fe56a7936617b1145e424"
+      },
+      "classification": "record",
+      "recorded": true,
+      "error": null
+    },
+    {
+      "label": "$5000 from employer-1 to worker-xstocks-a",
+      "employer": "employer-1",
+      "employerAddress": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+      "worker": "worker-xstocks-a",
+      "workerAddress": "7EGr1vnWMcYKH5B5SUpqSDRjJ3FPnfJeu4CXbCtSafJe",
+      "router": "EmE9EonMPcg2paD2pCJsJKcdhEGCTaipcoEs6o6L6KPn",
+      "amount": "5000000000",
+      "bundle": {
+        "path": "paychecks/02-5000-from-employer-1-to-worker-xstocks-a/manifest.json",
+        "sha256": "2a84030cc7baa9a8ac9e25bda54a9dcc8f5fb252e9ab44a132ae9b40e50c2eba"
+      },
+      "classification": "record",
+      "recorded": true,
+      "error": null
+    },
+    {
+      "label": "$2500 from employer-3 to worker-prestocks",
+      "employer": "employer-3",
+      "employerAddress": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ",
+      "worker": "worker-prestocks",
+      "workerAddress": "ECs7KtFZmSYhSRByHdCm3RUZHGDN5bHcnaUEh8ShCHGG",
+      "router": "EvEmvfRqtR6hAK37D1K6yPWk3jHGUg4TbUPvANg5inT2",
+      "amount": "2500000000",
+      "bundle": {
+        "path": "paychecks/03-2500-from-employer-3-to-worker-prestocks/manifest.json",
+        "sha256": "07eac31393dd8a339037f6b62dfdb1d83b858c247e99b3d592c7634de97861d6"
+      },
+      "classification": "record",
+      "recorded": true,
+      "error": null
+    },
+    {
+      "label": "$1000 from employer-3 to worker-xstocks-b",
+      "employer": "employer-3",
+      "employerAddress": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ",
+      "worker": "worker-xstocks-b",
+      "workerAddress": "5G5wLFRqSRSxMJr13BLwhXTzYoG7in6yVQQWa1aYyNRq",
+      "router": "64ufnxo2fpbsmJ1K4Gv5SsBqvX3At9nwRWV62DDKWYpR",
+      "amount": "1000000000",
+      "bundle": {
+        "path": "paychecks/04-1000-from-employer-3-to-worker-xstocks-b/manifest.json",
+        "sha256": "c49e5c9eb5707cd2f2151239845a048075f770748e2140a456705532e3c423ef"
+      },
+      "classification": "record",
+      "recorded": true,
+      "error": null
+    },
+    {
+      "label": "$250 from employer-2 to worker-xstocks-a",
+      "employer": "employer-2",
+      "employerAddress": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+      "worker": "worker-xstocks-a",
+      "workerAddress": "7EGr1vnWMcYKH5B5SUpqSDRjJ3FPnfJeu4CXbCtSafJe",
+      "router": "EmE9EonMPcg2paD2pCJsJKcdhEGCTaipcoEs6o6L6KPn",
+      "amount": "250000000",
+      "bundle": {
+        "path": "paychecks/05-250-from-employer-2-to-worker-xstocks-a/manifest.json",
+        "sha256": "34f25cc21b2a9b2609eb6c1f11cdba22ee5475728898b2f9608ef8544009774a"
+      },
+      "classification": "record",
+      "recorded": true,
+      "error": null
+    },
+    {
+      "label": "$20 from employer-1 to worker-xstocks-b",
+      "employer": "employer-1",
+      "employerAddress": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+      "worker": "worker-xstocks-b",
+      "workerAddress": "5G5wLFRqSRSxMJr13BLwhXTzYoG7in6yVQQWa1aYyNRq",
+      "router": "64ufnxo2fpbsmJ1K4Gv5SsBqvX3At9nwRWV62DDKWYpR",
+      "amount": "20000000",
+      "bundle": {
+        "path": "paychecks/06-20-from-employer-1-to-worker-xstocks-b/manifest.json",
+        "sha256": "f5b9395be123f2a95bdbaea1a83fef144718e32991ae9be458a34b4a9a24983b"
+      },
+      "classification": "record",
+      "recorded": true,
+      "error": null
+    }
+  ],
+  "probes": [
+    {
+      "name": "$20 from employer-2 to worker-prestocks / OpenAI",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PREMIUM_TOO_HIGH",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/01-20-from-employer-2-to-worker-prestocks/manifest.json",
+        "legIndex": 0
+      },
+      "signature": null
+    },
+    {
+      "name": "$20 from employer-2 to worker-prestocks / Anthropic",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:VERIFIED",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/01-20-from-employer-2-to-worker-prestocks/manifest.json",
+        "legIndex": 1
+      },
+      "signature": "63JdfzsKMqRYFpTP32CYiFzgZQ4ziVRhfe6eDpxzndXJGnmpiDjhmuAA1yXGNUhDoLt81GJHFwDAERGgvgqvYYQF"
+    },
+    {
+      "name": "$20 from employer-2 to worker-prestocks / Anduril",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PREMIUM_TOO_HIGH",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/01-20-from-employer-2-to-worker-prestocks/manifest.json",
+        "legIndex": 2
+      },
+      "signature": null
+    },
+    {
+      "name": "$20 from employer-2 to worker-prestocks / FigureAI",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:VERIFIED",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/01-20-from-employer-2-to-worker-prestocks/manifest.json",
+        "legIndex": 3
+      },
+      "signature": "49YYkNpVyL4UgWnmu4YhBbEj9pfV1ebej76d5T8Tfm8KXYob92FgqkHWBsvp1jxsm3HyN76VxALNQrKY2virQ5ie"
+    },
+    {
+      "name": "$20 from employer-2 to worker-prestocks / Kalshi",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:VERIFIED",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/01-20-from-employer-2-to-worker-prestocks/manifest.json",
+        "legIndex": 4
+      },
+      "signature": "4QVX77yGRFU8w7ftc8721mQ4ZtkKf3R6emDjmuKxKq5AuBAXgvMWpcBKkyhB4gxTnb1k2grNvP58WNM6GnqC2q3z"
+    },
+    {
+      "name": "$20 from employer-2 to worker-prestocks / Polymarket",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PREMIUM_TOO_HIGH",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/01-20-from-employer-2-to-worker-prestocks/manifest.json",
+        "legIndex": 5
+      },
+      "signature": null
+    },
+    {
+      "name": "$20 from employer-2 to worker-prestocks / Neuralink",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PREMIUM_TOO_HIGH",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/01-20-from-employer-2-to-worker-prestocks/manifest.json",
+        "legIndex": 6
+      },
+      "signature": null
+    },
+    {
+      "name": "$20 from employer-2 to worker-prestocks / Anthropic delivered at least the minimum",
+      "description": "Owner's shares plus the issuer's withheld fee reach min_out from the event",
+      "expected": [
+        "delivered>=min_out"
+      ],
+      "observed": "delivered>=min_out",
+      "pass": true,
+      "source": {
+        "kind": "delivery",
+        "transaction": {
+          "path": "paychecks/01-20-from-employer-2-to-worker-prestocks/raw/tx/63JdfzsKMqRYFpTP32CYiFzgZQ4ziVRhfe6eDpxzndXJGnmpiDjhmuAA1yXGNUhDoLt81GJHFwDAERGgvgqvYYQF.json",
+          "sha256": "6c62622247240b2d4581dc4af263509793cac320a694dff60ff46b4c4bc45b86"
+        }
+      },
+      "signature": "63JdfzsKMqRYFpTP32CYiFzgZQ4ziVRhfe6eDpxzndXJGnmpiDjhmuAA1yXGNUhDoLt81GJHFwDAERGgvgqvYYQF"
+    },
+    {
+      "name": "$20 from employer-2 to worker-prestocks / FigureAI delivered at least the minimum",
+      "description": "Owner's shares plus the issuer's withheld fee reach min_out from the event",
+      "expected": [
+        "delivered>=min_out"
+      ],
+      "observed": "delivered>=min_out",
+      "pass": true,
+      "source": {
+        "kind": "delivery",
+        "transaction": {
+          "path": "paychecks/01-20-from-employer-2-to-worker-prestocks/raw/tx/49YYkNpVyL4UgWnmu4YhBbEj9pfV1ebej76d5T8Tfm8KXYob92FgqkHWBsvp1jxsm3HyN76VxALNQrKY2virQ5ie.json",
+          "sha256": "6605bcda4f0d38e9e65f65cf1d1b57f1c6eb5b01985a37f10be4c7321758f45a"
+        }
+      },
+      "signature": "49YYkNpVyL4UgWnmu4YhBbEj9pfV1ebej76d5T8Tfm8KXYob92FgqkHWBsvp1jxsm3HyN76VxALNQrKY2virQ5ie"
+    },
+    {
+      "name": "$20 from employer-2 to worker-prestocks / Kalshi delivered at least the minimum",
+      "description": "Owner's shares plus the issuer's withheld fee reach min_out from the event",
+      "expected": [
+        "delivered>=min_out"
+      ],
+      "observed": "delivered>=min_out",
+      "pass": true,
+      "source": {
+        "kind": "delivery",
+        "transaction": {
+          "path": "paychecks/01-20-from-employer-2-to-worker-prestocks/raw/tx/4QVX77yGRFU8w7ftc8721mQ4ZtkKf3R6emDjmuKxKq5AuBAXgvMWpcBKkyhB4gxTnb1k2grNvP58WNM6GnqC2q3z.json",
+          "sha256": "44e5496baff22592dc68af1206db9e0c724af4156d224e24b17c2164f1e31e3b"
+        }
+      },
+      "signature": "4QVX77yGRFU8w7ftc8721mQ4ZtkKf3R6emDjmuKxKq5AuBAXgvMWpcBKkyhB4gxTnb1k2grNvP58WNM6GnqC2q3z"
+    },
+    {
+      "name": "$5000 from employer-1 to worker-xstocks-a / SPYx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/02-5000-from-employer-1-to-worker-xstocks-a/manifest.json",
+        "legIndex": 0
+      },
+      "signature": null
+    },
+    {
+      "name": "$5000 from employer-1 to worker-xstocks-a / QQQx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:VERIFIED",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/02-5000-from-employer-1-to-worker-xstocks-a/manifest.json",
+        "legIndex": 1
+      },
+      "signature": "3Yhm7bLgEiFqEU1vUuCqLmBbDmSgkNdpDuKskWH8cVMgJccVBhsDAY87guNB84Trn2HRFK92Z1NKE8pEze26bycs"
+    },
+    {
+      "name": "$5000 from employer-1 to worker-xstocks-a / NVDAx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/02-5000-from-employer-1-to-worker-xstocks-a/manifest.json",
+        "legIndex": 2
+      },
+      "signature": null
+    },
+    {
+      "name": "$5000 from employer-1 to worker-xstocks-a / AAPLx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/02-5000-from-employer-1-to-worker-xstocks-a/manifest.json",
+        "legIndex": 3
+      },
+      "signature": null
+    },
+    {
+      "name": "$5000 from employer-1 to worker-xstocks-a / TSLAx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:VERIFIED",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/02-5000-from-employer-1-to-worker-xstocks-a/manifest.json",
+        "legIndex": 4
+      },
+      "signature": "2XDu4YzkXXW6qcxuTxyCPr7a4SnJothBE2QJJ6LpRYRBBPeW88vP9N8eP4Jubtht1N6feUXFttj9tMF9KZ37pHuB"
+    },
+    {
+      "name": "$5000 from employer-1 to worker-xstocks-a / QQQx delivered at least the minimum",
+      "description": "Owner's shares plus the issuer's withheld fee reach min_out from the event",
+      "expected": [
+        "delivered>=min_out"
+      ],
+      "observed": "delivered>=min_out",
+      "pass": true,
+      "source": {
+        "kind": "delivery",
+        "transaction": {
+          "path": "paychecks/02-5000-from-employer-1-to-worker-xstocks-a/raw/tx/3Yhm7bLgEiFqEU1vUuCqLmBbDmSgkNdpDuKskWH8cVMgJccVBhsDAY87guNB84Trn2HRFK92Z1NKE8pEze26bycs.json",
+          "sha256": "773f19ecfc5f762ce290132f40096b3112b56e2bd4874b3baea51a91c06ab320"
+        }
+      },
+      "signature": "3Yhm7bLgEiFqEU1vUuCqLmBbDmSgkNdpDuKskWH8cVMgJccVBhsDAY87guNB84Trn2HRFK92Z1NKE8pEze26bycs"
+    },
+    {
+      "name": "$5000 from employer-1 to worker-xstocks-a / TSLAx delivered at least the minimum",
+      "description": "Owner's shares plus the issuer's withheld fee reach min_out from the event",
+      "expected": [
+        "delivered>=min_out"
+      ],
+      "observed": "delivered>=min_out",
+      "pass": true,
+      "source": {
+        "kind": "delivery",
+        "transaction": {
+          "path": "paychecks/02-5000-from-employer-1-to-worker-xstocks-a/raw/tx/2XDu4YzkXXW6qcxuTxyCPr7a4SnJothBE2QJJ6LpRYRBBPeW88vP9N8eP4Jubtht1N6feUXFttj9tMF9KZ37pHuB.json",
+          "sha256": "fa6bfd21c66881c573e62bfb92511bdcb76e44d2dcaacfaaa8c43ea38cd9f81c"
+        }
+      },
+      "signature": "2XDu4YzkXXW6qcxuTxyCPr7a4SnJothBE2QJJ6LpRYRBBPeW88vP9N8eP4Jubtht1N6feUXFttj9tMF9KZ37pHuB"
+    },
+    {
+      "name": "$2500 from employer-3 to worker-prestocks / OpenAI",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PREMIUM_TOO_HIGH",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/03-2500-from-employer-3-to-worker-prestocks/manifest.json",
+        "legIndex": 0
+      },
+      "signature": null
+    },
+    {
+      "name": "$2500 from employer-3 to worker-prestocks / Anthropic",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:VERIFIED",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/03-2500-from-employer-3-to-worker-prestocks/manifest.json",
+        "legIndex": 1
+      },
+      "signature": "spsKQA6TmtCwuATFjq6VtK3oTgoDHnY8amWUhGPn4mUNQzNfDb9xfQPhrEVW5fSPtgkCUvhshk1bGBFKuL71ad1"
+    },
+    {
+      "name": "$2500 from employer-3 to worker-prestocks / Anduril",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PREMIUM_TOO_HIGH",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/03-2500-from-employer-3-to-worker-prestocks/manifest.json",
+        "legIndex": 2
+      },
+      "signature": null
+    },
+    {
+      "name": "$2500 from employer-3 to worker-prestocks / FigureAI",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:VERIFIED",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/03-2500-from-employer-3-to-worker-prestocks/manifest.json",
+        "legIndex": 3
+      },
+      "signature": "5XakKbqtUAHCyxR7MA8vqfLJLZkscYe8gQ2LdjmbXhkhQyQrHxZraREJgaaz4jHTNKWhAF9vo5kvoW9ofMnMgRmx"
+    },
+    {
+      "name": "$2500 from employer-3 to worker-prestocks / Kalshi",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:VERIFIED",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/03-2500-from-employer-3-to-worker-prestocks/manifest.json",
+        "legIndex": 4
+      },
+      "signature": "4nRhf6txoFj4bbRsUdCCxTD4Ffi5ZJpLocSX6nccT8B1Mo141a63yKvuCZAEoLnkmj82iakgqbrGLfi5BbNbHYwo"
+    },
+    {
+      "name": "$2500 from employer-3 to worker-prestocks / Polymarket",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PREMIUM_TOO_HIGH",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/03-2500-from-employer-3-to-worker-prestocks/manifest.json",
+        "legIndex": 5
+      },
+      "signature": null
+    },
+    {
+      "name": "$2500 from employer-3 to worker-prestocks / Neuralink",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:PENDING",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/03-2500-from-employer-3-to-worker-prestocks/manifest.json",
+        "legIndex": 6
+      },
+      "signature": null
+    },
+    {
+      "name": "$2500 from employer-3 to worker-prestocks / Anthropic delivered at least the minimum",
+      "description": "Owner's shares plus the issuer's withheld fee reach min_out from the event",
+      "expected": [
+        "delivered>=min_out"
+      ],
+      "observed": "delivered>=min_out",
+      "pass": true,
+      "source": {
+        "kind": "delivery",
+        "transaction": {
+          "path": "paychecks/03-2500-from-employer-3-to-worker-prestocks/raw/tx/spsKQA6TmtCwuATFjq6VtK3oTgoDHnY8amWUhGPn4mUNQzNfDb9xfQPhrEVW5fSPtgkCUvhshk1bGBFKuL71ad1.json",
+          "sha256": "7a9260935d28bf0446d416c4bc1e1f0872d15eb42ec0f756d0da006262f50e83"
+        }
+      },
+      "signature": "spsKQA6TmtCwuATFjq6VtK3oTgoDHnY8amWUhGPn4mUNQzNfDb9xfQPhrEVW5fSPtgkCUvhshk1bGBFKuL71ad1"
+    },
+    {
+      "name": "$2500 from employer-3 to worker-prestocks / FigureAI delivered at least the minimum",
+      "description": "Owner's shares plus the issuer's withheld fee reach min_out from the event",
+      "expected": [
+        "delivered>=min_out"
+      ],
+      "observed": "delivered>=min_out",
+      "pass": true,
+      "source": {
+        "kind": "delivery",
+        "transaction": {
+          "path": "paychecks/03-2500-from-employer-3-to-worker-prestocks/raw/tx/5XakKbqtUAHCyxR7MA8vqfLJLZkscYe8gQ2LdjmbXhkhQyQrHxZraREJgaaz4jHTNKWhAF9vo5kvoW9ofMnMgRmx.json",
+          "sha256": "c6db8a818fea77ca1056cad89d7439a5a0ccab702c4766ce4300632dce60a8db"
+        }
+      },
+      "signature": "5XakKbqtUAHCyxR7MA8vqfLJLZkscYe8gQ2LdjmbXhkhQyQrHxZraREJgaaz4jHTNKWhAF9vo5kvoW9ofMnMgRmx"
+    },
+    {
+      "name": "$2500 from employer-3 to worker-prestocks / Kalshi delivered at least the minimum",
+      "description": "Owner's shares plus the issuer's withheld fee reach min_out from the event",
+      "expected": [
+        "delivered>=min_out"
+      ],
+      "observed": "delivered>=min_out",
+      "pass": true,
+      "source": {
+        "kind": "delivery",
+        "transaction": {
+          "path": "paychecks/03-2500-from-employer-3-to-worker-prestocks/raw/tx/4nRhf6txoFj4bbRsUdCCxTD4Ffi5ZJpLocSX6nccT8B1Mo141a63yKvuCZAEoLnkmj82iakgqbrGLfi5BbNbHYwo.json",
+          "sha256": "a3d5406d5df78ab32366bf04e567dc88812b086b6c493475a82d0826a4bc61c9"
+        }
+      },
+      "signature": "4nRhf6txoFj4bbRsUdCCxTD4Ffi5ZJpLocSX6nccT8B1Mo141a63yKvuCZAEoLnkmj82iakgqbrGLfi5BbNbHYwo"
+    },
+    {
+      "name": "$1000 from employer-3 to worker-xstocks-b / MSFTx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/04-1000-from-employer-3-to-worker-xstocks-b/manifest.json",
+        "legIndex": 0
+      },
+      "signature": null
+    },
+    {
+      "name": "$1000 from employer-3 to worker-xstocks-b / GOOGLx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/04-1000-from-employer-3-to-worker-xstocks-b/manifest.json",
+        "legIndex": 1
+      },
+      "signature": null
+    },
+    {
+      "name": "$1000 from employer-3 to worker-xstocks-b / AMZNx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/04-1000-from-employer-3-to-worker-xstocks-b/manifest.json",
+        "legIndex": 2
+      },
+      "signature": null
+    },
+    {
+      "name": "$1000 from employer-3 to worker-xstocks-b / METAx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/04-1000-from-employer-3-to-worker-xstocks-b/manifest.json",
+        "legIndex": 3
+      },
+      "signature": null
+    },
+    {
+      "name": "$250 from employer-2 to worker-xstocks-a / SPYx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/05-250-from-employer-2-to-worker-xstocks-a/manifest.json",
+        "legIndex": 0
+      },
+      "signature": null
+    },
+    {
+      "name": "$250 from employer-2 to worker-xstocks-a / QQQx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:VERIFIED",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/05-250-from-employer-2-to-worker-xstocks-a/manifest.json",
+        "legIndex": 1
+      },
+      "signature": "5VapgmD7PrFXAHVRRTxj58bfK2PqbU514htrNJjNi1d4TTzAHbVdXHKiH9vTwHAAdSQnKUKvwNfbGYhDhf3JaKVj"
+    },
+    {
+      "name": "$250 from employer-2 to worker-xstocks-a / NVDAx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/05-250-from-employer-2-to-worker-xstocks-a/manifest.json",
+        "legIndex": 2
+      },
+      "signature": null
+    },
+    {
+      "name": "$250 from employer-2 to worker-xstocks-a / AAPLx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/05-250-from-employer-2-to-worker-xstocks-a/manifest.json",
+        "legIndex": 3
+      },
+      "signature": null
+    },
+    {
+      "name": "$250 from employer-2 to worker-xstocks-a / TSLAx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:VERIFIED",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/05-250-from-employer-2-to-worker-xstocks-a/manifest.json",
+        "legIndex": 4
+      },
+      "signature": "5ynpa4Q9iY1YR9cubun3w5G8XRjdKCcjYKMes67HsmyLnihU8vEBdJYnydeYZPviRJMuvujizf2YmLrmCM452pH5"
+    },
+    {
+      "name": "$250 from employer-2 to worker-xstocks-a / QQQx delivered at least the minimum",
+      "description": "Owner's shares plus the issuer's withheld fee reach min_out from the event",
+      "expected": [
+        "delivered>=min_out"
+      ],
+      "observed": "delivered>=min_out",
+      "pass": true,
+      "source": {
+        "kind": "delivery",
+        "transaction": {
+          "path": "paychecks/05-250-from-employer-2-to-worker-xstocks-a/raw/tx/5VapgmD7PrFXAHVRRTxj58bfK2PqbU514htrNJjNi1d4TTzAHbVdXHKiH9vTwHAAdSQnKUKvwNfbGYhDhf3JaKVj.json",
+          "sha256": "c2f522b4d17b1ae61faf894cfa83a26e6bc32e681a2b3bda02e0ee2735a2f9ce"
+        }
+      },
+      "signature": "5VapgmD7PrFXAHVRRTxj58bfK2PqbU514htrNJjNi1d4TTzAHbVdXHKiH9vTwHAAdSQnKUKvwNfbGYhDhf3JaKVj"
+    },
+    {
+      "name": "$250 from employer-2 to worker-xstocks-a / TSLAx delivered at least the minimum",
+      "description": "Owner's shares plus the issuer's withheld fee reach min_out from the event",
+      "expected": [
+        "delivered>=min_out"
+      ],
+      "observed": "delivered>=min_out",
+      "pass": true,
+      "source": {
+        "kind": "delivery",
+        "transaction": {
+          "path": "paychecks/05-250-from-employer-2-to-worker-xstocks-a/raw/tx/5ynpa4Q9iY1YR9cubun3w5G8XRjdKCcjYKMes67HsmyLnihU8vEBdJYnydeYZPviRJMuvujizf2YmLrmCM452pH5.json",
+          "sha256": "6882d531eeb13f41428936862b19c611ec41a0ead64fe5567f70179d5e86a9f0"
+        }
+      },
+      "signature": "5ynpa4Q9iY1YR9cubun3w5G8XRjdKCcjYKMes67HsmyLnihU8vEBdJYnydeYZPviRJMuvujizf2YmLrmCM452pH5"
+    },
+    {
+      "name": "$20 from employer-1 to worker-xstocks-b / MSFTx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/06-20-from-employer-1-to-worker-xstocks-b/manifest.json",
+        "legIndex": 0
+      },
+      "signature": null
+    },
+    {
+      "name": "$20 from employer-1 to worker-xstocks-b / GOOGLx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/06-20-from-employer-1-to-worker-xstocks-b/manifest.json",
+        "legIndex": 1
+      },
+      "signature": null
+    },
+    {
+      "name": "$20 from employer-1 to worker-xstocks-b / AMZNx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/06-20-from-employer-1-to-worker-xstocks-b/manifest.json",
+        "legIndex": 2
+      },
+      "signature": null
+    },
+    {
+      "name": "$20 from employer-1 to worker-xstocks-b / METAx",
+      "description": "The slice fills in band and is Verified, or waits because the fill would be over the band",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:WAITING:PRICE_UNAVAILABLE",
+      "pass": false,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/06-20-from-employer-1-to-worker-xstocks-b/manifest.json",
+        "legIndex": 3
+      },
+      "signature": null
+    }
+  ],
+  "inputs": [],
+  "observed": {
+    "outcome": "probes that did not match: $5000 from employer-1 to worker-xstocks-a / SPYx: leg:WAITING:PRICE_UNAVAILABLE; $5000 from employer-1 to worker-xstocks-a / NVDAx: leg:WAITING:PRICE_UNAVAILABLE; $5000 from employer-1 to worker-xstocks-a / AAPLx: leg:WAITING:PRICE_UNAVAILABLE; $2500 from employer-3 to worker-prestocks / Neuralink: leg:PENDING; $1000 from employer-3 to worker-xstocks-b / MSFTx: leg:WAITING:PRICE_UNAVAILABLE; $1000 from employer-3 to worker-xstocks-b / GOOGLx: leg:WAITING:PRICE_UNAVAILABLE; $1000 from employer-3 to worker-xstocks-b / AMZNx: leg:WAITING:PRICE_UNAVAILABLE; $1000 from employer-3 to worker-xstocks-b / METAx: leg:WAITING:PRICE_UNAVAILABLE; $250 from employer-2 to worker-xstocks-a / SPYx: leg:WAITING:PRICE_UNAVAILABLE; $250 from employer-2 to worker-xstocks-a / NVDAx: leg:WAITING:PRICE_UNAVAILABLE; $250 from employer-2 to worker-xstocks-a / AAPLx: leg:WAITING:PRICE_UNAVAILABLE; $20 from employer-1 to worker-xstocks-b / MSFTx: leg:WAITING:PRICE_UNAVAILABLE; $20 from employer-1 to worker-xstocks-b / GOOGLx: leg:WAITING:PRICE_UNAVAILABLE; $20 from employer-1 to worker-xstocks-b / AMZNx: leg:WAITING:PRICE_UNAVAILABLE; $20 from employer-1 to worker-xstocks-b / METAx: leg:WAITING:PRICE_UNAVAILABLE",
+    "pass": false,
+    "notes": [
+      "SpaceX PreStocks is conversion-only (status converting) and is not bought",
+      "worker-prestocks: the one-transaction setup was over the size limit (JSON-RPC error: Invalid method parameter(s) (decoded solana_transaction::versioned::VersionedTransaction too large: 2044 bytes (max: 1232 bytes))); sent in parts",
+      "OpenAI, Anduril, Polymarket, Neuralink still waiting at the case's retry deadline",
+      "SPYx, NVDAx, AAPLx still waiting at the case's retry deadline",
+      "OpenAI, Anduril, Polymarket still waiting at the case's retry deadline",
+      "MSFTx, GOOGLx, AMZNx, METAx still waiting at the case's retry deadline",
+      "SPYx, NVDAx, AAPLx still waiting at the case's retry deadline",
+      "MSFTx, GOOGLx, AMZNx, METAx still waiting at the case's retry deadline"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "raw/tx/2h7eHYMXb6okbD2evUyYbkzoYbehJJH3PDQuUU9M5Hwi8dHW3Ut7u79GjNSd2gyVd7wgCejYuMaA67srEK9dVLtp.json",
+      "sha256": "e731a5e10272c11ab4020e0a347c2f340ba557177c69362466c2b52bf019e777"
+    },
+    {
+      "path": "raw/tx/64UVgTgxWhDSzoogftukovJ2ninnQWaEK84Z8ujFyqLN94EEtaAXahKzBT2Y1irMAeybPG5ptZstnWZpseYvPPCB.json",
+      "sha256": "31ab078954e96e38a3586dd3b81b3970127440db372b98b89df6592bbee72d55"
+    },
+    {
+      "path": "raw/tx/5sJHNz5cULmeMCqbzmYUvhJ1SxPx5xQsRpyqZmQeHZUeyKbzdvWn5vdkVtWyFWFTiHu5AEuJPCyLsZba7YzpsEY8.json",
+      "sha256": "73a6d5645882485ceda1f96a24df9c6b2b1ec26ceecb25793c78f5c82b39d1c0"
+    },
+    {
+      "path": "raw/tx/3pS3LRPMRwnMWMu6dzhGRt1arGj3M4JiNTvCek7wVJ4U8omfYSviLsGhdonUr1qs9ZDXsdizU15MLFJ8mDhvc3zC.json",
+      "sha256": "09267d87162e6d3e9bde0091d5152dbc7d7becad42b8dee170ef5257fa86b7a1"
+    },
+    {
+      "path": "raw/tx/27UBmzAXRDZiVCJB4RSrrdN9aFFAZrPfnG5vqxxuKnhXkiLvP9dQjtajnnvuELGQmyDot8uVfG9c8PVfffFANVPB.json",
+      "sha256": "ac71bb737ef418058e5455cc7dc111f2016382be1296adc50eb4ce4be22f7691"
+    },
+    {
+      "path": "raw/tx/5cgR8YbM4tZsZvmZyywSL4jJ19DNfLDVWiBMGjj32iuTcnF19xn1RncxjeWLjkEEC675LYT9CbKfwB4vUgv6YgcL.json",
+      "sha256": "6844e0f3637e58097760a8561ab46cf349b50a18ba263b596427b166242601e5"
+    },
+    {
+      "path": "raw/tx/jzbSLmSgoW5GwD9vdQLFFjRrzHKMQ9qjLgnLcpqbFNWtgX6QGmZzg86Hc2nHHsdYVAEgfu8gTgBGXv58184pTXp.json",
+      "sha256": "a2115050fda6c5f98ff95037652e821980b24ae239f390241d622d24ad7b4551"
+    },
+    {
+      "path": "raw/tx/5RdTXHNAvaT9sBrGYgD8BWFG4kjtfSa7Pkew9ud1WDKSSUE9jPRMkouCwBH896KAfkrFqxmNNMNWPVvifZwuzMLA.json",
+      "sha256": "acf1c54ab64f389a586120e360a94f3ab80e4c879d14b6520573188b3f8e01bc"
+    },
+    {
+      "path": "raw/tx/4kE67sGJuDGenS8pgaB7fTTnGqrYXqCdyvYAcpaT6bV3HhVdtAVhXw3EYimpMjVNdpBmJ71cSWnTpGtiuxKfBBMi.json",
+      "sha256": "76b8c8c6c093bca8b42fbcd968fc63ff19fc83be39f2d07efb0f3aab4e958852"
+    },
+    {
+      "path": "raw/tx/2mUwxGYeeGbydJNLkJU5Ws3CkTaiL6tVujeZ24GJdUYN2ZaVeVtSWTmN3SZ2qjWBL7PYsbgBTrJ4fAMzbxUrkFT.json",
+      "sha256": "c100d7e8ebecd3e077f65c4948cbc9c4da5e2a7b2aee43c0becaacd274a8c22e"
+    },
+    {
+      "path": "raw/tx/2wW72s3QTyNNf4mvCMvKKLvVgnQLcqLwSSsc2oKwL5fMLsVvAiQu4o1g7oCEP9brNJgVHFVHrqQb26xggN2Xt6PV.json",
+      "sha256": "ff64f311683a6c3fee17f3eeaa2fbf30b959daad36ce9b5a7209f882d35a9498"
+    },
+    {
+      "path": "raw/tx/23ehjYKFHFkki6axJmqMa5Emvi7WgPk6SfGWayApbDEGBgbTmG9obMQPS7w5xdqGFQGvQuX4edwixfm9bsAAoXDu.json",
+      "sha256": "0351d3f4f3a0314d4bed2a0c69ecd7a84b0b34b04001247a86edb175a82cc9d5"
+    },
+    {
+      "path": "raw/tx/4uHsMh4GYQNLaRtwyz7xKmyAdGznfEokQCxVwsV1vfpcv4XB1JzbXo5soqTs1USD7svnLh49LEG59qb5B7bqHjq3.json",
+      "sha256": "91264e3f02671f275f5bcf89aed9d399c1723ecb261469ea564ecdf47d420024"
+    },
+    {
+      "path": "raw/tx/5RkMuJchkyzudfydgApJRR21KQazQjbYuqcFdfZrdQSCYA4rqfXbRtVBBuU7swjZ6LzHWGBkyAaqQuRwvEp8L6DL.json",
+      "sha256": "08825812173a404bb31c6ca270123421fd04d84613301dab49aeebeef4bcd447"
+    },
+    {
+      "path": "raw/tx/2WbrsM5EopKed7KWhwRbStRL98MLYH7yAATrSouCaZ2y1i9PLNsjSf8H3ajZfuGK9dVy1BfqVcFh7qFXWnJTXWZ6.json",
+      "sha256": "fab638911f8192da6e49fcfcd00deebb60852debfc4f0e01932225996d70bb89"
+    },
+    {
+      "path": "raw/tx/3rJXVFZ9xTYTJTRnSNQfstKECUfkCu78S3FPy4SuAaGPNZ2cQrzgGhNPhrgVPSitkDqo3jiBcXCX8hyPigJ3m7Fb.json",
+      "sha256": "083af2a800e123d7e8af559be3a8470680c359f74b2876d8a251ad08bf750f5a"
+    },
+    {
+      "path": "raw/tx/4D9zC4167Jpi6nreAhetme2E1Tan9L8XwjLWkRb8exEsJfUBeLhec27qXfF8k5FVNBiaxhmXKRnGd7zYCaThFQci.json",
+      "sha256": "f45931b9c8d4aeba1410f3547ff2d860cf765a73148958e9d1c3d9fe6a9ebf07"
+    },
+    {
+      "path": "raw/tx/51CjgKCsRCXjAMNVgG2HheY56HHRgavLFL1UKyQ72SoNqUwDj6evfWCpsYXjYbd8N74rvcb7V71epLJ5jaLuHHbn.json",
+      "sha256": "7161ab7f3e8cf9d7cc3e636421a97cf18bcce7c257e3a10d96815b1f204e44a9"
+    },
+    {
+      "path": "raw/tx/2GG3GG5LK9KqJcBdmPEDJcq2gkTJTJPqdosZkh68o6Bn8wp6n6JURPxBrCUnJWdLKL1ksTN4815arkLhHWR3EN8H.json",
+      "sha256": "0510b548215ea7759c1c4353afacea2f8117914c3966ced2f5acd87c244f83b6"
+    },
+    {
+      "path": "raw/tx/2YyJE3Ueki3xo227v1eCP4hHw1bWzm7wnGGio6APdNuzFtLW7vAmt2auJv7qhDQGPSkbALxjJAbeme4RWD3NVwqW.json",
+      "sha256": "14c496ef48ff57a65a5e93850d3e838770cea74c105247961d2ac118ba8e8998"
+    },
+    {
+      "path": "raw/tx/2NurbSqWLiSSygeC3w6LWAAA4JfuVAbwsuayeYQtJ2PZAJfEfhKMUoAZ2UWe6oEhGFTTAutM4QAsL88Q5apbYi7.json",
+      "sha256": "9e91100b4067168ca75ee3f1fe2178fe76e7ba5edbc1cdf3b5917a846a355923"
+    },
+    {
+      "path": "raw/tx/5E9gA7BctqT8eVQ1WDHeheLZXLPYnMLZ2Hx7LNU6bdedTJxFZsG1bNvpqkgRn7qeLvNT8uMekUpHNBRGDj265tHt.json",
+      "sha256": "5e908b041a69bc1a3eaf93a0e18991da63b411fc8f5083ad58549048c9b71084"
+    },
+    {
+      "path": "raw/tx/65ND6ct2Xe92UrmQErY5eUVeZTJcD7qcfJT1xahXhNXd36hZzKphQxwpEAdKMew3eU7CBdbGoE1iLms8pZUg2Tws.json",
+      "sha256": "ce482ec7a933cd06ed31dad6233b32ca335d1e26a531723ffecfbe18f710c984"
+    },
+    {
+      "path": "raw/tx/5VJVe6ELQQYqW7G2hxdTuMnXnephPhYCAgMUgCW17mWoNrb6P7VjD11s8AwqK9bwQRsxHe48tMb7hWBdKJdxGhuP.json",
+      "sha256": "57b745006b57637d6992b367f6f3ea84d400edb37912299661ae908f2227c52b"
+    },
+    {
+      "path": "raw/tx/49MAasPF6KToVtx45Y851RDAqcuaSMD4GQXPuV71LA7roqzk5u3mfD2be5J33df8U55yNh9YyxsyXhCX4mJkGqAF.json",
+      "sha256": "5d8606107a21cb76c461a2c1e9c6153a9d2a786ca18177332f29fb6ebe963007"
+    },
+    {
+      "path": "raw/tx/57GjjjYAByrWb2cWc26rbmh8b895tr2UnBi3atUJ8PcK5WhY8Roq5EThotL9LVaWgQs8rvTsbtforem3ASRvatk.json",
+      "sha256": "f32ebac88f50cc6f13ea781ac01fd17f4f43a7e8a4f68bd0592b5a63864afd36"
+    },
+    {
+      "path": "raw/tx/239M4RfMut6YMuJDrZJsbXgfyWM3EgamDfoLS5RnTToLmBqWqLLr9hLTxX7DoaG2KmjFU7bAKWdZGEC6EDqE2soU.json",
+      "sha256": "5bbe06d7723388b8b326a63dd96964835cee05c90c683326542dc9a4577a31c6"
+    },
+    {
+      "path": "raw/tx/5KpY23Aon6SvdewtZsYS1goTeHgZGNLQCUTV7fexSNDVHZB4cwA9YMb8WoPpNGLpmgJgBfgscHS9o7foQykeWBZp.json",
+      "sha256": "a3e81395cca8aec8abcfbb0b5006d631c5025ab48eb828ba38af4383927aceec"
+    },
+    {
+      "path": "raw/tx/4ppD33rGhz7ojda5tUaAmFHzQkpEHWsh53Hbjiu9GrPCvbqL6caiYT5eGwxT3vvZBkukZ4bVzXHu4hNx4eqy4bRT.json",
+      "sha256": "c1b6795433840ab8fa9b370dbbc679a2ea1ac3f9590f843484144b5bfce7a1d1"
+    },
+    {
+      "path": "raw/tx/3WC7FuUsyV935apitJEwFt6mWp7hku5jsegSVqU3qDsYTZanbizPmxntmvPWypjpVHeDJgjAyDigpgS9TrvMd4BY.json",
+      "sha256": "cf2c65c413297efe48fb53b379d84aae61efe1274a2b74ee16e90a9584a69f31"
+    },
+    {
+      "path": "surfpool.log",
+      "sha256": "9681a0a8a22df8b30eca60cd969a822405465942e5dee093d7a1dff5913d8ca7"
+    }
+  ],
+  "error": null
+}

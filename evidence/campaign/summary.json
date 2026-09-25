@@ -1,0 +1,2038 @@
+{
+  "schemaVersion": 1,
+  "environment": "fork",
+  "label": "Surfpool fork of Solana mainnet, US regular session, Sep 25, 2026. Not mainnet.",
+  "runs": [
+    {
+      "module": "p1-positive",
+      "caseId": "P1",
+      "runId": "2026-09-25T13-40-58-172Z",
+      "startSlot": 450368975,
+      "programSha256": null,
+      "programExecutableHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b"
+    },
+    {
+      "module": "p1-positive",
+      "caseId": "P1",
+      "runId": "2026-09-25T13-50-09-043Z",
+      "startSlot": 450371034,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p1-positive",
+      "caseId": "P1",
+      "runId": "2026-09-25T14-27-30-905Z",
+      "startSlot": 450379383,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p1-positive",
+      "caseId": "P1",
+      "runId": "2026-09-25T14-49-07-830Z",
+      "startSlot": 450384194,
+      "programSha256": null,
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p1-positive",
+      "caseId": "P1",
+      "runId": "2026-09-25T14-51-05-754Z",
+      "startSlot": 450384635,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p2-control",
+      "caseId": "P2",
+      "runId": "2026-09-25T13-32-01-991Z",
+      "startSlot": 450366980,
+      "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+      "programExecutableHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b"
+    },
+    {
+      "module": "p3-closed-market",
+      "caseId": "P3",
+      "runId": "2026-09-25T13-43-21-590Z",
+      "startSlot": 450369515,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p4-harmful",
+      "caseId": "P4",
+      "runId": "2026-09-25T13-34-25-383Z",
+      "startSlot": 450367512,
+      "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+      "programExecutableHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b"
+    },
+    {
+      "module": "p4-harmful",
+      "caseId": "P4",
+      "runId": "2026-09-25T14-33-38-448Z",
+      "startSlot": 450380735,
+      "programSha256": null,
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p4-harmful",
+      "caseId": "P4",
+      "runId": "2026-09-25T14-49-47-915Z",
+      "startSlot": 450384340,
+      "programSha256": null,
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p4-harmful",
+      "caseId": "P4",
+      "runId": "2026-09-25T14-55-10-011Z",
+      "startSlot": 450385544,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p4-harmful",
+      "caseId": "P4",
+      "runId": "2026-09-25T15-07-45-674Z",
+      "startSlot": 450388374,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p4-harmful",
+      "caseId": "P4",
+      "runId": "2026-09-25T16-44-42-741Z",
+      "startSlot": 450410057,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p4-real-market",
+      "caseId": "P4",
+      "runId": "2026-09-25T13-31-17-574Z",
+      "startSlot": 450366809,
+      "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+      "programExecutableHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b"
+    },
+    {
+      "module": "p5-stale-context",
+      "caseId": "P5",
+      "runId": "2026-09-25T14-34-01-882Z",
+      "startSlot": 450380824,
+      "programSha256": null,
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p5-stale-context",
+      "caseId": "P5",
+      "runId": "2026-09-25T14-50-07-493Z",
+      "startSlot": 450384418,
+      "programSha256": null,
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p5-stale-context",
+      "caseId": "P5",
+      "runId": "2026-09-25T14-57-22-884Z",
+      "startSlot": 450386036,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p5-stale-context",
+      "caseId": "P5",
+      "runId": "2026-09-25T15-10-14-614Z",
+      "startSlot": 450388922,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p5-stale-context",
+      "caseId": "P5",
+      "runId": "2026-09-25T15-20-35-490Z",
+      "startSlot": 450391244,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p5-stale-context",
+      "caseId": "P5",
+      "runId": "2026-09-25T16-47-16-120Z",
+      "startSlot": 450410622,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p6-replay",
+      "caseId": "P6",
+      "runId": "2026-09-25T13-37-49-918Z",
+      "startSlot": 450368274,
+      "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+      "programExecutableHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b"
+    },
+    {
+      "module": "p6-replay",
+      "caseId": "P6",
+      "runId": "2026-09-25T14-31-49-239Z",
+      "startSlot": 450380335,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p6-replay",
+      "caseId": "P6",
+      "runId": "2026-09-25T14-49-28-018Z",
+      "startSlot": 450384269,
+      "programSha256": null,
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p6-replay",
+      "caseId": "P6",
+      "runId": "2026-09-25T14-53-11-173Z",
+      "startSlot": 450385101,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p7-ablations",
+      "caseId": "P7",
+      "runId": "2026-09-25T15-28-27-652Z",
+      "startSlot": null,
+      "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+      "programExecutableHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b"
+    },
+    {
+      "module": "p7-ablations",
+      "caseId": "P7",
+      "runId": "2026-09-25T16-55-40-781Z",
+      "startSlot": null,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p7-ablations",
+      "caseId": "P7",
+      "runId": "2026-09-25T17-00-23-290Z",
+      "startSlot": null,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p8-breadth",
+      "caseId": "P8",
+      "runId": "2026-09-25T14-34-36-065Z",
+      "startSlot": 450380950,
+      "programSha256": null,
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p8-breadth",
+      "caseId": "P8",
+      "runId": "2026-09-25T14-49-10-631Z",
+      "startSlot": 450384203,
+      "programSha256": null,
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p8-breadth",
+      "caseId": "P8",
+      "runId": "2026-09-25T14-51-10-324Z",
+      "startSlot": 450384652,
+      "programSha256": null,
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p8-breadth",
+      "caseId": "P8",
+      "runId": "2026-09-25T15-05-34-466Z",
+      "startSlot": 450387888,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    },
+    {
+      "module": "p8-breadth",
+      "caseId": "P8",
+      "runId": "2026-09-25T15-10-56-927Z",
+      "startSlot": 450389080,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4"
+    }
+  ],
+  "cases": [
+    {
+      "caseId": "P1",
+      "module": "p1-positive",
+      "runId": "2026-09-25T13-40-58-172Z",
+      "environment": "fork",
+      "title": "Positive",
+      "forkStartSlot": 450368975,
+      "programSha256": null,
+      "programSource": "verifiable CI build of main@eade508, https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+      "expected": "Executes; delivered at least the minimum; Verified",
+      "observed": "run stopped: JsonRpcError: surfnet_setAccount failed: -32603 Internal error",
+      "status": "infrastructure",
+      "probes": {
+        "total": 0,
+        "passed": 0
+      },
+      "error": "JsonRpcError: surfnet_setAccount failed: -32603 Internal error"
+    },
+    {
+      "caseId": "P1",
+      "module": "p1-positive",
+      "runId": "2026-09-25T13-50-09-043Z",
+      "environment": "fork",
+      "title": "Positive",
+      "forkStartSlot": 450371034,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "Executes; delivered at least the minimum; Verified",
+      "observed": "probes that did not match: Anthropic paycheck / Anthropic: leg:PENDING; NVDAx paycheck / NVDAx: leg:WAITING:PRICE_UNAVAILABLE",
+      "status": "fail",
+      "probes": {
+        "total": 2,
+        "passed": 0
+      },
+      "error": null
+    },
+    {
+      "caseId": "P1",
+      "module": "p1-positive",
+      "runId": "2026-09-25T14-27-30-905Z",
+      "environment": "fork",
+      "title": "Positive",
+      "forkStartSlot": 450379383,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "Executes; delivered at least the minimum; Verified",
+      "observed": "probes that did not match: Anthropic paycheck / Anthropic: leg:PENDING; NVDAx paycheck / NVDAx: leg:WAITING:PRICE_UNAVAILABLE",
+      "status": "fail",
+      "probes": {
+        "total": 2,
+        "passed": 0
+      },
+      "error": null
+    },
+    {
+      "caseId": "P1",
+      "module": "p1-positive",
+      "runId": "2026-09-25T14-49-07-830Z",
+      "environment": "fork",
+      "title": "Positive",
+      "forkStartSlot": 450384194,
+      "programSha256": null,
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "Executes; delivered at least the minimum; Verified",
+      "observed": "run stopped: Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so",
+      "status": "infrastructure",
+      "probes": {
+        "total": 0,
+        "passed": 0
+      },
+      "error": "Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so"
+    },
+    {
+      "caseId": "P1",
+      "module": "p1-positive",
+      "runId": "2026-09-25T14-51-05-754Z",
+      "environment": "fork",
+      "title": "Positive",
+      "forkStartSlot": 450384635,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "Executes; delivered at least the minimum; Verified",
+      "observed": "probes that did not match: NVDAx paycheck / NVDAx: leg:WAITING:PRICE_UNAVAILABLE",
+      "status": "blocked",
+      "probes": {
+        "total": 3,
+        "passed": 2
+      },
+      "error": null
+    },
+    {
+      "caseId": "P2",
+      "module": "p2-control",
+      "runId": "2026-09-25T13-32-01-991Z",
+      "environment": "fork",
+      "title": "Healthy control",
+      "forkStartSlot": 450366980,
+      "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+      "programSource": "verifiable CI build of main@eade508, https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+      "expected": "Skipped or no paycheck; nothing moves",
+      "observed": "every probe matched its pre-registered expectation",
+      "status": "pass",
+      "probes": {
+        "total": 10,
+        "passed": 10
+      },
+      "error": null
+    },
+    {
+      "caseId": "P3",
+      "module": "p3-closed-market",
+      "runId": "2026-09-25T13-43-21-590Z",
+      "environment": "fork",
+      "title": "Insufficient evidence",
+      "forkStartSlot": 450369515,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "PriceStale; waits for the open (the next-open fill is shown only on mainnet)",
+      "observed": "probes that did not match: NVDAx overnight / NVDAx: leg:WAITING:PRICE_UNAVAILABLE; SPYx weekend / SPYx: leg:WAITING:PRICE_UNAVAILABLE",
+      "status": "blocked",
+      "probes": {
+        "total": 2,
+        "passed": 0
+      },
+      "error": null
+    },
+    {
+      "caseId": "P4",
+      "module": "p4-harmful",
+      "runId": "2026-09-25T13-34-25-383Z",
+      "environment": "fork",
+      "title": "Harmful action",
+      "forkStartSlot": 450367512,
+      "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+      "programSource": "verifiable CI build of main@eade508, https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+      "expected": "DestinationOwnerMismatch or OutputBelowMinimum; InputOverspent",
+      "observed": "probes that did not match: attack / shares to another account: error:PriceStale; attack / shares diverted, owner named: error:InputOverspent; attack / route pulls extra USDC: crash:JSON-RPC error: Invalid method parameter(s) (decoded solana_transaction::versioned::VersionedTransaction too large: 1263 bytes (max: 1232 bytes)); Anthropic paycheck / Anthropic: leg:PENDING",
+      "status": "fail",
+      "probes": {
+        "total": 5,
+        "passed": 1
+      },
+      "error": null
+    },
+    {
+      "caseId": "P4",
+      "module": "p4-harmful",
+      "runId": "2026-09-25T14-33-38-448Z",
+      "environment": "fork",
+      "title": "Harmful action",
+      "forkStartSlot": 450380735,
+      "programSha256": null,
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "DestinationOwnerMismatch or OutputBelowMinimum; InputOverspent",
+      "observed": "run stopped: JsonRpcError: surfnet_setTokenAccount failed: -32603 Internal error",
+      "status": "infrastructure",
+      "probes": {
+        "total": 0,
+        "passed": 0
+      },
+      "error": "JsonRpcError: surfnet_setTokenAccount failed: -32603 Internal error"
+    },
+    {
+      "caseId": "P4",
+      "module": "p4-harmful",
+      "runId": "2026-09-25T14-49-47-915Z",
+      "environment": "fork",
+      "title": "Harmful action",
+      "forkStartSlot": 450384340,
+      "programSha256": null,
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "DestinationOwnerMismatch or OutputBelowMinimum; InputOverspent",
+      "observed": "run stopped: Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so",
+      "status": "infrastructure",
+      "probes": {
+        "total": 0,
+        "passed": 0
+      },
+      "error": "Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so"
+    },
+    {
+      "caseId": "P4",
+      "module": "p4-harmful",
+      "runId": "2026-09-25T14-55-10-011Z",
+      "environment": "fork",
+      "title": "Harmful action",
+      "forkStartSlot": 450385544,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "DestinationOwnerMismatch or OutputBelowMinimum; InputOverspent",
+      "observed": "probes that did not match: attack / shares to another account: crash:JSON-RPC error: Invalid method parameter(s) (decoded solana_transaction::versioned::VersionedTransaction too large: 1245 bytes (max: 1232 bytes)); attack / shares diverted, owner named: external:FLUX6xBayGxLX9UcimVRxXFMHH6q43mAbRvDzSpCsvfK:6003; attack / route pulls extra USDC: external:JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4:6025",
+      "status": "fail",
+      "probes": {
+        "total": 5,
+        "passed": 2
+      },
+      "error": null
+    },
+    {
+      "caseId": "P4",
+      "module": "p4-harmful",
+      "runId": "2026-09-25T15-07-45-674Z",
+      "environment": "fork",
+      "title": "Harmful action",
+      "forkStartSlot": 450388374,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "DestinationOwnerMismatch or OutputBelowMinimum; InputOverspent",
+      "observed": "probes that did not match: attack / shares diverted, owner named: crash:Jupiter build 429: {\"code\":429,\"message\":\"[API Gateway] Too many requests\"}; attack / route pulls extra USDC: external:JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4:6025",
+      "status": "fail",
+      "probes": {
+        "total": 5,
+        "passed": 3
+      },
+      "error": null
+    },
+    {
+      "caseId": "P4",
+      "module": "p4-harmful",
+      "runId": "2026-09-25T16-44-42-741Z",
+      "environment": "fork",
+      "title": "Harmful action",
+      "forkStartSlot": 450410057,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "DestinationOwnerMismatch or OutputBelowMinimum; InputOverspent",
+      "observed": "probes that did not match: attack / route pulls extra USDC: external:JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4:6025",
+      "status": "fail",
+      "probes": {
+        "total": 5,
+        "passed": 4
+      },
+      "error": null
+    },
+    {
+      "caseId": "P4",
+      "module": "p4-real-market",
+      "runId": "2026-09-25T13-31-17-574Z",
+      "environment": "fork",
+      "title": "Real market",
+      "forkStartSlot": 450366809,
+      "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+      "programSource": "verifiable CI build of main@eade508, https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+      "expected": "OutputBelowMinimum; waits; expires if the premium persists",
+      "observed": "probes that did not match: OpenAI+Neuralink paycheck / Neuralink: leg:PENDING",
+      "status": "fail",
+      "probes": {
+        "total": 4,
+        "passed": 3
+      },
+      "error": null
+    },
+    {
+      "caseId": "P5",
+      "module": "p5-stale-context",
+      "runId": "2026-09-25T14-34-01-882Z",
+      "environment": "fork",
+      "title": "Stale context",
+      "forkStartSlot": 450380824,
+      "programSha256": null,
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "AttestationStale; the minimum uses the new multiplier",
+      "observed": "run stopped: Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so",
+      "status": "infrastructure",
+      "probes": {
+        "total": 0,
+        "passed": 0
+      },
+      "error": "Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so"
+    },
+    {
+      "caseId": "P5",
+      "module": "p5-stale-context",
+      "runId": "2026-09-25T14-50-07-493Z",
+      "environment": "fork",
+      "title": "Stale context",
+      "forkStartSlot": 450384418,
+      "programSha256": null,
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "AttestationStale; the minimum uses the new multiplier",
+      "observed": "run stopped: Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so",
+      "status": "infrastructure",
+      "probes": {
+        "total": 0,
+        "passed": 0
+      },
+      "error": "Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so"
+    },
+    {
+      "caseId": "P5",
+      "module": "p5-stale-context",
+      "runId": "2026-09-25T14-57-22-884Z",
+      "environment": "fork",
+      "title": "Stale context",
+      "forkStartSlot": 450386036,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "AttestationStale; the minimum uses the new multiplier",
+      "observed": "probes that did not match: Anthropic before the change: external:FLUX6xBayGxLX9UcimVRxXFMHH6q43mAbRvDzSpCsvfK:6003; Kalshi+Anthropic paycheck / Kalshi: paycheck:fetch failed; Kalshi+Anthropic paycheck / Anthropic: paycheck:fetch failed",
+      "status": "fail",
+      "probes": {
+        "total": 4,
+        "passed": 1
+      },
+      "error": null
+    },
+    {
+      "caseId": "P5",
+      "module": "p5-stale-context",
+      "runId": "2026-09-25T15-10-14-614Z",
+      "environment": "fork",
+      "title": "Stale context",
+      "forkStartSlot": 450388922,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "AttestationStale; the minimum uses the new multiplier",
+      "observed": "probes that did not match: Anthropic after the change: min_out:old_multiplier",
+      "status": "fail",
+      "probes": {
+        "total": 4,
+        "passed": 3
+      },
+      "error": null
+    },
+    {
+      "caseId": "P5",
+      "module": "p5-stale-context",
+      "runId": "2026-09-25T15-20-35-490Z",
+      "environment": "fork",
+      "title": "Stale context",
+      "forkStartSlot": 450391244,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "AttestationStale; the minimum uses the new multiplier",
+      "observed": "probes that did not match: Kalshi+Anthropic paycheck / Anthropic: leg:PENDING",
+      "status": "fail",
+      "probes": {
+        "total": 4,
+        "passed": 3
+      },
+      "error": null
+    },
+    {
+      "caseId": "P5",
+      "module": "p5-stale-context",
+      "runId": "2026-09-25T16-47-16-120Z",
+      "environment": "fork",
+      "title": "Stale context",
+      "forkStartSlot": 450410622,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "AttestationStale; the minimum uses the new multiplier",
+      "observed": "every probe matched its pre-registered expectation",
+      "status": "pass",
+      "probes": {
+        "total": 4,
+        "passed": 4
+      },
+      "error": null
+    },
+    {
+      "caseId": "P6",
+      "module": "p6-replay",
+      "runId": "2026-09-25T13-37-49-918Z",
+      "environment": "fork",
+      "title": "Replay",
+      "forkStartSlot": 450368274,
+      "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+      "programSource": "verifiable CI build of main@eade508, https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+      "expected": "NoNewInflow; LegNotPending",
+      "observed": "probes that did not match: Anthropic paycheck / Anthropic: leg:PENDING",
+      "status": "fail",
+      "probes": {
+        "total": 1,
+        "passed": 0
+      },
+      "error": null
+    },
+    {
+      "caseId": "P6",
+      "module": "p6-replay",
+      "runId": "2026-09-25T14-31-49-239Z",
+      "environment": "fork",
+      "title": "Replay",
+      "forkStartSlot": 450380335,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "NoNewInflow; LegNotPending",
+      "observed": "probes that did not match: Anthropic paycheck / Anthropic: leg:PENDING",
+      "status": "fail",
+      "probes": {
+        "total": 1,
+        "passed": 0
+      },
+      "error": null
+    },
+    {
+      "caseId": "P6",
+      "module": "p6-replay",
+      "runId": "2026-09-25T14-49-28-018Z",
+      "environment": "fork",
+      "title": "Replay",
+      "forkStartSlot": 450384269,
+      "programSha256": null,
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "NoNewInflow; LegNotPending",
+      "observed": "run stopped: Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so",
+      "status": "infrastructure",
+      "probes": {
+        "total": 0,
+        "passed": 0
+      },
+      "error": "Error: Command failed: solana program deploy --url http://127.0.0.1:48899 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so"
+    },
+    {
+      "caseId": "P6",
+      "module": "p6-replay",
+      "runId": "2026-09-25T14-53-11-173Z",
+      "environment": "fork",
+      "title": "Replay",
+      "forkStartSlot": 450385101,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "NoNewInflow; LegNotPending",
+      "observed": "every probe matched its pre-registered expectation",
+      "status": "pass",
+      "probes": {
+        "total": 6,
+        "passed": 6
+      },
+      "error": null
+    },
+    {
+      "caseId": "P7",
+      "module": "p7-ablations",
+      "runId": "2026-09-25T15-28-27-652Z",
+      "environment": "fork",
+      "title": "Ablations",
+      "forkStartSlot": null,
+      "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+      "programSource": "verifiable CI build of main@eade508, https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+      "expected": "Overpayment the guard prevented per slice; count of slices that would have executed out of band; computed (not executed) Ethereum cost per $20 slice",
+      "observed": "every probe matched its pre-registered expectation",
+      "status": "pass",
+      "probes": {
+        "total": 2,
+        "passed": 2
+      },
+      "error": null
+    },
+    {
+      "caseId": "P7",
+      "module": "p7-ablations",
+      "runId": "2026-09-25T16-55-40-781Z",
+      "environment": "fork",
+      "title": "Ablations",
+      "forkStartSlot": null,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "Overpayment the guard prevented per slice; count of slices that would have executed out of band; computed (not executed) Ethereum cost per $20 slice",
+      "observed": "run stopped: TypeError: fetch failed",
+      "status": "infrastructure",
+      "probes": {
+        "total": 1,
+        "passed": 1
+      },
+      "error": "TypeError: fetch failed"
+    },
+    {
+      "caseId": "P7",
+      "module": "p7-ablations",
+      "runId": "2026-09-25T17-00-23-290Z",
+      "environment": "fork",
+      "title": "Ablations",
+      "forkStartSlot": null,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "Overpayment the guard prevented per slice; count of slices that would have executed out of band; computed (not executed) Ethereum cost per $20 slice",
+      "observed": "run stopped: Error: eth_feeHistory: {\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32602,\"message\":\"Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode\"},\"id\":1}",
+      "status": "infrastructure",
+      "probes": {
+        "total": 1,
+        "passed": 1
+      },
+      "error": "Error: eth_feeHistory: {\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32602,\"message\":\"Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode\"},\"id\":1}"
+    },
+    {
+      "caseId": "P8",
+      "module": "p8-breadth",
+      "runId": "2026-09-25T14-34-36-065Z",
+      "environment": "fork",
+      "title": "Breadth",
+      "forkStartSlot": 450380950,
+      "programSha256": null,
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "Same guarantees across all: every fill in band and Verified, every other slice waits with a reason",
+      "observed": "run stopped: JsonRpcError: surfnet_setAccount failed: -32603 Internal error",
+      "status": "infrastructure",
+      "probes": {
+        "total": 0,
+        "passed": 0
+      },
+      "error": "JsonRpcError: surfnet_setAccount failed: -32603 Internal error"
+    },
+    {
+      "caseId": "P8",
+      "module": "p8-breadth",
+      "runId": "2026-09-25T14-49-10-631Z",
+      "environment": "fork",
+      "title": "Breadth",
+      "forkStartSlot": 450384203,
+      "programSha256": null,
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "Same guarantees across all: every fill in band and Verified, every other slice waits with a reason",
+      "observed": "run stopped: Error: Command failed: solana program deploy --url http://127.0.0.1:48949 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so",
+      "status": "infrastructure",
+      "probes": {
+        "total": 0,
+        "passed": 0
+      },
+      "error": "Error: Command failed: solana program deploy --url http://127.0.0.1:48949 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so"
+    },
+    {
+      "caseId": "P8",
+      "module": "p8-breadth",
+      "runId": "2026-09-25T14-51-10-324Z",
+      "environment": "fork",
+      "title": "Breadth",
+      "forkStartSlot": 450384652,
+      "programSha256": null,
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "Same guarantees across all: every fill in band and Verified, every other slice waits with a reason",
+      "observed": "run stopped: Error: Command failed: solana program deploy --url http://127.0.0.1:48949 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so",
+      "status": "infrastructure",
+      "probes": {
+        "total": 0,
+        "passed": 0
+      },
+      "error": "Error: Command failed: solana program deploy --url http://127.0.0.1:48949 --keypair /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --program-id /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/program-id.json --upgrade-authority /private/tmp/claude-501/-Users-mac-paycheck-router/40f23dde-070c-4112-bf0e-f4fa9aa2bb60/scratchpad/keys/deployer.json --commitment confirmed --output json /Users/mac/paycheck router/internal/release/e53fbfe/paycheck_router.so"
+    },
+    {
+      "caseId": "P8",
+      "module": "p8-breadth",
+      "runId": "2026-09-25T15-05-34-466Z",
+      "environment": "fork",
+      "title": "Breadth",
+      "forkStartSlot": 450387888,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "Same guarantees across all: every fill in band and Verified, every other slice waits with a reason",
+      "observed": "run stopped: SolanaError: JSON-RPC error: Invalid method parameter(s) (decoded solana_transaction::versioned::VersionedTransaction too large: 2044 bytes (max: 1232 bytes))",
+      "status": "fail",
+      "probes": {
+        "total": 0,
+        "passed": 0
+      },
+      "error": "SolanaError: JSON-RPC error: Invalid method parameter(s) (decoded solana_transaction::versioned::VersionedTransaction too large: 2044 bytes (max: 1232 bytes))"
+    },
+    {
+      "caseId": "P8",
+      "module": "p8-breadth",
+      "runId": "2026-09-25T15-10-56-927Z",
+      "environment": "fork",
+      "title": "Breadth",
+      "forkStartSlot": 450389080,
+      "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+      "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+      "expected": "Same guarantees across all: every fill in band and Verified, every other slice waits with a reason",
+      "observed": "probes that did not match: $5000 from employer-1 to worker-xstocks-a / SPYx: leg:WAITING:PRICE_UNAVAILABLE; $5000 from employer-1 to worker-xstocks-a / NVDAx: leg:WAITING:PRICE_UNAVAILABLE; $5000 from employer-1 to worker-xstocks-a / AAPLx: leg:WAITING:PRICE_UNAVAILABLE; $2500 from employer-3 to worker-prestocks / Neuralink: leg:PENDING; $1000 from employer-3 to worker-xstocks-b / MSFTx: leg:WAITING:PRICE_UNAVAILABLE; $1000 from employer-3 to worker-xstocks-b / GOOGLx: leg:WAITING:PRICE_UNAVAILABLE; $1000 from employer-3 to worker-xstocks-b / AMZNx: leg:WAITING:PRICE_UNAVAILABLE; $1000 from employer-3 to worker-xstocks-b / METAx: leg:WAITING:PRICE_UNAVAILABLE; $250 from employer-2 to worker-xstocks-a / SPYx: leg:WAITING:PRICE_UNAVAILABLE; $250 from employer-2 to worker-xstocks-a / NVDAx: leg:WAITING:PRICE_UNAVAILABLE; $250 from employer-2 to worker-xstocks-a / AAPLx: leg:WAITING:PRICE_UNAVAILABLE; $20 from employer-1 to worker-xstocks-b / MSFTx: leg:WAITING:PRICE_UNAVAILABLE; $20 from employer-1 to worker-xstocks-b / GOOGLx: leg:WAITING:PRICE_UNAVAILABLE; $20 from employer-1 to worker-xstocks-b / AMZNx: leg:WAITING:PRICE_UNAVAILABLE; $20 from employer-1 to worker-xstocks-b / METAx: leg:WAITING:PRICE_UNAVAILABLE",
+      "status": "fail",
+      "probes": {
+        "total": 42,
+        "passed": 27
+      },
+      "error": null
+    }
+  ],
+  "outcomes": {
+    "environment": "fork",
+    "slices": 47,
+    "executed": 15,
+    "verified": 15,
+    "waiting": {
+      "PREMIUM_TOO_HIGH": 7,
+      "PRICE_UNAVAILABLE": 17
+    },
+    "expired": 1,
+    "stopped": {
+      "external": 1,
+      "infrastructure": 1,
+      "other": 4,
+      "program:InputOverspent": 1
+    },
+    "stoppedDetail": [
+      {
+        "slice": "p1-positive/2026-09-25T13-50-09-043Z/Anthropic paycheck/0",
+        "failure": "external:external: Program PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H failed: custom program error: 0xbc4"
+      },
+      {
+        "slice": "p1-positive/2026-09-25T14-27-30-905Z/Anthropic paycheck/0",
+        "failure": "other:JSON-RPC error: Invalid method parameter(s) (decoded solana_transaction::versioned::VersionedTransaction too large: 1242 bytes (max: 1232 bytes))"
+      },
+      {
+        "slice": "p4-harmful/2026-09-25T13-34-25-383Z/Anthropic paycheck/0",
+        "failure": "other:execute transaction is 1261 bytes, over 1232"
+      },
+      {
+        "slice": "p4-real-market/2026-09-25T13-31-17-574Z/OpenAI+Neuralink paycheck/1",
+        "failure": "infrastructure"
+      },
+      {
+        "slice": "p6-replay/2026-09-25T13-37-49-918Z/Anthropic paycheck/0",
+        "failure": "program:InputOverspent"
+      },
+      {
+        "slice": "p6-replay/2026-09-25T14-31-49-239Z/Anthropic paycheck/0",
+        "failure": "other:JSON-RPC error: Invalid method parameter(s) (decoded solana_transaction::versioned::VersionedTransaction too large: 1242 bytes (max: 1232 bytes))"
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/6",
+        "failure": "other:[\n  {\n    \"expected\": \"number\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      2,\n      \"markPrice\"\n    ],\n    \"message\": \"Invalid input: expected number, rece"
+      }
+    ]
+  },
+  "population": {
+    "headlineModules": [
+      "p1-positive",
+      "p4-harmful",
+      "p4-real-market",
+      "p6-replay",
+      "p8-breadth"
+    ],
+    "note": "Headline cost uses fills on unmodified fork state from the product crank. P5 fills trade against a cheatcode-modified mint and P3 moves the clock, so both are left out; every executed slice still counts toward the verified rate.",
+    "slices": 55,
+    "headlineSlices": 47
+  },
+  "metrics": {
+    "allInCostPer100": {
+      "environment": "fork",
+      "definition": "Per executed slice: USDC in (protocol fee included) against the reference value of the shares the owner kept (issuer transfer fee excluded from shares), per $100",
+      "medianBps": 100,
+      "medianPer100Usd": 1,
+      "n": 15,
+      "components": {
+        "protocolFeeBpsMedian": 20,
+        "issuerFeeBpsMedian": 100,
+        "premiumBpsMedian": 20
+      },
+      "byKind": {
+        "listedEquity": {
+          "medianBps": 24,
+          "medianPer100Usd": 0.24,
+          "n": 4
+        },
+        "preIpo": {
+          "medianBps": 175,
+          "medianPer100Usd": 1.75,
+          "n": 11
+        }
+      },
+      "provenance": "LegExecuted decoded from each fill's getTransaction logs; guard-math buyPremiumBps"
+    },
+    "verifiedRate": {
+      "environment": "fork",
+      "verified": 20,
+      "executed": 20,
+      "rate": 1,
+      "provenance": "Fork verifier: surfnet readback and Hermes history per slice"
+    },
+    "overpaymentAvoided": {
+      "environment": "fork",
+      "n": 0,
+      "totalUsdc": "0",
+      "slices": [],
+      "definition": "(price at first attempt - executed price) x shares, for slices that waited and later filled"
+    },
+    "expiredAvoidedPremium": {
+      "environment": "fork",
+      "n": 0,
+      "totalUsdc": "0",
+      "slices": [],
+      "note": "Reported separately; never counted as savings"
+    },
+    "manualStepsPerPayday": {
+      "environment": "fork",
+      "value": 0,
+      "ownerSignedTransactionsAfterSetup": 0,
+      "paychecks": 20,
+      "provenance": "Signer flags in every stored transaction after setup"
+    },
+    "networkCost": {
+      "environment": "fork",
+      "note": "Execute-transaction fees the crank pays; borne by the protocol, not in all-in cost",
+      "medianLamportsPerSlice": 5000,
+      "n": 15
+    },
+    "speed": {
+      "environment": "fork",
+      "claimed": false,
+      "reason": "A fork has no network contention (PRD 23.9)"
+    }
+  },
+  "baselines": {
+    "environment": "fork",
+    "note": "Computed at the product arm's first-attempt timestamps and amounts, not executed",
+    "medians": {
+      "cexBps": 200,
+      "manualJupiterBps": 175.5,
+      "jupiterRecurringBps": 185.5,
+      "productBps": 100
+    },
+    "n": 26,
+    "stepsPerPayday": {
+      "product": 0,
+      "typicalLegs": 1,
+      "cex": {
+        "steps": 2,
+        "script": [
+          "deposit USDC",
+          "buy one asset"
+        ]
+      },
+      "manualJupiter": {
+        "steps": 6,
+        "script": [
+          "open wallet",
+          "connect to jup.ag",
+          "per asset: choose, enter amount, review, sign"
+        ]
+      },
+      "jupiterRecurring": {
+        "steps": 1,
+        "script": [
+          "deposit the paycheck into the recurring order"
+        ]
+      }
+    },
+    "fees": {
+      "cexLuno": {
+        "bps": 200,
+        "source": "Luno Nigeria published 2% per trade fee, as registered in PRD 23.2"
+      },
+      "jupiterRecurring": {
+        "bps": 10,
+        "source": "https://developers.jup.ag/docs/recurring (FAQ: \"Recurring API takes 0.1% as fees.\")"
+      }
+    },
+    "rows": [
+      {
+        "slice": "p1-positive/2026-09-25T13-50-09-043Z/Anthropic paycheck/0",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T13:52:47.437Z",
+        "amountIn": "100000000",
+        "cexBps": 200,
+        "manualJupiterBps": 157,
+        "jupiterRecurringBps": 167,
+        "productBps": null
+      },
+      {
+        "slice": "p1-positive/2026-09-25T14-27-30-905Z/Anthropic paycheck/0",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T14:31:11.819Z",
+        "amountIn": "100000000",
+        "cexBps": 200,
+        "manualJupiterBps": 139,
+        "jupiterRecurringBps": 149,
+        "productBps": null
+      },
+      {
+        "slice": "p1-positive/2026-09-25T14-51-05-754Z/Anthropic paycheck/0",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T14:52:30.986Z",
+        "amountIn": "100000000",
+        "cexBps": 200,
+        "manualJupiterBps": 138,
+        "jupiterRecurringBps": 148,
+        "productBps": 163
+      },
+      {
+        "slice": "p4-harmful/2026-09-25T13-34-25-383Z/Anthropic paycheck/0",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T13:37:41.970Z",
+        "amountIn": "100000000",
+        "cexBps": 200,
+        "manualJupiterBps": 181,
+        "jupiterRecurringBps": 191,
+        "productBps": null
+      },
+      {
+        "slice": "p4-harmful/2026-09-25T14-55-10-011Z/Anthropic paycheck/0",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T14:57:14.423Z",
+        "amountIn": "100000000",
+        "cexBps": 200,
+        "manualJupiterBps": 150,
+        "jupiterRecurringBps": 160,
+        "productBps": 176
+      },
+      {
+        "slice": "p4-harmful/2026-09-25T15-07-45-674Z/Anthropic paycheck/0",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T15:09:59.791Z",
+        "amountIn": "100000000",
+        "cexBps": 200,
+        "manualJupiterBps": 168,
+        "jupiterRecurringBps": 178,
+        "productBps": 192
+      },
+      {
+        "slice": "p4-harmful/2026-09-25T16-44-42-741Z/Anthropic paycheck/0",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T16:47:04.507Z",
+        "amountIn": "100000000",
+        "cexBps": 200,
+        "manualJupiterBps": 224,
+        "jupiterRecurringBps": 234,
+        "productBps": 252
+      },
+      {
+        "slice": "p6-replay/2026-09-25T13-37-49-918Z/Anthropic paycheck/0",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T13:40:03.549Z",
+        "amountIn": "100000000",
+        "cexBps": 200,
+        "manualJupiterBps": 179,
+        "jupiterRecurringBps": 189,
+        "productBps": null
+      },
+      {
+        "slice": "p6-replay/2026-09-25T14-31-49-239Z/Anthropic paycheck/0",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T14:33:09.833Z",
+        "amountIn": "100000000",
+        "cexBps": 200,
+        "manualJupiterBps": 138,
+        "jupiterRecurringBps": 148,
+        "productBps": null
+      },
+      {
+        "slice": "p6-replay/2026-09-25T14-53-11-173Z/Anthropic paycheck/0",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T14:54:35.772Z",
+        "amountIn": "100000000",
+        "cexBps": 200,
+        "manualJupiterBps": 153,
+        "jupiterRecurringBps": 163,
+        "productBps": 175
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/0",
+        "symbol": "OpenAI",
+        "at": "2026-09-25T15:12:32.890Z",
+        "amountIn": "2864000",
+        "cexBps": 200,
+        "manualJupiterBps": 3209,
+        "jupiterRecurringBps": 3219,
+        "productBps": null
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/1",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T15:12:47.161Z",
+        "amountIn": "2856000",
+        "cexBps": 200,
+        "manualJupiterBps": 168,
+        "jupiterRecurringBps": 178,
+        "productBps": 193
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/2",
+        "symbol": "Anduril",
+        "at": "2026-09-25T15:13:00.672Z",
+        "amountIn": "2856000",
+        "cexBps": 200,
+        "manualJupiterBps": 762,
+        "jupiterRecurringBps": 772,
+        "productBps": null
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/3",
+        "symbol": "FigureAI",
+        "at": "2026-09-25T15:13:08.919Z",
+        "amountIn": "2856000",
+        "cexBps": 200,
+        "manualJupiterBps": 145,
+        "jupiterRecurringBps": 155,
+        "productBps": 65
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/4",
+        "symbol": "Kalshi",
+        "at": "2026-09-25T15:13:21.726Z",
+        "amountIn": "2856000",
+        "cexBps": 200,
+        "manualJupiterBps": 179,
+        "jupiterRecurringBps": 189,
+        "productBps": 99
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/5",
+        "symbol": "Polymarket",
+        "at": "2026-09-25T15:13:33.810Z",
+        "amountIn": "2856000",
+        "cexBps": 200,
+        "manualJupiterBps": 661,
+        "jupiterRecurringBps": 671,
+        "productBps": null
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/6",
+        "symbol": "Neuralink",
+        "at": "2026-09-25T15:13:41.703Z",
+        "amountIn": "2856000",
+        "cexBps": 200,
+        "manualJupiterBps": 3545,
+        "jupiterRecurringBps": 3555,
+        "productBps": null
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/4",
+        "symbol": "TSLAx",
+        "at": "2026-09-25T15:16:02.415Z",
+        "amountIn": "1000000000",
+        "cexBps": 200,
+        "manualJupiterBps": 8,
+        "jupiterRecurringBps": 18,
+        "productBps": 29
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/0",
+        "symbol": "OpenAI",
+        "at": "2026-09-25T15:17:48.824Z",
+        "amountIn": "358000000",
+        "cexBps": 200,
+        "manualJupiterBps": 3221,
+        "jupiterRecurringBps": 3231,
+        "productBps": null
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/1",
+        "symbol": "Anthropic",
+        "at": "2026-09-25T15:17:55.143Z",
+        "amountIn": "357000000",
+        "cexBps": 200,
+        "manualJupiterBps": 172,
+        "jupiterRecurringBps": 182,
+        "productBps": 210
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/2",
+        "symbol": "Anduril",
+        "at": "2026-09-25T15:18:21.953Z",
+        "amountIn": "357000000",
+        "cexBps": 200,
+        "manualJupiterBps": 762,
+        "jupiterRecurringBps": 772,
+        "productBps": null
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/3",
+        "symbol": "FigureAI",
+        "at": "2026-09-25T15:18:29.990Z",
+        "amountIn": "357000000",
+        "cexBps": 200,
+        "manualJupiterBps": 179,
+        "jupiterRecurringBps": 189,
+        "productBps": 100
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/4",
+        "symbol": "Kalshi",
+        "at": "2026-09-25T15:18:45.896Z",
+        "amountIn": "357000000",
+        "cexBps": 200,
+        "manualJupiterBps": 180,
+        "jupiterRecurringBps": 190,
+        "productBps": 100
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/5",
+        "symbol": "Polymarket",
+        "at": "2026-09-25T15:18:49.608Z",
+        "amountIn": "357000000",
+        "cexBps": 200,
+        "manualJupiterBps": 729,
+        "jupiterRecurringBps": 739,
+        "productBps": null
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/1",
+        "symbol": "QQQx",
+        "at": "2026-09-25T15:21:02.599Z",
+        "amountIn": "50000000",
+        "cexBps": 200,
+        "manualJupiterBps": -3,
+        "jupiterRecurringBps": 7,
+        "productBps": 18
+      },
+      {
+        "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/4",
+        "symbol": "TSLAx",
+        "at": "2026-09-25T15:21:26.408Z",
+        "amountIn": "50000000",
+        "cexBps": 200,
+        "manualJupiterBps": 9,
+        "jupiterRecurringBps": 19,
+        "productBps": 40
+      }
+    ]
+  },
+  "ablations": {
+    "guard": {
+      "environment": "fork",
+      "label": "Arm D, replayed from the recorded first-attempt quotes, not executed",
+      "n": 26,
+      "overpaymentPreventedUsdc": "129945183",
+      "rows": [
+        {
+          "slice": "p1-positive/2026-09-25T13-50-09-043Z/Anthropic paycheck/0",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 57,
+          "naiveOverpaymentUsdc": "568567",
+          "guardFirstAttempt": "failed",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p1-positive/2026-09-25T14-27-30-905Z/Anthropic paycheck/0",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 39,
+          "naiveOverpaymentUsdc": "395701",
+          "guardFirstAttempt": "failed",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p1-positive/2026-09-25T14-51-05-754Z/Anthropic paycheck/0",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 38,
+          "naiveOverpaymentUsdc": "382661",
+          "guardFirstAttempt": "failed",
+          "guardFillPremiumBps": 42,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p4-harmful/2026-09-25T13-34-25-383Z/Anthropic paycheck/0",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 81,
+          "naiveOverpaymentUsdc": "810982",
+          "guardFirstAttempt": "failed",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p4-harmful/2026-09-25T14-55-10-011Z/Anthropic paycheck/0",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 50,
+          "naiveOverpaymentUsdc": "496545",
+          "guardFirstAttempt": "executed",
+          "guardFillPremiumBps": 54,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p4-harmful/2026-09-25T15-07-45-674Z/Anthropic paycheck/0",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 68,
+          "naiveOverpaymentUsdc": "675455",
+          "guardFirstAttempt": "executed",
+          "guardFillPremiumBps": 70,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p4-harmful/2026-09-25T16-44-42-741Z/Anthropic paycheck/0",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 124,
+          "naiveOverpaymentUsdc": "1231753",
+          "guardFirstAttempt": "failed",
+          "guardFillPremiumBps": 129,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p6-replay/2026-09-25T13-37-49-918Z/Anthropic paycheck/0",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 79,
+          "naiveOverpaymentUsdc": "790590",
+          "guardFirstAttempt": "failed",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p6-replay/2026-09-25T14-31-49-239Z/Anthropic paycheck/0",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 38,
+          "naiveOverpaymentUsdc": "385288",
+          "guardFirstAttempt": "failed",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p6-replay/2026-09-25T14-53-11-173Z/Anthropic paycheck/0",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 53,
+          "naiveOverpaymentUsdc": "528010",
+          "guardFirstAttempt": "executed",
+          "guardFillPremiumBps": 54,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/0",
+          "symbol": "OpenAI",
+          "bandBps": 300,
+          "naivePremiumBps": 3109,
+          "naiveOverpaymentUsdc": "677957",
+          "guardFirstAttempt": "wait:PREMIUM_TOO_HIGH",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "677957"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/1",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 68,
+          "naiveOverpaymentUsdc": "19256",
+          "guardFirstAttempt": "executed",
+          "guardFillPremiumBps": 71,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/2",
+          "symbol": "Anduril",
+          "bandBps": 300,
+          "naivePremiumBps": 662,
+          "naiveOverpaymentUsdc": "177014",
+          "guardFirstAttempt": "wait:PREMIUM_TOO_HIGH",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "177014"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/3",
+          "symbol": "FigureAI",
+          "bandBps": 300,
+          "naivePremiumBps": 45,
+          "naiveOverpaymentUsdc": "12992",
+          "guardFirstAttempt": "executed",
+          "guardFillPremiumBps": -55,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/4",
+          "symbol": "Kalshi",
+          "bandBps": 300,
+          "naivePremiumBps": 79,
+          "naiveOverpaymentUsdc": "22414",
+          "guardFirstAttempt": "executed",
+          "guardFillPremiumBps": -22,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/5",
+          "symbol": "Polymarket",
+          "bandBps": 300,
+          "naivePremiumBps": 561,
+          "naiveOverpaymentUsdc": "151478",
+          "guardFirstAttempt": "wait:PREMIUM_TOO_HIGH",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "151478"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/6",
+          "symbol": "Neuralink",
+          "bandBps": 300,
+          "naivePremiumBps": 3445,
+          "naiveOverpaymentUsdc": "730411",
+          "guardFirstAttempt": "wait:PREMIUM_TOO_HIGH",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "730411"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/4",
+          "symbol": "TSLAx",
+          "bandBps": 50,
+          "naivePremiumBps": 8,
+          "naiveOverpaymentUsdc": "846106",
+          "guardFirstAttempt": "executed",
+          "guardFillPremiumBps": 9,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/0",
+          "symbol": "OpenAI",
+          "bandBps": 300,
+          "naivePremiumBps": 3121,
+          "naiveOverpaymentUsdc": "85000666",
+          "guardFirstAttempt": "wait:PREMIUM_TOO_HIGH",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "85000666"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/1",
+          "symbol": "Anthropic",
+          "bandBps": 300,
+          "naivePremiumBps": 72,
+          "naiveOverpaymentUsdc": "2558989",
+          "guardFirstAttempt": "failed",
+          "guardFillPremiumBps": 87,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/2",
+          "symbol": "Anduril",
+          "bandBps": 300,
+          "naivePremiumBps": 662,
+          "naiveOverpaymentUsdc": "22122098",
+          "guardFirstAttempt": "wait:PREMIUM_TOO_HIGH",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "22122098"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/3",
+          "symbol": "FigureAI",
+          "bandBps": 300,
+          "naivePremiumBps": 79,
+          "naiveOverpaymentUsdc": "2811693",
+          "guardFirstAttempt": "failed",
+          "guardFillPremiumBps": -21,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/4",
+          "symbol": "Kalshi",
+          "bandBps": 300,
+          "naivePremiumBps": 80,
+          "naiveOverpaymentUsdc": "2835029",
+          "guardFirstAttempt": "executed",
+          "guardFillPremiumBps": -21,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/5",
+          "symbol": "Polymarket",
+          "bandBps": 300,
+          "naivePremiumBps": 629,
+          "naiveOverpaymentUsdc": "21085559",
+          "guardFirstAttempt": "wait:PREMIUM_TOO_HIGH",
+          "guardFillPremiumBps": null,
+          "overpaymentPreventedUsdc": "21085559"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/1",
+          "symbol": "QQQx",
+          "bandBps": 50,
+          "naivePremiumBps": -3,
+          "naiveOverpaymentUsdc": "0",
+          "guardFirstAttempt": "failed",
+          "guardFillPremiumBps": -2,
+          "overpaymentPreventedUsdc": "0"
+        },
+        {
+          "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/4",
+          "symbol": "TSLAx",
+          "bandBps": 50,
+          "naivePremiumBps": 9,
+          "naiveOverpaymentUsdc": "48079",
+          "guardFirstAttempt": "executed",
+          "guardFillPremiumBps": 20,
+          "overpaymentPreventedUsdc": "0"
+        }
+      ]
+    },
+    "oracle": {
+      "environment": "fork",
+      "label": "Jupiter's own quote as the only reference, replayed, not executed",
+      "wouldExecuteOutOfBand": 7,
+      "n": 26,
+      "slices": [
+        "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/0",
+        "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/2",
+        "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/5",
+        "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/6",
+        "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/0",
+        "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/2",
+        "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/5"
+      ]
+    },
+    "chain": {
+      "environment": "computed",
+      "label": "Computed, not executed: Ethereum mainnet gas at the same timestamps",
+      "runs": [
+        {
+          "runId": "2026-09-25T15-28-27-652Z",
+          "rpcUrl": "https://ethereum-rpc.publicnode.com",
+          "token": {
+            "symbol": "NVDAx",
+            "ethereum": "0xc845b2894dbddd03858fd2d643b4ef725fe0849d"
+          },
+          "swapReceipts": 0,
+          "gasBasis": "median gasUsed of all 9 recent transactions that moved NVDAx on Ethereum (0 carried a standard AMM swap event)",
+          "receiptsRead": 9,
+          "gasUnitsMedian": 392855,
+          "medianPer20Bps": 597.5,
+          "medianPer20Usd": 1.195,
+          "points": [
+            {
+              "slice": "p1-positive/2026-09-25T13-50-09-043Z/Anthropic paycheck/0",
+              "at": "2026-09-25T13:52:47.437Z",
+              "gasPriceWei": "1845398697",
+              "ethUsdE9": "2689032246100",
+              "costUsdMicros": "1949478",
+              "per20Bps": 974,
+              "perSliceBps": 194
+            },
+            {
+              "slice": "p1-positive/2026-09-25T13-50-09-043Z/NVDAx paycheck/0",
+              "at": "2026-09-25T13:53:47.186Z",
+              "gasPriceWei": "1377052453",
+              "ethUsdE9": "2694804263050",
+              "costUsdMicros": "1457840",
+              "per20Bps": 728,
+              "perSliceBps": 145
+            },
+            {
+              "slice": "p1-positive/2026-09-25T14-27-30-905Z/Anthropic paycheck/0",
+              "at": "2026-09-25T14:31:11.819Z",
+              "gasPriceWei": "1310876416",
+              "ethUsdE9": "2689456380050",
+              "costUsdMicros": "1385027",
+              "per20Bps": 692,
+              "perSliceBps": 138
+            },
+            {
+              "slice": "p1-positive/2026-09-25T14-27-30-905Z/NVDAx paycheck/0",
+              "at": "2026-09-25T14:31:46.609Z",
+              "gasPriceWei": "1310876416",
+              "ethUsdE9": "2689456380050",
+              "costUsdMicros": "1385027",
+              "per20Bps": 692,
+              "perSliceBps": 138
+            },
+            {
+              "slice": "p1-positive/2026-09-25T14-51-05-754Z/Anthropic paycheck/0",
+              "at": "2026-09-25T14:52:30.986Z",
+              "gasPriceWei": "2190227632",
+              "ethUsdE9": "2683134597720",
+              "costUsdMicros": "2308681",
+              "per20Bps": 1154,
+              "perSliceBps": 230
+            },
+            {
+              "slice": "p1-positive/2026-09-25T14-51-05-754Z/NVDAx paycheck/0",
+              "at": "2026-09-25T14:53:08.529Z",
+              "gasPriceWei": "1376480238",
+              "ethUsdE9": "2682047155610",
+              "costUsdMicros": "1450336",
+              "per20Bps": 725,
+              "perSliceBps": 145
+            },
+            {
+              "slice": "p4-harmful/2026-09-25T13-34-25-383Z/Anthropic paycheck/0",
+              "at": "2026-09-25T13:37:41.970Z",
+              "gasPriceWei": "1787194056",
+              "ethUsdE9": "2702206608670",
+              "costUsdMicros": "1897241",
+              "per20Bps": 948,
+              "perSliceBps": 189
+            },
+            {
+              "slice": "p4-harmful/2026-09-25T14-55-10-011Z/Anthropic paycheck/0",
+              "at": "2026-09-25T14:57:14.423Z",
+              "gasPriceWei": "1229945808",
+              "ethUsdE9": "2693066695490",
+              "costUsdMicros": "1301263",
+              "per20Bps": 650,
+              "perSliceBps": 130
+            },
+            {
+              "slice": "p4-harmful/2026-09-25T15-07-45-674Z/Anthropic paycheck/0",
+              "at": "2026-09-25T15:09:59.791Z",
+              "gasPriceWei": "1830203500",
+              "ethUsdE9": "2695965242820",
+              "costUsdMicros": "1938411",
+              "per20Bps": 969,
+              "perSliceBps": 193
+            },
+            {
+              "slice": "p4-real-market/2026-09-25T13-31-17-574Z/OpenAI+Neuralink paycheck/0",
+              "at": "2026-09-25T13:33:34.004Z",
+              "gasPriceWei": "2331115179",
+              "ethUsdE9": "2692271936830",
+              "costUsdMicros": "2465556",
+              "per20Bps": 1232,
+              "perSliceBps": 246
+            },
+            {
+              "slice": "p4-real-market/2026-09-25T13-31-17-574Z/OpenAI+Neuralink paycheck/1",
+              "at": "2026-09-25T13:34:00.208Z",
+              "gasPriceWei": "2404473730",
+              "ethUsdE9": "2694936830530",
+              "costUsdMicros": "2545663",
+              "per20Bps": 1272,
+              "perSliceBps": 254
+            },
+            {
+              "slice": "p6-replay/2026-09-25T13-37-49-918Z/Anthropic paycheck/0",
+              "at": "2026-09-25T13:40:03.549Z",
+              "gasPriceWei": "1893471792",
+              "ethUsdE9": "2700764941050",
+              "costUsdMicros": "2008990",
+              "per20Bps": 1004,
+              "perSliceBps": 200
+            },
+            {
+              "slice": "p6-replay/2026-09-25T14-31-49-239Z/Anthropic paycheck/0",
+              "at": "2026-09-25T14:33:09.833Z",
+              "gasPriceWei": "1576106889",
+              "ethUsdE9": "2692271682120",
+              "costUsdMicros": "1667004",
+              "per20Bps": 833,
+              "perSliceBps": 166
+            },
+            {
+              "slice": "p6-replay/2026-09-25T14-53-11-173Z/Anthropic paycheck/0",
+              "at": "2026-09-25T14:54:35.772Z",
+              "gasPriceWei": "1282811442",
+              "ethUsdE9": "2686492162980",
+              "costUsdMicros": "1353881",
+              "per20Bps": 676,
+              "perSliceBps": 135
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/0",
+              "at": "2026-09-25T15:12:32.890Z",
+              "gasPriceWei": "1078623906",
+              "ethUsdE9": "2693442385070",
+              "costUsdMicros": "1141326",
+              "per20Bps": 570,
+              "perSliceBps": 3985
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/1",
+              "at": "2026-09-25T15:12:47.161Z",
+              "gasPriceWei": "1078623906",
+              "ethUsdE9": "2693442385070",
+              "costUsdMicros": "1141326",
+              "per20Bps": 570,
+              "perSliceBps": 3996
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/2",
+              "at": "2026-09-25T15:13:00.672Z",
+              "gasPriceWei": "1103376884",
+              "ethUsdE9": "2696449226290",
+              "costUsdMicros": "1168822",
+              "per20Bps": 584,
+              "perSliceBps": 4092
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/3",
+              "at": "2026-09-25T15:13:08.919Z",
+              "gasPriceWei": "1103376884",
+              "ethUsdE9": "2696449226290",
+              "costUsdMicros": "1168822",
+              "per20Bps": 584,
+              "perSliceBps": 4092
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/4",
+              "at": "2026-09-25T15:13:21.726Z",
+              "gasPriceWei": "1103376884",
+              "ethUsdE9": "2696449226290",
+              "costUsdMicros": "1168822",
+              "per20Bps": 584,
+              "perSliceBps": 4092
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/5",
+              "at": "2026-09-25T15:13:33.810Z",
+              "gasPriceWei": "1103376884",
+              "ethUsdE9": "2696449226290",
+              "costUsdMicros": "1168822",
+              "per20Bps": 584,
+              "perSliceBps": 4092
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/6",
+              "at": "2026-09-25T15:13:41.703Z",
+              "gasPriceWei": "1103376884",
+              "ethUsdE9": "2696449226290",
+              "costUsdMicros": "1168822",
+              "per20Bps": 584,
+              "perSliceBps": 4092
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/0",
+              "at": "2026-09-25T15:15:48.542Z",
+              "gasPriceWei": "1011844405",
+              "ethUsdE9": "2697093776170",
+              "costUsdMicros": "1072116",
+              "per20Bps": 536,
+              "perSliceBps": 10
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/1",
+              "at": "2026-09-25T15:15:58.469Z",
+              "gasPriceWei": "1011844405",
+              "ethUsdE9": "2697093776170",
+              "costUsdMicros": "1072116",
+              "per20Bps": 536,
+              "perSliceBps": 10
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/2",
+              "at": "2026-09-25T15:16:02.415Z",
+              "gasPriceWei": "1013133174",
+              "ethUsdE9": "2696060064450",
+              "costUsdMicros": "1073070",
+              "per20Bps": 536,
+              "perSliceBps": 10
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/3",
+              "at": "2026-09-25T15:16:02.415Z",
+              "gasPriceWei": "1013133174",
+              "ethUsdE9": "2696060064450",
+              "costUsdMicros": "1073070",
+              "per20Bps": 536,
+              "perSliceBps": 10
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/4",
+              "at": "2026-09-25T15:16:02.415Z",
+              "gasPriceWei": "1013133174",
+              "ethUsdE9": "2696060064450",
+              "costUsdMicros": "1073070",
+              "per20Bps": 536,
+              "perSliceBps": 10
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/0",
+              "at": "2026-09-25T15:17:48.824Z",
+              "gasPriceWei": "972157444",
+              "ethUsdE9": "2697370973910",
+              "costUsdMicros": "1030171",
+              "per20Bps": 515,
+              "perSliceBps": 28
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/1",
+              "at": "2026-09-25T15:17:55.143Z",
+              "gasPriceWei": "972157444",
+              "ethUsdE9": "2697370973910",
+              "costUsdMicros": "1030171",
+              "per20Bps": 515,
+              "perSliceBps": 28
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/2",
+              "at": "2026-09-25T15:18:21.953Z",
+              "gasPriceWei": "988369689",
+              "ethUsdE9": "2696520000000",
+              "costUsdMicros": "1047020",
+              "per20Bps": 523,
+              "perSliceBps": 29
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/3",
+              "at": "2026-09-25T15:18:29.990Z",
+              "gasPriceWei": "988369689",
+              "ethUsdE9": "2696520000000",
+              "costUsdMicros": "1047020",
+              "per20Bps": 523,
+              "perSliceBps": 29
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/4",
+              "at": "2026-09-25T15:18:45.896Z",
+              "gasPriceWei": "988369689",
+              "ethUsdE9": "2696520000000",
+              "costUsdMicros": "1047020",
+              "per20Bps": 523,
+              "perSliceBps": 29
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/5",
+              "at": "2026-09-25T15:18:49.608Z",
+              "gasPriceWei": "988369689",
+              "ethUsdE9": "2696520000000",
+              "costUsdMicros": "1047020",
+              "per20Bps": 523,
+              "perSliceBps": 29
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/6",
+              "at": "2026-09-25T15:19:01.310Z",
+              "gasPriceWei": "967901582",
+              "ethUsdE9": "2694488603620",
+              "costUsdMicros": "1024565",
+              "per20Bps": 512,
+              "perSliceBps": 28
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$1000 from employer-3 to worker-xstocks-b/0",
+              "at": "2026-09-25T15:20:50.431Z",
+              "gasPriceWei": "929784863",
+              "ethUsdE9": "2690662550700",
+              "costUsdMicros": "982820",
+              "per20Bps": 491,
+              "perSliceBps": 39
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$1000 from employer-3 to worker-xstocks-b/1",
+              "at": "2026-09-25T15:20:50.431Z",
+              "gasPriceWei": "929784863",
+              "ethUsdE9": "2690662550700",
+              "costUsdMicros": "982820",
+              "per20Bps": 491,
+              "perSliceBps": 39
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$1000 from employer-3 to worker-xstocks-b/2",
+              "at": "2026-09-25T15:20:50.432Z",
+              "gasPriceWei": "929784863",
+              "ethUsdE9": "2690662550700",
+              "costUsdMicros": "982820",
+              "per20Bps": 491,
+              "perSliceBps": 39
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$1000 from employer-3 to worker-xstocks-b/3",
+              "at": "2026-09-25T15:20:50.432Z",
+              "gasPriceWei": "929784863",
+              "ethUsdE9": "2690662550700",
+              "costUsdMicros": "982820",
+              "per20Bps": 491,
+              "perSliceBps": 39
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/0",
+              "at": "2026-09-25T15:21:02.599Z",
+              "gasPriceWei": "1157641928",
+              "ethUsdE9": "2690452600050",
+              "costUsdMicros": "1223578",
+              "per20Bps": 611,
+              "perSliceBps": 244
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/1",
+              "at": "2026-09-25T15:21:02.599Z",
+              "gasPriceWei": "1157641928",
+              "ethUsdE9": "2690452600050",
+              "costUsdMicros": "1223578",
+              "per20Bps": 611,
+              "perSliceBps": 244
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/2",
+              "at": "2026-09-25T15:21:26.407Z",
+              "gasPriceWei": "1157641928",
+              "ethUsdE9": "2690452600050",
+              "costUsdMicros": "1223578",
+              "per20Bps": 611,
+              "perSliceBps": 244
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/3",
+              "at": "2026-09-25T15:21:26.408Z",
+              "gasPriceWei": "1157641928",
+              "ethUsdE9": "2690452600050",
+              "costUsdMicros": "1223578",
+              "per20Bps": 611,
+              "perSliceBps": 244
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/4",
+              "at": "2026-09-25T15:21:26.408Z",
+              "gasPriceWei": "1157641928",
+              "ethUsdE9": "2690452600050",
+              "costUsdMicros": "1223578",
+              "per20Bps": 611,
+              "perSliceBps": 244
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-1 to worker-xstocks-b/0",
+              "at": "2026-09-25T15:21:52.004Z",
+              "gasPriceWei": "1157641928",
+              "ethUsdE9": "2690452600050",
+              "costUsdMicros": "1223578",
+              "per20Bps": 611,
+              "perSliceBps": 2447
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-1 to worker-xstocks-b/1",
+              "at": "2026-09-25T15:21:52.009Z",
+              "gasPriceWei": "1157641928",
+              "ethUsdE9": "2690452600050",
+              "costUsdMicros": "1223578",
+              "per20Bps": 611,
+              "perSliceBps": 2447
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-1 to worker-xstocks-b/2",
+              "at": "2026-09-25T15:21:52.009Z",
+              "gasPriceWei": "1157641928",
+              "ethUsdE9": "2690452600050",
+              "costUsdMicros": "1223578",
+              "per20Bps": 611,
+              "perSliceBps": 2447
+            },
+            {
+              "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-1 to worker-xstocks-b/3",
+              "at": "2026-09-25T15:21:52.010Z",
+              "gasPriceWei": "1157641928",
+              "ethUsdE9": "2690452600050",
+              "costUsdMicros": "1223578",
+              "per20Bps": 611,
+              "perSliceBps": 2447
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "decisionRules": [
+    {
+      "claim": "cost",
+      "rule": "Median all-in cost per $100 <= $0.50 passes; above $1.00 withdraws the claim",
+      "value": 1,
+      "n": 15,
+      "outcome": "inconclusive"
+    },
+    {
+      "claim": "guard",
+      "rule": "At least one slice waited and later filled in band with measured overpayment avoided",
+      "value": 0,
+      "outcome": "fail",
+      "consequence": "Describe the guard only as protection, with the live PreStocks premium as its evidence"
+    },
+    {
+      "claim": "integrity",
+      "rule": "100% of executed slices Verified",
+      "value": "20/20",
+      "outcome": "pass"
+    },
+    {
+      "claim": "speed",
+      "rule": "Not evaluated on a fork",
+      "value": null,
+      "outcome": "not_evaluated"
+    }
+  ],
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ"
+  },
+  "bpsDenominator": 10000
+}

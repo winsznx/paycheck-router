@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-09-25T13-32-01-991Z/paychecks/01-untagged-sender",
+  "environment": "fork",
+  "fork": {
+    "startSlot": 450366980,
+    "rpcUrl": "http://127.0.0.1:48899",
+    "datasource": "api.mainnet-beta.solana.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -0.5559999942779541
+  },
+  "startedAt": "2026-09-25T13:33:49.788Z",
+  "finishedAt": "2026-09-25T13:33:53.932Z",
+  "commit": "9fc5d77936cbbc8506d47d99b0e7edaee7730043",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+  "programExecutableHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b",
+  "programSource": "verifiable CI build of main@eade508, https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:48899",
+    "verifier": "http://127.0.0.1:48899"
+  },
+  "feedIds": [],
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ"
+  },
+  "router": {
+    "address": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e",
+    "owner": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "authority": "DwNCQN35YgQM8zovMAGp6noKsS9hkefRacQ5yMG8WxM3",
+    "investBps": 5000,
+    "legs": [
+      {
+        "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+        "symbol": "Anthropic",
+        "weightBps": 10000
+      }
+    ]
+  },
+  "paycheck": null,
+  "transactions": [
+    {
+      "label": "paycheck: employer-2 transferChecked",
+      "signature": "63vSMK6SpHnjgrGM4Rzby2eJ9Hwy1o9UtcDSrDtQ8ho191eXNKrNCCYArZYMBri4HYAVXXozdskVoNbZEyhLAA3t",
+      "slot": 450367240,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/63vSMK6SpHnjgrGM4Rzby2eJ9Hwy1o9UtcDSrDtQ8ho191eXNKrNCCYArZYMBri4HYAVXXozdskVoNbZEyhLAA3t.json",
+        "sha256": "494453ca070c569dd4cbfcbab9d384c5eeb7a4e75cc948b56d7d036d295df4f2"
+      }
+    },
+    {
+      "label": "skip_inflow (untagged_sender)",
+      "signature": "3B94RpaGYjqDY6kf56DpLqN1E5pEEbLMEEMQvRF3Wbxj33twspTg2hQE7eHWV7x3uUw8hTcjSQJivEC2SMX4VeTg",
+      "slot": 450367247,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3B94RpaGYjqDY6kf56DpLqN1E5pEEbLMEEMQvRF3Wbxj33twspTg2hQE7eHWV7x3uUw8hTcjSQJivEC2SMX4VeTg.json",
+        "sha256": "e1d5efbf94ba2cccf9e9e08e9c452c6d12e77bed0c5bb539c9fa5f7957a17e97"
+      }
+    }
+  ],
+  "legs": [],
+  "artifacts": [
+    {
+      "path": "raw/balances/before.json",
+      "sha256": "d1edd7d322c006f740302b7af2c63054851216100a82a4fae4d63a4f55d62df9"
+    },
+    {
+      "path": "raw/mints/Anthropic.json",
+      "sha256": "25410ffc0ea0f0c6fe39b0b9b3a64ef6ef1cb9d55cb30d674d98d48176a4843f"
+    },
+    {
+      "path": "raw/epoch.json",
+      "sha256": "8551e5978e35372205f954a616d34bee82ff3866dfac3b4757256d1d465498ee"
+    },
+    {
+      "path": "raw/tx/63vSMK6SpHnjgrGM4Rzby2eJ9Hwy1o9UtcDSrDtQ8ho191eXNKrNCCYArZYMBri4HYAVXXozdskVoNbZEyhLAA3t.json",
+      "sha256": "494453ca070c569dd4cbfcbab9d384c5eeb7a4e75cc948b56d7d036d295df4f2"
+    },
+    {
+      "path": "raw/tx/3B94RpaGYjqDY6kf56DpLqN1E5pEEbLMEEMQvRF3Wbxj33twspTg2hQE7eHWV7x3uUw8hTcjSQJivEC2SMX4VeTg.json",
+      "sha256": "e1d5efbf94ba2cccf9e9e08e9c452c6d12e77bed0c5bb539c9fa5f7957a17e97"
+    },
+    {
+      "path": "raw/balances/after.json",
+      "sha256": "893cd19c0e5ce459b2d9696409a2a60f845dfb944966a2e833b75525e84a20ae"
+    }
+  ],
+  "error": null
+}

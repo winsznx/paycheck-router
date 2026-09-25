@@ -1,0 +1,32 @@
+[
+  {
+    "feedId": "19e09bb805456ada3979a7d1cbb4b6d63babc3a0f8e8a9509f68afa5c4c11cd5",
+    "status": 403,
+    "body": "Not entitled: feed 19e09bb805456ada3979a7d1cbb4b6d63babc3a0f8e8a9509f68afa5c4c11cd5 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 2))"
+  },
+  {
+    "feedId": "b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593",
+    "status": 403,
+    "body": "Not entitled: feed b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+  },
+  {
+    "feedId": "a470c4ac46f44b547b2cba52338f311fb642b79375ce5f0cfd5cb5b99227b852",
+    "status": 403,
+    "body": "Not entitled: feed a470c4ac46f44b547b2cba52338f311fb642b79375ce5f0cfd5cb5b99227b852 (no grant accepts this gated feed; it requires access to one of the following groups: [\"pyth-indices\"])"
+  },
+  {
+    "feedId": "49f6b65cb1de6b10eaf75e7c03ca029c306d0357e91b5311b175084a5ad55688",
+    "status": 403,
+    "body": "Not entitled: feed 49f6b65cb1de6b10eaf75e7c03ca029c306d0357e91b5311b175084a5ad55688 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+  },
+  {
+    "feedId": "aaba35e6f33fb973bb2201d48a79ae24795affa6ba8bd50a93dcaf7da0030f36",
+    "status": 403,
+    "body": "Not entitled: feed aaba35e6f33fb973bb2201d48a79ae24795affa6ba8bd50a93dcaf7da0030f36 (no grant accepts this gated feed; it requires access to one of the following groups: [\"pyth-indices\"])"
+  },
+  {
+    "feedId": "e6da44bff5b8b06897a3739dd331b440d6662595bb862e37046892c568ae3fc0",
+    "status": 403,
+    "body": "Not entitled: feed e6da44bff5b8b06897a3739dd331b440d6662595bb862e37046892c568ae3fc0 (no grant accepts this gated feed; it requires access to one of the following groups: [\"pyth-indices\"])"
+  }
+]

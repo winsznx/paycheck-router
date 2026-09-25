@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-09-25T13-32-01-991Z/paychecks/03-self-transfer",
+  "environment": "fork",
+  "fork": {
+    "startSlot": 450366980,
+    "rpcUrl": "http://127.0.0.1:48899",
+    "datasource": "api.mainnet-beta.solana.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -0.5559999942779541
+  },
+  "startedAt": "2026-09-25T13:34:18.225Z",
+  "finishedAt": "2026-09-25T13:34:22.805Z",
+  "commit": "9fc5d77936cbbc8506d47d99b0e7edaee7730043",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+  "programExecutableHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b",
+  "programSource": "verifiable CI build of main@eade508, https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:48899",
+    "verifier": "http://127.0.0.1:48899"
+  },
+  "feedIds": [],
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ",
+    "worker-second-usdc-account": "6LXSsAFpxAUKxt9hsWx9GS7XTxPbAYtPsi89hFYgaukJ"
+  },
+  "router": {
+    "address": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e",
+    "owner": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "authority": "DwNCQN35YgQM8zovMAGp6noKsS9hkefRacQ5yMG8WxM3",
+    "investBps": 5000,
+    "legs": [
+      {
+        "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+        "symbol": "Anthropic",
+        "weightBps": 10000
+      }
+    ]
+  },
+  "paycheck": null,
+  "transactions": [
+    {
+      "label": "paycheck: demo-worker (own second account) transferChecked",
+      "signature": "4za5fZkJ8ZjkPwG2MzDG71VPHFr8QSpp1ham3fxpJVquxvRE3d7612UUVhHdgmf9U947otdRKbBscQfB5i5WD9GF",
+      "slot": 450367311,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4za5fZkJ8ZjkPwG2MzDG71VPHFr8QSpp1ham3fxpJVquxvRE3d7612UUVhHdgmf9U947otdRKbBscQfB5i5WD9GF.json",
+        "sha256": "0695cf79332205128f27ca978a2d2e476588257ff1c6d0353b7aee781acef324"
+      }
+    },
+    {
+      "label": "skip_inflow (self_transfer)",
+      "signature": "QVCpB9HXLhHoU6uersbUwb2pudwmjVyDtrK5FSP4vcuErqubnwktGhPBr7uoo7yXdh6ppTt7sN93bVemqqz5K6g",
+      "slot": 450367320,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/QVCpB9HXLhHoU6uersbUwb2pudwmjVyDtrK5FSP4vcuErqubnwktGhPBr7uoo7yXdh6ppTt7sN93bVemqqz5K6g.json",
+        "sha256": "55ccf808f5ec6c63b45e6b551a729a971d736dc9790d164f0f55f2fa91514383"
+      }
+    }
+  ],
+  "legs": [],
+  "artifacts": [
+    {
+      "path": "raw/balances/before.json",
+      "sha256": "1e2bc81c7ead2997916b7e29e22e58db6c9ec92f0a13bb829f9385112fbf54e7"
+    },
+    {
+      "path": "raw/mints/Anthropic.json",
+      "sha256": "804bd94d8f87428b2dd732e09e0eeb84032b38142363e5c605ff469cdd8649c1"
+    },
+    {
+      "path": "raw/epoch.json",
+      "sha256": "554fc564438b6c5d505632054af03b92b04d56139210cb50740a1248116ea45d"
+    },
+    {
+      "path": "raw/tx/4za5fZkJ8ZjkPwG2MzDG71VPHFr8QSpp1ham3fxpJVquxvRE3d7612UUVhHdgmf9U947otdRKbBscQfB5i5WD9GF.json",
+      "sha256": "0695cf79332205128f27ca978a2d2e476588257ff1c6d0353b7aee781acef324"
+    },
+    {
+      "path": "raw/tx/QVCpB9HXLhHoU6uersbUwb2pudwmjVyDtrK5FSP4vcuErqubnwktGhPBr7uoo7yXdh6ppTt7sN93bVemqqz5K6g.json",
+      "sha256": "55ccf808f5ec6c63b45e6b551a729a971d736dc9790d164f0f55f2fa91514383"
+    },
+    {
+      "path": "raw/balances/after.json",
+      "sha256": "fd6362e627d570eb58355bdf45af9345d3724cb2327d206ca378bdd065c37ffa"
+    }
+  ],
+  "error": null
+}
