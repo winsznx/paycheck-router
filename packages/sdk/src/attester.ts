@@ -2,14 +2,12 @@ import { ED25519_PROGRAM_ID } from "@paycheck-router/shared";
 import {
   type Address,
   getAddressEncoder,
-  getI64Encoder,
-  getU8Encoder,
-  getU64Encoder,
   type Instruction,
   type KeyPairSigner,
   signBytes,
 } from "@solana/kit";
 import { z } from "zod";
+import { getMarkAttestationEncoder, type MarkAttestation } from "./generated/index.ts";
 import type { FetchLike } from "./json-rpc.ts";
 
 export const PRESTOCKS_API_URL = "https://prestocks.com/api/prestocks";
@@ -101,23 +99,11 @@ export function decideMark(
   };
 }
 
-export type MarkAttestation = {
-  mint: Address;
-  markPriceE9: bigint;
-  observedAt: bigint;
-  source: number;
-};
-
 export const MARK_ATTESTATION_LEN = 32 + 8 + 8 + 1;
 
 /** Borsh `MarkAttestation { mint, mark_price_e9: u64, observed_at: i64, source: u8 }`. */
 export function encodeMarkAttestation(attestation: MarkAttestation): Uint8Array {
-  const out = new Uint8Array(MARK_ATTESTATION_LEN);
-  out.set(getAddressEncoder().encode(attestation.mint), 0);
-  out.set(getU64Encoder().encode(attestation.markPriceE9), 32);
-  out.set(getI64Encoder().encode(attestation.observedAt), 40);
-  out.set(getU8Encoder().encode(attestation.source), 48);
-  return out;
+  return Uint8Array.from(getMarkAttestationEncoder().encode(attestation));
 }
 
 export type SignedAttestation = {
