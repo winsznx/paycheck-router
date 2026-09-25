@@ -21,13 +21,12 @@ import { fetchers, keys } from "@/lib/data.ts";
 import { isPreIpo, usdc } from "@/lib/money.ts";
 import {
   type DraftLeg,
-  PRESETS,
-  presetLegs,
   toBaseUnits,
   totalWeightBps,
   updateDraft,
   useDraft,
 } from "@/lib/onboarding.ts";
+import { PRESETS, presetLegs } from "@/lib/presets.ts";
 import { useQuery } from "@/lib/query.ts";
 import { StepFrame } from "./step-frame.tsx";
 
