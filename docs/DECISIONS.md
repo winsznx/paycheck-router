@@ -2,6 +2,12 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: Pyth Hermes requires an API key
+
+**Observed.** Since Pyth's core upgrade on Aug 26, 2026, Hermes answers `401 unauthorized` on every price-update endpoint without a key: `/v2/updates/price/latest`, `/v2/updates/price/{publish_time}` and `/api/latest_vaas`. Feed metadata (`/v2/price_feeds`) still answers 200. Checked at 11:48 WAT. Keys come from Pyth Terminal and are sent as `Authorization: Bearer <key>`. Routes and response shapes are unchanged, and the onchain receiver is still permissionless.
+
+**Changed.** The crank, `pnpm demo:fork`, the verifier CLI and the API read `PYTH_API_KEY` (and an optional `HERMES_URL`) and send it on every Hermes request. Running the pipeline or re-verifying a bundle now needs a Pyth key as well as the free Helius and Jupiter keys. There is no fallback price source: without a key, nothing buys.
+
 ## 2026-09-25: Jupiter creates the Authority PDA's output-token account
 
 **Observed.** With the Authority PDA as `taker` and the owner's token account as `destinationTokenAccount`, `/swap/v2/build` still returns a setup instruction that creates the PDA's associated token account for the output mint, paid by `payer` (the crank). The shares land in the destination account; the PDA's account stays empty. Evidence: `evidence/day-one/2026-09-25T10-21-50-930Z.json`, check 4.
