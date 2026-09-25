@@ -17,7 +17,9 @@ export type TableProps<Row> = {
 /** Sticky header, right-aligned numbers (PRD 14.6). */
 export function Table<Row>({ caption, columns, rows, rowKey }: TableProps<Row>) {
   return (
-    <div className="pr-table-wrap">
+    // A focusable region so keyboard users can scroll a wide table on small screens (WCAG 2.1.1).
+    // biome-ignore lint/a11y/noNoninteractiveTabindex: the scroll container must take focus
+    <section className="pr-table-wrap" aria-label={caption} tabIndex={0}>
       <table className="pr-table">
         <caption className="pr-sr-only">{caption}</caption>
         <thead>
@@ -41,6 +43,6 @@ export function Table<Row>({ caption, columns, rows, rowKey }: TableProps<Row>) 
           ))}
         </tbody>
       </table>
-    </div>
+    </section>
   );
 }
