@@ -31,14 +31,28 @@ export const PreStocksEntry = z.object({
 });
 export type PreStocksEntry = z.infer<typeof PreStocksEntry>;
 
-export const PreStocksResponse = z.array(PreStocksEntry).min(1);
+export const PreStocksResponse = z.array(z.unknown()).min(1);
+
+/** An entry that failed validation; only its own mint loses its mark. */
+export type RejectedPreStocksEntry = {
+  index: number;
+  contractAddress: string | null;
+  issues: string;
+};
 
 export type PreStocksRead = {
   entries: PreStocksEntry[];
+  rejected: RejectedPreStocksEntry[];
   raw: string;
   /** Unix seconds when the response arrived. */
   observedAt: number;
 };
+
+function contractAddressOf(item: unknown): string | null {
+  if (typeof item !== "object" || item === null || !("contract_address" in item)) return null;
+  const value = (item as { contract_address: unknown }).contract_address;
+  return typeof value === "string" ? value : null;
+}
 
 export async function fetchPreStocks(
   options: { url?: string; fetch?: FetchLike; now?: () => number } = {},
@@ -47,7 +61,29 @@ export async function fetchPreStocks(
   const raw = await res.text();
   if (!res.ok) throw new Error(`PreStocks API ${res.status}: ${raw.slice(0, 300)}`);
   const observedAt = Math.floor((options.now ?? Date.now)() / 1000);
-  return { entries: PreStocksResponse.parse(JSON.parse(raw)), raw, observedAt };
+  const items = PreStocksResponse.parse(JSON.parse(raw));
+  const entries: PreStocksEntry[] = [];
+  const rejected: RejectedPreStocksEntry[] = [];
+  items.forEach((item, index) => {
+    const parsed = PreStocksEntry.safeParse(item);
+    if (parsed.success) {
+      entries.push(parsed.data);
+    } else {
+      rejected.push({
+        index,
+        contractAddress: contractAddressOf(item),
+        issues: parsed.error.issues
+          .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+          .join("; "),
+      });
+    }
+  });
+  if (entries.length === 0) {
+    throw new Error(
+      `PreStocks API returned no valid entries: ${JSON.stringify(rejected).slice(0, 300)}`,
+    );
+  }
+  return { entries, rejected, raw, observedAt };
 }
 
 /**
@@ -159,7 +195,13 @@ export async function attestMark(
   attester: KeyPairSigner,
 ): Promise<{ signed: SignedAttestation; entry: PreStocksEntry }> {
   const entry = read.entries.find((e) => e.contract_address === mint);
-  if (!entry) throw new Error(`PreStocks API has no entry for ${mint}`);
+  if (!entry) {
+    const rejected = read.rejected.find((r) => r.contractAddress === mint);
+    if (rejected) {
+      throw new Error(`PreStocks API entry for ${mint} failed validation: ${rejected.issues}`);
+    }
+    throw new Error(`PreStocks API has no entry for ${mint}`);
+  }
   const signed = await signMarkAttestation(
     {
       mint,
