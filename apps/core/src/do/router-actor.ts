@@ -1,5 +1,6 @@
 import { DurableObject } from "cloudflare:workers";
 import { api, assetByMint, retryDelaySecs, type WaitReason } from "@paycheck-router/shared";
+import { sharesUi } from "../chain/shares.ts";
 import { createDb } from "../db/client.ts";
 import { createEngine } from "../engine/factory.ts";
 import type {
@@ -46,7 +47,8 @@ const SCHEMA = [
     id text primary key, paycheck_id text not null, seq text not null, idx integer not null,
     mint text not null, amount_in text not null, band_bps integer not null, status text not null,
     wait_reason text, next_attempt_at integer, attempt_count integer not null default 0,
-    executing_since integer, out_amount text, fee text, issuer_fee text, ref_price_e9 text,
+    executing_since integer, out_amount text, fee text, issuer_fee text, ui_multiplier text,
+    ref_price_e9 text,
     exec_price_e9 text, premium_bps integer, executed_sig text, executed_at integer,
     verified_at integer, unique (seq, idx))`,
   "create table if not exists outbox (id integer primary key autoincrement, payload text not null)",
@@ -69,6 +71,7 @@ type LegSqlRow = {
   out_amount: string | null;
   fee: string | null;
   issuer_fee: string | null;
+  ui_multiplier: string | null;
   ref_price_e9: string | null;
   exec_price_e9: string | null;
   premium_bps: number | null;
@@ -108,6 +111,7 @@ function toLegRow(row: LegSqlRow): LegRow {
     outAmount: row.out_amount,
     fee: row.fee,
     issuerFee: row.issuer_fee,
+    uiMultiplier: row.ui_multiplier,
     refPriceE9: row.ref_price_e9,
     execPriceE9: row.exec_price_e9,
     premiumBps: row.premium_bps,
@@ -153,6 +157,11 @@ export function legView(row: LegRow): api.Leg {
     outAmount: row.outAmount,
     fee: row.fee,
     issuerFee: row.issuerFee,
+    uiMultiplier: row.uiMultiplier,
+    sharesUi:
+      row.outAmount !== null && row.uiMultiplier !== null
+        ? sharesUi(BigInt(row.outAmount), assetByMint(row.mint)?.decimals ?? 0, row.uiMultiplier)
+        : null,
     refPriceE9: row.refPriceE9,
     execPriceE9: row.execPriceE9,
     premiumBps: row.premiumBps,
@@ -196,6 +205,13 @@ export class RouterActor extends DurableObject<Env> {
     super(ctx, env);
     ctx.blockConcurrencyWhile(async () => {
       for (const statement of SCHEMA) ctx.storage.sql.exec(statement);
+      const columns = ctx.storage.sql
+        .exec<{ name: string }>("select name from pragma_table_info('legs')")
+        .toArray()
+        .map((column) => column.name);
+      if (!columns.includes("ui_multiplier")) {
+        ctx.storage.sql.exec("alter table legs add column ui_multiplier text");
+      }
     });
   }
 
@@ -527,7 +543,7 @@ export class RouterActor extends DurableObject<Env> {
   private updateLeg(leg: LegRow): void {
     this.ctx.storage.sql.exec(
       `update legs set status = ?, wait_reason = ?, next_attempt_at = ?, attempt_count = ?,
-        executing_since = ?, out_amount = ?, fee = ?, issuer_fee = ?, ref_price_e9 = ?,
+        executing_since = ?, out_amount = ?, fee = ?, issuer_fee = ?, ui_multiplier = ?, ref_price_e9 = ?,
         exec_price_e9 = ?, premium_bps = ?, executed_sig = ?, executed_at = ?, verified_at = ?
         where id = ?`,
       leg.status,
@@ -538,6 +554,7 @@ export class RouterActor extends DurableObject<Env> {
       leg.outAmount,
       leg.fee,
       leg.issuerFee,
+      leg.uiMultiplier,
       leg.refPriceE9,
       leg.execPriceE9,
       leg.premiumBps,
@@ -590,6 +607,7 @@ export class RouterActor extends DurableObject<Env> {
         outAmount: outcome.leg.outAmount.toString(),
         fee: outcome.leg.fee.toString(),
         issuerFee: outcome.leg.issuerFee.toString(),
+        uiMultiplier: outcome.leg.uiMultiplier,
         refPriceE9: outcome.leg.refPriceE9.toString(),
         execPriceE9: outcome.leg.execPriceE9?.toString() ?? null,
         premiumBps: outcome.leg.premiumBps,

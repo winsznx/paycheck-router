@@ -71,6 +71,7 @@ async function seedPaycheck(db: Db, userId: string, owner: string) {
         outAmount: 41_130_000n,
         fee: 518_000n,
         issuerFee: 0n,
+        uiMultiplier: "1.4861347",
         refPriceE9: 628_000_000_000n,
         premiumBps: 12,
         executedSig,
@@ -152,6 +153,7 @@ describe("paycheck and proof routes", () => {
     const detail = api.PaycheckDetail.parse(await res.json());
     const [spyx, nvdax] = detail.legs;
     expect(spyx?.verification?.matches).toBe(true);
+    expect(spyx?.sharesUi).toBe("0.61124720211");
     expect(spyx?.verification?.ownerUsdcDelta).toBe("-259000000");
     expect(spyx?.links[0]?.url).toContain("cluster=custom");
     expect(nvdax?.attempts[0]).toMatchObject({

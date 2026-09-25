@@ -116,6 +116,7 @@ class ScriptedEngine implements Engine {
           outAmount: 41_130_000n,
           fee: job.amountIn / 500n,
           issuerFee: 0n,
+          uiMultiplier: "1.0009180758490996",
           refPriceE9: 628_000_000_000n,
           execPriceE9: 629_000_000_000n,
           premiumBps: 15,
@@ -197,6 +198,9 @@ describe("detection to verification", () => {
     expect(nvdax?.status).toBe("waiting");
     expect(nvdax?.waitReason).toBe("PREMIUM_TOO_HIGH");
     expect(nvdax?.nextAttemptAt).not.toBeNull();
+    const spyx = paycheck?.legs.find((leg) => leg.mint === SPYX);
+    expect(spyx?.uiMultiplier).toBe("1.0009180758490996");
+    expect(spyx?.sharesUi).toBe("0.41167760459673466548");
     expect(engine.executed).toEqual([SPYX]);
 
     const { events } = await userHubFor(testEnv, ref.userId ?? "").replay(

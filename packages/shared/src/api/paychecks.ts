@@ -53,6 +53,13 @@ export const Leg = z.object({
   fee: U64String.nullable(),
   /** Token-2022 transfer fee the issuer withheld from the delivered shares, in share base units. */
   issuerFee: U64String.nullable(),
+  /**
+   * Token-2022 Scaled UI multiplier in force at execution, as a decimal string. Core always
+   * sends it (null until the leg executes); optional only so older fixtures still type-check.
+   */
+  uiMultiplier: z.string().nullable().optional(),
+  /** `outAmount` as the wallet shows it: raw × uiMultiplier / 10^decimals, exact. */
+  sharesUi: z.string().nullable().optional(),
   refPriceE9: U64String.nullable(),
   execPriceE9: U64String.nullable(),
   premiumBps: z.number().int().nullable(),
@@ -108,6 +115,10 @@ export const Holding = z.object({
   symbol: z.string(),
   amountRaw: U64String,
   decimals: z.number().int(),
+  /** Scaled UI multiplier in force now, as a decimal string; null when the mint has none. */
+  uiMultiplier: z.string().nullable(),
+  /** `amountRaw` as the wallet shows it, exact. */
+  sharesUi: z.string(),
   /** Current value in USD × 1e6 (USDC units), from the reference price. Null when unpriced. */
   valueUsdc: U64String.nullable(),
   /** USDC spent on this asset through executed legs, in USDC base units. */

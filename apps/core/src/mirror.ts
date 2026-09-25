@@ -27,6 +27,7 @@ export type LegRow = {
   outAmount: string | null;
   fee: string | null;
   issuerFee: string | null;
+  uiMultiplier: string | null;
   refPriceE9: string | null;
   execPriceE9: string | null;
   premiumBps: number | null;
@@ -112,6 +113,7 @@ function legValues(leg: LegRow) {
     outAmount: big(leg.outAmount),
     fee: big(leg.fee),
     issuerFee: big(leg.issuerFee),
+    uiMultiplier: leg.uiMultiplier,
     refPriceE9: big(leg.refPriceE9),
     execPriceE9: big(leg.execPriceE9),
     premiumBps: leg.premiumBps,

@@ -91,6 +91,8 @@ export type ExecutedLeg = {
   outAmount: bigint;
   fee: bigint;
   issuerFee: bigint;
+  /** Scaled UI multiplier the program applied, as a decimal string. */
+  uiMultiplier: string;
   refPriceE9: bigint;
   execPriceE9: bigint | null;
   premiumBps: number | null;
