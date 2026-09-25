@@ -17,21 +17,38 @@
     "id": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
     "deployedOn": "fork",
     "mainnetDeployed": false,
-    "buildHash": null,
-    "releaseTag": "stocklana-submission"
+    "buildHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b",
+    "releaseTag": "stocklana-submission",
+    "buildCommit": "eade508203a8709342dabd129fcd5cc0c6f3944d",
+    "buildImage": "solanafoundation/solana-verifiable-build:4.3.0",
+    "buildRun": "https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+    "binaryBytes": 616160,
+    "$comment": "buildHash is replaced by the stocklana-submission release build at the freeze."
   },
   "runs": [],
   "canonicalRun": null,
   "headline": {
-    "paychecksRouted": { "value": null, "status": "target", "environment": "fork" },
-    "slicesBought": { "value": null, "status": "target", "environment": "fork" },
+    "paychecksRouted": {
+      "value": null,
+      "status": "target",
+      "environment": "fork"
+    },
+    "slicesBought": {
+      "value": null,
+      "status": "target",
+      "environment": "fork"
+    },
     "verifiedRate": {
       "value": null,
       "denominator": null,
       "status": "target",
       "environment": "fork"
     },
-    "openAiWaitPremiumPct": { "value": null, "status": "target", "environment": "fork" },
+    "openAiWaitPremiumPct": {
+      "value": null,
+      "status": "target",
+      "environment": "fork"
+    },
     "medianTimeToSharesSecs": {
       "value": null,
       "status": "not-claimed",
