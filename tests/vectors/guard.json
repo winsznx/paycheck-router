@@ -1,0 +1,548 @@
+{
+  "version": 1,
+  "description": "Golden vectors for the PRD 6.6 guard math. Integers are decimal strings; multipliers are the f64 read from the mint's ScaledUiAmount extension, written as the shortest round-trip decimal.",
+  "conventions": {
+    "price_e9": "Price in USD per UI unit, fixed point at 1e9.",
+    "multiplier": "Parsed as an IEEE 754 double and converted once to fixed point at 1e12 by truncation: trunc(m * 1e12), Rust `(m * 1e12) as u128`, JS BigInt(Math.trunc(m * 1e12)).",
+    "multiplier_invalid": "The program rejects a non-finite multiplier, one <= 0, or one that truncates to 0 as MathOverflow; no vector uses such a value.",
+    "buy": "floor((usdc_in * usdc_price_e9 * 10^decimals * 10^4 * 10^6) / (price_e9 * (10^4 + band_bps) * m_e12))",
+    "sell": "floor((amount_in * m_e12 * price_e9 * (10^4 - band_bps)) / (10^decimals * usdc_price_e9 * 10^4 * 10^6))",
+    "convert": "floor((amount_in * m_pre_e12 * ratio_num * (10^4 - band_bps) * 10^decimals_target) / (10^decimals_pre * ratio_den * 10^4 * m_target_e12))",
+    "overflow": "Numerator and denominator are u128 products checked after each factor, left to right in the order written above; any partial product above 2^128 - 1 or a zero denominator yields MathOverflow. The program also rejects a quotient above 2^64 - 1; no vector reaches that case without a u128 overflow.",
+    "ranges": "decimals 0..=18; band_bps up to 9999 for sell and convert; amounts fit u64."
+  },
+  "vectors": [
+    {
+      "name": "buy_par_one_share_d8",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "100000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "100000000000",
+        "band_bps": "0",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": "100000000"
+    },
+    {
+      "name": "buy_band_50_d8",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "100000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "100000000000",
+        "band_bps": "50",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": "99502487"
+    },
+    {
+      "name": "buy_band_300_nvdax_multiplier",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "99800000",
+        "usdc_price_e9": "1000120000",
+        "price_e9": "180123450000",
+        "band_bps": "300",
+        "multiplier": "1.0009180758490996",
+        "decimals": "8"
+      },
+      "expected": "53749773"
+    },
+    {
+      "name": "buy_band_1000_owner",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "250000000",
+        "usdc_price_e9": "999870000",
+        "price_e9": "432100000000",
+        "band_bps": "1000",
+        "multiplier": "1.001701196801074",
+        "decimals": "8"
+      },
+      "expected": "52501099"
+    },
+    {
+      "name": "buy_usdc_low_peg_0995",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "1000000000",
+        "usdc_price_e9": "995000000",
+        "price_e9": "500000000000",
+        "band_bps": "50",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": "198009950"
+    },
+    {
+      "name": "buy_usdc_high_peg_1005",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "1000000000",
+        "usdc_price_e9": "1005000000",
+        "price_e9": "500000000000",
+        "band_bps": "50",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": "200000000"
+    },
+    {
+      "name": "buy_decimals_6",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "10000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "2000000000",
+        "band_bps": "0",
+        "multiplier": "1",
+        "decimals": "6"
+      },
+      "expected": "5000000"
+    },
+    {
+      "name": "buy_decimals_9_prestock",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "500000000",
+        "usdc_price_e9": "1000010000",
+        "price_e9": "1023610000000",
+        "band_bps": "1000",
+        "multiplier": "1",
+        "decimals": "9"
+      },
+      "expected": "444065610"
+    },
+    {
+      "name": "buy_decimals_9_prestock_multiplier",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "500000000",
+        "usdc_price_e9": "1000010000",
+        "price_e9": "1023610000000",
+        "band_bps": "300",
+        "multiplier": "1.4861347",
+        "decimals": "9"
+      },
+      "expected": "319112949"
+    },
+    {
+      "name": "buy_multiplier_below_one",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "123456789",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "77770000000",
+        "band_bps": "50",
+        "multiplier": "0.95",
+        "decimals": "8"
+      },
+      "expected": "166269737"
+    },
+    {
+      "name": "buy_dust_one_base_unit",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "1",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "100000000000",
+        "band_bps": "50",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": "0"
+    },
+    {
+      "name": "buy_max_leg_5000_usdc",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "4990000000",
+        "usdc_price_e9": "1000300000",
+        "price_e9": "612345670000",
+        "band_bps": "50",
+        "multiplier": "1.0009180758490996",
+        "decimals": "8"
+      },
+      "expected": "810344276"
+    },
+    {
+      "name": "buy_u64_max_usdc",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "18446744073709551615",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "1000000000",
+        "band_bps": "0",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": {
+        "error": "MathOverflow"
+      }
+    },
+    {
+      "name": "buy_overflow_numerator_u128",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "10000000000000",
+        "usdc_price_e9": "1005000000",
+        "price_e9": "1",
+        "band_bps": "0",
+        "multiplier": "1",
+        "decimals": "18"
+      },
+      "expected": {
+        "error": "MathOverflow"
+      }
+    },
+    {
+      "name": "buy_overflow_denominator_u128",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "1000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "18446744073709551615",
+        "band_bps": "1000",
+        "multiplier": "18446744073709551.0",
+        "decimals": "8"
+      },
+      "expected": {
+        "error": "MathOverflow"
+      }
+    },
+    {
+      "name": "buy_large_leg_50000_usdc_d9",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "50000000000",
+        "usdc_price_e9": "1004000000",
+        "price_e9": "5000000000",
+        "band_bps": "1000",
+        "multiplier": "1.25",
+        "decimals": "9"
+      },
+      "expected": {
+        "error": "MathOverflow"
+      }
+    },
+    {
+      "name": "buy_decimals_18",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "1000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "3000000000000",
+        "band_bps": "0",
+        "multiplier": "1",
+        "decimals": "18"
+      },
+      "expected": {
+        "error": "MathOverflow"
+      }
+    },
+    {
+      "name": "buy_zero_price",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "1000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "0",
+        "band_bps": "0",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": {
+        "error": "MathOverflow"
+      }
+    },
+    {
+      "name": "buy_tiny_price_high_decimals",
+      "kind": "buy",
+      "inputs": {
+        "usdc_in": "1000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "1000000000",
+        "band_bps": "0",
+        "multiplier": "1",
+        "decimals": "12"
+      },
+      "expected": "1000000000000"
+    },
+    {
+      "name": "sell_par_one_share_d8",
+      "kind": "sell",
+      "inputs": {
+        "amount_in": "100000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "100000000000",
+        "band_bps": "0",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": "100000000"
+    },
+    {
+      "name": "sell_band_50_d8",
+      "kind": "sell",
+      "inputs": {
+        "amount_in": "100000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "100000000000",
+        "band_bps": "50",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": "99500000"
+    },
+    {
+      "name": "sell_band_300_multiplier",
+      "kind": "sell",
+      "inputs": {
+        "amount_in": "12345678",
+        "usdc_price_e9": "999950000",
+        "price_e9": "180123450000",
+        "band_bps": "300",
+        "multiplier": "1.0009180758490996",
+        "decimals": "8"
+      },
+      "expected": "21591220"
+    },
+    {
+      "name": "sell_band_1000_d9",
+      "kind": "sell",
+      "inputs": {
+        "amount_in": "2000000000",
+        "usdc_price_e9": "1004990000",
+        "price_e9": "154440000000",
+        "band_bps": "1000",
+        "multiplier": "1",
+        "decimals": "9"
+      },
+      "expected": "276611707"
+    },
+    {
+      "name": "sell_decimals_6",
+      "kind": "sell",
+      "inputs": {
+        "amount_in": "5000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "3000000000",
+        "band_bps": "50",
+        "multiplier": "1",
+        "decimals": "6"
+      },
+      "expected": "14925000"
+    },
+    {
+      "name": "sell_usdc_low_peg",
+      "kind": "sell",
+      "inputs": {
+        "amount_in": "100000000",
+        "usdc_price_e9": "995000000",
+        "price_e9": "100000000000",
+        "band_bps": "0",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": "100502512"
+    },
+    {
+      "name": "sell_multiplier_new",
+      "kind": "sell",
+      "inputs": {
+        "amount_in": "333333333",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "99990000000",
+        "band_bps": "50",
+        "multiplier": "1.001701196801074",
+        "decimals": "8"
+      },
+      "expected": "332197673"
+    },
+    {
+      "name": "sell_overflow_numerator_u128",
+      "kind": "sell",
+      "inputs": {
+        "amount_in": "18446744073709551615",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "1000000000000",
+        "band_bps": "0",
+        "multiplier": "10",
+        "decimals": "8"
+      },
+      "expected": {
+        "error": "MathOverflow"
+      }
+    },
+    {
+      "name": "sell_band_9999",
+      "kind": "sell",
+      "inputs": {
+        "amount_in": "100000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "100000000000",
+        "band_bps": "9999",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": "10000"
+    },
+    {
+      "name": "sell_overflow_large_amount",
+      "kind": "sell",
+      "inputs": {
+        "amount_in": "1000000000000000",
+        "usdc_price_e9": "1000000000",
+        "price_e9": "1000000000",
+        "band_bps": "0",
+        "multiplier": "1.0000000000009",
+        "decimals": "8"
+      },
+      "expected": {
+        "error": "MathOverflow"
+      }
+    },
+    {
+      "name": "sell_zero_usdc_price",
+      "kind": "sell",
+      "inputs": {
+        "amount_in": "100000000",
+        "usdc_price_e9": "0",
+        "price_e9": "100000000000",
+        "band_bps": "0",
+        "multiplier": "1",
+        "decimals": "8"
+      },
+      "expected": {
+        "error": "MathOverflow"
+      }
+    },
+    {
+      "name": "convert_five_for_one",
+      "kind": "convert",
+      "inputs": {
+        "amount_in": "1000000000",
+        "multiplier_pre": "1",
+        "decimals_pre": "9",
+        "ratio_num": "5",
+        "ratio_den": "1",
+        "band_bps": "0",
+        "multiplier_target": "1",
+        "decimals_target": "8"
+      },
+      "expected": "500000000"
+    },
+    {
+      "name": "convert_band_300",
+      "kind": "convert",
+      "inputs": {
+        "amount_in": "1000000000",
+        "multiplier_pre": "1",
+        "decimals_pre": "9",
+        "ratio_num": "5",
+        "ratio_den": "1",
+        "band_bps": "300",
+        "multiplier_target": "1",
+        "decimals_target": "8"
+      },
+      "expected": "485000000"
+    },
+    {
+      "name": "convert_multipliers_both_sides",
+      "kind": "convert",
+      "inputs": {
+        "amount_in": "1234567890",
+        "multiplier_pre": "1.4861347",
+        "decimals_pre": "9",
+        "ratio_num": "1",
+        "ratio_den": "1",
+        "band_bps": "300",
+        "multiplier_target": "1.0009180758490996",
+        "decimals_target": "8"
+      },
+      "expected": "177805976"
+    },
+    {
+      "name": "convert_fractional_ratio",
+      "kind": "convert",
+      "inputs": {
+        "amount_in": "987654321",
+        "multiplier_pre": "1",
+        "decimals_pre": "9",
+        "ratio_num": "3",
+        "ratio_den": "7",
+        "band_bps": "300",
+        "multiplier_target": "1",
+        "decimals_target": "8"
+      },
+      "expected": "41058201"
+    },
+    {
+      "name": "convert_band_1000",
+      "kind": "convert",
+      "inputs": {
+        "amount_in": "5000000000",
+        "multiplier_pre": "1",
+        "decimals_pre": "9",
+        "ratio_num": "2",
+        "ratio_den": "1",
+        "band_bps": "1000",
+        "multiplier_target": "1.05",
+        "decimals_target": "8"
+      },
+      "expected": "857142857"
+    },
+    {
+      "name": "convert_zero_ratio_den",
+      "kind": "convert",
+      "inputs": {
+        "amount_in": "1000000000",
+        "multiplier_pre": "1",
+        "decimals_pre": "9",
+        "ratio_num": "5",
+        "ratio_den": "0",
+        "band_bps": "300",
+        "multiplier_target": "1",
+        "decimals_target": "8"
+      },
+      "expected": {
+        "error": "MathOverflow"
+      }
+    },
+    {
+      "name": "convert_overflow_numerator_u128",
+      "kind": "convert",
+      "inputs": {
+        "amount_in": "18446744073709551615",
+        "multiplier_pre": "1000",
+        "decimals_pre": "9",
+        "ratio_num": "18446744073709551615",
+        "ratio_den": "1",
+        "band_bps": "0",
+        "multiplier_target": "1",
+        "decimals_target": "8"
+      },
+      "expected": {
+        "error": "MathOverflow"
+      }
+    },
+    {
+      "name": "convert_small_amount_floor_zero",
+      "kind": "convert",
+      "inputs": {
+        "amount_in": "1",
+        "multiplier_pre": "1",
+        "decimals_pre": "9",
+        "ratio_num": "1",
+        "ratio_den": "3",
+        "band_bps": "300",
+        "multiplier_target": "1",
+        "decimals_target": "8"
+      },
+      "expected": "0"
+    }
+  ]
+}
