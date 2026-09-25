@@ -18,6 +18,8 @@ export type DevVarsOptions = {
   /** Path of the gitignored `.dev.vars` to write. */
   outPath: string;
   surfnetRpcUrl: string;
+  /** Run-specific variables, such as the Config PDA and protocol lookup table of this surfnet. */
+  extra?: Record<string, string>;
   /** Fail when a secret the run depends on is missing instead of leaving it unset. */
   requirePyth: boolean;
 };
@@ -95,6 +97,7 @@ export function writeCoreDevVars(options: DevVarsOptions): Record<string, string
 
   vars.ENVIRONMENT = "demo";
   vars.SURFNET_RPC_URL = options.surfnetRpcUrl;
+  Object.assign(vars, options.extra ?? {});
 
   const body = Object.entries(vars)
     .map(([name, value]) => `${name}='${value}'`)
