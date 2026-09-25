@@ -3,13 +3,12 @@
 import { api } from "@paycheck-router/shared";
 import { Banner, Button, Skeleton, StatusChip } from "@paycheck-router/ui/components";
 import { formatUsdWhole } from "@paycheck-router/ui/format";
-import { type Base64EncodedWireTransaction, createSolanaRpc } from "@solana/kit";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
+import type { SimulationResult } from "@/app/api/simulate/route.ts";
 import { apiRequest } from "@/lib/api/client.ts";
 import { fetchers, keys } from "@/lib/data.ts";
-import { rpcUrl } from "@/lib/env.ts";
 import { usdc } from "@/lib/money.ts";
 import {
   allowanceBaseUnits,
@@ -47,18 +46,13 @@ function buildRequest(draft: Draft, wallet: string): api.CreateRouterTxRequest |
 }
 
 async function simulate(tx: string): Promise<Simulation> {
-  const rpc = createSolanaRpc(rpcUrl);
-  const { value } = await rpc
-    .simulateTransaction(tx as Base64EncodedWireTransaction, {
-      encoding: "base64",
-      sigVerify: false,
-      replaceRecentBlockhash: false,
-      commitment: "confirmed",
-    })
-    .send();
-  return value.err === null
-    ? { state: "passed" }
-    : { state: "failed", logs: [...(value.logs ?? [])].slice(-12) };
+  const response = await fetch("/api/simulate", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ tx }),
+  });
+  const result = (await response.json()) as SimulationResult;
+  return result.ok ? { state: "passed" } : { state: "failed", logs: result.logs };
 }
 
 /** Counts down to the quote's expiry so nothing submits on a stale build (WCAG 2.2.1). */
