@@ -189,6 +189,7 @@ export function attemptRecord(
         }
       : null,
     transactionBytes: attempt.transactionBytes,
+    priceRejections: attempt.priceRejections,
     signatures: attempt.signature ? [attempt.signature] : [],
     outcome: attempt.outcome,
     waitReason: attempt.waitReason,
@@ -351,8 +352,8 @@ export async function recordPaycheckRun(input: {
     const feeds = [leg.asset.feedId, leg.asset.feedId247, USDC_FEED_ID].filter(
       (f): f is string => f !== null,
     );
-    const attempts = legRun.attempts.map((attempt, i) => {
-      const post = legRun.posts[Math.min(i, legRun.posts.length - 1)];
+    const attempts = legRun.attempts.map((attempt) => {
+      const post = attempt.pricePosts;
       return attemptRecord(
         bundle,
         attempt,
@@ -379,7 +380,7 @@ export async function recordPaycheckRun(input: {
       executed: null,
       verification: null,
     };
-    const posts = legRun.posts.at(-1);
+    const posts = last?.pricePosts;
     if (last?.outcome === "executed" && posts) {
       await verifyExecuted({ ...input, record, posts, attempt: last });
     }
