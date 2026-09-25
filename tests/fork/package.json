@@ -1,0 +1,19 @@
+{
+  "name": "@paycheck-router/fork-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:fork": "vitest run",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@paycheck-router/sdk": "workspace:*",
+    "@paycheck-router/shared": "workspace:*",
+    "@solana-program/token": "0.17.0",
+    "@solana/kit": "8.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.4",
+    "vitest": "5.0.1"
+  }
+}

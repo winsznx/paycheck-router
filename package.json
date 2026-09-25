@@ -17,6 +17,7 @@
     "day-one": "tsx scripts/day-one/run.ts",
     "demo:fork": "tsx scripts/demo-fork.ts",
     "demo:record": "tsx scripts/demo-record.ts",
+    "test:fork": "pnpm --filter @paycheck-router/fork-tests test:fork",
     "e2e": "pnpm --filter @paycheck-router/e2e e2e",
     "campaign": "tsx scripts/campaign/run.ts",
     "campaign:summary": "tsx scripts/campaign/summary.ts",
