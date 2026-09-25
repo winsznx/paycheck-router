@@ -5,6 +5,8 @@ export { AddressString, SignatureString, WaitReasonSchema };
 
 /** Unsigned integer amounts in base units travel as decimal strings so u64 values survive JSON. */
 export const U64String = z.string().regex(/^\d{1,20}$/);
+/** Signed integer amounts (deltas, P&L) as decimal strings. */
+export const SignedIntegerString = z.string().regex(/^-?\d{1,20}$/);
 export const IsoDateTime = z.iso.datetime({ offset: true });
 export const Uuid = z.uuid();
 export const Bps = z.number().int().min(0).max(10_000);
