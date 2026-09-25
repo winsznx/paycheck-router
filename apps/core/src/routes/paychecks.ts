@@ -137,13 +137,15 @@ paycheckRoutes.get("/paychecks/:id", async (c) => {
   if (!row) throw notFound("Paycheck");
   const legRows = (await legsFor(db, [id])).get(id) ?? [];
   const legIds = legRows.map((leg) => leg.id);
-  const [attemptRows, verificationRows] =
+  // Sequential on purpose: see the note on /proof about the demo database.
+  const attemptRows =
     legIds.length === 0
-      ? [[], []]
-      : await Promise.all([
-          db.select().from(attempts).where(inArray(attempts.legId, legIds)),
-          db.select().from(verifications).where(inArray(verifications.legId, legIds)),
-        ]);
+      ? []
+      : await db.select().from(attempts).where(inArray(attempts.legId, legIds));
+  const verificationRows =
+    legIds.length === 0
+      ? []
+      : await db.select().from(verifications).where(inArray(verifications.legId, legIds));
   const summary = paycheckApi(row.paycheck, legRows);
   const links: api.ExplorerLink[] = [
     { label: "Paycheck account", url: explorerAddressUrl(c.env, row.paycheck.paycheckPda) },

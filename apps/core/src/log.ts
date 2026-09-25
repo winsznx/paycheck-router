@@ -2,8 +2,9 @@ type Fields = Record<string, unknown>;
 
 function serialize(value: unknown): unknown {
   if (typeof value === "bigint") return value.toString();
-  if (value instanceof Error)
-    return { name: value.name, message: value.message, stack: value.stack };
+  if (value instanceof Error) {
+    return { name: value.name, message: value.message, stack: value.stack, cause: value.cause };
+  }
   return value;
 }
 
