@@ -2,6 +2,12 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: A Pyth Terminal key covers crypto feeds only until equity grants are added
+
+**Observed.** With a fresh Pyth Terminal API key, Hermes returns a signed update for `Crypto.USDC/USD` (200). It returns 403 for `Equity.US.*` regular-session feeds ("Not entitled … asset type 'equity'"), for the 24/7 equity and pre-IPO feeds ("gated feed; requires group pyth-indices") and for FX feeds. Checked at 13:08 WAT.
+
+**Changed.** Nothing about the guard. xStock slices need an equity grant (and `pyth-indices` for the 24/7 feeds) on the key; until it exists they can't execute, and the attempt records the 403 as its own error. PreStocks slices are unaffected, because they are priced from the attested mark plus USDC/USD. There is no substitute price source.
+
 ## 2026-09-25: Program size, math limits and layout as built
 
 **Observed.** The release build of `paycheck_router` is 693,272 bytes with all 21 instructions, against a planned 350–450 KB. At 5,080 lamports per byte, program rent on mainnet is about 3.52 SOL rather than 2.34 SOL. In LiteSVM, `execute_leg` uses about 95,700 compute units including the test swap's two token CPIs, so the program's own work sits near the planned 80,000.
