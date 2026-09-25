@@ -84,7 +84,7 @@ function recordApiResponses(page: Page): void {
 
 async function shoot(page: Page, run: Run, name: string, fullPage: boolean): Promise<void> {
   const file = `${name}.png`;
-  await page.screenshot({ path: path.join(OUT, file), fullPage });
+  await page.screenshot({ path: path.join(OUT, file), fullPage, animations: "disabled" });
   run.screenshots.push(file);
 }
 
