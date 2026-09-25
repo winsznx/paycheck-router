@@ -9,3 +9,5 @@ allowBuilds:
   workerd: true
   sharp: true
   "@biomejs/biome": true
+  "@parcel/watcher": false
+  "@swc/core": false

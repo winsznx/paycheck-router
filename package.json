@@ -14,7 +14,8 @@
     "typecheck": "turbo run typecheck",
     "lint": "biome check .",
     "format": "biome format --write .",
-    "day-one": "tsx scripts/day-one/run.ts"
+    "day-one": "tsx scripts/day-one/run.ts",
+    "e2e": "pnpm --filter @paycheck-router/e2e e2e"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
