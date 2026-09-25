@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Starts `pnpm demo:record` with a FIFO on stdin, waits until the stack is up, runs the live
 # rehearsal spec (which sends the paycheck by writing "p" to the FIFO), then stops the stack.
+# DEMO_SURFNET_PORT, DEMO_CORE_PORT, DEMO_DB_PORT and DEMO_WEB_PORT pass through to demo:record,
+# and the spec follows DEMO_WEB_PORT and DEMO_CORE_PORT, e.g.
+#   DEMO_WEB_PORT=3100 DEMO_DB_PORT=55432 tests/e2e/live/rehearse.sh
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
@@ -38,4 +41,7 @@ until grep -q "Demo is up" "$LOG"; do
   waited=$((waited + 3))
 done
 
-DEMO_RECORD_INPUT="$FIFO" pnpm --dir "$ROOT" e2e:live
+DEMO_RECORD_INPUT="$FIFO" \
+  E2E_BASE_URL="http://localhost:${DEMO_WEB_PORT:-3000}" \
+  E2E_API_URL="http://127.0.0.1:${DEMO_CORE_PORT:-8787}" \
+  pnpm --dir "$ROOT" e2e:live
