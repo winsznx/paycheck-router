@@ -1,9 +1,6 @@
 import { cookies } from "next/headers";
 import type { Theme } from "@/components/document.tsx";
-
-export const THEME_COOKIE = "pr_theme";
-export const MOTION_COOKIE = "pr_motion";
-export const DATA_SAVER_COOKIE = "pr_data_saver";
+import { DATA_SAVER_COOKIE, MOTION_COOKIE, THEME_COOKIE } from "./preference-cookies.ts";
 
 export type DisplayPreferences = {
   theme: Theme;
