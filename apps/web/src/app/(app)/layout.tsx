@@ -1,10 +1,12 @@
 import "@paycheck-router/ui/tokens.css";
 import "@paycheck-router/ui/components.css";
 import "../globals.css";
+import "../app-shell.css";
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
+import { AppRuntime } from "@/components/app/app-runtime.tsx";
 import { Document } from "@/components/document.tsx";
 import { siteUrl } from "@/lib/env.ts";
 import { readDisplayPreferences } from "@/lib/preferences.ts";
@@ -39,7 +41,9 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       motion={preferences.motion}
       dataSaver={preferences.dataSaver}
     >
-      <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      <NextIntlClientProvider>
+        <AppRuntime>{children}</AppRuntime>
+      </NextIntlClientProvider>
     </Document>
   );
 }
