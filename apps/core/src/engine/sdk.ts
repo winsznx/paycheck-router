@@ -464,6 +464,7 @@ export function createSdkEngine(env: Env): Engine {
               outAmount: legState.outAmount,
               fee: legState.fee,
               issuerFee: legState.issuerFee,
+              executedAt: legState.executedAt,
               refPriceE9: legState.refPriceE9,
             }
           : null,

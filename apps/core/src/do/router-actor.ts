@@ -15,6 +15,7 @@ import type {
   VerifyJob,
 } from "../engine/types.ts";
 import type { Env } from "../env.ts";
+import { CRANK_PAUSED_KEY } from "../flags.ts";
 import { log } from "../log.ts";
 import {
   type AttemptRow,
@@ -491,6 +492,7 @@ export class RouterActor extends DurableObject<Env> {
    */
   private async dispatchNext(): Promise<void> {
     if (this.currentJob()) return;
+    if ((await this.env.REGISTRY.get(CRANK_PAUSED_KEY)) === "1") return;
     const meta = this.meta();
     if (!meta) return;
     const now = Date.now();
