@@ -25,7 +25,8 @@
     "verify:campaign": "tsx scripts/campaign/verify.ts",
     "verify:bundle": "node packages/verify/bin/paycheck-verify.js --bundle",
     "check:facts": "tsx scripts/check-facts.ts",
-    "icons:sync": "tsx scripts/sync-icons.ts"
+    "icons:sync": "tsx scripts/sync-icons.ts",
+    "e2e:live": "pnpm --filter @paycheck-router/e2e e2e:live"
   },
   "devDependencies": {
     "@paycheck-router/verify": "workspace:*",

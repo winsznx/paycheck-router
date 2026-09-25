@@ -5,7 +5,8 @@
   "scripts": {
     "e2e": "playwright test",
     "e2e:public": "playwright test -c playwright.public.config.ts",
-    "typecheck": "tsc --noEmit -p ."
+    "typecheck": "tsc --noEmit -p .",
+    "e2e:live": "playwright test -c playwright.live.config.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
