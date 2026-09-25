@@ -8,6 +8,7 @@ import {
 } from "@paycheck-router/shared";
 import {
   type Address,
+  type AddressesByLookupTableAddress,
   address,
   createNoopSigner,
   getBase64EncodedWireTransaction,
@@ -16,6 +17,7 @@ import {
   partiallySignTransactionMessageWithSigners,
   signature as toSignature,
 } from "@solana/kit";
+import { fetchAddressLookupTable } from "@solana-program/address-lookup-table";
 import { routerPdaFor } from "../chain/accounts.ts";
 import { hotSigner } from "../chain/keys.ts";
 import { chainEndpoints } from "../config.ts";
@@ -168,6 +170,21 @@ export function createSdkEngine(env: Env): Engine {
     return configCache;
   };
 
+  /** The protocol lookup table (`PROTOCOL_ALT`) keeps execute transactions under 1,232 bytes. */
+  let lookupCache: Promise<AddressesByLookupTableAddress> | null = null;
+  const protocolLookupTable = () => {
+    lookupCache ??= (async () => {
+      if (!env.PROTOCOL_ALT) return {};
+      const table = address(env.PROTOCOL_ALT);
+      const account = await fetchAddressLookupTable(rpc, table, { commitment: "confirmed" });
+      return { [table]: account.data.addresses };
+    })().catch((error: unknown) => {
+      lookupCache = null;
+      throw error;
+    });
+    return lookupCache;
+  };
+
   const pipelineConfig = async (): Promise<sdk.PipelineConfig> => {
     const config = await protocolConfig();
     return {
@@ -178,7 +195,7 @@ export function createSdkEngine(env: Env): Engine {
       attester: env.ATTESTER_KEY ? await hotSigner(env, "ATTESTER_KEY") : null,
       jupiter,
       hermes,
-      protocolLookupTable: {},
+      protocolLookupTable: await protocolLookupTable(),
       feeBps: config.feeBps,
     };
   };

@@ -35,6 +35,9 @@ importers:
       '@paycheck-router/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      '@solana-program/address-lookup-table':
+        specifier: 0.15.0
+        version: 0.15.0(@solana/kit@8.3.0(typescript@5.9.3))
       '@solana-program/compute-budget':
         specifier: 0.19.0
         version: 0.19.0(@solana/kit@8.3.0(typescript@5.9.3))
