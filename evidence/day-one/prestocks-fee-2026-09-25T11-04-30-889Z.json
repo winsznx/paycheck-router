@@ -1,0 +1,34 @@
+{
+  "ranAt": "2026-09-25T11:04:30.889Z",
+  "environment": "fork",
+  "purpose": "Measure what a PreStocks buy delivers to the owner: gross output, Token-2022 transfer fee withheld, Scaled UI multiplier",
+  "mint": "PreweJYECqtQwBtpxHL171nL2K6umo692gTm7Q3rpgF",
+  "signature": "4eZwofEbd2Pws5R3VgRGksNM2TdBECW3yvkdywcFUDoPUhoDzHMw8WCLHQRei12y5yezpVERBu9MQWEarYZseYxB",
+  "err": null,
+  "route": [
+    "Manifest 100%"
+  ],
+  "usdcIn": "100000000",
+  "quotedOut": "50261970",
+  "minOut": "45235773",
+  "received": "49392323",
+  "authorityOutAta": "DCzHwk2CxMHfyo4kUdjkYaYq2xM9wN5PGXg7NxhTY8as",
+  "postBalances": [
+    {
+      "owner": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+      "amount": "98784646"
+    },
+    {
+      "owner": "8cSzx7Y9G6rhy7Gk2cMa9HTzWxS9i4URrFQK6GzaMiLY",
+      "amount": "0"
+    },
+    {
+      "owner": "AntpWAd9rqm9MJ974fGDmrfHMywtJ7ajvjjUxi2w9pgy",
+      "amount": "576571830"
+    },
+    {
+      "owner": "FuwH9eyEi9RApviaNqUhxZhEY6i455Ca2xQmNkjrfTU",
+      "amount": "3096398915"
+    }
+  ]
+}
