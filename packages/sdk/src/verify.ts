@@ -63,8 +63,8 @@ export type PaycheckLegReadback = {
   fee: bigint;
   issuerFee: bigint;
   refPriceE9: bigint;
-  /** Unix seconds by the chain's clock when the leg executed. */
-  executedAt: bigint;
+  /** Unix seconds by the chain's clock when the leg executed; preferred over blockTime. */
+  executedAt?: bigint;
 };
 
 export type LegVerificationInput = {
