@@ -50,6 +50,12 @@ type Executed = NonNullable<Awaited<ReturnType<typeof sdk.decodeLegExecuted>>>;
 
 const LEG_STATUS_EXECUTED = 2;
 
+/**
+ * DEXes whose fork copy failed a simulation; the SDK re-quotes around them. Kept for the life of
+ * the isolate, which on a surfnet run is the whole run.
+ */
+const forkExcludedDexes = new Set<string>();
+
 /** JSON-safe copy of an SDK object for evidence and attempt records. */
 function plain(value: unknown): Record<string, unknown> {
   return JSON.parse(
@@ -208,6 +214,7 @@ export function createSdkEngine(env: Env): Engine {
       jupiter,
       hermes,
       protocolLookupTable: await protocolLookupTable(),
+      ...(endpoints.surfnet ? { forkExcludedDexes } : {}),
       feeBps: config.feeBps,
     };
   };
