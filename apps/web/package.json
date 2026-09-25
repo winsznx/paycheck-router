@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --hostname 127.0.0.1 --port 3000",
+    "dev": "next dev --port 3000",
     "build": "next build && serwist build && node scripts/assert-no-demo-signer.mjs",
     "start": "next start",
     "typecheck": "next typegen && tsc --noEmit -p . && tsc --noEmit -p tsconfig.sw.json",
