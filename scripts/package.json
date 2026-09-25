@@ -6,6 +6,8 @@
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "@electric-sql/pglite-socket": "0.2.11",
     "@paycheck-router/guard-math": "workspace:*",
     "@paycheck-router/sdk": "workspace:*",
     "@paycheck-router/shared": "workspace:*",
