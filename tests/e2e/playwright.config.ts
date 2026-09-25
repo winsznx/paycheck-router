@@ -2,6 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 const PORT = Number(process.env.E2E_PORT ?? 3100);
 const baseURL = process.env.E2E_BASE_URL ?? `http://127.0.0.1:${PORT}`;
+const MOCK_CORE_PORT = Number(process.env.MOCK_CORE_PORT ?? 18787);
 
 /**
  * PRD 16.9 device classes. By default the suite builds and starts apps/web in demo mode; set
@@ -25,13 +26,30 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"], viewport: { width: 1280, height: 800 } },
     },
   ],
-  webServer: process.env.E2E_BASE_URL
-    ? undefined
-    : {
-        command: `pnpm --filter @paycheck-router/web build && pnpm --filter @paycheck-router/web start --port ${PORT}`,
-        url: baseURL,
-        reuseExistingServer: !process.env.CI,
-        timeout: 240_000,
-        env: { NEXT_PUBLIC_ENVIRONMENT: "demo", NEXT_TELEMETRY_DISABLED: "1" },
-      },
+  webServer: [
+    // Server-rendered public pages (/proof) read core from the Next server; this answers them
+    // with the recorded fork run. The web server must run with CORE_API_URL pointing here.
+    {
+      command: `pnpm exec tsx fixtures/mock-core.ts`,
+      url: `http://127.0.0.1:${MOCK_CORE_PORT}/health`,
+      reuseExistingServer: !process.env.CI,
+      timeout: 30_000,
+      env: { MOCK_CORE_PORT: String(MOCK_CORE_PORT) },
+    },
+    ...(process.env.E2E_BASE_URL
+      ? []
+      : [
+          {
+            command: `pnpm --filter @paycheck-router/web build && pnpm --filter @paycheck-router/web start --port ${PORT}`,
+            url: baseURL,
+            reuseExistingServer: !process.env.CI,
+            timeout: 240_000,
+            env: {
+              NEXT_PUBLIC_ENVIRONMENT: "demo",
+              NEXT_TELEMETRY_DISABLED: "1",
+              CORE_API_URL: `http://127.0.0.1:${MOCK_CORE_PORT}`,
+            },
+          },
+        ]),
+  ],
 });
