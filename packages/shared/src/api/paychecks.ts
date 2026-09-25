@@ -47,7 +47,10 @@ export const Leg = z.object({
   waitReason: WaitReasonSchema.nullable(),
   nextAttemptAt: IsoDateTime.nullable(),
   outAmount: U64String.nullable(),
+  /** Protocol fee in USDC base units. */
   fee: U64String.nullable(),
+  /** Token-2022 transfer fee the issuer withheld from the delivered shares, in share base units. */
+  issuerFee: U64String.nullable(),
   refPriceE9: U64String.nullable(),
   execPriceE9: U64String.nullable(),
   premiumBps: z.number().int().nullable(),
