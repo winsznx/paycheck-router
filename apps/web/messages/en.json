@@ -127,7 +127,9 @@
       "home": "Home",
       "paychecks": "Paychecks",
       "portfolio": "Portfolio",
-      "help": "Help"
+      "help": "Help",
+      "activity": "Activity",
+      "settings": "Settings"
     },
     "status": {
       "none": "No router",
@@ -315,6 +317,77 @@
       "mismatch": "Doesn't match",
       "pending": "Waiting for finality",
       "publicProof": "Open the public proof page"
+    },
+    "activity": {
+      "title": "Activity",
+      "loadError": "Your activity couldn't be loaded. Check your connection and try again.",
+      "filter": "Show",
+      "filters": {
+        "all": "All",
+        "bought": "Bought",
+        "waiting": "Waiting",
+        "ended": "Ended"
+      },
+      "empty": "Nothing here yet."
+    },
+    "settings": {
+      "title": "Settings",
+      "sections": "Settings sections",
+      "tabs": {
+        "wallet": "Wallet",
+        "preferences": "Preferences",
+        "security": "Security"
+      },
+      "preferences": {
+        "title": "Preferences",
+        "language": "Language",
+        "currency": "Reference currency",
+        "currencyNote": "Local currency is a display-only reference and never affects what gets bought.",
+        "theme": "Theme",
+        "themes": {
+          "dark": "Dark",
+          "light": "Light",
+          "system": "Match this device"
+        },
+        "reducedMotion": "Reduce motion",
+        "dataSaver": "Data saver: no live price streaming, no motion",
+        "saved": "Saved",
+        "saveFailed": "That didn't save. Try again.",
+        "languages": {
+          "en": "English",
+          "es-419": "Español (Latinoamérica)",
+          "pt-BR": "Português (Brasil)",
+          "fr": "Français"
+        }
+      },
+      "wallet": {
+        "title": "Wallet and allowance",
+        "noRouter": "You don't have a router yet.",
+        "payIn": "Your pay-in wallet",
+        "address": "Wallet address",
+        "copy": "Copy",
+        "copied": "Copied",
+        "explorer": "Explorer",
+        "qr": "QR code for your wallet address",
+        "allowance": "Allowance",
+        "allowanceValue": "{amount} left to spend",
+        "health": {
+          "none": "No router",
+          "live": "Live",
+          "paused": "Paused",
+          "attention": "Needs attention"
+        },
+        "invests": "Invests {percent} of each paycheck",
+        "revokeHint": "You can revoke this allowance from your wallet app at any time; every slice then waits and nothing moves."
+      },
+      "security": {
+        "title": "Security",
+        "signedInAs": "Signed in with wallet {wallet}",
+        "signedOut": "You're signed out.",
+        "via": "Signed with {wallet}",
+        "signOut": "Sign out",
+        "signingOut": "Signing out"
+      }
     }
   },
   "onboarding": {
