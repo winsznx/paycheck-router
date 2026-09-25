@@ -15,3 +15,8 @@ secret:
       match: PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H
     - name: USDC mint address (public)
       match: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+  # Recorded chain and Jupiter responses in evidence bundles: public signatures, account keys
+  # and base64 instruction data, which read as high-entropy strings.
+  ignored-paths:
+    - "evidence/**/raw/tx/*.json"
+    - "evidence/**/raw/jupiter/*.json"
