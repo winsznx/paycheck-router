@@ -28,6 +28,7 @@ import {
 } from "@solana-program/token";
 import { routerPdaFor } from "../chain/accounts.ts";
 import { hotSigner } from "../chain/keys.ts";
+import { LEG_STATUS } from "../chain/leg-status.ts";
 import { multiplierFromE12 } from "../chain/shares.ts";
 import { chainEndpoints } from "../config.ts";
 import { throughGate } from "../do/rate-gate.ts";
@@ -47,8 +48,6 @@ import type {
 } from "./types.ts";
 
 type Executed = NonNullable<Awaited<ReturnType<typeof sdk.decodeLegExecuted>>>;
-
-const LEG_STATUS_EXECUTED = 2;
 
 /**
  * DEXes whose fork copy failed a simulation; the SDK re-quotes around them. Kept for the life of
@@ -446,14 +445,12 @@ export function createSdkEngine(env: Env): Engine {
           : view.priceSource === "PythRegular"
             ? asset.feedId
             : null;
-      const historyFeeds = feedId ? [feedId, USDC_FEED_ID] : [USDC_FEED_ID];
-      const history = await sdk
-        .fetchUpdateAt(Number(view.pricePublishTime), historyFeeds, hermes)
-        .then((update) => update.response)
-        .catch((error: unknown) => {
-          log.warn("Hermes history unavailable", { error });
-          return null;
-        });
+      const postedUpdate = (job.evidence.postedUpdate as sdk.HermesUpdateResponse | null) ?? null;
+      const history = await historyAtPublishTimes(
+        hermes,
+        feedId ? { feedId, publishTime: Number(view.pricePublishTime) } : null,
+        postedUpdate?.parsed.find((p) => p.id === USDC_FEED_ID)?.price.publish_time ?? null,
+      );
       const { attester } = await protocolConfig();
       const attestationSignature = job.evidence.attestationSignature as
         | Uint8Array
@@ -465,13 +462,13 @@ export function createSdkEngine(env: Env): Engine {
         owner: address(job.router.owner),
         usdcMint: USDC_MINT,
         decimals: asset.decimals,
-        postedUpdate: (job.evidence.postedUpdate as sdk.HermesUpdateResponse | null) ?? null,
+        postedUpdate,
         history,
         feedId,
         usdcFeedId: USDC_FEED_ID,
         readback: legState
           ? {
-              executed: legState.status === LEG_STATUS_EXECUTED,
+              executed: legState.status === LEG_STATUS.executed,
               amountIn: legState.amountIn,
               outAmount: legState.outAmount,
               fee: legState.fee,
@@ -693,4 +690,38 @@ export function createSdkEngine(env: Env): Engine {
       throw new Error("buy-now needs execute_leg_owner support in the SDK pipeline");
     },
   };
+}
+
+/**
+ * Hermes history for each price the leg used, each at its own publish time: the asset's feed at
+ * the event's publish time, and USDC/USD at the publish time of the posted USDC update. A pre-IPO
+ * leg's event time is the attestation's, which need not match the USDC post's.
+ */
+async function historyAtPublishTimes(
+  hermes: sdk.HermesOptions,
+  asset: { feedId: string; publishTime: number } | null,
+  usdcPublishTime: number | null,
+): Promise<sdk.HermesUpdateResponse | null> {
+  const requests: Promise<sdk.HermesUpdateResponse>[] = [];
+  if (asset) {
+    requests.push(
+      sdk.fetchUpdateAt(asset.publishTime, [asset.feedId], hermes).then((u) => u.response),
+    );
+  }
+  if (usdcPublishTime !== null) {
+    requests.push(
+      sdk.fetchUpdateAt(usdcPublishTime, [USDC_FEED_ID], hermes).then((u) => u.response),
+    );
+  }
+  if (requests.length === 0) return null;
+  try {
+    const updates = await Promise.all(requests);
+    return {
+      binary: { encoding: "base64", data: updates.flatMap((u) => u.binary.data) },
+      parsed: updates.flatMap((u) => u.parsed),
+    };
+  } catch (error) {
+    log.warn("Hermes history unavailable", { error });
+    return null;
+  }
 }
