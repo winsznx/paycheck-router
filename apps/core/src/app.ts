@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
-import { ConfigError } from "./config.ts";
+import { allowedOrigins, ConfigError } from "./config.ts";
 import type { Env } from "./env.ts";
 import type { AppEnv, Services } from "./http/context.ts";
 import { ApiError, notFound, problemResponse } from "./http/problem.ts";
@@ -38,7 +38,7 @@ export function createApp(makeServices: ServicesFactory): Hono<AppEnv> {
   );
   app.use(
     cors({
-      origin: (origin, c) => (origin === c.env.APP_ORIGIN ? origin : null),
+      origin: (origin, c) => (allowedOrigins(c.env).has(origin) ? origin : null),
       credentials: true,
       allowHeaders: ["authorization", "content-type", "idempotency-key"],
       allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],

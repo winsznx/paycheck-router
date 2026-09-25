@@ -83,7 +83,7 @@ export function parseSiwsMessage(text: string): SiwsMessage | null {
 }
 
 export type SiwsExpectations = {
-  domain: string;
+  domains: readonly string[];
   address: string;
   chainId: string;
   now: Date;
@@ -94,7 +94,7 @@ export type SiwsExpectations = {
 export type SiwsCheck = { ok: true; nonce: string } | { ok: false; reason: string };
 
 export function checkSiwsMessage(message: SiwsMessage, expect: SiwsExpectations): SiwsCheck {
-  if (message.domain !== expect.domain) return { ok: false, reason: "domain mismatch" };
+  if (!expect.domains.includes(message.domain)) return { ok: false, reason: "domain mismatch" };
   if (message.address !== expect.address) return { ok: false, reason: "address mismatch" };
   if (message.statement !== SIWS_STATEMENT) return { ok: false, reason: "statement mismatch" };
   if (message.chainId !== expect.chainId) return { ok: false, reason: "chain mismatch" };

@@ -16,7 +16,7 @@ import {
   sha256Hex,
   signAccessToken,
 } from "../auth/tokens.ts";
-import { siwsChain } from "../config.ts";
+import { siwsChain, siwsDomains } from "../config.ts";
 import type { Db } from "../db/client.ts";
 import { authNonces, sessions, users, wallets } from "../db/schema.ts";
 import type { AppContext, AppEnv } from "../http/context.ts";
@@ -40,7 +40,7 @@ authRoutes.get("/nonce", async (c) => {
   const body: api.NonceResponse = {
     nonce,
     expiresAt: expiresAt.toISOString(),
-    domain: c.env.SIWS_DOMAIN,
+    domain: siwsDomains(c.env)[0] ?? "",
     uri: c.env.APP_ORIGIN,
     statement: SIWS_STATEMENT,
     version: "1",
@@ -55,7 +55,7 @@ authRoutes.post("/siws", async (c) => {
   const message = parseSiwsMessage(body.message);
   if (!message) throw unauthorized("Not a Sign-In-With-Solana message");
   const check = checkSiwsMessage(message, {
-    domain: c.env.SIWS_DOMAIN,
+    domains: siwsDomains(c.env),
     address: body.address,
     chainId: siwsChain(c.env),
     now: now(),

@@ -31,4 +31,7 @@ type Vars = {
   [K in keyof CloudflareBindings as CloudflareBindings[K] extends string ? K : never]: string;
 };
 
-export type Env = Omit<CloudflareBindings, keyof Vars> & Vars & Secrets;
+/** Optional variables that are not in every environment's wrangler config. */
+type OptionalVars = { CORS_ORIGINS?: string };
+
+export type Env = Omit<CloudflareBindings, keyof Vars> & Vars & OptionalVars & Secrets;
