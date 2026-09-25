@@ -163,6 +163,23 @@ export type CreateRouterInput = {
   allowance: bigint;
 };
 
+/** Owner-signed router changes; the sponsor pays the fee. */
+export type RouterAction =
+  | {
+      kind: "update";
+      owner: string;
+      investBps: number;
+      legs: api.LegSpec[];
+      minInflow: bigint;
+      dailyCap: bigint;
+      maxWaitSecs: number;
+      autoConvert: boolean;
+    }
+  | { kind: "pause"; owner: string; paused: boolean }
+  | { kind: "allowance"; owner: string; amount: bigint }
+  | { kind: "revoke"; owner: string }
+  | { kind: "close"; owner: string };
+
 export type BuiltTransaction = {
   /** Base64 wire transaction, fee payer (sponsor) signature attached when sponsored. */
   tx: string;
@@ -197,4 +214,5 @@ export interface Engine {
     idx: number;
   }): Promise<BuiltTransaction>;
   buildBuyNow(input: { owner: string; job: LegJob; bandBps: number }): Promise<BuiltTransaction>;
+  buildRouterAction(action: RouterAction): Promise<BuiltTransaction>;
 }

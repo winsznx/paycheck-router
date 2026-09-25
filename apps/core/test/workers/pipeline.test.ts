@@ -153,6 +153,9 @@ class ScriptedEngine implements Engine {
   buildBuyNow(): never {
     throw new Error("not used");
   }
+  buildRouterAction(): never {
+    throw new Error("not used");
+  }
 }
 
 describe("detection to verification", () => {

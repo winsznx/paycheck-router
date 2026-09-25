@@ -2,11 +2,14 @@ import * as sdk from "@paycheck-router/sdk";
 import {
   AssetKind,
   assetByMint,
+  TOKEN_PROGRAM_ID,
+  USDC_DECIMALS,
   USDC_FEED_ID,
   USDC_MINT,
   WaitReason,
 } from "@paycheck-router/shared";
 import {
+  AccountRole,
   type Address,
   type AddressesByLookupTableAddress,
   address,
@@ -18,6 +21,11 @@ import {
   signature as toSignature,
 } from "@solana/kit";
 import { fetchAddressLookupTable } from "@solana-program/address-lookup-table";
+import {
+  findAssociatedTokenPda,
+  getApproveCheckedInstruction,
+  getRevokeInstruction,
+} from "@solana-program/token";
 import { routerPdaFor } from "../chain/accounts.ts";
 import { hotSigner } from "../chain/keys.ts";
 import { multiplierFromE12 } from "../chain/shares.ts";
@@ -561,6 +569,111 @@ export function createSdkEngine(env: Env): Engine {
         [instruction],
         ["Cancel this waiting slice", "Its USDC stays in your wallet"],
       );
+    },
+
+    async buildRouterAction(action) {
+      const owner = createNoopSigner(address(action.owner));
+      const router = await routerPdaFor(address(env.PROGRAM_ID), owner.address);
+      const [payIn] = await findAssociatedTokenPda({
+        owner: owner.address,
+        mint: USDC_MINT,
+        tokenProgram: TOKEN_PROGRAM_ID,
+      });
+      switch (action.kind) {
+        case "update": {
+          const recorder = await hotSigner(env, "RECORDER_KEY");
+          const instruction = await sdk.getUpdateRouterInstructionAsync({
+            owner,
+            router,
+            params: {
+              recorder: recorder.address,
+              investBps: action.investBps,
+              minInflow: action.minInflow,
+              dailyCap: action.dailyCap,
+              maxWaitSecs: action.maxWaitSecs,
+              autoConvert: action.autoConvert,
+              legs: action.legs.map((leg) => ({
+                mint: address(leg.mint),
+                weightBps: leg.weightBps,
+                bandBps: leg.bandBps,
+                enabled: true,
+              })),
+            },
+          });
+          const assets = await Promise.all(
+            action.legs.map(async (leg) => ({
+              address: (await sdk.findAssetPda({ mint: address(leg.mint) }))[0],
+              role: AccountRole.READONLY,
+            })),
+          );
+          return sponsoredTransaction(
+            [{ ...instruction, accounts: [...(instruction.accounts ?? []), ...assets] }],
+            ["Change your split and rules", "Network fees paid by Paycheck Router"],
+          );
+        }
+        case "pause":
+          return sponsoredTransaction(
+            [
+              await sdk.getSetRouterPausedInstructionAsync({
+                owner,
+                router,
+                paused: action.paused,
+              }),
+            ],
+            [action.paused ? "Pause your Paycheck Router" : "Resume your Paycheck Router"],
+          );
+        case "allowance": {
+          const [authority] = await sdk.findAuthorityPda({ router });
+          const usdc = (Number(action.amount) / 1_000_000).toLocaleString("en-US");
+          return sponsoredTransaction(
+            [
+              getApproveCheckedInstruction({
+                source: payIn,
+                mint: USDC_MINT,
+                delegate: authority,
+                owner,
+                amount: action.amount,
+                decimals: USDC_DECIMALS,
+              }),
+            ],
+            [`Allow your Paycheck Router to spend up to ${usdc} USDC from this wallet`],
+          );
+        }
+        case "revoke":
+          return sponsoredTransaction(
+            [getRevokeInstruction({ source: payIn, owner })],
+            [
+              "Revoke your Paycheck Router's USDC allowance",
+              "Nothing will be bought until you approve again",
+            ],
+          );
+        case "close": {
+          const state = await sdk.fetchRouter(rpc, router, { commitment: "confirmed" });
+          const [authority] = await sdk.findAuthorityPda({ router });
+          const [authorityUsdc] = await findAssociatedTokenPda({
+            owner: authority,
+            mint: USDC_MINT,
+            tokenProgram: TOKEN_PROGRAM_ID,
+          });
+          const instruction = await sdk.getCloseRouterInstructionAsync({
+            owner,
+            router,
+            rentPayer: state.data.rentPayer,
+            authority,
+            authorityUsdc,
+            payIn,
+            usdcMint: USDC_MINT,
+            usdcTokenProgram: TOKEN_PROGRAM_ID,
+          });
+          return sponsoredTransaction(
+            [instruction, getRevokeInstruction({ source: payIn, owner })],
+            [
+              "Close your Paycheck Router and revoke its allowance",
+              "Account rent returns to whoever paid it",
+            ],
+          );
+        }
+      }
     },
 
     async buildBuyNow() {

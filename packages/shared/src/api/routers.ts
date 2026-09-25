@@ -85,3 +85,30 @@ export const PutPayersRequest = z.object({
     .max(50),
 });
 export type PutPayersRequest = z.infer<typeof PutPayersRequest>;
+/** `POST /routers/:id/tx/update`: new split and rules (validated like create). */
+export const UpdateRouterTxRequest = z
+  .object({
+    investBps: z.number().int().min(100).max(10_000),
+    legs: z.array(LegSpec).min(1).max(8),
+    minInflow: U64String,
+    dailyCap: U64String,
+    maxWaitSecs: z.number().int().min(0).max(1_209_600),
+    autoConvert: z.boolean(),
+  })
+  .refine((body) => body.legs.reduce((sum, leg) => sum + leg.weightBps, 0) === 10_000, {
+    message: "leg weights must sum to 10000 bps",
+    path: ["legs"],
+  })
+  .refine((body) => new Set(body.legs.map((leg) => leg.mint)).size === body.legs.length, {
+    message: "each asset may appear once",
+    path: ["legs"],
+  });
+export type UpdateRouterTxRequest = z.infer<typeof UpdateRouterTxRequest>;
+
+/** `POST /routers/:id/tx/pause`. */
+export const PauseRouterTxRequest = z.object({ paused: z.boolean() });
+export type PauseRouterTxRequest = z.infer<typeof PauseRouterTxRequest>;
+
+/** `POST /routers/:id/tx/allowance`: the new total USDC allowance for the Authority PDA. */
+export const AllowanceTxRequest = z.object({ amount: U64String });
+export type AllowanceTxRequest = z.infer<typeof AllowanceTxRequest>;
