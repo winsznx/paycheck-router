@@ -13,6 +13,7 @@ export type Db = PgDatabase<PgQueryResultHKT, Schema>;
 export function createDb(hyperdrive: Hyperdrive): Db {
   const sql = postgres(hyperdrive.connectionString, {
     max: 5,
+    connect_timeout: 10,
     fetch_types: false,
     prepare: true,
   });
