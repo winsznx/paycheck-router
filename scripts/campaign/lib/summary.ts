@@ -248,6 +248,9 @@ export function buildSummary(root: string) {
       runId: r.manifest.runId,
       environment: "fork" as const,
       title: r.manifest.title,
+      forkStartSlot: r.manifest.fork?.startSlot ?? null,
+      programSha256: r.manifest.programSha256,
+      programSource: r.manifest.programSource,
       expected: r.manifest.expected,
       observed: r.manifest.observed.outcome,
       status: caseStatus(r),
@@ -313,6 +316,16 @@ export function buildSummary(root: string) {
         ownerSignedTransactionsAfterSetup: steps.ownerSigned,
         paychecks: steps.paychecks,
         provenance: "Signer flags in every stored transaction after setup",
+      },
+      networkCost: {
+        environment: "fork" as const,
+        note: "Execute-transaction fees the crank pays; borne by the protocol, not in all-in cost",
+        medianLamportsPerSlice: median(
+          headlineExecuted.flatMap((s) =>
+            s.executed?.networkFeeLamports == null ? [] : [s.executed.networkFeeLamports],
+          ),
+        ),
+        n: headlineExecuted.filter((s) => s.executed?.networkFeeLamports != null).length,
       },
       speed: {
         environment: "fork" as const,
