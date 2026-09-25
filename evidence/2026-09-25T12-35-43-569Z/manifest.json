@@ -1,0 +1,735 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-09-25T12-35-43-569Z",
+  "environment": "fork",
+  "fork": {
+    "startSlot": 450354345,
+    "rpcUrl": "http://127.0.0.1:28899",
+    "datasource": "api.mainnet-beta.solana.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -0.6359999179840088
+  },
+  "startedAt": "2026-09-25T12:35:43.570Z",
+  "finishedAt": "2026-09-25T12:38:33.667Z",
+  "commit": "593e47123c73a65639ae84a2e41c5d4f111527f9",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+  "programExecutableHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b",
+  "programSource": "https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:28899",
+    "verifier": "http://127.0.0.1:28899"
+  },
+  "feedIds": [
+    "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a"
+  ],
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ"
+  },
+  "router": {
+    "address": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e",
+    "owner": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "authority": "DwNCQN35YgQM8zovMAGp6noKsS9hkefRacQ5yMG8WxM3",
+    "investBps": 2000,
+    "legs": [
+      {
+        "mint": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+        "symbol": "SPYx",
+        "weightBps": 2500
+      },
+      {
+        "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+        "symbol": "NVDAx",
+        "weightBps": 2500
+      },
+      {
+        "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+        "symbol": "Anthropic",
+        "weightBps": 2500
+      },
+      {
+        "mint": "PreweJYECqtQwBtpxHL171nL2K6umo692gTm7Q3rpgF",
+        "symbol": "OpenAI",
+        "weightBps": 2500
+      }
+    ]
+  },
+  "paycheck": {
+    "address": "86p8DmfvC4abd1aDutoeJC7nYNWih3FgvQKAKaKZqnfN",
+    "seq": "0",
+    "inflow": "1850000000",
+    "investTotal": "370000000",
+    "sender": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "inflowSignature": "eMqUoYediCy7HafbqXypaihAeEYz4xoX1Jm1d17hUrnRy3Bub9RqpbL6skGpU8oQdVmPfg9gRT6YVVw3XL6aYHp",
+    "recordSignature": "5LidcLGNDK57Qom11wJJ9UMnRx1a4a6WuDvDnDoLGX2DJf23ASPRSNSV7oPKrQKrbjdZjj3cs5613Lp1uzcFQDyH"
+  },
+  "transactions": [
+    {
+      "label": "deploy program",
+      "signature": "54oAP3cAMcTnjDMjFGQ25FWTvNn6p34wVJDjRTHKuV3DK3ZcoKxiwCyuZ9YXq3vLMm8jS723hHwfjPq6qMJ2cdu3",
+      "slot": 450354527,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/54oAP3cAMcTnjDMjFGQ25FWTvNn6p34wVJDjRTHKuV3DK3ZcoKxiwCyuZ9YXq3vLMm8jS723hHwfjPq6qMJ2cdu3.json",
+        "sha256": "016e9d0bcd53046e242d3ccd32776440ea1048ade0b9b4979d915ecd19cac6af"
+      }
+    },
+    {
+      "label": "initialize_config",
+      "signature": "VDN7LrXs4HgE5E6UktspdYEfUhyLk9P6tGBqhHSguZxxaWpdmTYtAtBWtKYdAgrFWfGjXwEuePvL3dK95Vcxjg7",
+      "slot": 450354542,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/VDN7LrXs4HgE5E6UktspdYEfUhyLk9P6tGBqhHSguZxxaWpdmTYtAtBWtKYdAgrFWfGjXwEuePvL3dK95Vcxjg7.json",
+        "sha256": "f7100f135523647fbcbca34fd4f6bf2e938d56aa7a797507f6e24815de3fed65"
+      }
+    },
+    {
+      "label": "upsert_asset SPYx",
+      "signature": "9vn2MpBT6c3uYeCiHBg2fsgpptKgo1m85PTQee1AmwGbQbn2y1wVcWuy2krzLsn4NutNjzCXV7eB4r4zdco5KjR",
+      "slot": 450354543,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/9vn2MpBT6c3uYeCiHBg2fsgpptKgo1m85PTQee1AmwGbQbn2y1wVcWuy2krzLsn4NutNjzCXV7eB4r4zdco5KjR.json",
+        "sha256": "81bfb832826dac5a628c1055af63b60a01966db3cdbacd38c2f1ceab0bbc04f7"
+      }
+    },
+    {
+      "label": "upsert_asset QQQx",
+      "signature": "5EMkrYcvQ4eVgkWnnKHqV2fNVWudr2ksaZRpmnn8sehETzLSX2VtS2rNxeiYefPcmL13dZNEKCakK7GSnaNVH6dE",
+      "slot": 450354545,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5EMkrYcvQ4eVgkWnnKHqV2fNVWudr2ksaZRpmnn8sehETzLSX2VtS2rNxeiYefPcmL13dZNEKCakK7GSnaNVH6dE.json",
+        "sha256": "15de63154ce771ad7e4f3b7f025f62cc0ae6fa7671ab7d7b1e48eaa0ed570a5d"
+      }
+    },
+    {
+      "label": "upsert_asset NVDAx",
+      "signature": "3jLyDQrpuMWpWu7ZtP2KvaXXWZNE9n7pLi7PaGKK6NzsFmBqN2MRWMkKcKi54uzYxiitTAmiAQxdBZuZLDepwDs6",
+      "slot": 450354546,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3jLyDQrpuMWpWu7ZtP2KvaXXWZNE9n7pLi7PaGKK6NzsFmBqN2MRWMkKcKi54uzYxiitTAmiAQxdBZuZLDepwDs6.json",
+        "sha256": "9ec1705a529e89ac7bc0485f746e123aa674643354ddcd1f3da7682895d96a7d"
+      }
+    },
+    {
+      "label": "upsert_asset AAPLx",
+      "signature": "2Mx17AxNVDakQ31PFHoq8DKEmKY2t1zMX1pCW7pNitoAK37uCwVjUxNEtJHENnA9Hf3XdGD585HY4CUmSdqEtw1n",
+      "slot": 450354552,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2Mx17AxNVDakQ31PFHoq8DKEmKY2t1zMX1pCW7pNitoAK37uCwVjUxNEtJHENnA9Hf3XdGD585HY4CUmSdqEtw1n.json",
+        "sha256": "7ecebcdf6d491f51ffabb907c110a28b451b578f11195dc26098176d24d87683"
+      }
+    },
+    {
+      "label": "upsert_asset TSLAx",
+      "signature": "2xcnShgcrGgS4F1tMJZiXJvVgen6s56m3tmLm29qt8hQM5CdhoEcznG5ABRDcg4GVbVfwrza7Pywizvvh6BSLoCJ",
+      "slot": 450354555,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2xcnShgcrGgS4F1tMJZiXJvVgen6s56m3tmLm29qt8hQM5CdhoEcznG5ABRDcg4GVbVfwrza7Pywizvvh6BSLoCJ.json",
+        "sha256": "32194c1d10617a9a62d65532f05a02bde046ed5cb32734281b93d3c26552be5c"
+      }
+    },
+    {
+      "label": "upsert_asset MSFTx",
+      "signature": "5u3Pwin5aYD4yoQ14pAyXqZzyHSj2EGaDT3gVXFCnHcxz29irxpA4Z1ZcYEDsumgVdufrZsVLMgmdiiVMMjGuM4x",
+      "slot": 450354558,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5u3Pwin5aYD4yoQ14pAyXqZzyHSj2EGaDT3gVXFCnHcxz29irxpA4Z1ZcYEDsumgVdufrZsVLMgmdiiVMMjGuM4x.json",
+        "sha256": "aa1cd4c16590a1a5440548547da71a0215dbade55c76a14ac346c5cc88ddcccb"
+      }
+    },
+    {
+      "label": "upsert_asset GOOGLx",
+      "signature": "2NG293EaEEW6c9BrW7nLo6gK3W4HS4bVVYZY6fedYxnA2ew2LLy3vCRwcxyycUYdnFThxY6Y2F4FuPo2WUEd7PiR",
+      "slot": 450354562,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2NG293EaEEW6c9BrW7nLo6gK3W4HS4bVVYZY6fedYxnA2ew2LLy3vCRwcxyycUYdnFThxY6Y2F4FuPo2WUEd7PiR.json",
+        "sha256": "8eb47bebc9bf2bffa5b22ce7afd6e5be7685c797ab69eec7943746b256c2d342"
+      }
+    },
+    {
+      "label": "upsert_asset AMZNx",
+      "signature": "3E2xBYKWF2fuDKXbTFhrukCxEymg5f2iTKZYH3qRiiTZYyDdPDVuc1k2x4Ymeqj5zPjoEKQmfV6ctYWoutXrN5Ri",
+      "slot": 450354564,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3E2xBYKWF2fuDKXbTFhrukCxEymg5f2iTKZYH3qRiiTZYyDdPDVuc1k2x4Ymeqj5zPjoEKQmfV6ctYWoutXrN5Ri.json",
+        "sha256": "73897ee1524707ab8163995ee0fc8a689c400555d5106bda346f60801db3cfa2"
+      }
+    },
+    {
+      "label": "upsert_asset METAx",
+      "signature": "2qDjsrqGYfz2xAy8Ywwo3hJMVjfaj7MZLWdyJzAFYzR41ESzuENn4T62EsFKVNHGmeVA8RGg1RyrPDWr3771LxET",
+      "slot": 450354568,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2qDjsrqGYfz2xAy8Ywwo3hJMVjfaj7MZLWdyJzAFYzR41ESzuENn4T62EsFKVNHGmeVA8RGg1RyrPDWr3771LxET.json",
+        "sha256": "3fccd30c6b8abc2d1bc3354bdc6eace10c7b25c7ae55e82654b1e6b4b92bbf22"
+      }
+    },
+    {
+      "label": "upsert_asset OpenAI",
+      "signature": "2Mew1V9vdVmDmaPYdasVmQdc6KPLYiyVcVsY9vzjyRff19eRVKvVahHdGSaQ2ajpEMuaygAZfZMHGDWvVB9FJgaJ",
+      "slot": 450354574,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2Mew1V9vdVmDmaPYdasVmQdc6KPLYiyVcVsY9vzjyRff19eRVKvVahHdGSaQ2ajpEMuaygAZfZMHGDWvVB9FJgaJ.json",
+        "sha256": "bd622b95e6168dc152c253e6b57da0bb4aa449c1cd7af5d828c869c3fafb5b17"
+      }
+    },
+    {
+      "label": "upsert_asset Anthropic",
+      "signature": "4ycdJLhNqDRJyoVZKsixi8EuNJLjtg5MHpa3SigrNyF8YsUYrR36qMVczUYLWQ6yevoEaAAFjjpa1QXzFXHWvBYA",
+      "slot": 450354578,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4ycdJLhNqDRJyoVZKsixi8EuNJLjtg5MHpa3SigrNyF8YsUYrR36qMVczUYLWQ6yevoEaAAFjjpa1QXzFXHWvBYA.json",
+        "sha256": "26105404f40edaad1a2f1f6e76e60bada804a1c1431445cf0a75ca0ecc01840e"
+      }
+    },
+    {
+      "label": "upsert_asset Anduril",
+      "signature": "5Z6wFtRouRqsnSySf963HTDsXVjc7Voxnrz1B8qekcY5s2NWCpii8hK23siFJv3VcfgnePoqs6cGtggDFqajoFez",
+      "slot": 450354582,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5Z6wFtRouRqsnSySf963HTDsXVjc7Voxnrz1B8qekcY5s2NWCpii8hK23siFJv3VcfgnePoqs6cGtggDFqajoFez.json",
+        "sha256": "baabea96b57135dc907ef680076cec3273363f303e3554b25754a80e97964eaf"
+      }
+    },
+    {
+      "label": "upsert_asset FigureAI",
+      "signature": "2cwCBpy9R4To33FrTbVA4xUthScGdUbmjhWoSpDkJjKvJMRmn9kBwAoHuiCaHC9xi17bbeUzweYpgJcAantnd85F",
+      "slot": 450354587,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2cwCBpy9R4To33FrTbVA4xUthScGdUbmjhWoSpDkJjKvJMRmn9kBwAoHuiCaHC9xi17bbeUzweYpgJcAantnd85F.json",
+        "sha256": "40ec94bbf866c85a060873097e1952b6f9b993bb361a846759445b2b7d197620"
+      }
+    },
+    {
+      "label": "upsert_asset Kalshi",
+      "signature": "5BpcRz7Dq62omJZ9vHBnjXStgfguER5rQVC38F4gzu2gT1FUdcv1VKjzSkyb9ZzmAB19huqbrvm4fuBhFQ6mtvgk",
+      "slot": 450354590,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5BpcRz7Dq62omJZ9vHBnjXStgfguER5rQVC38F4gzu2gT1FUdcv1VKjzSkyb9ZzmAB19huqbrvm4fuBhFQ6mtvgk.json",
+        "sha256": "cdf50d3ad43be5f5ae8cdce08851c7c37c188db420e4c9e8c54664e39437a13e"
+      }
+    },
+    {
+      "label": "upsert_asset Polymarket",
+      "signature": "328yd3byjLp7ASCeEyP1AiC1CyAUKDtvecSLwPM2Emg4CpZ3fMWwNomvb1ppiMHhxSuC9uraHBHk92LdmdWPfFtH",
+      "slot": 450354594,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/328yd3byjLp7ASCeEyP1AiC1CyAUKDtvecSLwPM2Emg4CpZ3fMWwNomvb1ppiMHhxSuC9uraHBHk92LdmdWPfFtH.json",
+        "sha256": "e5945f7d5b9b15290583bf913988e54ab7b35a35e04c6ecd283b47fa959315e8"
+      }
+    },
+    {
+      "label": "upsert_asset Neuralink",
+      "signature": "YQ1NApf1Be3y1c3tkB8tLpmya68UsrEwzhGbP9KwJE2EG5sp5veAjGfwtvuFxu17qMMmhf3vwjwrczTMKLTJR5S",
+      "slot": 450354595,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/YQ1NApf1Be3y1c3tkB8tLpmya68UsrEwzhGbP9KwJE2EG5sp5veAjGfwtvuFxu17qMMmhf3vwjwrczTMKLTJR5S.json",
+        "sha256": "31b83e4235d8087d1054dc233702f6afdf1e507c66ff899e18a17f63b3d7b5ee"
+      }
+    },
+    {
+      "label": "upsert_asset SpaceX",
+      "signature": "4nEkRrgezzCa6vtDU71Wa7bC63hUBLxMiaAKwBZzSU1KVEPg1QMCfnYXRnEWAKqDiDdC1GavZxqEdWnQotgtDqPa",
+      "slot": 450354599,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4nEkRrgezzCa6vtDU71Wa7bC63hUBLxMiaAKwBZzSU1KVEPg1QMCfnYXRnEWAKqDiDdC1GavZxqEdWnQotgtDqPa.json",
+        "sha256": "8653c8c38b6e0f57bd3a227103692bab71befa72c54b7f43b0db25a31d332de7"
+      }
+    },
+    {
+      "label": "create protocol lookup table",
+      "signature": "2bEuXzuAWi8a88eiHB5YayMQmRGYMv1rx9Jse7fA63LjiW9uo7bbhVDCNwx9o9UL85kBudE7N9SUeqCBT3zBsEtR",
+      "slot": 450354603,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2bEuXzuAWi8a88eiHB5YayMQmRGYMv1rx9Jse7fA63LjiW9uo7bbhVDCNwx9o9UL85kBudE7N9SUeqCBT3zBsEtR.json",
+        "sha256": "8a8a2675db000c77dac0ae5c61c05e3ac90649de18a2ac6235b06e1fb8661b53"
+      }
+    },
+    {
+      "label": "extend protocol lookup table 1",
+      "signature": "4J9KfkK41UZPq952x9M6VLTNCxg2ftFpjNAKh8ynsx2sLENY6rS737PAdVNGnWSS5G4H1auhCrNUyV85Cg9BLWzv",
+      "slot": 450354604,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4J9KfkK41UZPq952x9M6VLTNCxg2ftFpjNAKh8ynsx2sLENY6rS737PAdVNGnWSS5G4H1auhCrNUyV85Cg9BLWzv.json",
+        "sha256": "e8d2027d6a0af257390f81c7d9efbd9002ff42fbcf0bc53421171760ef86eaa4"
+      }
+    },
+    {
+      "label": "extend protocol lookup table 2",
+      "signature": "3dTmo8apfqBK25deThVZU8CQ1Ciw7XqAm2aDM3gKEbxXjQxAFCovRfWEXT8jDCABShyPSChjwVrABZBQnauos5RU",
+      "slot": 450354607,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3dTmo8apfqBK25deThVZU8CQ1Ciw7XqAm2aDM3gKEbxXjQxAFCovRfWEXT8jDCABShyPSChjwVrABZBQnauos5RU.json",
+        "sha256": "bd97a31112848c9962544365244521149fa3a8ebaac5418edbc8d4f8569df572"
+      }
+    },
+    {
+      "label": "extend protocol lookup table 3",
+      "signature": "25PpbPB9DEDB2LzKTNGsfjJaFeZteiojtipXY46R3wbFm4MD2fUc7bhbwsmVcUHimwV1t6iVEHDY2zqJE3GNHJR4",
+      "slot": 450354609,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/25PpbPB9DEDB2LzKTNGsfjJaFeZteiojtipXY46R3wbFm4MD2fUc7bhbwsmVcUHimwV1t6iVEHDY2zqJE3GNHJR4.json",
+        "sha256": "8dcde94567092af81912e02b713a9c72939f9b54f093fdb58f06574359f8a4b4"
+      }
+    },
+    {
+      "label": "setup: create_router and approves",
+      "signature": "2bK2FpAoV9Cu6xWrRZMaLJYWjrh3F1i1TtUsXn5DxxjE1eSaLdvc1jaqrThdxM54P8NN9AwuvVySL7Yw5bXvZMH2",
+      "slot": 450354613,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2bK2FpAoV9Cu6xWrRZMaLJYWjrh3F1i1TtUsXn5DxxjE1eSaLdvc1jaqrThdxM54P8NN9AwuvVySL7Yw5bXvZMH2.json",
+        "sha256": "5e1a1f2cac7482598c2963f51ee7cf886a0570002e26191ed87cc154c008df74"
+      }
+    },
+    {
+      "label": "paycheck: employer-1 transferChecked",
+      "signature": "eMqUoYediCy7HafbqXypaihAeEYz4xoX1Jm1d17hUrnRy3Bub9RqpbL6skGpU8oQdVmPfg9gRT6YVVw3XL6aYHp",
+      "slot": 450354615,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/eMqUoYediCy7HafbqXypaihAeEYz4xoX1Jm1d17hUrnRy3Bub9RqpbL6skGpU8oQdVmPfg9gRT6YVVw3XL6aYHp.json",
+        "sha256": "b5c5d5e1f625be99e893b2f23c048acc0791d536002c361eaac7397cbdb6bc75"
+      }
+    },
+    {
+      "label": "record_paycheck",
+      "signature": "5LidcLGNDK57Qom11wJJ9UMnRx1a4a6WuDvDnDoLGX2DJf23ASPRSNSV7oPKrQKrbjdZjj3cs5613Lp1uzcFQDyH",
+      "slot": 450354624,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5LidcLGNDK57Qom11wJJ9UMnRx1a4a6WuDvDnDoLGX2DJf23ASPRSNSV7oPKrQKrbjdZjj3cs5613Lp1uzcFQDyH.json",
+        "sha256": "497d59a4c948a53540135590e3f68c2d10e60ce86705db1dc249a74c0c04d8f8"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "2L1G5c7DG6VADKEM4GXHcY4amQ3MhEfyWFsQWifAmHRXGzxwEq3GcuZbznB4duCQys1kffcfmpVGXFbWNvcEBDnm",
+      "slot": 450354643,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2L1G5c7DG6VADKEM4GXHcY4amQ3MhEfyWFsQWifAmHRXGzxwEq3GcuZbznB4duCQys1kffcfmpVGXFbWNvcEBDnm.json",
+        "sha256": "32e0b0f24c4b4408d18807d3646faa0c89d0a246d7048000756561ca705deda6"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "2yxGeCkGWAHja7Y7BFR7L7jKRoX82NoBX5fUKuTNxWhwhhMPZiTS1KErNgySdf9BvvvLdUuL95R862omEAAmTCwD",
+      "slot": 450354678,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2yxGeCkGWAHja7Y7BFR7L7jKRoX82NoBX5fUKuTNxWhwhhMPZiTS1KErNgySdf9BvvvLdUuL95R862omEAAmTCwD.json",
+        "sha256": "79288cf11ac5eae372228e6b4583e44d5d86fc2ab835a51c2e9516250935c31f"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "GFTDpSJJtExQVQHiQUxx2p94zzqTQwtmSRuisNi8dkxuA6KHEwdQWLUsL2ZrJAKHHdfDvKax335xSpAv4a37u4R",
+      "slot": 450354700,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/GFTDpSJJtExQVQHiQUxx2p94zzqTQwtmSRuisNi8dkxuA6KHEwdQWLUsL2ZrJAKHHdfDvKax335xSpAv4a37u4R.json",
+        "sha256": "eb2f5f728d1ad23dfa04a8e4fafd4a8c5cd03f6556ee9d9f17cab9eae7109fb1"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "5sq63RoZeQuCmfE2vKorNWBnmkRvT8VRjPWCtQQvw1aj34RJZNAEdVZKYcSzqCNnCja2Jc187aMCT1U2R9g27p1H",
+      "slot": 450354707,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5sq63RoZeQuCmfE2vKorNWBnmkRvT8VRjPWCtQQvw1aj34RJZNAEdVZKYcSzqCNnCja2Jc187aMCT1U2R9g27p1H.json",
+        "sha256": "27d15e30804c5a31e1d884778c5446401bdc0fb0db86a6e195e73c6470fb0611"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "53ejULiRsxS8MBoV6gVNyVPcbqcoxsLVBw5q9YHmWZ9i2VVyG9ddKYK2gcSCCvJ5WdEvzkZ3EsvpAy6wXQVmUXWA",
+      "slot": 450354759,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/53ejULiRsxS8MBoV6gVNyVPcbqcoxsLVBw5q9YHmWZ9i2VVyG9ddKYK2gcSCCvJ5WdEvzkZ3EsvpAy6wXQVmUXWA.json",
+        "sha256": "86036d80f304082f400ac4d35556016ae04448599f346d94ec269660886acd62"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "6oGNwZLL73h6mfp8Eyfdi5t6pb17QPBisK8hJf9zm7sfSqwrYWCzkbs5xUSZMGz2DWRciXXvJREQPTpZ4YhAE1n",
+      "slot": 450354762,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/6oGNwZLL73h6mfp8Eyfdi5t6pb17QPBisK8hJf9zm7sfSqwrYWCzkbs5xUSZMGz2DWRciXXvJREQPTpZ4YhAE1n.json",
+        "sha256": "f0a7d03112527e1287b59df5bdd914fe135102aef4b030cd93bb6cc9cc40bb5c"
+      }
+    }
+  ],
+  "legs": [
+    {
+      "index": 0,
+      "mint": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+      "symbol": "SPYx",
+      "kind": "listed_equity",
+      "amountIn": "92500000",
+      "bandBps": 50,
+      "state": "WAITING",
+      "waitReason": "PRICE_UNAVAILABLE",
+      "attempts": [
+        {
+          "key": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e:0:0:0",
+          "startedAt": "2026-09-25T12:38:11.604Z",
+          "jupiterBuild": null,
+          "hermesUpdate": null,
+          "prices": [],
+          "attestation": null,
+          "simulation": null,
+          "transactionBytes": null,
+          "priceRejections": [
+            {
+              "feedId": "19e09bb805456ada3979a7d1cbb4b6d63babc3a0f8e8a9509f68afa5c4c11cd5",
+              "status": 403,
+              "body": "Not entitled: feed 19e09bb805456ada3979a7d1cbb4b6d63babc3a0f8e8a9509f68afa5c4c11cd5 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 2))"
+            }
+          ],
+          "signatures": [],
+          "outcome": "waiting",
+          "waitReason": "PRICE_UNAVAILABLE",
+          "error": "Hermes 403 for 19e09bb805456ada3979a7d1cbb4b6d63babc3a0f8e8a9509f68afa5c4c11cd5: Not entitled: feed 19e09bb805456ada3979a7d1cbb4b6d63babc3a0f8e8a9509f68afa5c4c11cd5 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 2))"
+        }
+      ],
+      "executed": null,
+      "verification": null
+    },
+    {
+      "index": 1,
+      "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+      "symbol": "NVDAx",
+      "kind": "listed_equity",
+      "amountIn": "92500000",
+      "bandBps": 50,
+      "state": "WAITING",
+      "waitReason": "PRICE_UNAVAILABLE",
+      "attempts": [
+        {
+          "key": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e:0:1:0",
+          "startedAt": "2026-09-25T12:38:11.605Z",
+          "jupiterBuild": null,
+          "hermesUpdate": null,
+          "prices": [],
+          "attestation": null,
+          "simulation": null,
+          "transactionBytes": null,
+          "priceRejections": [
+            {
+              "feedId": "b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593",
+              "status": 403,
+              "body": "Not entitled: feed b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+            }
+          ],
+          "signatures": [],
+          "outcome": "waiting",
+          "waitReason": "PRICE_UNAVAILABLE",
+          "error": "Hermes 403 for b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593: Not entitled: feed b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+        }
+      ],
+      "executed": null,
+      "verification": null
+    },
+    {
+      "index": 2,
+      "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+      "symbol": "Anthropic",
+      "kind": "pre_ipo",
+      "amountIn": "92500000",
+      "bandBps": 300,
+      "state": "PENDING",
+      "waitReason": null,
+      "attempts": [
+        {
+          "key": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e:0:2:0",
+          "startedAt": "2026-09-25T12:38:11.605Z",
+          "jupiterBuild": {
+            "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_2_0.json",
+            "sha256": "87427c146014ca78ce49d0fcbec6c578b98fe533fc34d60dd5d74dd641fab0dd"
+          },
+          "hermesUpdate": {
+            "path": "raw/hermes/posted-1.json",
+            "sha256": "92ea532ffe5d2418a587ffd6f5ff5aa07ee417372916fdf68c97786d8a427c0d"
+          },
+          "prices": [
+            {
+              "feedId": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+              "price": "99990643",
+              "conf": "22424",
+              "exponent": -8,
+              "publishTime": 1790339887,
+              "postedAccount": "3aeoppBd5Ma9wAYppQWFWQPhLtpiLrpRzXVPom5EkX4P"
+            }
+          ],
+          "attestation": null,
+          "simulation": null,
+          "transactionBytes": null,
+          "priceRejections": [],
+          "signatures": [],
+          "outcome": "failed",
+          "waitReason": null,
+          "error": "Jupiter returned a setup or cleanup instruction the Authority PDA must sign"
+        }
+      ],
+      "executed": null,
+      "verification": null
+    },
+    {
+      "index": 3,
+      "mint": "PreweJYECqtQwBtpxHL171nL2K6umo692gTm7Q3rpgF",
+      "symbol": "OpenAI",
+      "kind": "pre_ipo",
+      "amountIn": "92500000",
+      "bandBps": 300,
+      "state": "WAITING",
+      "waitReason": "PREMIUM_TOO_HIGH",
+      "attempts": [
+        {
+          "key": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e:0:3:0",
+          "startedAt": "2026-09-25T12:38:17.326Z",
+          "jupiterBuild": {
+            "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_3_0.json",
+            "sha256": "f87b7e30257e5d38c9d1ec86e16df29fc54184d60ed5f3c2b99dd2c881ac0a82"
+          },
+          "hermesUpdate": {
+            "path": "raw/hermes/posted-1.json",
+            "sha256": "92ea532ffe5d2418a587ffd6f5ff5aa07ee417372916fdf68c97786d8a427c0d"
+          },
+          "prices": [
+            {
+              "feedId": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+              "price": "99990643",
+              "conf": "22424",
+              "exponent": -8,
+              "publishTime": 1790339887,
+              "postedAccount": "3aeoppBd5Ma9wAYppQWFWQPhLtpiLrpRzXVPom5EkX4P"
+            }
+          ],
+          "attestation": {
+            "mint": "PreweJYECqtQwBtpxHL171nL2K6umo692gTm7Q3rpgF",
+            "markPriceE9": "1023789853140",
+            "observedAt": 1790339902,
+            "source": 0,
+            "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+            "message": "05daec0529e52bbf67f6ff1e146a9eb6ace7fc4ea31ca4bc9f15e10fe3719728d469a15eee0000003e6bb66a0000000000",
+            "signature": "08e850d1685426bf6808ebfb45ccc2cfb392a6e22aa8aa4ee2a6110a593022ef1f892bf7c877a8e15f8eefa53936d0da0066a1b19886bbebd61c7fc63f103601",
+            "apiResponse": {
+              "path": "raw/prestocks/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_3_0.json",
+              "sha256": "91aca8894beac86bad3d8d06494ac1f0f6962cd5e23cbd88898ffff3011a2a81"
+            }
+          },
+          "simulation": {
+            "unitsConsumed": 113266,
+            "errorCode": 6022,
+            "errorName": "OutputBelowMinimum",
+            "logs": {
+              "path": "raw/simulation/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_3_0.json",
+              "sha256": "942e3a99363fb6b945365e8a9757bfd7e160b93ef35f11bdc700210d7c8e51ee"
+            }
+          },
+          "transactionBytes": 958,
+          "priceRejections": [],
+          "signatures": [],
+          "outcome": "waiting",
+          "waitReason": "PREMIUM_TOO_HIGH",
+          "error": null
+        }
+      ],
+      "executed": null,
+      "verification": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "raw/tx/54oAP3cAMcTnjDMjFGQ25FWTvNn6p34wVJDjRTHKuV3DK3ZcoKxiwCyuZ9YXq3vLMm8jS723hHwfjPq6qMJ2cdu3.json",
+      "sha256": "016e9d0bcd53046e242d3ccd32776440ea1048ade0b9b4979d915ecd19cac6af"
+    },
+    {
+      "path": "raw/tx/VDN7LrXs4HgE5E6UktspdYEfUhyLk9P6tGBqhHSguZxxaWpdmTYtAtBWtKYdAgrFWfGjXwEuePvL3dK95Vcxjg7.json",
+      "sha256": "f7100f135523647fbcbca34fd4f6bf2e938d56aa7a797507f6e24815de3fed65"
+    },
+    {
+      "path": "raw/tx/9vn2MpBT6c3uYeCiHBg2fsgpptKgo1m85PTQee1AmwGbQbn2y1wVcWuy2krzLsn4NutNjzCXV7eB4r4zdco5KjR.json",
+      "sha256": "81bfb832826dac5a628c1055af63b60a01966db3cdbacd38c2f1ceab0bbc04f7"
+    },
+    {
+      "path": "raw/tx/5EMkrYcvQ4eVgkWnnKHqV2fNVWudr2ksaZRpmnn8sehETzLSX2VtS2rNxeiYefPcmL13dZNEKCakK7GSnaNVH6dE.json",
+      "sha256": "15de63154ce771ad7e4f3b7f025f62cc0ae6fa7671ab7d7b1e48eaa0ed570a5d"
+    },
+    {
+      "path": "raw/tx/3jLyDQrpuMWpWu7ZtP2KvaXXWZNE9n7pLi7PaGKK6NzsFmBqN2MRWMkKcKi54uzYxiitTAmiAQxdBZuZLDepwDs6.json",
+      "sha256": "9ec1705a529e89ac7bc0485f746e123aa674643354ddcd1f3da7682895d96a7d"
+    },
+    {
+      "path": "raw/tx/2Mx17AxNVDakQ31PFHoq8DKEmKY2t1zMX1pCW7pNitoAK37uCwVjUxNEtJHENnA9Hf3XdGD585HY4CUmSdqEtw1n.json",
+      "sha256": "7ecebcdf6d491f51ffabb907c110a28b451b578f11195dc26098176d24d87683"
+    },
+    {
+      "path": "raw/tx/2xcnShgcrGgS4F1tMJZiXJvVgen6s56m3tmLm29qt8hQM5CdhoEcznG5ABRDcg4GVbVfwrza7Pywizvvh6BSLoCJ.json",
+      "sha256": "32194c1d10617a9a62d65532f05a02bde046ed5cb32734281b93d3c26552be5c"
+    },
+    {
+      "path": "raw/tx/5u3Pwin5aYD4yoQ14pAyXqZzyHSj2EGaDT3gVXFCnHcxz29irxpA4Z1ZcYEDsumgVdufrZsVLMgmdiiVMMjGuM4x.json",
+      "sha256": "aa1cd4c16590a1a5440548547da71a0215dbade55c76a14ac346c5cc88ddcccb"
+    },
+    {
+      "path": "raw/tx/2NG293EaEEW6c9BrW7nLo6gK3W4HS4bVVYZY6fedYxnA2ew2LLy3vCRwcxyycUYdnFThxY6Y2F4FuPo2WUEd7PiR.json",
+      "sha256": "8eb47bebc9bf2bffa5b22ce7afd6e5be7685c797ab69eec7943746b256c2d342"
+    },
+    {
+      "path": "raw/tx/3E2xBYKWF2fuDKXbTFhrukCxEymg5f2iTKZYH3qRiiTZYyDdPDVuc1k2x4Ymeqj5zPjoEKQmfV6ctYWoutXrN5Ri.json",
+      "sha256": "73897ee1524707ab8163995ee0fc8a689c400555d5106bda346f60801db3cfa2"
+    },
+    {
+      "path": "raw/tx/2qDjsrqGYfz2xAy8Ywwo3hJMVjfaj7MZLWdyJzAFYzR41ESzuENn4T62EsFKVNHGmeVA8RGg1RyrPDWr3771LxET.json",
+      "sha256": "3fccd30c6b8abc2d1bc3354bdc6eace10c7b25c7ae55e82654b1e6b4b92bbf22"
+    },
+    {
+      "path": "raw/tx/2Mew1V9vdVmDmaPYdasVmQdc6KPLYiyVcVsY9vzjyRff19eRVKvVahHdGSaQ2ajpEMuaygAZfZMHGDWvVB9FJgaJ.json",
+      "sha256": "bd622b95e6168dc152c253e6b57da0bb4aa449c1cd7af5d828c869c3fafb5b17"
+    },
+    {
+      "path": "raw/tx/4ycdJLhNqDRJyoVZKsixi8EuNJLjtg5MHpa3SigrNyF8YsUYrR36qMVczUYLWQ6yevoEaAAFjjpa1QXzFXHWvBYA.json",
+      "sha256": "26105404f40edaad1a2f1f6e76e60bada804a1c1431445cf0a75ca0ecc01840e"
+    },
+    {
+      "path": "raw/tx/5Z6wFtRouRqsnSySf963HTDsXVjc7Voxnrz1B8qekcY5s2NWCpii8hK23siFJv3VcfgnePoqs6cGtggDFqajoFez.json",
+      "sha256": "baabea96b57135dc907ef680076cec3273363f303e3554b25754a80e97964eaf"
+    },
+    {
+      "path": "raw/tx/2cwCBpy9R4To33FrTbVA4xUthScGdUbmjhWoSpDkJjKvJMRmn9kBwAoHuiCaHC9xi17bbeUzweYpgJcAantnd85F.json",
+      "sha256": "40ec94bbf866c85a060873097e1952b6f9b993bb361a846759445b2b7d197620"
+    },
+    {
+      "path": "raw/tx/5BpcRz7Dq62omJZ9vHBnjXStgfguER5rQVC38F4gzu2gT1FUdcv1VKjzSkyb9ZzmAB19huqbrvm4fuBhFQ6mtvgk.json",
+      "sha256": "cdf50d3ad43be5f5ae8cdce08851c7c37c188db420e4c9e8c54664e39437a13e"
+    },
+    {
+      "path": "raw/tx/328yd3byjLp7ASCeEyP1AiC1CyAUKDtvecSLwPM2Emg4CpZ3fMWwNomvb1ppiMHhxSuC9uraHBHk92LdmdWPfFtH.json",
+      "sha256": "e5945f7d5b9b15290583bf913988e54ab7b35a35e04c6ecd283b47fa959315e8"
+    },
+    {
+      "path": "raw/tx/YQ1NApf1Be3y1c3tkB8tLpmya68UsrEwzhGbP9KwJE2EG5sp5veAjGfwtvuFxu17qMMmhf3vwjwrczTMKLTJR5S.json",
+      "sha256": "31b83e4235d8087d1054dc233702f6afdf1e507c66ff899e18a17f63b3d7b5ee"
+    },
+    {
+      "path": "raw/tx/4nEkRrgezzCa6vtDU71Wa7bC63hUBLxMiaAKwBZzSU1KVEPg1QMCfnYXRnEWAKqDiDdC1GavZxqEdWnQotgtDqPa.json",
+      "sha256": "8653c8c38b6e0f57bd3a227103692bab71befa72c54b7f43b0db25a31d332de7"
+    },
+    {
+      "path": "raw/tx/2bEuXzuAWi8a88eiHB5YayMQmRGYMv1rx9Jse7fA63LjiW9uo7bbhVDCNwx9o9UL85kBudE7N9SUeqCBT3zBsEtR.json",
+      "sha256": "8a8a2675db000c77dac0ae5c61c05e3ac90649de18a2ac6235b06e1fb8661b53"
+    },
+    {
+      "path": "raw/tx/4J9KfkK41UZPq952x9M6VLTNCxg2ftFpjNAKh8ynsx2sLENY6rS737PAdVNGnWSS5G4H1auhCrNUyV85Cg9BLWzv.json",
+      "sha256": "e8d2027d6a0af257390f81c7d9efbd9002ff42fbcf0bc53421171760ef86eaa4"
+    },
+    {
+      "path": "raw/tx/3dTmo8apfqBK25deThVZU8CQ1Ciw7XqAm2aDM3gKEbxXjQxAFCovRfWEXT8jDCABShyPSChjwVrABZBQnauos5RU.json",
+      "sha256": "bd97a31112848c9962544365244521149fa3a8ebaac5418edbc8d4f8569df572"
+    },
+    {
+      "path": "raw/tx/25PpbPB9DEDB2LzKTNGsfjJaFeZteiojtipXY46R3wbFm4MD2fUc7bhbwsmVcUHimwV1t6iVEHDY2zqJE3GNHJR4.json",
+      "sha256": "8dcde94567092af81912e02b713a9c72939f9b54f093fdb58f06574359f8a4b4"
+    },
+    {
+      "path": "raw/tx/2bK2FpAoV9Cu6xWrRZMaLJYWjrh3F1i1TtUsXn5DxxjE1eSaLdvc1jaqrThdxM54P8NN9AwuvVySL7Yw5bXvZMH2.json",
+      "sha256": "5e1a1f2cac7482598c2963f51ee7cf886a0570002e26191ed87cc154c008df74"
+    },
+    {
+      "path": "raw/tx/eMqUoYediCy7HafbqXypaihAeEYz4xoX1Jm1d17hUrnRy3Bub9RqpbL6skGpU8oQdVmPfg9gRT6YVVw3XL6aYHp.json",
+      "sha256": "b5c5d5e1f625be99e893b2f23c048acc0791d536002c361eaac7397cbdb6bc75"
+    },
+    {
+      "path": "raw/tx/5LidcLGNDK57Qom11wJJ9UMnRx1a4a6WuDvDnDoLGX2DJf23ASPRSNSV7oPKrQKrbjdZjj3cs5613Lp1uzcFQDyH.json",
+      "sha256": "497d59a4c948a53540135590e3f68c2d10e60ce86705db1dc249a74c0c04d8f8"
+    },
+    {
+      "path": "raw/hermes/posted-0.json",
+      "sha256": "d1082d6826c979c3e4001f13a70ccaa4991d7ccac14a08949c2d97a369ec7a1e"
+    },
+    {
+      "path": "raw/hermes/posted-1.json",
+      "sha256": "92ea532ffe5d2418a587ffd6f5ff5aa07ee417372916fdf68c97786d8a427c0d"
+    },
+    {
+      "path": "raw/tx/2L1G5c7DG6VADKEM4GXHcY4amQ3MhEfyWFsQWifAmHRXGzxwEq3GcuZbznB4duCQys1kffcfmpVGXFbWNvcEBDnm.json",
+      "sha256": "32e0b0f24c4b4408d18807d3646faa0c89d0a246d7048000756561ca705deda6"
+    },
+    {
+      "path": "raw/tx/2yxGeCkGWAHja7Y7BFR7L7jKRoX82NoBX5fUKuTNxWhwhhMPZiTS1KErNgySdf9BvvvLdUuL95R862omEAAmTCwD.json",
+      "sha256": "79288cf11ac5eae372228e6b4583e44d5d86fc2ab835a51c2e9516250935c31f"
+    },
+    {
+      "path": "raw/tx/GFTDpSJJtExQVQHiQUxx2p94zzqTQwtmSRuisNi8dkxuA6KHEwdQWLUsL2ZrJAKHHdfDvKax335xSpAv4a37u4R.json",
+      "sha256": "eb2f5f728d1ad23dfa04a8e4fafd4a8c5cd03f6556ee9d9f17cab9eae7109fb1"
+    },
+    {
+      "path": "raw/tx/5sq63RoZeQuCmfE2vKorNWBnmkRvT8VRjPWCtQQvw1aj34RJZNAEdVZKYcSzqCNnCja2Jc187aMCT1U2R9g27p1H.json",
+      "sha256": "27d15e30804c5a31e1d884778c5446401bdc0fb0db86a6e195e73c6470fb0611"
+    },
+    {
+      "path": "raw/tx/53ejULiRsxS8MBoV6gVNyVPcbqcoxsLVBw5q9YHmWZ9i2VVyG9ddKYK2gcSCCvJ5WdEvzkZ3EsvpAy6wXQVmUXWA.json",
+      "sha256": "86036d80f304082f400ac4d35556016ae04448599f346d94ec269660886acd62"
+    },
+    {
+      "path": "raw/tx/6oGNwZLL73h6mfp8Eyfdi5t6pb17QPBisK8hJf9zm7sfSqwrYWCzkbs5xUSZMGz2DWRciXXvJREQPTpZ4YhAE1n.json",
+      "sha256": "f0a7d03112527e1287b59df5bdd914fe135102aef4b030cd93bb6cc9cc40bb5c"
+    },
+    {
+      "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_2_0.json",
+      "sha256": "87427c146014ca78ce49d0fcbec6c578b98fe533fc34d60dd5d74dd641fab0dd"
+    },
+    {
+      "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_3_0.json",
+      "sha256": "f87b7e30257e5d38c9d1ec86e16df29fc54184d60ed5f3c2b99dd2c881ac0a82"
+    },
+    {
+      "path": "raw/prestocks/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_3_0.json",
+      "sha256": "91aca8894beac86bad3d8d06494ac1f0f6962cd5e23cbd88898ffff3011a2a81"
+    },
+    {
+      "path": "raw/simulation/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_3_0.json",
+      "sha256": "942e3a99363fb6b945365e8a9757bfd7e160b93ef35f11bdc700210d7c8e51ee"
+    }
+  ],
+  "error": null
+}
