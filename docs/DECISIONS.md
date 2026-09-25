@@ -2,6 +2,21 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: Pipeline details settled by fork runs
+
+**Observed.**
+- A pre-IPO execute transaction carries a 161-byte Ed25519 instruction. With `maxAccounts=40` routes, it reached 1,261 bytes (1,242 once priced), over Solana's 1,232-byte limit.
+- Surfpool 1.5.0 returns `getTransaction.blockTime` as the unix time divided by 1,000, and `getBlockTime` right after startup returns about 0.
+- `upsert_asset` caps an asset's band plus its 24/7 extra at the 300 bps equity cap, so xStocks with a 24/7 feed register a 250 bps maximum band. `create_router` takes each leg's Asset account and rejects a daily cap of zero.
+- The plan gave two retry schedules for PREMIUM_TOO_HIGH: 1, 2, 5 and 10 minutes, or 1, 2, 5, 10, 15 and 30 minutes, then every 30.
+- The public mainnet-beta RPC drops requests when several forks pull accounts through it at once. Pointing forks at `solana-rpc.publicnode.com` instead broke `solana program deploy` (-32603).
+
+**Changed.**
+- The crank checks the size of the priced message before sending. When it's over the limit, it re-quotes at 38 and then 30 route accounts.
+- The verifier ages attestations from the Paycheck's `executed_at`, and the clock-drift check reads the Clock sysvar.
+- PREMIUM_TOO_HIGH follows the longer schedule (1, 2, 5, 10, 15, 30 minutes, then every 30).
+- Fork runs retry datasource failures, and those failures are counted as infrastructure, never as program outcomes. A Helius key removes the problem.
+
 ## 2026-09-25: Web platform constraints on Cloudflare
 
 **Observed.**
