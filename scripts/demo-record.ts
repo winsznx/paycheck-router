@@ -185,6 +185,7 @@ async function main(): Promise<void> {
     secretsDir: SECRETS_DIR,
     outPath: resolve(ROOT, "apps", "core", ".dev.vars"),
     surfnetRpcUrl: surfnet.rpcUrl,
+    extra: { CONFIG_PDA: protocol.config, PROTOCOL_ALT: protocol.lookupTable.address },
     requirePyth: true,
   });
   const demoWorker = Uint8Array.from(
