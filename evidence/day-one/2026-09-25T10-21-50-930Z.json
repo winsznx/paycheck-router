@@ -1,0 +1,115 @@
+{
+  "ranAt": "2026-09-25T10:21:50.930Z",
+  "environment": "fork",
+  "surfnetRpc": "http://127.0.0.1:8899",
+  "forkStartSlot": 450323094,
+  "results": [
+    {
+      "name": "surfnet clock within 5 s of wall time over 30 s",
+      "pass": true,
+      "detail": {
+        "maxDriftSecs": 1.3900001049041748,
+        "samples": [
+          {
+            "slot": 450323124,
+            "blockTime": 1790331669,
+            "wall": 1790331670.338,
+            "driftSecs": -1.3380000591278076
+          },
+          {
+            "slot": 450323138,
+            "blockTime": 1790331674,
+            "wall": 1790331675.344,
+            "driftSecs": -1.3440001010894775
+          },
+          {
+            "slot": 450323150,
+            "blockTime": 1790331679,
+            "wall": 1790331680.358,
+            "driftSecs": -1.3580000400543213
+          },
+          {
+            "slot": 450323162,
+            "blockTime": 1790331684,
+            "wall": 1790331685.368,
+            "driftSecs": -1.3680000305175781
+          },
+          {
+            "slot": 450323175,
+            "blockTime": 1790331689,
+            "wall": 1790331690.376,
+            "driftSecs": -1.375999927520752
+          },
+          {
+            "slot": 450323187,
+            "blockTime": 1790331694,
+            "wall": 1790331695.385,
+            "driftSecs": -1.3849999904632568
+          },
+          {
+            "slot": 450323200,
+            "blockTime": 1790331699,
+            "wall": 1790331700.39,
+            "driftSecs": -1.3900001049041748
+          }
+        ]
+      }
+    },
+    {
+      "name": "Jupiter /swap/v2/build route executes on the fork",
+      "pass": true,
+      "detail": {
+        "signature": "LRkwjfT7ZBhSHJ7V54KxtxZCrtBd71k3Mhh7An5i9mkWH2hyQ1kzLeayJ1Xg2d1ViuFaBytiUz9xkW87Uatfp9M",
+        "err": null,
+        "route": [
+          "Whirlpool 100%"
+        ],
+        "quotedOut": "4411486",
+        "minOut": "4367372",
+        "received": "4411344",
+        "usdcSpent": "10000000"
+      }
+    },
+    {
+      "name": "getSignaturesForAddress and getTransaction return fork-local transactions",
+      "pass": true,
+      "detail": {
+        "account": "AecooygcVfjSsaz26rcXDZg5ay46XTV5EfvtxYP1QLJM",
+        "signaturesReturned": 3,
+        "forkSwapListed": true,
+        "getTransactionSlot": 450323208
+      }
+    },
+    {
+      "name": "Jupiter /swap/v2/build instruction runs inside CPI with the Authority PDA as taker",
+      "pass": true,
+      "detail": {
+        "signature": "3McnYHxwhmyKybehusADvDpS8pA7d1CNWjnK64CEpg1UiicMGYyt3VUN7dSkXdaGcReL8TxhgcxeU6BCVcNpHAR9",
+        "err": null,
+        "probeProgram": "54dbPLMwUVWP4fGock1iznSChCecnzmpQ3uNmcskztyi",
+        "authorityPda": "5KDNUiHqTEyUvxQcdNgUh7RR1heKbYziV6rjPQ7ATwna",
+        "swapAccounts": 26,
+        "setupInstructions": [
+          {
+            "program": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
+            "accounts": [
+              "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+              "6AJocvXnyxYZjb1o7jdAhFZyfypjVVPfxZVNj2Xx4CZQ",
+              "5KDNUiHqTEyUvxQcdNgUh7RR1heKbYziV6rjPQ7ATwna",
+              "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+              "11111111111111111111111111111111",
+              "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+            ]
+          }
+        ],
+        "authorityUsdc": "AUZRDQ4WF3Sz67qwEafSoHcsqKao9UtsKfXCV8b8oZDQ",
+        "route": [
+          "Whirlpool 100%"
+        ],
+        "minOut": "4367372",
+        "received": "4411291",
+        "usdcSpent": "10000000"
+      }
+    }
+  ]
+}

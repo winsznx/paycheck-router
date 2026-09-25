@@ -1,0 +1,118 @@
+{
+  "ranAt": "2026-09-25T10:20:11.643Z",
+  "environment": "fork",
+  "surfnetRpc": "http://127.0.0.1:8899",
+  "forkStartSlot": 450322841,
+  "results": [
+    {
+      "name": "surfnet clock within 5 s of wall time over 30 s",
+      "pass": true,
+      "detail": {
+        "maxDriftSecs": 1.5260000228881836,
+        "samples": [
+          {
+            "slot": 450322872,
+            "blockTime": 1790331568,
+            "wall": 1790331569.459,
+            "driftSecs": -1.4590001106262207
+          },
+          {
+            "slot": 450322884,
+            "blockTime": 1790331573,
+            "wall": 1790331574.468,
+            "driftSecs": -1.4679999351501465
+          },
+          {
+            "slot": 450322896,
+            "blockTime": 1790331578,
+            "wall": 1790331579.482,
+            "driftSecs": -1.4820001125335693
+          },
+          {
+            "slot": 450322910,
+            "blockTime": 1790331583,
+            "wall": 1790331584.49,
+            "driftSecs": -1.4900000095367432
+          },
+          {
+            "slot": 450322922,
+            "blockTime": 1790331588,
+            "wall": 1790331589.502,
+            "driftSecs": -1.502000093460083
+          },
+          {
+            "slot": 450322934,
+            "blockTime": 1790331593,
+            "wall": 1790331594.516,
+            "driftSecs": -1.5160000324249268
+          },
+          {
+            "slot": 450322947,
+            "blockTime": 1790331598,
+            "wall": 1790331599.526,
+            "driftSecs": -1.5260000228881836
+          }
+        ]
+      }
+    },
+    {
+      "name": "Jupiter /swap/v2/build route executes on the fork",
+      "pass": false,
+      "detail": {
+        "signature": "2vfawvEniB41jbhd5SoGmnRcPPtky38H3rcABjzqoGGksWMgebQgW8auKdmn88RkGzdcntzPEuDXvosFd5cyNKkR",
+        "err": {
+          "InstructionError": [
+            "3",
+            {
+              "Custom": "6020"
+            }
+          ]
+        },
+        "route": [
+          "BisonFi 100%",
+          "Raydium CLMM 100%"
+        ],
+        "quotedOut": "4412648",
+        "minOut": "4368522",
+        "received": "0",
+        "usdcSpent": "0"
+      }
+    },
+    {
+      "name": "getSignaturesForAddress and getTransaction return fork-local transactions",
+      "pass": true,
+      "detail": {
+        "account": "AecooygcVfjSsaz26rcXDZg5ay46XTV5EfvtxYP1QLJM",
+        "signaturesReturned": 2,
+        "forkSwapListed": true,
+        "getTransactionSlot": 450322956
+      }
+    },
+    {
+      "name": "Jupiter /swap/v2/build instruction runs inside CPI with the Authority PDA as taker",
+      "pass": false,
+      "detail": {
+        "signature": "5F5evJG7TwnSgbZAp4NgtM8XFu8RzzQJfSSAT75ojFZVvrcAoGCKNRP9hsQ3QViNiXDyJou7iS7r9BBfukLHEe6H",
+        "err": {
+          "InstructionError": [
+            "2",
+            {
+              "Custom": "6025"
+            }
+          ]
+        },
+        "probeProgram": "54dbPLMwUVWP4fGock1iznSChCecnzmpQ3uNmcskztyi",
+        "authorityPda": "DHKdUumtkiodX1GiYUUcJEeoevbEAY1ZKDhtBxph7tHz",
+        "swapAccounts": 41,
+        "setupInstructionsReturned": 2,
+        "route": [
+          "BisonFi 100%",
+          "Raydium CLMM 100%"
+        ],
+        "minOut": "4369113",
+        "received": "0",
+        "usdcSpent": "0"
+      }
+    }
+  ]
+}
