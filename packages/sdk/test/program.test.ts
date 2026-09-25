@@ -22,7 +22,9 @@ const event = {
   amountIn: 100_000_000n,
   fee: 200_000n,
   swappedIn: 99_800_000n,
+  usdcConsumed: 99_800_000n,
   dustReturned: 0n,
+  intermediateReturned: 0n,
   outAmount: 55_000_000n,
   issuerFee: 12n,
   minOut: 54_000_000n,
@@ -81,10 +83,9 @@ describe("generated client adapters", () => {
   });
 
   it("finds LegExecuted in our program's logs and maps it for the verifier", () => {
-    const payload = new Uint8Array([
-      ...LEG_EXECUTED_EVENT_DISCRIMINATOR,
-      ...getLegExecutedEventEncoder().encode(event),
-    ]);
+    // The generated encoder writes the discriminator itself, as the program's emit! does.
+    const payload = Uint8Array.from(getLegExecutedEventEncoder().encode(event));
+    expect([...payload.slice(0, 8)]).toEqual([...LEG_EXECUTED_EVENT_DISCRIMINATOR]);
     const logs = [
       `Program ${PROGRAM_ID} invoke [1]`,
       `Program data: ${getBase64Decoder().decode(payload)}`,
