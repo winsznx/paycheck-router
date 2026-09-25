@@ -4,6 +4,7 @@
 mod admin;
 mod common;
 mod convert;
+mod dust;
 mod execute;
 mod fixtures;
 mod fuzz;

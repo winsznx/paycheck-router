@@ -345,6 +345,8 @@ impl Market {
             jupiter_program: call.swap_program.unwrap_or(test_swap::ID),
             usdc_token_program: TOKEN_PROGRAM,
             asset_token_program: TOKEN_2022_PROGRAM,
+            owner_intermediate: call.intermediate.map(|(account, _)| account),
+            intermediate_mint: call.intermediate.map(|(_, mint)| mint),
         }
         .to_account_metas(None);
         accounts.extend(route.accounts.iter().cloned());
@@ -378,6 +380,8 @@ impl Market {
             jupiter_program: call.swap_program.unwrap_or(test_swap::ID),
             usdc_token_program: TOKEN_PROGRAM,
             asset_token_program: TOKEN_2022_PROGRAM,
+            owner_intermediate: call.intermediate.map(|(account, _)| account),
+            intermediate_mint: call.intermediate.map(|(_, mint)| mint),
         }
         .to_account_metas(None);
         accounts.extend(route.accounts.iter().cloned());
@@ -420,6 +424,8 @@ impl Market {
             jupiter_program: call.swap_program.unwrap_or(test_swap::ID),
             usdc_token_program: TOKEN_PROGRAM,
             asset_token_program: TOKEN_2022_PROGRAM,
+            owner_intermediate: call.intermediate.map(|(account, _)| account),
+            intermediate_mint: call.intermediate.map(|(_, mint)| mint),
         }
         .to_account_metas(None);
         accounts.extend(route.accounts.iter().cloned());
@@ -506,4 +512,6 @@ pub struct Call {
     pub destination: Option<Pubkey>,
     pub swap_program: Option<Pubkey>,
     pub sysvar: bool,
+    /// (owner token account, mint) for a route's intermediate mint.
+    pub intermediate: Option<(Pubkey, Pubkey)>,
 }

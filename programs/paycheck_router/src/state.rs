@@ -156,6 +156,9 @@ pub struct LegState {
     /// Issuer transfer fee withheld in the destination (Token-2022
     /// TransferFeeConfig mints such as PreStocks); zero otherwise.
     pub issuer_fee: u64,
+    /// USDC the route left unspent, returned to the owner; the owner's net
+    /// USDC change is amount_in minus this.
+    pub dust_returned: u64,
 }
 
 impl LegState {

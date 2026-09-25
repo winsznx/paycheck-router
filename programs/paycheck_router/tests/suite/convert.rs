@@ -90,6 +90,8 @@ impl Conversion {
             jupiter_program: test_swap::ID,
             asset_token_program: TOKEN_2022_PROGRAM,
             target_token_program: TOKEN_2022_PROGRAM,
+            owner_intermediate: None,
+            intermediate_mint: None,
         }
         .to_account_metas(None);
         accounts.extend(route.accounts.iter().cloned());
