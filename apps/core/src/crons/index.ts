@@ -5,6 +5,7 @@ import { legs, priceSnapshots, statusSnapshots } from "../db/schema.ts";
 import { inflowWatcher } from "../do/stubs.ts";
 import type { Env } from "../env.ts";
 import { log } from "../log.ts";
+import { retryDue } from "../partners/webhooks.ts";
 import { HermesError, latestPrices } from "../pricing/hermes.ts";
 import { jupiterPrices } from "../pricing/reference.ts";
 
@@ -104,6 +105,7 @@ export async function handleScheduled(controller: ScheduledController, env: Env)
         if (env.SURFNET_RPC_URL) await watcher.ensureRunning();
         else await watcher.sweep();
         await statusSnapshotJob(env, db);
+        await retryDue(db, env.PARTNER_WEBHOOK_SIGNING_KEY, new Date());
         return;
       }
       case "*/5 * * * *":

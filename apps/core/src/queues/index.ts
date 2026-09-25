@@ -7,6 +7,7 @@ import { createEngine } from "../engine/factory.ts";
 import type { Env } from "../env.ts";
 import { log } from "../log.ts";
 import { deliver, type NotifyMessage } from "../notify/notifier.ts";
+import { fanOut } from "../partners/webhooks.ts";
 
 /** Queue names carry an environment prefix outside production (`staging-inflows`). */
 function baseName(queue: string): string {
@@ -44,6 +45,26 @@ export async function handleVerify(env: Env, message: VerifyMessage): Promise<vo
   await actor.legVerified(message.legId, outcome);
 }
 
+const PARTNER_EVENTS: Partial<Record<NotifyMessage["event"], string>> = {
+  "paycheck.recorded": "paycheck.recorded",
+  "slice.waiting": "leg.waiting",
+  "slice.expired": "leg.expired",
+};
+
+/** Mirrors member milestones to the partners they share with (section 11.5). */
+async function notifyPartners(env: Env, message: NotifyMessage): Promise<void> {
+  const event = PARTNER_EVENTS[message.event];
+  if (!event || !env.PARTNER_WEBHOOK_SIGNING_KEY) return;
+  await fanOut(
+    createDb(binding(env.HYPERDRIVE, "HYPERDRIVE")),
+    env.PARTNER_WEBHOOK_SIGNING_KEY,
+    message.userId,
+    event,
+    message.data,
+    new Date(),
+  );
+}
+
 export async function handleQueue(batch: MessageBatch, env: Env): Promise<void> {
   const queue = baseName(batch.queue);
   for (const message of batch.messages) {
@@ -59,6 +80,7 @@ export async function handleQueue(batch: MessageBatch, env: Env): Promise<void> 
           await handleVerify(env, message.body as VerifyMessage);
           break;
         case "notify":
+          await notifyPartners(env, message.body as NotifyMessage);
           if (
             await deliver(
               env,

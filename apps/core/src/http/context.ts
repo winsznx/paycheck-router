@@ -21,6 +21,8 @@ export type AppEnv = {
     requestId: string;
     services: Services;
     session: Session | null;
+    /** Set by the partner-key middleware on `/partner/*` routes. */
+    partner?: { partnerId: string; scopes: string[] };
   };
 };
 

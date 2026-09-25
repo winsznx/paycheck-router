@@ -3,6 +3,7 @@ export * from "./auth.ts";
 export * from "./common.ts";
 export * from "./market.ts";
 export * from "./notifications.ts";
+export * from "./partners.ts";
 export * from "./paychecks.ts";
 export * from "./platform.ts";
 export * from "./realtime.ts";
