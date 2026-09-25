@@ -14,6 +14,7 @@ export {
   type ButtonVariant,
   buttonClassName,
 } from "./button.tsx";
+export { ChainRef, type ChainRefLabels, type ChainRefProps } from "./chain-ref.tsx";
 export { EmptyState, type EmptyStateProps } from "./empty-state.tsx";
 export { PaycheckCard, type PaycheckCardProps, type PaycheckCardState } from "./paycheck-card.tsx";
 export {

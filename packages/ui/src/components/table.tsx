@@ -35,7 +35,11 @@ export function Table<Row>({ caption, columns, rows, rowKey }: TableProps<Row>) 
           {rows.map((row) => (
             <tr key={rowKey(row)}>
               {columns.map((column) => (
-                <td key={column.key} data-numeric={column.numeric || undefined}>
+                <td
+                  key={column.key}
+                  data-numeric={column.numeric || undefined}
+                  data-label={typeof column.header === "string" ? column.header : undefined}
+                >
                   {column.cell(row)}
                 </td>
               ))}
