@@ -298,7 +298,8 @@
       "buyNowConfirm": "Signer et acheter dans {band}",
       "cancelTitle": "Annuler la tranche {asset}",
       "cancelBody": "Vos USDC restent dans votre wallet. Cette tranche ne sera pas achetée.",
-      "cancelConfirm": "Signer et annuler"
+      "cancelConfirm": "Signer et annuler",
+      "rawShares": "{raw} {asset} avant le multiplicateur Scaled UI"
     },
     "proof": {
       "open": "Preuve",
@@ -309,14 +310,16 @@
       "referencePrice": "Prix de référence",
       "premium": "Prime",
       "minimum": "Minimum calculé",
-      "delivered": "Livré",
+      "delivered": "Livré (montant brut du token)",
       "finalizedSlot": "Slot finalisé",
       "readback": "Relecture",
       "result": "Vérificateur",
       "matches": "Conforme à la chaîne",
       "mismatch": "Non conforme",
       "pending": "En attente de finalité",
-      "publicProof": "Ouvrir la page de preuve publique"
+      "publicProof": "Ouvrir la page de preuve publique",
+      "walletShares": "Actions dans votre wallet",
+      "multiplier": "Multiplicateur Scaled UI"
     },
     "activity": {
       "title": "Activité",
@@ -578,7 +581,7 @@
       "fork": "Les exécutions sur fork n'ont ni congestion réseau ni second fournisseur RPC ; ces vérifications attendent le mainnet."
     },
     "usdcIn": "USDC entrants",
-    "delivered": "Livré",
+    "delivered": "Livré (montant brut du token)",
     "fee": "Frais",
     "referenceMark": "Mark PreStocks",
     "referencePyth": "Prix Pyth",
@@ -594,7 +597,9 @@
     "openSlice": "Ouvrir la tranche {sig}",
     "sliceTitle": "Tranche {sig}",
     "back": "Toutes les preuves",
-    "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {mark} other {Pyth}}"
+    "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {mark} other {Pyth}}",
+    "walletShares": "Actions dans le wallet",
+    "multiplier": "Multiplicateur Scaled UI"
   },
   "site": {
     "header": {

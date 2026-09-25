@@ -27,7 +27,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useSyncExternalStore } from "react";
 import { fetchers, keys } from "@/lib/data.ts";
 import { explorerUrl } from "@/lib/env.ts";
-import { shares, usdc, usdcNumber } from "@/lib/money.ts";
+import { usdc, usdcNumber, walletShares } from "@/lib/money.ts";
 import { colorSlotFor, toSegments } from "@/lib/paycheck-view.ts";
 import { useQuery } from "@/lib/query.ts";
 import { useLegCopy } from "@/lib/use-leg-copy.ts";
@@ -152,7 +152,7 @@ function Holdings({ portfolio }: { portfolio: api.PortfolioResponse }) {
               />
               <span className="pr-num">
                 {formatShares(
-                  shares(holding.mint, holding.amountRaw, holding.decimals) ?? "0",
+                  walletShares(holding, holding.amountRaw, holding.decimals) ?? "0",
                   locale,
                 )}
               </span>

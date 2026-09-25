@@ -298,7 +298,8 @@
       "buyNowConfirm": "Assinar e comprar dentro de {band}",
       "cancelTitle": "Cancelar a fatia de {asset}",
       "cancelBody": "Seu USDC fica na sua carteira. Esta fatia não será comprada.",
-      "cancelConfirm": "Assinar e cancelar"
+      "cancelConfirm": "Assinar e cancelar",
+      "rawShares": "{raw} {asset} antes do multiplicador Scaled UI"
     },
     "proof": {
       "open": "Prova",
@@ -309,14 +310,16 @@
       "referencePrice": "Preço de referência",
       "premium": "Prêmio",
       "minimum": "Mínimo calculado",
-      "delivered": "Entregue",
+      "delivered": "Entregue (quantidade bruta do token)",
       "finalizedSlot": "Slot finalizado",
       "readback": "Releitura",
       "result": "Verificador",
       "matches": "Confere com a chain",
       "mismatch": "Não confere",
       "pending": "Aguardando finalidade",
-      "publicProof": "Abrir a página pública de prova"
+      "publicProof": "Abrir a página pública de prova",
+      "walletShares": "Ações na sua carteira",
+      "multiplier": "Multiplicador Scaled UI"
     },
     "activity": {
       "title": "Atividade",
@@ -578,7 +581,7 @@
       "fork": "Execuções no fork não têm congestionamento de rede nem um segundo provedor de RPC; essas verificações aguardam a mainnet."
     },
     "usdcIn": "USDC de entrada",
-    "delivered": "Entregue",
+    "delivered": "Entregue (quantidade bruta do token)",
     "fee": "Taxa",
     "referenceMark": "Marcação da PreStocks",
     "referencePyth": "Preço do Pyth",
@@ -594,7 +597,9 @@
     "openSlice": "Abrir fatia {sig}",
     "sliceTitle": "Fatia {sig}",
     "back": "Todas as provas",
-    "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {marcação} other {Pyth}}"
+    "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {marcação} other {Pyth}}",
+    "walletShares": "Ações na carteira",
+    "multiplier": "Multiplicador Scaled UI"
   },
   "site": {
     "header": {

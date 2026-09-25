@@ -5,7 +5,7 @@ import { AssetChip, Banner, EmptyState, Skeleton, Table } from "@paycheck-router
 import { formatPercent, formatShares, formatTime, formatUsd } from "@paycheck-router/ui/format";
 import { useLocale, useTranslations } from "next-intl";
 import { fetchers, keys } from "@/lib/data.ts";
-import { shares, usdc } from "@/lib/money.ts";
+import { usdc, walletShares } from "@/lib/money.ts";
 import { colorSlotFor } from "@/lib/paycheck-view.ts";
 import { useQuery } from "@/lib/query.ts";
 
@@ -56,7 +56,7 @@ export function PortfolioView() {
       header: t("shares"),
       numeric: true,
       cell: (h: api.Holding) =>
-        formatShares(shares(h.mint, h.amountRaw, h.decimals) ?? "0", locale),
+        formatShares(walletShares(h, h.amountRaw, h.decimals) ?? "0", locale),
     },
     {
       key: "value",
