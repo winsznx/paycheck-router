@@ -38,17 +38,20 @@ jobs:
       - name: Executable hash
         id: hash
         run: |
-          hash=$(solana-verify get-executable-hash target/deploy/paycheck_router.so)
+          # The Docker build leaves target/ owned by root, so release assets go to release/.
+          mkdir -p release
+          cp target/deploy/paycheck_router.so release/
+          hash=$(solana-verify get-executable-hash release/paycheck_router.so)
           echo "hash=${hash}" >> "$GITHUB_OUTPUT"
-          printf '%s  paycheck_router.so\n' "${hash}" > target/deploy/paycheck_router.so.hash
+          printf '%s  paycheck_router.so\n' "${hash}" > release/paycheck_router.so.hash
           echo "Executable hash: ${hash}" >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v7
         with:
           name: paycheck_router
           path: |
-            target/deploy/paycheck_router.so
-            target/deploy/paycheck_router.so.hash
+            release/paycheck_router.so
+            release/paycheck_router.so.hash
 
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/')
@@ -58,7 +61,7 @@ jobs:
           tag="${GITHUB_REF_NAME}"
           notes="Program binary built with solana-verify ${SOLANA_VERIFY_VERSION} on ${BASE_IMAGE}. Executable hash: ${{ steps.hash.outputs.hash }}"
           if gh release view "${tag}" >/dev/null 2>&1; then
-            gh release upload "${tag}" target/deploy/paycheck_router.so target/deploy/paycheck_router.so.hash --clobber
+            gh release upload "${tag}" release/paycheck_router.so release/paycheck_router.so.hash --clobber
           else
             gh release create "${tag}" target/deploy/paycheck_router.so target/deploy/paycheck_router.so.hash \
               --title "${tag}" --notes "${notes}"
