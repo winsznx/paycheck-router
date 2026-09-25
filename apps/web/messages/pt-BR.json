@@ -168,7 +168,6 @@
       "payInAddress": "Endereço de recebimento",
       "copy": "Copiar",
       "copied": "Copiado",
-      "explorer": "Explorador",
       "payInQr": "QR code do seu endereço de recebimento",
       "holdings": "Posições",
       "seeAll": "Ver tudo",
@@ -197,9 +196,12 @@
       "progress": "{done} de {total} compradas{waiting, plural, =0 {} other {, # aguardando}}",
       "slices": "Fatias",
       "onchain": "Onchain",
-      "inflowTx": "Transferência do salário {sig}",
-      "recordTx": "Registro do salário {sig}",
-      "arrived": "Chegaram {amount}. Comprando {invested} em ações."
+      "inflowTx": "Transferência do salário",
+      "recordTx": "Registro do salário",
+      "arrived": "Chegaram {amount}. Comprando {invested} em ações.",
+      "payer": "seu pagador",
+      "payerAddress": "Pagador",
+      "paycheckAccount": "Conta do salário"
     },
     "paychecks": {
       "title": "Salários",
@@ -319,7 +321,9 @@
       "pending": "Aguardando finalidade",
       "publicProof": "Abrir a página pública de prova",
       "walletShares": "Ações na sua carteira",
-      "multiplier": "Multiplicador Scaled UI"
+      "multiplier": "Multiplicador Scaled UI",
+      "transaction": "Transação",
+      "mint": "Mint do token"
     },
     "activity": {
       "title": "Atividade",
@@ -370,7 +374,6 @@
         "address": "Endereço da carteira",
         "copy": "Copiar",
         "copied": "Copiado",
-        "explorer": "Explorador",
         "qr": "QR code do endereço da sua carteira",
         "allowance": "Autorização",
         "allowanceValue": "Restam {amount} para gastar",
@@ -385,7 +388,7 @@
       },
       "security": {
         "title": "Segurança",
-        "signedInAs": "Conectado com a carteira {wallet}",
+        "signedInAs": "Conectado com a carteira",
         "signedOut": "Você saiu.",
         "via": "Assinado com {wallet}",
         "signOut": "Sair",
@@ -447,7 +450,6 @@
       "address": "Endereço da carteira",
       "copy": "Copiar",
       "copied": "Copiado",
-      "explorer": "Explorador",
       "qr": "QR code do endereço da sua carteira",
       "balance": "{amount} USDC nesta carteira agora",
       "payoutGuide": "Na Deel, Rise, Toku ou Bitwage, escolha USDC na Solana como forma de pagamento e cole este endereço.",
@@ -549,7 +551,6 @@
       "address": "Endereço da carteira",
       "copy": "Copiar",
       "copied": "Copiado",
-      "explorer": "Explorador",
       "qr": "QR code do endereço da sua carteira"
     }
   },
@@ -558,7 +559,7 @@
     "lead": "Não confie em nós. Confira a chain.",
     "ogTitle": "Cada fatia, conferida com a chain",
     "unavailable": "Não foi possível carregar os dados de prova agora. Tente de novo em um minuto.",
-    "forkNotice": "Estas execuções rodaram em um fork da mainnet com Surfpool e o programa {program}. Nada disso aparece em um explorador público e nenhum fundo real foi movido.",
+    "forkNotice": "Estas execuções rodaram em um fork da mainnet com Surfpool. Nada disso aparece em um explorador público e nenhum fundo real foi movido.",
     "canonical": "Execução canônica",
     "noRuns": "Ainda não há fatias executadas.",
     "campaign": "Campanha",
@@ -572,7 +573,7 @@
     "recent": "Fatias recentes",
     "verifyTitle": "Verifique você mesmo",
     "verifyBody": "O verificador recalcula cada fatia a partir de dados da chain e do histórico do Pyth e imprime PASS ou FAIL.",
-    "programId": "Programa {program}",
+    "programId": "Programa",
     "misleadTitle": "Como isso poderia enganar?",
     "mislead": {
       "sample": "A amostra é pequena: alguns salários, não meses de uso.",
@@ -594,12 +595,16 @@
     "unverified": "Não verificada",
     "executed": "Comprada",
     "paycheckLine": "De um salário de {inflow}, {invested} investidos",
-    "openSlice": "Abrir fatia {sig}",
+    "openSlice": "Abrir a prova desta fatia",
     "sliceTitle": "Fatia {sig}",
     "back": "Todas as provas",
     "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {marcação} other {Pyth}}",
     "walletShares": "Ações na carteira",
-    "multiplier": "Multiplicador Scaled UI"
+    "multiplier": "Multiplicador Scaled UI",
+    "transaction": "Transação",
+    "mint": "Mint do token",
+    "recordTx": "Registro do salário",
+    "sliceHeading": "Prova da fatia"
   },
   "site": {
     "header": {
@@ -1122,6 +1127,19 @@
         "issuerPreStocks": "Emissor: PreStocks"
       },
       "priceUnavailable": "Preço indisponível"
+    }
+  },
+  "chain": {
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "recorded": "Gravado em um fork da mainnet",
+    "names": {
+      "tx": "Transação",
+      "account": "Conta",
+      "mint": "Mint do token",
+      "program": "Programa",
+      "own-program": "Programa do Paycheck Router",
+      "feed": "Feed de preços do Pyth"
     }
   }
 }

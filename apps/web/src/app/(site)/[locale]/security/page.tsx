@@ -1,6 +1,7 @@
 import { PROGRAM_ID } from "@paycheck-router/shared";
 import { Table } from "@paycheck-router/ui/components";
 import type { Metadata } from "next";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { ContentPage } from "@/components/site/content-page.tsx";
 import { pageMetadata, pageTranslations, sectionsFrom } from "@/lib/site-page.ts";
 
@@ -30,8 +31,8 @@ export default async function SecurityPage({ params }: PageProps<"/[locale]/secu
   const program = sections.find((s) => s.key === "program");
   if (program) {
     program.extra = (
-      <p className="pr-code logs" translate="no">
-        {PROGRAM_ID}
+      <p>
+        <ChainValue kind="own-program" value={PROGRAM_ID} display="full" />
       </p>
     );
   }

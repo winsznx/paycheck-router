@@ -4,6 +4,7 @@ import { formatPremiumBps, formatUsd, truncateMiddle } from "@paycheck-router/ui
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { ProofLegCard } from "@/components/proof/proof-leg-card.tsx";
 import { CONTENT_ID } from "@/components/skip-link.tsx";
 import { Link } from "@/i18n/navigation.ts";
@@ -47,7 +48,10 @@ export default async function ProofSlicePage({ params }: PageProps<"/[locale]/pr
       <p>
         <Link href="/proof">{t("back")}</Link>
       </p>
-      <h1 className="pr-h1">{t("sliceTitle", { sig: truncateMiddle(signature, 4, 3) })}</h1>
+      <h1 className="pr-h1">{t("sliceHeading")}</h1>
+      <p>
+        <ChainValue kind="tx" value={signature} display="full" />
+      </p>
       {result.ok ? (
         <ProofLegCard leg={result.data} linkToDetail={false} />
       ) : (

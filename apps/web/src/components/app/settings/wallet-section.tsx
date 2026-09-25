@@ -1,16 +1,10 @@
 "use client";
 
-import {
-  AddressField,
-  AllowanceMeter,
-  QrCode,
-  Skeleton,
-  StatusChip,
-} from "@paycheck-router/ui/components";
+import { AllowanceMeter, QrCode, Skeleton, StatusChip } from "@paycheck-router/ui/components";
 import { formatPercent, formatUsd } from "@paycheck-router/ui/format";
 import { useLocale, useTranslations } from "next-intl";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { fetchers, keys } from "@/lib/data.ts";
-import { explorerUrl } from "@/lib/env.ts";
 import { usdcNumber } from "@/lib/money.ts";
 import { useQuery } from "@/lib/query.ts";
 import { routerHealth } from "../router-status.tsx";
@@ -32,14 +26,7 @@ export function WalletSection() {
       </h2>
       <div className="pr-card stack">
         <p className="pr-body">{t("payIn")}</p>
-        <AddressField
-          address={router.owner}
-          label={t("address")}
-          copyLabel={t("copy")}
-          copiedLabel={t("copied")}
-          explorerHref={explorerUrl("address", router.owner)}
-          explorerLabel={t("explorer")}
-        />
+        <ChainValue kind="account" value={router.owner} name={t("address")} display="full" />
         <QrCode value={router.owner} label={t("qr")} />
       </div>
       <div className="pr-card stack">

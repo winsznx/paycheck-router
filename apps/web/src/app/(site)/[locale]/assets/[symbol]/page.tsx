@@ -3,11 +3,11 @@ import { Banner, PreIpoBadge } from "@paycheck-router/ui/components";
 import { formatPremiumBps, formatPrice } from "@paycheck-router/ui/format";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { pythPrice } from "@/components/site/asset-strip.tsx";
 import { CONTENT_ID } from "@/components/skip-link.tsx";
 import { Link } from "@/i18n/navigation.ts";
 import { fetchPublic } from "@/lib/api/public.ts";
-import { explorerUrl } from "@/lib/env.ts";
 import { priceE9 } from "@/lib/money.ts";
 import { fetchPreStocks } from "@/lib/prestocks.ts";
 import { pageTranslations } from "@/lib/site-page.ts";
@@ -102,13 +102,10 @@ export default async function AssetPage({ params }: PageProps<"/[locale]/assets/
         <h2 id="token-title" className="pr-h2">
           {t("detail.tokenTitle")}
         </h2>
-        <p className="pr-code logs" translate="no">
-          {asset.mint}
+        <p>
+          <ChainValue kind="mint" value={asset.mint} display="full" />
         </p>
         <p className="row">
-          <a href={explorerUrl("address", asset.mint)} rel="noreferrer">
-            {t("detail.explorer")}
-          </a>
           <a
             href={preIpo ? (quote?.url ?? "https://prestocks.com") : "https://xstocks.fi"}
             rel="noreferrer"

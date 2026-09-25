@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@paycheck-router/ui/components";
-import { truncateMiddle } from "@paycheck-router/ui/format";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { signOut, useSession } from "@/lib/session.ts";
 
 /** PRD 13.4 Settings > security: the signed-in wallet and sign out. */
@@ -18,9 +18,14 @@ export function SecuritySection() {
         {t("title")}
       </h2>
       <div className="pr-card stack">
-        <p className="pr-body">
-          {wallet ? t("signedInAs", { wallet: truncateMiddle(wallet) }) : t("signedOut")}
-        </p>
+        {wallet ? (
+          <p className="row pr-body">
+            <span>{t("signedInAs")}</span>
+            <ChainValue kind="account" value={wallet} name={t("signedInAs")} />
+          </p>
+        ) : (
+          <p className="pr-body">{t("signedOut")}</p>
+        )}
         {session.status === "signed-in" && session.walletName ? (
           <p className="pr-small pr-muted">{t("via", { wallet: session.walletName })}</p>
         ) : null}

@@ -1,11 +1,11 @@
 "use client";
 
-import { AddressField, Banner, Button, QrCode, Skeleton } from "@paycheck-router/ui/components";
+import { Banner, Button, QrCode, Skeleton } from "@paycheck-router/ui/components";
 import { formatUsd } from "@paycheck-router/ui/format";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { fetchers, keys } from "@/lib/data.ts";
-import { explorerUrl } from "@/lib/env.ts";
 import { usdc } from "@/lib/money.ts";
 import { updateDraft } from "@/lib/onboarding.ts";
 import { useQuery } from "@/lib/query.ts";
@@ -47,14 +47,7 @@ export function WalletStep() {
           <p className="pr-body">{t("thisWallet")}</p>
           {address ? (
             <>
-              <AddressField
-                address={address}
-                label={t("address")}
-                copyLabel={t("copy")}
-                copiedLabel={t("copied")}
-                explorerHref={explorerUrl("address", address)}
-                explorerLabel={t("explorer")}
-              />
+              <ChainValue kind="account" value={address} name={t("address")} display="full" />
               <QrCode value={address} label={t("qr")} />
             </>
           ) : (

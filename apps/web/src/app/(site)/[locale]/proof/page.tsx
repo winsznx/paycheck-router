@@ -2,6 +2,7 @@ import { api } from "@paycheck-router/shared";
 import { Banner, Table } from "@paycheck-router/ui/components";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { ProofLegCard } from "@/components/proof/proof-leg-card.tsx";
 import { CONTENT_ID } from "@/components/skip-link.tsx";
 import { fetchPublic } from "@/lib/api/public.ts";
@@ -47,9 +48,7 @@ export default async function ProofPage({ params }: PageProps<"/[locale]/proof">
         <Banner tone="warn">{t("unavailable")}</Banner>
       ) : (
         <>
-          {result.data.fork ? (
-            <Banner tone="info">{t("forkNotice", { program: result.data.programId })}</Banner>
-          ) : null}
+          {result.data.fork ? <Banner tone="info">{t("forkNotice")}</Banner> : null}
 
           <section className="stack" aria-labelledby="canonical-title">
             <h2 id="canonical-title" className="pr-h2">
@@ -117,8 +116,9 @@ export default async function ProofPage({ params }: PageProps<"/[locale]/proof">
             <pre className="pr-code logs">
               npx @paycheck-router/verify --bundle evidence/stocklana-fork
             </pre>
-            <p className="pr-small pr-muted">
-              {t("programId", { program: result.data.programId })}
+            <p className="row pr-small">
+              <span className="pr-muted">{t("programId")}</span>
+              <ChainValue kind="own-program" value={result.data.programId} display="full" />
             </p>
           </section>
         </>

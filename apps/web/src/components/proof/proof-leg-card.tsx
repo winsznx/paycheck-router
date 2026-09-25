@@ -7,10 +7,12 @@ import {
   formatTimestamp,
   formatUsd,
   formatUsdcAmount,
-  truncateMiddle,
 } from "@paycheck-router/ui/format";
 import { getLocale, getTranslations } from "next-intl/server";
+import type { ReactNode } from "react";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { Link } from "@/i18n/navigation.ts";
+import { chainEnv } from "@/lib/env.ts";
 import { isPreIpo, priceE9, shares, usdc, walletShares } from "@/lib/money.ts";
 
 /** One executed slice as public proof: prices, minimum, delivery and verification. */
@@ -26,7 +28,10 @@ export async function ProofLegCard({
   const ref = priceE9(leg.refPriceE9);
   const exec = priceE9(leg.execPriceE9);
   const v = leg.verification;
-  const rows: Array<[string, string]> = [
+  const rows: Array<[string, ReactNode]> = [
+    [t("transaction"), <ChainValue key="tx" kind="tx" value={leg.signature} />],
+    [t("mint"), <ChainValue key="mint" kind="mint" value={leg.mint} />],
+    [t("recordTx"), <ChainValue key="record" kind="tx" value={leg.paycheck.recordedSig} />],
     [t("usdcIn"), formatUsdcAmount(usdc(leg.amountIn), locale)],
     [
       t("delivered"),
@@ -78,12 +83,12 @@ export async function ProofLegCard({
         {rows.map(([term, value]) => (
           <div key={term}>
             <dt className="pr-small pr-muted">{term}</dt>
-            <dd className="pr-code">{value}</dd>
+            <dd className="pr-code proof-list__value">{value}</dd>
           </div>
         ))}
       </dl>
       <ul className="stack">
-        {leg.links.map((link) => (
+        {(chainEnv.mode === "fork-recorded" ? [] : leg.links).map((link) => (
           <li key={link.url}>
             <a href={link.url} target="_blank" rel="noreferrer">
               {link.label}
@@ -93,9 +98,7 @@ export async function ProofLegCard({
       </ul>
       {linkToDetail ? (
         <p>
-          <Link href={`/proof/${leg.signature}`}>
-            {t("openSlice", { sig: truncateMiddle(leg.signature, 4, 3) })}
-          </Link>
+          <Link href={`/proof/${leg.signature}`}>{t("openSlice")}</Link>
         </p>
       ) : null}
     </article>

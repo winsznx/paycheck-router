@@ -8,17 +8,11 @@ import {
   StatusChip,
   splitBarLabel,
 } from "@paycheck-router/ui/components";
-import {
-  formatPercent,
-  formatTime,
-  formatTimestamp,
-  formatUsd,
-  truncateMiddle,
-} from "@paycheck-router/ui/format";
+import { formatPercent, formatTime, formatTimestamp, formatUsd } from "@paycheck-router/ui/format";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { fetchers, keys } from "@/lib/data.ts";
-import { explorerUrl } from "@/lib/env.ts";
 import { usdc } from "@/lib/money.ts";
 import {
   bandFor,
@@ -82,7 +76,7 @@ export function PaycheckDetailView({ id }: { id: string }) {
   const payer = isForkEmployer(paycheck.sender)
     ? t("forkEmployer")
     : paycheck.sender
-      ? truncateMiddle(paycheck.sender)
+      ? t("payer")
       : t("unknownPayer");
   const total = Number(paycheck.investTotal) || 1;
   const segments = toSegments(
@@ -164,27 +158,36 @@ export function PaycheckDetailView({ id }: { id: string }) {
         <h2 id="chain-title" className="pr-h3">
           {t("onchain")}
         </h2>
-        <ul className="stack">
+        <dl className="proof-list">
           {paycheck.inflowSig ? (
-            <li>
-              <a href={explorerUrl("tx", paycheck.inflowSig)} target="_blank" rel="noreferrer">
-                {t("inflowTx", { sig: truncateMiddle(paycheck.inflowSig, 4, 3) })}
-              </a>
-            </li>
+            <div>
+              <dt className="pr-small pr-muted">{t("inflowTx")}</dt>
+              <dd className="proof-list__value">
+                <ChainValue kind="tx" value={paycheck.inflowSig} name={t("inflowTx")} />
+              </dd>
+            </div>
           ) : null}
-          <li>
-            <a href={explorerUrl("tx", paycheck.recordedSig)} target="_blank" rel="noreferrer">
-              {t("recordTx", { sig: truncateMiddle(paycheck.recordedSig, 4, 3) })}
-            </a>
-          </li>
-          {paycheck.links.map((link) => (
-            <li key={link.url}>
-              <a href={link.url} target="_blank" rel="noreferrer">
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+          <div>
+            <dt className="pr-small pr-muted">{t("recordTx")}</dt>
+            <dd className="proof-list__value">
+              <ChainValue kind="tx" value={paycheck.recordedSig} name={t("recordTx")} />
+            </dd>
+          </div>
+          {paycheck.sender ? (
+            <div>
+              <dt className="pr-small pr-muted">{t("payerAddress")}</dt>
+              <dd className="proof-list__value">
+                <ChainValue kind="account" value={paycheck.sender} name={t("payerAddress")} />
+              </dd>
+            </div>
+          ) : null}
+          <div>
+            <dt className="pr-small pr-muted">{t("paycheckAccount")}</dt>
+            <dd className="proof-list__value">
+              <ChainValue kind="account" value={paycheck.paycheckPda} name={t("paycheckAccount")} />
+            </dd>
+          </div>
+        </dl>
       </section>
     </article>
   );
