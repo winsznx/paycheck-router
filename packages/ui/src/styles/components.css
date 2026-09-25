@@ -989,6 +989,95 @@ a {
   background: #ffffff;
 }
 
+/* Chain values: never wider than their container, whatever arrives over the socket. */
+.pr-chainref {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  vertical-align: middle;
+}
+.pr-chainref__value {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+.pr-chainref[data-display="truncate"] .pr-chainref__value {
+  white-space: nowrap;
+}
+.pr-chainref__alt {
+  font-size: 12px;
+  line-height: 16px;
+}
+.pr-chainref__copy {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  inline-size: 32px;
+  block-size: 32px;
+  padding: 0;
+  border: 1px solid var(--control);
+  background: transparent;
+  color: var(--text-1);
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .pr-chainref__copy:hover {
+    background: var(--surface-3);
+  }
+}
+
+/* Tables become cards on phones: each cell carries its column label. */
+@media (max-width: 767px) {
+  .pr-table thead {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .pr-table,
+  .pr-table tbody,
+  .pr-table tr,
+  .pr-table td {
+    display: block;
+    inline-size: 100%;
+  }
+  .pr-table tr {
+    padding-block: var(--space-2);
+    border-block-end: 1px solid var(--line);
+  }
+  .pr-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-1) 0;
+    border: 0;
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+  .pr-table td::before {
+    content: attr(data-label);
+    flex: none;
+    max-inline-size: 45%;
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-align: start;
+  }
+  .pr-table td[data-numeric="true"] {
+    text-align: end;
+  }
+}
+
 /* Reduced forms: no movement, no shimmer, no draw; fades remain. */
 @media (prefers-reduced-motion: reduce) {
   .pr-skeleton::after,
