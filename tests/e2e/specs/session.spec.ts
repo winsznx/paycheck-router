@@ -8,6 +8,43 @@ function recordTraffic(page: Page): { url: string; status: number }[] {
   return seen;
 }
 
+/**
+ * A Wallet Standard wallet that the sign-in step lists. It is never asked to sign here: the
+ * nonce request fails first.
+ */
+async function registerTestWallet(page: Page): Promise<void> {
+  await page.addInitScript(() => {
+    const unused = () => Promise.reject(new Error("not used in this test"));
+    const wallet = {
+      version: "1.0.0",
+      name: "E2E wallet",
+      icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciLz4=",
+      chains: ["solana:localnet", "solana:mainnet"],
+      accounts: [],
+      features: {
+        "standard:connect": { version: "1.0.0", connect: unused },
+        "standard:events": { version: "1.0.0", on: () => () => undefined },
+        "solana:signTransaction": {
+          version: "1.0.0",
+          supportedTransactionVersions: [0],
+          signTransaction: unused,
+        },
+        "solana:signMessage": { version: "1.0.0", signMessage: unused },
+      },
+    };
+    type AppApi = { register: (w: unknown) => void };
+    const registerWith = (api: AppApi) => api.register(wallet);
+    // The Wallet Standard handshake: answer the app's ready event, and announce ourselves in
+    // case the app is already listening.
+    window.addEventListener("wallet-standard:app-ready", (event) =>
+      registerWith((event as CustomEvent<AppApi>).detail),
+    );
+    window.dispatchEvent(
+      new CustomEvent("wallet-standard:register-wallet", { detail: registerWith }),
+    );
+  });
+}
+
 test.describe("anonymous visitors", () => {
   test("never call the session or authenticated endpoints", async ({ page }) => {
     // #given a visitor who has never signed in
@@ -43,16 +80,19 @@ test.describe("problem copy", () => {
         },
       }),
     );
+    await registerTestWallet(page);
     await page.goto("/app/onboarding/sign-in");
-    const demoWallet = page.getByRole("button", { name: /Paycheck Router demo signer/ });
-    test.skip((await demoWallet.count()) === 0, "the demo signer isn't registered in this build");
     // #when the visitor signs in
-    await demoWallet.click();
+    await page.getByRole("button", { name: /E2E wallet/ }).click();
     // #then they read what happened and what to do, and none of the detail
-    const alert = page.getByRole("alert");
-    await expect(alert).toHaveText(
-      "This part of Paycheck Router isn't switched on here yet. Please come back later.",
-    );
+    await expect(
+      page
+        .getByRole("alert")
+        .filter({
+          hasText:
+            "This part of Paycheck Router isn't switched on here yet. Please come back later.",
+        }),
+    ).toBeVisible();
     await expect(page.getByText(/Hyperdrive|database|not_configured/)).toHaveCount(0);
   });
 });
