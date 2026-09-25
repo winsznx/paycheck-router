@@ -1,6 +1,7 @@
 import { api } from "@paycheck-router/shared";
 import { type ChainEnv, type ChainKind, chainLinks } from "@paycheck-router/ui/chain";
 import { expect, type Page, test } from "@playwright/test";
+import { markSignedIn } from "../fixtures/api.ts";
 import {
   anthropicSignature,
   manifest,
@@ -59,6 +60,7 @@ const ROUTES: Record<string, unknown> = {
 };
 
 async function signedIn(page: Page) {
+  await markSignedIn(page);
   await page.route("**/api/session/refresh", (route) => route.fulfill({ json: SESSION }));
   await page.route(`${API_URL}/**`, (route) => {
     const body = ROUTES[new URL(route.request().url()).pathname];

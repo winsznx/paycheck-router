@@ -44,7 +44,10 @@ export async function apiRequest<S extends z.ZodType>(
   schema: S,
   options: RequestOptions = {},
 ): Promise<z.infer<S>> {
-  let response = await send(path, options, await accessToken());
+  const token = await accessToken();
+  // Every endpoint here needs a session; a signed-out visitor makes no request at all.
+  if (!token) throw new ApiProblem(401, "unauthorized", "Not signed in");
+  let response = await send(path, options, token);
   if (response.status === 401) {
     const session = await refreshSession().catch(() => null);
     if (session) response = await send(path, options, session.accessToken);

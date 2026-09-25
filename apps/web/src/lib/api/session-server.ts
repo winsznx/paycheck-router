@@ -1,7 +1,11 @@
 import { api } from "@paycheck-router/shared";
 import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
-import { type ClientSession, REFRESH_COOKIE } from "@/lib/api/session-contract.ts";
+import {
+  type ClientSession,
+  REFRESH_COOKIE,
+  SESSION_MARKER_COOKIE,
+} from "@/lib/api/session-contract.ts";
 
 export function forwardHeaders(request: NextRequest): Headers {
   const headers = new Headers({ "content-type": "application/json", accept: "application/json" });
@@ -23,6 +27,7 @@ export function problemResponse(status: number, code: string, detail: string): R
 export async function issueClientSession(upstream: Response): Promise<Response> {
   const body: unknown = await upstream.json().catch(() => null);
   if (!upstream.ok) {
+    if (upstream.status === 401) await clearSessionCookies();
     return Response.json(body, {
       status: upstream.status,
       headers: { "content-type": "application/problem+json" },
@@ -41,6 +46,18 @@ export async function issueClientSession(upstream: Response): Promise<Response> 
     path: "/api/session",
     expires: new Date(refreshTokenExpiresAt),
   });
+  store.set(SESSION_MARKER_COOKIE, "1", {
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    expires: new Date(refreshTokenExpiresAt),
+  });
   const client: ClientSession = session;
   return Response.json(client, { headers: { "cache-control": "no-store" } });
+}
+
+export async function clearSessionCookies(): Promise<void> {
+  const store = await cookies();
+  store.delete({ name: REFRESH_COOKIE, path: "/api/session" });
+  store.delete({ name: SESSION_MARKER_COOKIE, path: "/" });
 }

@@ -186,8 +186,19 @@ const ROUTES: Record<string, unknown> = {
 
 export { PAYCHECK_ID };
 
+/**
+ * Sets the readable session marker the web sets beside its HttpOnly refresh cookie at sign-in;
+ * without it the app treats the visitor as signed out and asks for no session.
+ */
+export async function markSignedIn(page: Page): Promise<void> {
+  await page.addInitScript(() => {
+    document.cookie = "pr_signed_in=1; path=/";
+  });
+}
+
 /** Serves the fixtures above for the core API and a signed-in session on the web origin. */
 export async function mockSignedInApi(page: Page): Promise<void> {
+  await markSignedIn(page);
   await page.route("**/api/session/refresh", (route: Route) => route.fulfill({ json: session }));
   await page.route(`${API_URL}/**`, (route: Route) => {
     const path = new URL(route.request().url()).pathname;

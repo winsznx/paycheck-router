@@ -4,7 +4,7 @@ import { api } from "@paycheck-router/shared";
 import { SolanaSignIn, SolanaSignMessage } from "@solana/wallet-standard-features";
 import { useSyncExternalStore } from "react";
 import { ApiProblem } from "./api/problem.ts";
-import { ClientSession, SESSION_ROUTE } from "./api/session-contract.ts";
+import { ClientSession, SESSION_MARKER_COOKIE, SESSION_ROUTE } from "./api/session-contract.ts";
 import { apiUrl } from "./env.ts";
 import { formatSiwsMessage } from "./wallet/siws.ts";
 import { bytesToBase64, connectAccount, type SigningWallet } from "./wallet/wallets.ts";
@@ -52,8 +52,21 @@ async function readSession(response: Response): Promise<ClientSession> {
   return ClientSession.parse(await response.json());
 }
 
-/** Exchanges the refresh cookie for a new access token; resolves null when signed out. */
+function hasSessionMarker(): boolean {
+  return document.cookie
+    .split("; ")
+    .some((cookie) => cookie.startsWith(`${SESSION_MARKER_COOKIE}=`));
+}
+
+/**
+ * Exchanges the refresh cookie for a new access token; resolves null when signed out. Without
+ * the session marker there is no refresh cookie either, so it resolves null without a request.
+ */
 export function refreshSession(): Promise<ClientSession | null> {
+  if (!refreshing && !hasSessionMarker()) {
+    if (state.status !== "signed-out") setState({ status: "signed-out" });
+    return Promise.resolve(null);
+  }
   refreshing ??= fetch(`${SESSION_ROUTE}/refresh`, { method: "POST", cache: "no-store" })
     .then(async (response) => {
       if (response.status === 401) {
