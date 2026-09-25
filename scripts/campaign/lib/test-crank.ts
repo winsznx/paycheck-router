@@ -16,6 +16,7 @@ import {
   type FailureClassification,
   feedsFor,
   fetchProgramLabels,
+  JupiterBuildError,
   type JupiterBuildResponse,
   jsonRpc,
   latestLifetime,
@@ -94,7 +95,7 @@ export async function runTamperedLeg(
   ];
   const jupiterDestination = await tokenAccount(tamper.jupiterRecipient ?? leg.owner, leg);
   const executeDestination = await tokenAccount(tamper.executeRecipient ?? leg.owner, leg);
-  const quote = (maxAccounts?: number) =>
+  const request = (maxAccounts?: number) =>
     buildJupiterSwap(
       {
         inputMint: USDC_MINT,
@@ -112,6 +113,16 @@ export async function runTamperedLeg(
       },
       pipeline.jupiter,
     );
+  // The free Jupiter key allows one request a second; a 429 is waited out once.
+  const quote = async (maxAccounts?: number) => {
+    try {
+      return await request(maxAccounts);
+    } catch (error) {
+      if (!(error instanceof JupiterBuildError) || error.status !== 429) throw error;
+      await new Promise((r) => setTimeout(r, JUPITER_RETRY_MS));
+      return request(maxAccounts);
+    }
+  };
   // The same route budget as the product pipeline: a route through more than one intermediate
   // mint is re-quoted with fewer accounts, and the program sweeps the one intermediate mint.
   let build = await quote();
@@ -282,6 +293,7 @@ export async function withPrices<T>(
 }
 
 const MAX_REROUTES = 2;
+const JUPITER_RETRY_MS = 2_000;
 /** Smaller route budgets the hostile crank tries after the product's, to fit its extra accounts. */
 const HOSTILE_MAX_ACCOUNTS = [24, 20] as const;
 let programLabels: Promise<Record<string, string>> | null = null;

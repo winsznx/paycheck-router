@@ -23,6 +23,7 @@ const STALE_AFTER_SECS = 305;
 const MULTIPLIER_DELAY_SECS = 75;
 /** A 5% multiplier step, the size of a stock dividend or small split adjustment. */
 const MULTIPLIER_STEP = 1.05;
+const RETRY_WINDOW_MS = 10 * 60_000;
 
 const sleepUntil = (unixMs: number) =>
   new Promise((r) => setTimeout(r, Math.max(0, unixMs - Date.now())));
@@ -117,6 +118,9 @@ export const p5StaleContext: CaseDefinition = {
       employer: "employer-1",
       employerSigner: ctx.signers["employer-1"],
       amount: 200n * USDC,
+      // Covers the 305 s wait inside beforeExecute, then lets a slice whose attempt failed on the
+      // datasource retry on the runner's one-minute infrastructure backoff.
+      retryUntilMs: Date.now() + RETRY_WINDOW_MS,
       beforeExecute: async ({ pending, pipeline, treasury }) => {
         const kalshi = pending.find((l) => l.asset.symbol === "Kalshi");
         const anthropic = pending.find((l) => l.asset.symbol === "Anthropic");
