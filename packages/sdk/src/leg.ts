@@ -460,7 +460,15 @@ export async function attemptLeg<T>(
     const message = buildMessage(
       config.crank,
       await latestLifetime(config.rpc),
-      [...computeBudgetInstructions(SIMULATION_COMPUTE_UNITS, 0n), ...body],
+      // Priced like the transaction that will be sent, so its size check covers the extra
+      // SetComputeUnitPrice instruction.
+      [
+        ...computeBudgetInstructions(
+          SIMULATION_COMPUTE_UNITS,
+          priorityFeeMicroLamports(jupiter, SIMULATION_COMPUTE_UNITS),
+        ),
+        ...body,
+      ],
       lookupTables,
     );
     return { jupiter, body, lookupTables, message, bytes: messageSize(message) };
@@ -773,6 +781,13 @@ function unavailableAttempt<T>(
   };
 }
 
+/** An error's message with its cause, e.g. "fetch failed: getaddrinfo ENOTFOUND api.jup.ag". */
+function describeError(error: unknown): string {
+  if (!(error instanceof Error)) return String(error);
+  const cause = error.cause instanceof Error ? error.cause.message : error.cause;
+  return cause === undefined ? error.message : `${error.message}: ${String(cause)}`;
+}
+
 function crashedAttempt<T>(leg: PendingLeg, attempt: number, nowMs: number, error: unknown) {
   const attemptResult: LegAttempt<T> = {
     key: legAttemptKey(leg.router, leg.seq, leg.legIndex, attempt),
@@ -792,7 +807,7 @@ function crashedAttempt<T>(leg: PendingLeg, attempt: number, nowMs: number, erro
     slot: null,
     event: null,
     rawTransaction: null,
-    error: error === null ? null : error instanceof Error ? error.message : String(error),
+    error: error === null ? null : describeError(error),
   };
   return attemptResult;
 }
