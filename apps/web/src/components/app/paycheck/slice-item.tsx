@@ -186,6 +186,7 @@ export function SliceItem({ leg, colorSlot, bandBps, buyNowAt, now }: SliceItemP
         walletName,
         built,
         kind === "buy" ? "leg.buy_now" : "leg.cancel",
+        leg.id,
       );
       if (result.status === "failed" || result.status === "expired") {
         toast({ tone: "error", text: result.error ?? t("txFailed") });

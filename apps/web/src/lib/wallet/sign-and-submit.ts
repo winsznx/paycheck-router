@@ -21,11 +21,12 @@ export async function signAndSubmit(
   walletName: string | null,
   built: api.TxBuildResponse,
   kind: api.SubmitTxKind,
+  legId?: string,
 ): Promise<api.SubmitTxResponse> {
   const wallet = findWallet(walletName);
   if (!wallet) throw new Error("No wallet is available to sign");
   const account = await connectAccount(wallet);
   const tx = await signTransactionBase64(wallet, account, built.tx);
-  const body: api.SubmitTxRequest = { tx, kind };
+  const body: api.SubmitTxRequest = legId ? { tx, kind, legId } : { tx, kind };
   return apiRequest("/tx/submit", api.SubmitTxResponse, { method: "POST", body });
 }
