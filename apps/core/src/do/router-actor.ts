@@ -1,6 +1,7 @@
 import { DurableObject } from "cloudflare:workers";
 import { api, assetByMint, retryDelaySecs, type WaitReason } from "@paycheck-router/shared";
 import { sharesUi } from "../chain/shares.ts";
+import { binding } from "../config.ts";
 import { createDb } from "../db/client.ts";
 import { createEngine } from "../engine/factory.ts";
 import type {
@@ -492,7 +493,7 @@ export class RouterActor extends DurableObject<Env> {
    */
   private async dispatchNext(): Promise<void> {
     if (this.currentJob()) return;
-    if ((await this.env.REGISTRY.get(CRANK_PAUSED_KEY)) === "1") return;
+    if ((await binding(this.env.REGISTRY, "REGISTRY").get(CRANK_PAUSED_KEY)) === "1") return;
     const meta = this.meta();
     if (!meta) return;
     const now = Date.now();
@@ -520,7 +521,7 @@ export class RouterActor extends DurableObject<Env> {
       key,
     };
     try {
-      await this.env.EXECUTIONS.send(message, { contentType: "v8" });
+      await binding(this.env.EXECUTIONS, "EXECUTIONS").send(message, { contentType: "v8" });
     } catch (error) {
       this.finishJob();
       throw error;
@@ -630,7 +631,7 @@ export class RouterActor extends DurableObject<Env> {
         signature: outcome.leg.signature,
         evidence: outcome.leg.evidence,
       };
-      await this.env.VERIFY.send(verify, { contentType: "v8" });
+      await binding(this.env.VERIFY, "VERIFY").send(verify, { contentType: "v8" });
       return;
     }
     const reason: WaitReason | null = outcome.kind === "waiting" ? outcome.reason : null;
@@ -843,7 +844,7 @@ export class RouterActor extends DurableObject<Env> {
     const userId = this.meta()?.router.userId;
     if (!userId) return;
     try {
-      await this.env.NOTIFY.send({ userId, event, data }, { contentType: "v8" });
+      await binding(this.env.NOTIFY, "NOTIFY").send({ userId, event, data }, { contentType: "v8" });
     } catch (error) {
       log.warn("notify enqueue failed", { event, error });
     }
@@ -853,7 +854,8 @@ export class RouterActor extends DurableObject<Env> {
     const userId = this.meta()?.router.userId;
     if (!userId) return;
     try {
-      const hub = this.env.USER_HUB.get(this.env.USER_HUB.idFromName(userId));
+      const hubs = binding(this.env.USER_HUB, "USER_HUB");
+      const hub = hubs.get(hubs.idFromName(userId));
       await hub.publish(event);
     } catch (error) {
       log.warn("realtime publish failed", { type: event.type, error });
@@ -880,7 +882,7 @@ export class RouterActor extends DurableObject<Env> {
       .exec<{ id: number; payload: string }>("select id, payload from outbox order by id limit 100")
       .toArray();
     if (rows.length === 0) return;
-    const db = createDb(this.env.HYPERDRIVE);
+    const db = createDb(binding(this.env.HYPERDRIVE, "HYPERDRIVE"));
     for (const row of rows) {
       try {
         await applyMirror(db, JSON.parse(row.payload) as MirrorOp);

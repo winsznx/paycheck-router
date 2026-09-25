@@ -1,3 +1,4 @@
+import { binding } from "../config.ts";
 import { createDb } from "../db/client.ts";
 import type { InflowMessage } from "../do/inflow-watcher.ts";
 import type { ExecutionMessage, VerifyMessage } from "../do/router-actor.ts";
@@ -58,7 +59,13 @@ export async function handleQueue(batch: MessageBatch, env: Env): Promise<void> 
           await handleVerify(env, message.body as VerifyMessage);
           break;
         case "notify":
-          if (await deliver(env, createDb(env.HYPERDRIVE), message.body as NotifyMessage)) {
+          if (
+            await deliver(
+              env,
+              createDb(binding(env.HYPERDRIVE, "HYPERDRIVE")),
+              message.body as NotifyMessage,
+            )
+          ) {
             message.retry({ delaySeconds: Math.min(300, 30 * 2 ** message.attempts) });
             continue;
           }

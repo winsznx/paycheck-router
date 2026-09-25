@@ -6,7 +6,8 @@
     "dev": "wrangler dev",
     "typecheck": "tsc --noEmit -p .",
     "test": "vitest run",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "build:proof": "tsx scripts/build-proof.ts"
   },
   "dependencies": {
     "@paycheck-router/guard-math": "workspace:*",
@@ -28,6 +29,7 @@
     "@cloudflare/vitest-pool-workers": "0.22.0",
     "@electric-sql/pglite": "0.5.8",
     "@electric-sql/pglite-socket": "0.2.11",
+    "@paycheck-router/verify": "workspace:*",
     "@vitest/runner": "4.1.11",
     "@vitest/snapshot": "4.1.11",
     "vitest": "4.1.11",

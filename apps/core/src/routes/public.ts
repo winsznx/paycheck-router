@@ -2,7 +2,7 @@ import { api, USDC_FEED_ID } from "@paycheck-router/shared";
 import { and, count, desc, eq, lt } from "drizzle-orm";
 import { Hono } from "hono";
 import { verifyTurnstile } from "../compliance/turnstile.ts";
-import { environment } from "../config.ts";
+import { ConfigError, environment } from "../config.ts";
 import { legs, statusSnapshots, waitlist } from "../db/schema.ts";
 import { inflowWatcher } from "../do/stubs.ts";
 import type { AppEnv, Services } from "../http/context.ts";
@@ -22,6 +22,14 @@ type Component = api.StatusResponse["components"][number];
 /** Detection health from the InflowWatcher's last sweep (every 2 s on surfnets, 60 s elsewhere). */
 async function probeDetection(env: AppEnv["Bindings"], services: Services): Promise<Component> {
   const checkedAt = services.now();
+  if (!env.INFLOW_WATCHER) {
+    return {
+      id: "detection",
+      status: "unknown",
+      detail: "No detection in this deployment",
+      checkedAt: checkedAt.toISOString(),
+    };
+  }
   try {
     const sweep = await inflowWatcher(env).lastSweep();
     if (!sweep) {
@@ -70,6 +78,28 @@ async function probeExecution(services: Services): Promise<Component> {
   };
 }
 
+/** Components that need the database report so honestly where none is configured. */
+function noDatabase(id: Component["id"], services: Services): Component {
+  return {
+    id,
+    status: "unknown",
+    detail: "Not tracked in this deployment (no database)",
+    checkedAt: services.now().toISOString(),
+  };
+}
+
+async function readSnapshots(services: Services) {
+  try {
+    return await services.db
+      .selectDistinctOn([statusSnapshots.component])
+      .from(statusSnapshots)
+      .orderBy(statusSnapshots.component, desc(statusSnapshots.capturedAt));
+  } catch (error) {
+    if (error instanceof ConfigError) return null;
+    throw error;
+  }
+}
+
 async function probeChain(services: Services): Promise<Component> {
   const checkedAt = services.now().toISOString();
   try {
@@ -111,17 +141,15 @@ publicRoutes.get("/status", async (c) => {
     probeChain(services),
     probePricing(c.env, services),
     probeDetection(c.env, services),
-    services.db
-      .selectDistinctOn([statusSnapshots.component])
-      .from(statusSnapshots)
-      .orderBy(statusSnapshots.component, desc(statusSnapshots.capturedAt)),
+    readSnapshots(services),
   ]);
   // After the parallel reads: the execution probe queries the database on its own.
-  const execution = await probeExecution(services);
-  const recorded = new Map(snapshots.map((row) => [row.component, row]));
+  const execution = snapshots ? await probeExecution(services) : noDatabase("execution", services);
+  const recorded = new Map((snapshots ?? []).map((row) => [row.component, row]));
   const fromSnapshot = (id: Component["id"]): Component => {
     const row = recorded.get(id);
     if (!row) {
+      if (!snapshots) return noDatabase(id, services);
       return {
         id,
         status: "unknown",

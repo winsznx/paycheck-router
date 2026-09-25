@@ -7,6 +7,7 @@ import { attempts, legs, paychecks, verifications } from "../db/schema.ts";
 import type { AppEnv } from "../http/context.ts";
 import { notFound, parseOrThrow } from "../http/problem.ts";
 import { rateLimit } from "../http/rate-limit.ts";
+import { bundleProof, bundleProofLeg } from "../proof/bundle.ts";
 import { verificationApi } from "./paychecks.ts";
 
 export const proofRoutes = new Hono<AppEnv>();
@@ -57,6 +58,7 @@ function proofLeg(env: AppEnv["Bindings"], row: Row): api.ProofLeg | null {
 
 /** Public proof: the campaign totals and the latest executed slices, with no personal data. */
 proofRoutes.get("/proof", async (c) => {
+  if (c.env.PROOF_SOURCE === "bundle") return c.json(bundleProof(environment(c.env)));
   const { db, now } = c.var.services;
   // One statement at a time: the demo database (PGlite behind a wire server) cannot interleave
   // pipelined statements on a connection.
@@ -112,6 +114,11 @@ proofRoutes.get("/proof", async (c) => {
 });
 
 proofRoutes.get("/proof/legs/:signature", async (c) => {
+  if (c.env.PROOF_SOURCE === "bundle") {
+    const leg = bundleProofLeg(parseOrThrow(api.SignatureString, c.req.param("signature")));
+    if (!leg) throw notFound("Executed slice");
+    return c.json(leg);
+  }
   const { db } = c.var.services;
   const signature = parseOrThrow(api.SignatureString, c.req.param("signature"));
   const [row] = await db

@@ -72,13 +72,14 @@ export const ProofLeg = z.object({
   refPriceE9: U64String.nullable(),
   execPriceE9: U64String.nullable(),
   premiumBps: z.number().int().nullable(),
-  executedAt: IsoDateTime,
+  /** Null when the source cannot date the execution (fork bundles: Surfpool's blockTime is off). */
+  executedAt: IsoDateTime.nullable(),
   paycheck: z.object({
     seq: U64String,
     inflow: U64String,
     investTotal: U64String,
     recordedSig: SignatureString,
-    recordedAt: IsoDateTime,
+    recordedAt: IsoDateTime.nullable(),
   }),
   verification: Verification.nullable(),
   links: z.array(ExplorerLink),
@@ -99,6 +100,34 @@ export const ProofResponse = z.object({
     medianSecondsToShares: z.number().nullable(),
   }),
   recentLegs: z.array(ProofLeg),
+  /**
+   * Present when the proof comes from a committed fork evidence bundle: the run and what
+   * `@paycheck-router/verify` re-derived for every slice from the bundle's raw artifacts.
+   */
+  bundle: z
+    .object({
+      runId: z.string(),
+      path: z.string(),
+      forkStartSlot: z.number().int().nullable(),
+      programExecutableHash: z.string().nullable(),
+      programSource: z.string().nullable(),
+      artifactsChecked: z.number().int(),
+      artifactsFailed: z.array(z.string()),
+      pass: z.boolean(),
+      slices: z.array(
+        z.object({
+          symbol: z.string(),
+          mint: AddressString,
+          amountIn: U64String,
+          state: z.string(),
+          waitReason: z.string().nullable(),
+          verified: z.boolean(),
+          findings: z.array(z.object({ name: z.string(), pass: z.boolean(), detail: z.string() })),
+        }),
+      ),
+    })
+    .nullable()
+    .optional(),
   asOf: IsoDateTime,
 });
 export type ProofResponse = z.infer<typeof ProofResponse>;

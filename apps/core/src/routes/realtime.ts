@@ -8,6 +8,9 @@ import { ACCESS_COOKIE, readSession } from "../http/session.ts";
 
 export const realtimeRoutes = new Hono<AppEnv>();
 
+/** No user id is ever this string (users are UUIDs), so the hub never receives account events. */
+const PUBLIC_PRICES_HUB = "public:prices";
+
 function bearerFromProtocols(header: string | undefined): string | undefined {
   const bearer = header
     ?.split(",")
@@ -28,8 +31,13 @@ realtimeRoutes.get("/realtime", async (c) => {
     getCookie(c, ACCESS_COOKIE),
     c.var.services.now(),
   );
-  if (!session) throw unauthorized();
   const headers = new Headers(c.req.raw.headers);
+  if (!session) {
+    // Signed-out visitors get a shared hub that only ever carries price ticks.
+    if (token) throw unauthorized();
+    headers.set("x-user-id", PUBLIC_PRICES_HUB);
+    return userHubFor(c.env, PUBLIC_PRICES_HUB).fetch(new Request(c.req.raw, { headers }));
+  }
   headers.set("x-user-id", session.userId);
   return userHubFor(c.env, session.userId).fetch(new Request(c.req.raw, { headers }));
 });

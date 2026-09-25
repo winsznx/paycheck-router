@@ -230,6 +230,72 @@
         "TELEGRAM_BOT_USERNAME": ""
       }
     },
+    // The public site's API: live mainnet prices, /proof from the committed fork bundle, /status.
+    // No surfnet, no crank, sponsor or recorder keys, no queues, no crons; the database joins
+    // through Hyperdrive once the Supabase project exists (until then its routes answer 503).
+    "public": {
+      "name": "paycheck-router-core",
+      "migrations": [
+        {
+          "tag": "init",
+          "new_sqlite_classes": ["RouterActor", "UserHub", "InflowWatcher", "RateGate"]
+        }
+      ],
+      "triggers": { "crons": [] },
+      "durable_objects": {
+        "bindings": [
+          { "name": "USER_HUB", "class_name": "UserHub" },
+          { "name": "RATE_GATE", "class_name": "RateGate" }
+        ]
+      },
+      "analytics_engine_datasets": [{ "binding": "METRICS", "dataset": "paycheck_metrics" }],
+      "ratelimits": [
+        {
+          "name": "USER_LIMITER",
+          "namespace_id": "4001",
+          "simple": { "limit": 120, "period": 60 }
+        },
+        { "name": "TX_LIMITER", "namespace_id": "4002", "simple": { "limit": 20, "period": 60 } },
+        {
+          "name": "QUOTE_LIMITER",
+          "namespace_id": "4003",
+          "simple": { "limit": 30, "period": 60 }
+        },
+        {
+          "name": "PUBLIC_LIMITER",
+          "namespace_id": "4004",
+          "simple": { "limit": 60, "period": 60 }
+        },
+        { "name": "AUTH_LIMITER", "namespace_id": "4005", "simple": { "limit": 20, "period": 60 } },
+        {
+          "name": "PARTNER_LIMITER",
+          "namespace_id": "4006",
+          "simple": { "limit": 600, "period": 60 }
+        }
+      ],
+      "vars": {
+        "ENVIRONMENT": "production",
+        "PROOF_SOURCE": "bundle",
+        "PUBLIC_RPC_URL": "https://api.mainnet-beta.solana.com",
+        "PROGRAM_ID": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+        "USDC_MINT": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "CONFIG_PDA": "",
+        "PROTOCOL_ALT": "",
+        "SURFNET_RPC_URL": "",
+        "HELIUS_RPC_URL": "",
+        "ALCHEMY_RPC_URL": "",
+        "HERMES_URL": "https://hermes.pyth.network",
+        "JUPITER_BASE_URL": "https://api.jup.ag",
+        "SUPABASE_URL": "",
+        "PRIVY_APP_ID": "",
+        "VAPID_PUBLIC_KEY": "",
+        "VAPID_SUBJECT": "",
+        "APP_ORIGIN": "https://paycheck-router.timjosh507.workers.dev",
+        "SIWS_DOMAIN": "paycheck-router.timjosh507.workers.dev",
+        "RESEND_FROM": "",
+        "TELEGRAM_BOT_USERNAME": ""
+      }
+    },
     "staging": {
       "name": "paycheck-router-core-staging",
       "migrations": [
