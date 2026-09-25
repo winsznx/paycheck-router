@@ -27,7 +27,7 @@ const signature = (seed: string) => seed.padEnd(88, "1");
 function routerRef(suffix: string): RouterRef {
   return {
     routerId: crypto.randomUUID(),
-    userId: `user-${suffix}`,
+    userId: crypto.randomUUID(),
     routerPda: address(`Router${suffix}`),
     owner: "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
     payIn: address(`PayZn${suffix}`),
