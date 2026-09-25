@@ -39,4 +39,18 @@ For the same paychecks, routing through Paycheck Router instead of a 2% CEX purc
 | Integrity | 100% of executed slices Verified | Any Unverified slice is published with its diff before any claim |
 | Speed | Not evaluated on a fork | A fork has no network contention |
 
-Results land in [GATES.md](GATES.md), including failures.
+## Results (fork, Sep 25, 2026)
+
+From [`evidence/campaign/summary.json`](../evidence/campaign/summary.json), which `pnpm verify:campaign` rebuilds from the raw artifacts.
+
+| Measure | Value |
+| --- | --- |
+| Runs | 32 (pass 4, fail 14, blocked 2, infrastructure 12) |
+| Executed slices verified | 20 of 20 |
+| All-in cost per $100 (median) | $1.00 (n=15): xStocks $0.24, PreStocks $1.75 including the issuer's transfer fee |
+| Baseline medians (computed at the same timestamps and amounts) | CEX 2.00%, manual Jupiter 1.75%, Jupiter Recurring 1.85%, product 1.00% |
+| Manual steps per payday | Product 0; CEX 2; manual Jupiter 6; Jupiter Recurring 1 |
+| Guard ablation (Arm D, replayed) | $129.95 of overpayment prevented across 26 slices |
+| Oracle ablation (replayed) | 7 of 26 slices would have filled out of band |
+
+Decision rules: integrity passes; cost is inconclusive; the guard rule fails, so the guard is described only as protection; speed is not evaluated. Case-by-case results, failures included, are in [GATES.md](GATES.md).

@@ -113,6 +113,28 @@
       "status": "not-claimed",
       "environment": "mainnet",
       "reason": "A fork has no network contention, so speed is only claimed from mainnet runs."
+    },
+    "allInCostPer100": {
+      "value": 1,
+      "n": 15,
+      "status": "measured",
+      "environment": "fork",
+      "decisionRule": "inconclusive",
+      "source": "evidence/campaign/summary.json metrics.allInCostPer100"
+    },
+    "campaignVerifiedRate": {
+      "value": 20,
+      "denominator": 20,
+      "status": "measured",
+      "environment": "fork",
+      "source": "evidence/campaign/summary.json decisionRules"
+    },
+    "guardAblationPreventedUsd": {
+      "value": 129.95,
+      "n": 26,
+      "status": "computed",
+      "environment": "fork (replayed quotes)",
+      "source": "evidence/campaign/summary.json ablations.guard"
     }
   },
   "limitations": [
@@ -120,6 +142,7 @@
     "Fork routes exclude proprietary AMMs whose quote state is updated off-chain on mainnet only, so fork fills can be slightly worse than mainnet fills.",
     "On a fork there is no second RPC provider; Verified means the surfnet readback matches the event and each Pyth price matches Hermes history.",
     "Speed is not claimed from a fork.",
-    "In the canonical run the xStock slices (SPYx, NVDAx) waited with PRICE_UNAVAILABLE: the Pyth API key used lacks the US equities grant, so Hermes refused those feeds. No substitute price source is used."
+    "In the canonical run the xStock slices (SPYx, NVDAx) waited with PRICE_UNAVAILABLE: the Pyth API key used lacks the US equities grant, so Hermes refused those feeds. No substitute price source is used.",
+    "The campaign's harmful-action cases (P4) never reached the program's checks on the fork (stale prices, Jupiter rate limits, RPC errors); those protections rest on the program's invariant tests."
   ]
 }
