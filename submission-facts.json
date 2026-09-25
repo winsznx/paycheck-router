@@ -8,8 +8,8 @@
   "tracks": ["Main", "PreStocks: Best Use of PreStocks", "Pyth: Best use of Pyth market data"],
   "urls": {
     "repository": "https://github.com/winsznx/paycheck-router",
-    "site": null,
-    "proof": null,
+    "site": "https://paycheck-router.timjosh507.workers.dev",
+    "proof": "https://paycheck-router.timjosh507.workers.dev/proof",
     "pitchVideo": null,
     "walkthroughVideo": null
   },
