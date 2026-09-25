@@ -158,8 +158,12 @@ export async function applyMirror(db: Db, op: MirrorOp): Promise<void> {
           set: { classification: op.classification, decidedAt: date(op.decidedAt) },
         });
       return;
-    case "paycheck":
-      await db.transaction(async (tx) => {
+    case "paycheck": {
+      // Autocommit statements, each idempotent and replayed from the outbox on failure: the demo
+      // database (PGlite behind a multiplexing wire server) shares one session across
+      // connections, so an open transaction there would capture other connections' statements.
+      const tx = db;
+      {
         const inflow = op.paycheck.inflowSig
           ? await tx
               .select({ id: inflows.id })
@@ -193,8 +197,9 @@ export async function applyMirror(db: Db, op: MirrorOp): Promise<void> {
             .values(legValues(leg))
             .onConflictDoUpdate({ target: [legs.paycheckId, legs.idx], set: legUpdate(leg) });
         }
-      });
+      }
       return;
+    }
     case "leg":
       await db
         .insert(legs)
