@@ -9,7 +9,7 @@ Runs on a Surfpool fork of mainnet until the mainnet deploy: the real xStocks, P
 | | |
 | --- | --- |
 | Program | `PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H` (deployed on forks only) |
-| Verifiable build | `solana-verify` executable hash `8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4` ([build run](https://github.com/winsznx/paycheck-router/actions/runs/36141863523)) |
+| Verifiable build | `solana-verify` executable hash `8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4`, the binary the canonical run deployed; reproduced by the [`stocklana-submission` release](https://github.com/winsznx/paycheck-router/releases/tag/stocklana-submission) ([build run](https://github.com/winsznx/paycheck-router/actions/runs/36175589252)) |
 | Canonical fork run | [`evidence/stocklana-fork/`](evidence/stocklana-fork), fork start slot 450381805; re-check it with `pnpm verify:bundle evidence/stocklana-fork` |
 | Replay it | `pnpm demo:fork` ([Run it yourself](#run-it-yourself)) |
 | Site, proof page, videos | Links added as they're published |
