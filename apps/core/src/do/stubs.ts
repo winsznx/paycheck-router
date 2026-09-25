@@ -1,6 +1,7 @@
 import { binding } from "../config.ts";
 import type { Env } from "../env.ts";
 import type { InflowWatcher } from "./inflow-watcher.ts";
+import type { MarkBook } from "./mark-book.ts";
 import type { RateGate } from "./rate-gate.ts";
 import type { RouterActor } from "./router-actor.ts";
 import type { UserHub } from "./user-hub.ts";
@@ -24,4 +25,9 @@ export function routerActorFor(env: Env, routerId: string): DurableObjectStub<Ro
 export function inflowWatcher(env: Env): DurableObjectStub<InflowWatcher> {
   const watchers = binding(env.INFLOW_WATCHER, "INFLOW_WATCHER");
   return watchers.get(watchers.idFromName("global"));
+}
+
+export function markBookFor(env: Env): DurableObjectStub<MarkBook> {
+  const books = binding(env.MARK_BOOK, "MARK_BOOK");
+  return books.get(books.idFromName("prestocks"));
 }

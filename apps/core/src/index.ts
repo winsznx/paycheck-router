@@ -11,6 +11,7 @@ import { log } from "./log.ts";
 import { handleQueue } from "./queues/index.ts";
 
 export { InflowWatcher } from "./do/inflow-watcher.ts";
+export { MarkBook } from "./do/mark-book.ts";
 export { RateGate } from "./do/rate-gate.ts";
 export { RouterActor } from "./do/router-actor.ts";
 export { UserHub } from "./do/user-hub.ts";
