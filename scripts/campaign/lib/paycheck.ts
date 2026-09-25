@@ -715,14 +715,20 @@ async function executeWithRetries(
     closeSignatures,
     rejected,
   };
-  const recorded = await recordPaycheckRun({
-    surfnet: fork.surfnet,
+  const recorded = await recordWithRetry(
+    ctx,
+    () =>
+      recordPaycheckRun({
+        surfnet: fork.surfnet,
+        bundle,
+        transactions,
+        run: merged,
+        owner: router.owner.address,
+        hermes: requireHermes(ctx.env),
+      }),
     bundle,
     transactions,
-    run: merged,
-    owner: router.owner.address,
-    hermes: requireHermes(ctx.env),
-  });
+  );
   return recorded.legs.map((record) => {
     const legRun = merged.legs.find((l) => l.leg.legIndex === record.index);
     if (!legRun) throw new Error(`no run for leg ${record.index}`);
@@ -732,4 +738,34 @@ async function executeWithRetries(
     }
     return { record, leg: legRun.leg, attempts: legRun.attempts, posts: legRun.posts };
   });
+}
+
+const RECORD_ATTEMPTS = 3;
+const RECORD_RETRY_MS = 5_000;
+
+/**
+ * Recording reads Hermes history for every fill; a dropped request there would otherwise lose
+ * the record of legs that already executed onchain. A failed pass is rolled back (its artifact
+ * and transaction entries) and the pass is repeated, at most three times.
+ */
+async function recordWithRetry<T>(
+  ctx: CaseContext,
+  record: () => Promise<T>,
+  bundle: EvidenceBundle,
+  transactions: TransactionLog,
+): Promise<T> {
+  for (let attempt = 1; ; attempt++) {
+    const artifacts = bundle.artifacts.length;
+    const records = transactions.records.length;
+    try {
+      return await record();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (attempt >= RECORD_ATTEMPTS || !INFRASTRUCTURE_FAILURE.test(message)) throw error;
+      bundle.artifacts.splice(artifacts);
+      transactions.records.splice(records);
+      ctx.notes.push(`recording pass ${attempt} failed on the network (${message}); repeated`);
+      await new Promise((r) => setTimeout(r, RECORD_RETRY_MS));
+    }
+  }
 }
