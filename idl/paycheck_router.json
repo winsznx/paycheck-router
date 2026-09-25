@@ -1,0 +1,2343 @@
+{
+  "address": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "metadata": {
+    "name": "paycheck_router",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Routes each paycheck's USDC into tokenized stocks under an onchain price guard",
+    "repository": "https://github.com/winsznx/paycheck-router"
+  },
+  "instructions": [
+    {
+      "name": "cancel_leg",
+      "discriminator": [168, 131, 239, 116, 75, 1, 216, 111],
+      "accounts": [
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          },
+          "relations": ["paycheck"]
+        },
+        {
+          "name": "paycheck",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 97, 121, 99, 104, 101, 99, 107]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              },
+              {
+                "kind": "account",
+                "path": "paycheck.seq",
+                "account": "Paycheck"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "leg_index",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "close_router",
+      "discriminator": [6, 38, 17, 63, 66, 31, 67, 174],
+      "accounts": [
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rent_payer",
+          "writable": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 117, 116, 104, 111, 114, 105, 116, 121]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority_usdc",
+          "writable": true
+        },
+        {
+          "name": "pay_in",
+          "writable": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "usdc_token_program"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_router",
+      "discriminator": [75, 219, 162, 173, 199, 87, 169, 123],
+      "accounts": [
+        {
+          "name": "owner",
+          "signer": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "docs": ["stores no data."],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 117, 116, 104, 111, 114, 105, 116, 121]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              }
+            ]
+          }
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "pay_in",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "owner"
+              },
+              {
+                "kind": "account",
+                "path": "usdc_token_program"
+              },
+              {
+                "kind": "account",
+                "path": "usdc_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142, 13, 131, 11, 90, 19,
+                153, 218, 255, 16, 132, 4, 142, 123, 216, 219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "authority_usdc",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "account",
+                "path": "usdc_token_program"
+              },
+              {
+                "kind": "account",
+                "path": "usdc_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142, 13, 131, 11, 90, 19,
+                153, 218, 255, 16, 132, 4, 142, 123, 216, 219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "usdc_token_program"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "RouterParams"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "emergency_pause",
+      "discriminator": [21, 143, 27, 142, 200, 181, 210, 255],
+      "accounts": [
+        {
+          "name": "pause_authority",
+          "signer": true,
+          "relations": ["config"]
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize_config",
+      "discriminator": [208, 127, 21, 1, 194, 190, 196, 70],
+      "accounts": [
+        {
+          "name": "deployer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program",
+          "address": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H"
+        },
+        {
+          "name": "program_data"
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "treasury"
+        },
+        {
+          "name": "usdc_token_program"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "ConfigParams"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "record_paycheck",
+      "discriminator": [21, 176, 11, 132, 43, 82, 79, 75],
+      "accounts": [
+        {
+          "name": "recorder",
+          "signer": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "router.owner",
+                "account": "Router"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pay_in",
+          "relations": ["router"]
+        },
+        {
+          "name": "paycheck",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 97, 121, 99, 104, 101, 99, 107]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              },
+              {
+                "kind": "account",
+                "path": "router.paycheck_seq",
+                "account": "Router"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "detected_slot",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "set_asset_status",
+      "discriminator": [58, 54, 181, 102, 68, 238, 240, 245],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true,
+          "relations": ["config"]
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "asset",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 115, 115, 101, 116]
+              },
+              {
+                "kind": "account",
+                "path": "asset.mint",
+                "account": "Asset"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "AssetStatusParams"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "set_global_pause",
+      "discriminator": [32, 234, 28, 216, 67, 76, 116, 231],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true,
+          "relations": ["config"]
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "paused",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "set_router_paused",
+      "discriminator": [72, 239, 47, 153, 254, 214, 231, 130],
+      "accounts": [
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "paused",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "skip_inflow",
+      "discriminator": [99, 42, 67, 247, 186, 222, 35, 167],
+      "accounts": [
+        {
+          "name": "signer",
+          "signer": true
+        },
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "router.owner",
+                "account": "Router"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pay_in",
+          "relations": ["router"]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "sync_watermark",
+      "discriminator": [245, 200, 201, 29, 54, 238, 98, 158],
+      "accounts": [
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "router.owner",
+                "account": "Router"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pay_in",
+          "relations": ["router"]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "update_config",
+      "discriminator": [29, 158, 252, 191, 10, 83, 219, 99],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true,
+          "relations": ["config"]
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "update",
+          "type": {
+            "defined": {
+              "name": "ConfigUpdate"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "update_router",
+      "discriminator": [32, 109, 12, 153, 101, 129, 64, 70],
+      "accounts": [
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "RouterParams"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "upsert_asset",
+      "discriminator": [236, 173, 176, 44, 167, 62, 33, 253],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true,
+          "relations": ["config"]
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "asset",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 115, 115, 101, 116]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "AssetParams"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Asset",
+      "discriminator": [234, 180, 241, 252, 139, 224, 160, 8]
+    },
+    {
+      "name": "Config",
+      "discriminator": [155, 12, 170, 224, 30, 250, 204, 130]
+    },
+    {
+      "name": "Paycheck",
+      "discriminator": [125, 238, 45, 164, 231, 150, 226, 16]
+    },
+    {
+      "name": "Router",
+      "discriminator": [94, 226, 217, 169, 186, 4, 198, 7]
+    }
+  ],
+  "events": [
+    {
+      "name": "AssetUpserted",
+      "discriminator": [14, 217, 37, 235, 168, 81, 73, 21]
+    },
+    {
+      "name": "ConfigUpdated",
+      "discriminator": [40, 241, 230, 122, 11, 19, 198, 194]
+    },
+    {
+      "name": "GuardedSwap",
+      "discriminator": [88, 54, 33, 168, 200, 162, 199, 232]
+    },
+    {
+      "name": "HoldingConverted",
+      "discriminator": [12, 240, 118, 86, 236, 81, 178, 236]
+    },
+    {
+      "name": "InflowSkipped",
+      "discriminator": [35, 214, 218, 59, 166, 7, 197, 30]
+    },
+    {
+      "name": "LegCancelled",
+      "discriminator": [243, 234, 99, 109, 214, 174, 23, 238]
+    },
+    {
+      "name": "LegExecuted",
+      "discriminator": [151, 158, 223, 144, 153, 66, 126, 186]
+    },
+    {
+      "name": "LegExpired",
+      "discriminator": [202, 197, 113, 32, 145, 77, 249, 83]
+    },
+    {
+      "name": "PaycheckClosed",
+      "discriminator": [28, 234, 210, 108, 12, 170, 98, 118]
+    },
+    {
+      "name": "PaycheckRecorded",
+      "discriminator": [191, 228, 206, 203, 27, 245, 212, 240]
+    },
+    {
+      "name": "RouterClosed",
+      "discriminator": [246, 217, 125, 203, 239, 71, 194, 214]
+    },
+    {
+      "name": "RouterCreated",
+      "discriminator": [242, 77, 113, 111, 202, 248, 118, 3]
+    },
+    {
+      "name": "RouterPaused",
+      "discriminator": [239, 127, 42, 223, 100, 112, 236, 25]
+    },
+    {
+      "name": "RouterUpdated",
+      "discriminator": [230, 116, 235, 209, 74, 144, 208, 95]
+    },
+    {
+      "name": "WatermarkSynced",
+      "discriminator": [114, 255, 41, 88, 17, 254, 71, 220]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ConfigPaused",
+      "msg": "Protocol is paused"
+    },
+    {
+      "code": 6001,
+      "name": "RouterPaused",
+      "msg": "Router is paused"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidWeights",
+      "msg": "Leg weights must be positive, unique and sum to 10,000 bps"
+    },
+    {
+      "code": 6003,
+      "name": "TooManyLegs",
+      "msg": "Too many legs"
+    },
+    {
+      "code": 6004,
+      "name": "BandTooWide",
+      "msg": "Band exceeds the allowed cap"
+    },
+    {
+      "code": 6005,
+      "name": "AssetNotActive",
+      "msg": "Asset is not active"
+    },
+    {
+      "code": 6006,
+      "name": "AssetKindMismatch",
+      "msg": "Asset kind does not match this instruction"
+    },
+    {
+      "code": 6007,
+      "name": "NoNewInflow",
+      "msg": "No new inflow above the watermark"
+    },
+    {
+      "code": 6008,
+      "name": "InflowBelowMinimum",
+      "msg": "Inflow is below the router minimum"
+    },
+    {
+      "code": 6009,
+      "name": "UnauthorizedRecorder",
+      "msg": "Signer is not the router's recorder"
+    },
+    {
+      "code": 6010,
+      "name": "LegNotPending",
+      "msg": "Leg is not pending"
+    },
+    {
+      "code": 6011,
+      "name": "PaycheckExpired",
+      "msg": "Paycheck has expired"
+    },
+    {
+      "code": 6012,
+      "name": "PriceStale",
+      "msg": "Price is stale"
+    },
+    {
+      "code": 6013,
+      "name": "PriceFeedMismatch",
+      "msg": "Price account does not match the expected feed"
+    },
+    {
+      "code": 6014,
+      "name": "ConfidenceTooWide",
+      "msg": "Price confidence interval is too wide"
+    },
+    {
+      "code": 6015,
+      "name": "UsdcDepeg",
+      "msg": "USDC is off its peg"
+    },
+    {
+      "code": 6016,
+      "name": "AllowanceInsufficient",
+      "msg": "Delegated allowance does not cover the leg"
+    },
+    {
+      "code": 6017,
+      "name": "DelegateMismatch",
+      "msg": "Router authority is not the token account delegate"
+    },
+    {
+      "code": 6018,
+      "name": "BalanceInsufficient",
+      "msg": "Balance does not cover the leg"
+    },
+    {
+      "code": 6019,
+      "name": "DestinationOwnerMismatch",
+      "msg": "Destination is not owned by the router owner"
+    },
+    {
+      "code": 6020,
+      "name": "DestinationMintMismatch",
+      "msg": "Destination mint does not match the asset"
+    },
+    {
+      "code": 6021,
+      "name": "JupiterProgramMismatch",
+      "msg": "Swap program is not the allowlisted Jupiter program"
+    },
+    {
+      "code": 6022,
+      "name": "OutputBelowMinimum",
+      "msg": "Swap delivered less than the guarded minimum"
+    },
+    {
+      "code": 6023,
+      "name": "InputOverspent",
+      "msg": "Swap moved a different input amount than the leg"
+    },
+    {
+      "code": 6024,
+      "name": "AttestationMissing",
+      "msg": "Ed25519 attestation instruction is missing"
+    },
+    {
+      "code": 6025,
+      "name": "AttestationSignerMismatch",
+      "msg": "Attestation is not signed by the configured attester"
+    },
+    {
+      "code": 6026,
+      "name": "AttestationStale",
+      "msg": "Attestation is too old"
+    },
+    {
+      "code": 6027,
+      "name": "AttestationMalformed",
+      "msg": "Attestation instruction or message is malformed"
+    },
+    {
+      "code": 6028,
+      "name": "ConversionNotActive",
+      "msg": "Asset is not converting"
+    },
+    {
+      "code": 6029,
+      "name": "ConversionDeadlinePassed",
+      "msg": "Conversion deadline has passed"
+    },
+    {
+      "code": 6030,
+      "name": "MathOverflow",
+      "msg": "Arithmetic overflow"
+    },
+    {
+      "code": 6031,
+      "name": "OpenPaychecksRemain",
+      "msg": "Router still has open paycheck legs"
+    },
+    {
+      "code": 6032,
+      "name": "InvalidParameter",
+      "msg": "Parameter outside its allowed range"
+    },
+    {
+      "code": 6033,
+      "name": "Unauthorized",
+      "msg": "Signer is not allowed to perform this action"
+    },
+    {
+      "code": 6034,
+      "name": "LegNotExpired",
+      "msg": "Leg has not reached its expiry"
+    }
+  ],
+  "types": [
+    {
+      "name": "Asset",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_program",
+            "type": "pubkey"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "kind",
+            "type": "u8"
+          },
+          {
+            "name": "issuer",
+            "type": "u8"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "feed_id",
+            "type": {
+              "array": ["u8", 32]
+            }
+          },
+          {
+            "name": "feed_id_247",
+            "type": {
+              "array": ["u8", 32]
+            }
+          },
+          {
+            "name": "max_band_bps",
+            "type": "u16"
+          },
+          {
+            "name": "band_247_extra_bps",
+            "type": "u16"
+          },
+          {
+            "name": "conversion_target",
+            "type": "pubkey"
+          },
+          {
+            "name": "conversion_ratio_num",
+            "type": "u64"
+          },
+          {
+            "name": "conversion_ratio_den",
+            "type": "u64"
+          },
+          {
+            "name": "conversion_deadline",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": ["u8", 64]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssetParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "kind",
+            "type": "u8"
+          },
+          {
+            "name": "issuer",
+            "type": "u8"
+          },
+          {
+            "name": "feed_id",
+            "type": {
+              "array": ["u8", 32]
+            }
+          },
+          {
+            "name": "feed_id_247",
+            "type": {
+              "array": ["u8", 32]
+            }
+          },
+          {
+            "name": "max_band_bps",
+            "type": "u16"
+          },
+          {
+            "name": "band_247_extra_bps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssetStatusParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "conversion_target",
+            "type": "pubkey"
+          },
+          {
+            "name": "conversion_ratio_num",
+            "type": "u64"
+          },
+          {
+            "name": "conversion_ratio_den",
+            "type": "u64"
+          },
+          {
+            "name": "conversion_deadline",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssetUpserted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_program",
+            "type": "pubkey"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "kind",
+            "type": "u8"
+          },
+          {
+            "name": "issuer",
+            "type": "u8"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "feed_id",
+            "type": {
+              "array": ["u8", 32]
+            }
+          },
+          {
+            "name": "feed_id_247",
+            "type": {
+              "array": ["u8", 32]
+            }
+          },
+          {
+            "name": "max_band_bps",
+            "type": "u16"
+          },
+          {
+            "name": "band_247_extra_bps",
+            "type": "u16"
+          },
+          {
+            "name": "conversion_target",
+            "type": "pubkey"
+          },
+          {
+            "name": "conversion_ratio_num",
+            "type": "u64"
+          },
+          {
+            "name": "conversion_ratio_den",
+            "type": "u64"
+          },
+          {
+            "name": "conversion_deadline",
+            "type": "i64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "usdc_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "usdc_feed_id",
+            "type": {
+              "array": ["u8", 32]
+            }
+          },
+          {
+            "name": "jupiter_program",
+            "type": "pubkey"
+          },
+          {
+            "name": "attester",
+            "type": "pubkey"
+          },
+          {
+            "name": "max_price_age_secs",
+            "type": "u16"
+          },
+          {
+            "name": "max_conf_bps",
+            "type": "u16"
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": ["u8", 64]
+            }
+          },
+          {
+            "name": "pause_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "max_leg_usdc",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "usdc_feed_id",
+            "type": {
+              "array": ["u8", 32]
+            }
+          },
+          {
+            "name": "jupiter_program",
+            "type": "pubkey"
+          },
+          {
+            "name": "attester",
+            "type": "pubkey"
+          },
+          {
+            "name": "pause_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "max_price_age_secs",
+            "type": "u16"
+          },
+          {
+            "name": "max_conf_bps",
+            "type": "u16"
+          },
+          {
+            "name": "max_leg_usdc",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigUpdate",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "fee_bps",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "usdc_feed_id",
+            "type": {
+              "option": {
+                "array": ["u8", 32]
+              }
+            }
+          },
+          {
+            "name": "jupiter_program",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "attester",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "pause_authority",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "max_price_age_secs",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "max_conf_bps",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "max_leg_usdc",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "jupiter_program",
+            "type": "pubkey"
+          },
+          {
+            "name": "attester",
+            "type": "pubkey"
+          },
+          {
+            "name": "pause_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "max_price_age_secs",
+            "type": "u16"
+          },
+          {
+            "name": "max_conf_bps",
+            "type": "u16"
+          },
+          {
+            "name": "max_leg_usdc",
+            "type": "u64"
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GuardedSwap",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "side",
+            "type": {
+              "defined": {
+                "name": "SwapSide"
+              }
+            }
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount_in",
+            "type": "u64"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          },
+          {
+            "name": "out_amount",
+            "type": "u64"
+          },
+          {
+            "name": "min_out",
+            "type": "u64"
+          },
+          {
+            "name": "ref_price_e9",
+            "type": "u64"
+          },
+          {
+            "name": "usdc_price_e9",
+            "type": "u64"
+          },
+          {
+            "name": "multiplier_e12",
+            "type": "u64"
+          },
+          {
+            "name": "band_bps",
+            "type": "u16"
+          },
+          {
+            "name": "price_source",
+            "type": {
+              "defined": {
+                "name": "PriceSource"
+              }
+            }
+          },
+          {
+            "name": "price_publish_time",
+            "type": "i64"
+          },
+          {
+            "name": "attestation",
+            "type": {
+              "option": {
+                "defined": {
+                  "name": "MarkAttestation"
+                }
+              }
+            }
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HoldingConverted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "target_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount_in",
+            "type": "u64"
+          },
+          {
+            "name": "out_amount",
+            "type": "u64"
+          },
+          {
+            "name": "min_out",
+            "type": "u64"
+          },
+          {
+            "name": "ratio_num",
+            "type": "u64"
+          },
+          {
+            "name": "ratio_den",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InflowSkipped",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "watermark",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LegCancelled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "paycheck",
+            "type": "pubkey"
+          },
+          {
+            "name": "seq",
+            "type": "u64"
+          },
+          {
+            "name": "leg_index",
+            "type": "u8"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount_in",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LegConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "weight_bps",
+            "type": "u16"
+          },
+          {
+            "name": "band_bps",
+            "type": "u16"
+          },
+          {
+            "name": "enabled",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LegExecuted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "paycheck",
+            "type": "pubkey"
+          },
+          {
+            "name": "seq",
+            "type": "u64"
+          },
+          {
+            "name": "leg_index",
+            "type": "u8"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "destination",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount_in",
+            "type": "u64"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          },
+          {
+            "name": "swapped_in",
+            "type": "u64"
+          },
+          {
+            "name": "dust_returned",
+            "type": "u64"
+          },
+          {
+            "name": "out_amount",
+            "type": "u64"
+          },
+          {
+            "name": "min_out",
+            "type": "u64"
+          },
+          {
+            "name": "ref_price_e9",
+            "type": "u64"
+          },
+          {
+            "name": "usdc_price_e9",
+            "type": "u64"
+          },
+          {
+            "name": "multiplier_e12",
+            "type": "u64"
+          },
+          {
+            "name": "band_bps",
+            "type": "u16"
+          },
+          {
+            "name": "price_source",
+            "type": {
+              "defined": {
+                "name": "PriceSource"
+              }
+            }
+          },
+          {
+            "name": "price_publish_time",
+            "type": "i64"
+          },
+          {
+            "name": "attestation",
+            "type": {
+              "option": {
+                "defined": {
+                  "name": "MarkAttestation"
+                }
+              }
+            }
+          },
+          {
+            "name": "owner_initiated",
+            "type": "bool"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LegExpired",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "paycheck",
+            "type": "pubkey"
+          },
+          {
+            "name": "seq",
+            "type": "u64"
+          },
+          {
+            "name": "leg_index",
+            "type": "u8"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount_in",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LegState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount_in",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "out_amount",
+            "type": "u64"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          },
+          {
+            "name": "ref_price_e9",
+            "type": "u64"
+          },
+          {
+            "name": "executed_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarkAttestation",
+      "docs": [
+        "Signed PreStocks mark carried by the Ed25519 instruction in front of",
+        "`execute_prestock_leg`. The attester signs its Borsh serialization."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "mark_price_e9",
+            "type": "u64"
+          },
+          {
+            "name": "observed_at",
+            "type": "i64"
+          },
+          {
+            "name": "source",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Paycheck",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "seq",
+            "type": "u64"
+          },
+          {
+            "name": "inflow",
+            "type": "u64"
+          },
+          {
+            "name": "invest_total",
+            "type": "u64"
+          },
+          {
+            "name": "detected_slot",
+            "type": "u64"
+          },
+          {
+            "name": "recorded_at",
+            "type": "i64"
+          },
+          {
+            "name": "expires_at",
+            "type": "i64"
+          },
+          {
+            "name": "rent_payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "legs",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "LegState"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PaycheckClosed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "paycheck",
+            "type": "pubkey"
+          },
+          {
+            "name": "seq",
+            "type": "u64"
+          },
+          {
+            "name": "rent_payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PaycheckRecorded",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "paycheck",
+            "type": "pubkey"
+          },
+          {
+            "name": "seq",
+            "type": "u64"
+          },
+          {
+            "name": "inflow",
+            "type": "u64"
+          },
+          {
+            "name": "invest_total",
+            "type": "u64"
+          },
+          {
+            "name": "leg_amounts",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "leg_mints",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "watermark",
+            "type": "u64"
+          },
+          {
+            "name": "expires_at",
+            "type": "i64"
+          },
+          {
+            "name": "detected_slot",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PriceSource",
+      "docs": ["Where a guard's reference price came from."],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PythRegular"
+          },
+          {
+            "name": "Pyth247"
+          },
+          {
+            "name": "MarkAttestation"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Router",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "pay_in",
+            "type": "pubkey"
+          },
+          {
+            "name": "recorder",
+            "type": "pubkey"
+          },
+          {
+            "name": "rent_payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "invest_bps",
+            "type": "u16"
+          },
+          {
+            "name": "min_inflow",
+            "type": "u64"
+          },
+          {
+            "name": "daily_cap",
+            "type": "u64"
+          },
+          {
+            "name": "day_start",
+            "type": "i64"
+          },
+          {
+            "name": "day_spent",
+            "type": "u64"
+          },
+          {
+            "name": "max_wait_secs",
+            "type": "u32"
+          },
+          {
+            "name": "auto_convert",
+            "type": "bool"
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "watermark",
+            "type": "u64"
+          },
+          {
+            "name": "paycheck_seq",
+            "type": "u64"
+          },
+          {
+            "name": "legs",
+            "type": {
+              "array": [
+                {
+                  "defined": {
+                    "name": "LegConfig"
+                  }
+                },
+                8
+              ]
+            }
+          },
+          {
+            "name": "leg_count",
+            "type": "u8"
+          },
+          {
+            "name": "total_inflow",
+            "type": "u64"
+          },
+          {
+            "name": "total_invested",
+            "type": "u64"
+          },
+          {
+            "name": "total_fees",
+            "type": "u64"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "updated_at",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "authority_bump",
+            "type": "u8"
+          },
+          {
+            "name": "pending_legs",
+            "docs": ["Legs across all paychecks still in Pending; close_router needs zero."],
+            "type": "u32"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": ["u8", 64]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouterClosed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "rent_payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouterCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "pay_in",
+            "type": "pubkey"
+          },
+          {
+            "name": "recorder",
+            "type": "pubkey"
+          },
+          {
+            "name": "rent_payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "watermark",
+            "type": "u64"
+          },
+          {
+            "name": "invest_bps",
+            "type": "u16"
+          },
+          {
+            "name": "legs",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "LegConfig"
+                }
+              }
+            }
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouterParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "recorder",
+            "type": "pubkey"
+          },
+          {
+            "name": "invest_bps",
+            "type": "u16"
+          },
+          {
+            "name": "min_inflow",
+            "type": "u64"
+          },
+          {
+            "name": "daily_cap",
+            "type": "u64"
+          },
+          {
+            "name": "max_wait_secs",
+            "type": "u32"
+          },
+          {
+            "name": "auto_convert",
+            "type": "bool"
+          },
+          {
+            "name": "legs",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "LegConfig"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouterPaused",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouterUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "recorder",
+            "type": "pubkey"
+          },
+          {
+            "name": "invest_bps",
+            "type": "u16"
+          },
+          {
+            "name": "min_inflow",
+            "type": "u64"
+          },
+          {
+            "name": "daily_cap",
+            "type": "u64"
+          },
+          {
+            "name": "max_wait_secs",
+            "type": "u32"
+          },
+          {
+            "name": "auto_convert",
+            "type": "bool"
+          },
+          {
+            "name": "legs",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "LegConfig"
+                }
+              }
+            }
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SwapSide",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Buy"
+          },
+          {
+            "name": "Sell"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WatermarkSynced",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "router",
+            "type": "pubkey"
+          },
+          {
+            "name": "previous",
+            "type": "u64"
+          },
+          {
+            "name": "watermark",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}
