@@ -41,6 +41,7 @@ jobs:
       - name: Install Agave CLI
         run: |
           sh -c "$(curl -sSfL https://release.anza.xyz/${AGAVE_VERSION}/install)"
+          mkdir -p "$HOME/.cache/solana"
           echo "$HOME/.local/share/solana/install/active_release/bin" >> "$GITHUB_PATH"
       - name: Install Anchor CLI
         run: npm install -g @anchor-lang/cli@1.0.2
