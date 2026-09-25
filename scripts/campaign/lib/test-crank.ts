@@ -18,6 +18,11 @@ import {
   type JupiterBuildResponse,
   jsonRpc,
   latestLifetime,
+  MAX_TRANSACTION_BYTES,
+  MULTI_HOP_MAX_ACCOUNTS,
+  messageSize,
+  middleMints,
+  OVERSIZE_MAX_ACCOUNTS,
   type PendingLeg,
   type PipelineConfig,
   type PricePosts,
@@ -88,81 +93,112 @@ export async function runTamperedLeg(
   ];
   const jupiterDestination = await tokenAccount(tamper.jupiterRecipient ?? leg.owner, leg);
   const executeDestination = await tokenAccount(tamper.executeRecipient ?? leg.owner, leg);
-  const build = await buildJupiterSwap(
-    {
-      inputMint: USDC_MINT,
-      outputMint: asset.mint,
-      amount: leg.amountIn - fee,
-      taker: leg.authority,
-      payer: pipeline.crank.address,
-      destinationTokenAccount: jupiterDestination,
-      slippageBps: leg.bandBps,
-      surfnet: true,
-    },
-    pipeline.jupiter,
-  );
-  bundle.write(`raw/jupiter/${name}.json`, build.raw);
-  const swap = tamper.swap
-    ? tamper.swap(build.response.swapInstruction)
-    : build.response.swapInstruction;
-  const usdcPriceUpdate = prices.accounts.get(USDC_FEED_ID);
-  if (!usdcPriceUpdate) throw new Error("USDC/USD was not posted");
-  const execute = await executeInstructionBuilder({ treasury })({
-    leg,
-    destination: executeDestination,
-    swap: unsignedTaker(swap, leg.authority),
-    priceUpdate: asset.feedId ? (prices.accounts.get(asset.feedId) ?? null) : null,
-    priceUpdate247: asset.feedId247 ? (prices.accounts.get(asset.feedId247) ?? null) : null,
-    usdcPriceUpdate,
-  });
-  const prefix: Instruction[] = [];
-  if (asset.kind === AssetKind.preIpo) {
-    if (!tamper.attestation) throw new Error("a pre-IPO probe needs an attestation");
-    prefix.push(ed25519VerifyInstruction(tamper.attestation));
+  const quote = (maxAccounts?: number) =>
+    buildJupiterSwap(
+      {
+        inputMint: USDC_MINT,
+        outputMint: asset.mint,
+        amount: leg.amountIn - fee,
+        taker: leg.authority,
+        payer: pipeline.crank.address,
+        destinationTokenAccount: jupiterDestination,
+        slippageBps: leg.bandBps,
+        surfnet: true,
+        ...(maxAccounts ? { maxAccounts } : {}),
+        ...(pipeline.forkExcludedDexes
+          ? { forkExcludedDexes: [...pipeline.forkExcludedDexes] }
+          : {}),
+      },
+      pipeline.jupiter,
+    );
+  // The same route budget as the product pipeline: a route through more than one intermediate
+  // mint is re-quoted with fewer accounts, and the program sweeps the one intermediate mint.
+  let build = await quote();
+  if (middleMints(build.response, USDC_MINT, asset.mint).length > 1) {
+    bundle.write(`raw/jupiter/${name}-multi-hop.json`, build.raw);
+    build = await quote(MULTI_HOP_MAX_ACCOUNTS);
   }
-  // Nobody outside the program can sign for the Authority PDA, so a route whose setup or cleanup
-  // needs that signature cannot be sent as is. The honest pipeline refuses such a route; the
-  // hostile crank drops those instructions, records them, and sends the rest.
-  const needsAuthority = (ix: ApiInstruction) =>
-    ix.accounts.some((a) => a.pubkey === leg.authority && a.isSigner);
-  const outside = [
-    ...build.response.setupInstructions,
-    ...(build.response.cleanupInstruction ? [build.response.cleanupInstruction] : []),
-  ];
-  const dropped = outside.filter(needsAuthority);
-  if (dropped.length > 0) bundle.write(`raw/test-crank/${name}-dropped.json`, toJson(dropped));
-  const setup = build.response.setupInstructions.filter((ix) => !needsAuthority(ix));
-  const cleanup =
-    build.response.cleanupInstruction && !needsAuthority(build.response.cleanupInstruction)
-      ? [build.response.cleanupInstruction]
-      : [];
-  const body: Instruction[] = [
-    ...(await Promise.all(
-      recipients.map(async (owner) =>
-        getCreateAssociatedTokenIdempotentInstruction({
-          payer: pipeline.crank,
-          ata: await tokenAccount(owner, leg),
-          owner,
-          mint: asset.mint,
-          tokenProgram: asset.tokenProgram,
-        }),
-      ),
-    )),
-    ...setup.map(toKitInstruction),
-    ...prefix,
-    execute,
-    ...cleanup.map(toKitInstruction),
-  ];
-  const lookupTables = {
-    ...toLookupTables(build.response.addressesByLookupTableAddress),
-    ...pipeline.protocolLookupTable,
+  const assemble = async (build: Awaited<ReturnType<typeof quote>>) => {
+    const [middle] = middleMints(build.response, USDC_MINT, asset.mint);
+    const intermediate = middle
+      ? await intermediateAccount(fork, pipeline, leg.owner, middle)
+      : null;
+    const swap = tamper.swap
+      ? tamper.swap(build.response.swapInstruction)
+      : build.response.swapInstruction;
+    const usdcPriceUpdate = prices.accounts.get(USDC_FEED_ID);
+    if (!usdcPriceUpdate) throw new Error("USDC/USD was not posted");
+    const execute = await executeInstructionBuilder({ treasury })({
+      leg,
+      destination: executeDestination,
+      swap: unsignedTaker(swap, leg.authority),
+      priceUpdate: asset.feedId ? (prices.accounts.get(asset.feedId) ?? null) : null,
+      priceUpdate247: asset.feedId247 ? (prices.accounts.get(asset.feedId247) ?? null) : null,
+      usdcPriceUpdate,
+      intermediate: intermediate
+        ? { account: intermediate.account, mint: intermediate.mint }
+        : null,
+    });
+    const prefix: Instruction[] = [];
+    if (asset.kind === AssetKind.preIpo) {
+      if (!tamper.attestation) throw new Error("a pre-IPO probe needs an attestation");
+      prefix.push(ed25519VerifyInstruction(tamper.attestation));
+    }
+    // Nobody outside the program can sign for the Authority PDA, so a route whose setup or cleanup
+    // needs that signature cannot be sent as is. The honest pipeline refuses such a route; the
+    // hostile crank drops those instructions, records them, and sends the rest.
+    const needsAuthority = (ix: ApiInstruction) =>
+      ix.accounts.some((a) => a.pubkey === leg.authority && a.isSigner);
+    const outside = [
+      ...build.response.setupInstructions,
+      ...(build.response.cleanupInstruction ? [build.response.cleanupInstruction] : []),
+    ];
+    const dropped = outside.filter(needsAuthority);
+    if (dropped.length > 0) bundle.write(`raw/test-crank/${name}-dropped.json`, toJson(dropped));
+    const setup = build.response.setupInstructions.filter((ix) => !needsAuthority(ix));
+    const cleanup =
+      build.response.cleanupInstruction && !needsAuthority(build.response.cleanupInstruction)
+        ? [build.response.cleanupInstruction]
+        : [];
+    const body: Instruction[] = [
+      ...(await Promise.all(
+        recipients.map(async (owner) =>
+          getCreateAssociatedTokenIdempotentInstruction({
+            payer: pipeline.crank,
+            ata: await tokenAccount(owner, leg),
+            owner,
+            mint: asset.mint,
+            tokenProgram: asset.tokenProgram,
+          }),
+        ),
+      )),
+      ...(intermediate ? [intermediate.create] : []),
+      ...setup.map(toKitInstruction),
+      ...prefix,
+      execute,
+      ...cleanup.map(toKitInstruction),
+    ];
+    const lookupTables = {
+      ...toLookupTables(build.response.addressesByLookupTableAddress),
+      ...pipeline.protocolLookupTable,
+    };
+    const message = buildMessage(
+      pipeline.crank,
+      await latestLifetime(fork.surfnet.rpc),
+      [...computeBudgetInstructions(SIMULATION_COMPUTE_UNITS, 0n), ...body],
+      lookupTables,
+    );
+    return message;
   };
-  const message = buildMessage(
-    pipeline.crank,
-    await latestLifetime(fork.surfnet.rpc),
-    [...computeBudgetInstructions(SIMULATION_COMPUTE_UNITS, 0n), ...body],
-    lookupTables,
-  );
+  // An oversized transaction is re-quoted with fewer accounts, as the product pipeline does.
+  let message = await assemble(build);
+  for (const maxAccounts of OVERSIZE_MAX_ACCOUNTS) {
+    if (messageSize(message) <= MAX_TRANSACTION_BYTES) break;
+    bundle.write(`raw/jupiter/${name}-oversize-${messageSize(message)}.json`, build.raw);
+    build = await quote(maxAccounts);
+    message = await assemble(build);
+  }
+  bundle.write(`raw/jupiter/${name}.json`, build.raw);
   const simulation = await simulate(fork.surfnet.rpc, message);
   const simulationRef = bundle.write(
     `raw/simulation/${name}.json`,
@@ -270,4 +306,27 @@ export async function tamperedLeg(
     );
   const first = await attempt(name);
   return isPriceStale(first) ? attempt(`${name}-fresh-prices`) : first;
+}
+
+/** The owner's token account for a route's intermediate mint, created in the same transaction. */
+async function intermediateAccount(
+  fork: ForkState,
+  pipeline: PipelineConfig,
+  owner: Address,
+  mint: Address,
+): Promise<{ account: Address; mint: Address; create: Instruction }> {
+  const { value } = await fork.surfnet.rpc.getAccountInfo(mint, { encoding: "base64" }).send();
+  if (!value) throw new Error(`intermediate mint ${mint} not found`);
+  const [account] = await findAssociatedTokenPda({ owner, mint, tokenProgram: value.owner });
+  return {
+    account,
+    mint,
+    create: getCreateAssociatedTokenIdempotentInstruction({
+      payer: pipeline.crank,
+      ata: account,
+      owner,
+      mint,
+      tokenProgram: value.owner,
+    }),
+  };
 }
