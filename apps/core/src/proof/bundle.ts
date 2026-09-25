@@ -1,6 +1,6 @@
 import { type api, assetByMint, type LegRecord } from "@paycheck-router/shared";
 import { multiplierFromE12, sharesUi } from "../chain/shares.ts";
-import { FORK_MANIFEST, FORK_REPORT } from "./generated/fork-bundle.ts";
+import { FORK_MANIFEST, FORK_REPORT, FORK_TIMES } from "./generated/fork-bundle.ts";
 
 const BUNDLE_PATH = "evidence/stocklana-fork";
 const REPO = "https://github.com/winsznx/paycheck-router";
@@ -16,7 +16,8 @@ function reportSlice(index: number) {
 function proofLeg(leg: LegRecord): api.ProofLeg | null {
   const executed = leg.executed;
   const paycheck = FORK_MANIFEST.paycheck;
-  if (!executed || !paycheck) return null;
+  const executedAt = FORK_TIMES.executedAt[leg.index];
+  if (!executed || !paycheck || !executedAt || !FORK_TIMES.recordedAt) return null;
   const slice = reportSlice(leg.index);
   const decimals = assetByMint(leg.mint)?.decimals ?? 0;
   const uiMultiplier = multiplierFromE12(BigInt(executed.multiplierE12));
@@ -34,13 +35,13 @@ function proofLeg(leg: LegRecord): api.ProofLeg | null {
     refPriceE9: executed.refPriceE9,
     execPriceE9: null,
     premiumBps: Number(executed.premiumBps),
-    executedAt: null,
+    executedAt,
     paycheck: {
       seq: paycheck.seq,
       inflow: paycheck.inflow,
       investTotal: paycheck.investTotal,
       recordedSig: paycheck.recordSignature,
-      recordedAt: null,
+      recordedAt: FORK_TIMES.recordedAt,
     },
     verification: leg.verification
       ? {

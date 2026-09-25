@@ -72,14 +72,13 @@ export const ProofLeg = z.object({
   refPriceE9: U64String.nullable(),
   execPriceE9: U64String.nullable(),
   premiumBps: z.number().int().nullable(),
-  /** Null when the source cannot date the execution (fork bundles: Surfpool's blockTime is off). */
-  executedAt: IsoDateTime.nullable(),
+  executedAt: IsoDateTime,
   paycheck: z.object({
     seq: U64String,
     inflow: U64String,
     investTotal: U64String,
     recordedSig: SignatureString,
-    recordedAt: IsoDateTime.nullable(),
+    recordedAt: IsoDateTime,
   }),
   verification: Verification.nullable(),
   links: z.array(ExplorerLink),
