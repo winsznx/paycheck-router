@@ -2,6 +2,18 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: Fuzzing with proptest under LiteSVM instead of Trident
+
+**Observed.** Trident 0.12.0 (and 0.13.0-rc.4) is built on Solana 2.x crates, while Anchor 1.0.2 is on Solana 3.x. The program's entry point compiles under Trident, but the first sysvar read fails at runtime (`UnsupportedSysvar`) because Trident installs only the 2.x syscall stubs, and every instruction here reads `Clock`.
+
+**Changed.** The fuzz suite is `proptest` driving the real instructions under LiteSVM: random fees, prices, multipliers and output offsets around the minimum for `execute_leg`; random pay, spend, record, skip and sync sequences; byte flips in the Ed25519 attestation instruction; and properties of the guard math. Trident comes back when it supports Solana 3.x.
+
+## 2026-09-25: Pyth price posts built without the receiver SDK
+
+**Observed.** `@pythnetwork/pyth-solana-receiver@0.16.0` can't be imported under Node's ESM loader. Its dependencies do an extensionless import of `jito-ts/...` (`@pythnetwork/solana-utils@0.6.0`) and a directory import of `@coral-xyz/anchor/dist/cjs/utils/bytes`, and they pull a `@solana/web3.js` 1.x whose `rpc-websockets` subpath isn't exported. It also drags web3.js 1.x into a codebase built on `@solana/kit`, which has to run in Workers.
+
+**Changed.** `packages/sdk` builds the same instructions from the Wormhole core bridge and Pyth receiver account layouts: create, init, write and verify the encoded VAA, `post_update` with full verification, then close the VAA and reclaim the update rent. The program's checks are unchanged: receiver ownership, `Full` verification, feed ID, age and confidence. Fork runs prove the path end to end.
+
 ## 2026-09-25: PreStocks tokens charge a Token-2022 transfer fee, and marks are per scaled token
 
 **Observed.** Every PreStocks mint is Token-2022 with 9 decimals and a TransferFee extension: 100 bps from epoch 1039, rising to 300 bps from epoch 1043 (about 27 hours after this check), with no maximum. The fee is withheld in the receiving account. The OpenAI mint also carries a Scaled UI multiplier of 1.4861347, in effect since Jul 17, 2026, and the PreStocks API quotes `markPrice` and `tokenPrice` per scaled token. xStocks have no transfer fee. On a fork, $100 of USDC bought OpenAI in one transfer from the Manifest vault straight into the owner's account: 49,891,236 raw gross, 498,913 withheld, 49,392,323 received. That is $1,349 per scaled token against a $1,023.70 mark. Evidence: `evidence/day-one/prestocks-fee-2026-09-25T11-04-30-889Z.json`.
