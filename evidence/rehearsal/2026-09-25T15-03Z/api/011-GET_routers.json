@@ -1,0 +1,13 @@
+{
+  "method": "GET",
+  "path": "/routers",
+  "status": 500,
+  "body": {
+    "type": "/problems/internal",
+    "title": "Internal error",
+    "status": 500,
+    "detail": "Something went wrong",
+    "code": "internal",
+    "requestId": "ad717b11-06da-4d52-ae85-077aa65f593e"
+  }
+}

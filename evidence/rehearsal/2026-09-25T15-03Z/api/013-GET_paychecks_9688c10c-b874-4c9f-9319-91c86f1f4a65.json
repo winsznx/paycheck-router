@@ -1,0 +1,13 @@
+{
+  "method": "GET",
+  "path": "/paychecks/9688c10c-b874-4c9f-9319-91c86f1f4a65",
+  "status": 500,
+  "body": {
+    "type": "/problems/internal",
+    "title": "Internal error",
+    "status": 500,
+    "detail": "Something went wrong",
+    "code": "internal",
+    "requestId": "746bf31d-2a52-4e14-a62a-e7a58c6dc1c1"
+  }
+}

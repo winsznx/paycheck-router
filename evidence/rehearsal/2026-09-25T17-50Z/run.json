@@ -1,0 +1,42 @@
+{
+  "runId": "2026-09-25T17-50Z",
+  "baseURL": "http://127.0.0.1:3200",
+  "apiUrl": "http://127.0.0.1:8787",
+  "startedAt": "2026-09-25T17:50:16.493Z",
+  "settled": false,
+  "screenshots": [
+    "failure.png"
+  ],
+  "apiResponses": "evidence/rehearsal/2026-09-25T17-50Z/api",
+  "demoRecordLogs": ".demo/ in the checkout that ran pnpm demo:record",
+  "bundle": null,
+  "notes": [
+    "pnpm demo:record writes no evidence bundle; its surfpool, core and web logs are in .demo/.",
+    "Session, auth and realtime traffic is not recorded because it carries tokens."
+  ],
+  "consoleErrors": [
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=2U5413I8m7p_QWDT2ADNG' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=L3SwBELeocTp9D5MdyYHC' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=Lgme_GY4bWIp6RBQWPl0f' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=Lgme_GY4bWIp6RBQWPl0f' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=Lgme_GY4bWIp6RBQWPl0f' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=Lgme_GY4bWIp6RBQWPl0f' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=Lgme_GY4bWIp6RBQWPl0f' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+    "WebSocket connection to 'ws://127.0.0.1:3200/_next/hmr?id=Lgme_GY4bWIp6RBQWPl0f' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE"
+  ],
+  "apiErrors": [],
+  "failure": "locator.click: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Continue with Paycheck Router demo signer' })\u001b[22m\n\u001b[2m    - waiting for \"http://127.0.0.1:3200/app/onboarding/sign-in\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://127.0.0.1:3200/app/onboarding/sign-in\"\u001b[22m\n",
+  "finishedAt": "2026-09-25T17:51:17.892Z"
+}

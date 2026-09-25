@@ -1,0 +1,70 @@
+{
+  "runId": "2026-09-25T17-00Z",
+  "baseURL": "http://127.0.0.1:3200",
+  "apiUrl": "http://127.0.0.1:8787",
+  "startedAt": "2026-09-25T17:32:05.290Z",
+  "settled": true,
+  "screenshots": [
+    "onboarding-done.png",
+    "paycheck-detail.png",
+    "paycheck-detail-full.png",
+    "proof-sheet-anthropic.png",
+    "home.png",
+    "failure.png"
+  ],
+  "apiResponses": "evidence/rehearsal/2026-09-25T17-00Z/api",
+  "demoRecordLogs": ".demo/ in the checkout that ran pnpm demo:record",
+  "bundle": null,
+  "notes": [
+    "pnpm demo:record writes no evidence bundle; its surfpool, core and web logs are in .demo/.",
+    "Session, auth and realtime traffic is not recorded because it carries tokens."
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+  ],
+  "apiErrors": [],
+  "onboardedAt": "2026-09-25T17:32:08.778Z",
+  "paycheckTriggeredAt": "2026-09-25T17:32:08.868Z",
+  "paycheckId": "44383905-36cc-4cfd-a0a8-86c70808f94d",
+  "settledAt": "2026-09-25T17:32:27.282Z",
+  "legs": [
+    {
+      "symbol": "SPYx",
+      "status": "waiting",
+      "waitReason": "PRICE_UNAVAILABLE",
+      "premiumBps": null,
+      "amountIn": "222000000",
+      "outAmount": null,
+      "executedSig": null
+    },
+    {
+      "symbol": "NVDAx",
+      "status": "waiting",
+      "waitReason": "PRICE_UNAVAILABLE",
+      "premiumBps": null,
+      "amountIn": "74000000",
+      "outAmount": null,
+      "executedSig": null
+    },
+    {
+      "symbol": "Anthropic",
+      "status": "waiting",
+      "waitReason": "LANDING",
+      "premiumBps": null,
+      "amountIn": "37000000",
+      "outAmount": null,
+      "executedSig": null
+    },
+    {
+      "symbol": "OpenAI",
+      "status": "waiting",
+      "waitReason": "PREMIUM_TOO_HIGH",
+      "premiumBps": null,
+      "amountIn": "37000000",
+      "outAmount": null,
+      "executedSig": null
+    }
+  ],
+  "failure": "page.goto: net::ERR_TOO_MANY_REDIRECTS at http://127.0.0.1:3200/proof\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:3200/proof\", waiting until \"load\"\u001b[22m\n",
+  "finishedAt": "2026-09-25T17:32:31.375Z"
+}
