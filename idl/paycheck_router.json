@@ -161,6 +161,118 @@
       "args": []
     },
     {
+      "name": "convert_holding",
+      "discriminator": [154, 91, 19, 202, 37, 130, 76, 188],
+      "accounts": [
+        {
+          "name": "caller",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "router",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "router.owner",
+                "account": "Router"
+              }
+            ]
+          }
+        },
+        {
+          "name": "asset",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 115, 115, 101, 116]
+              },
+              {
+                "kind": "account",
+                "path": "asset.mint",
+                "account": "Asset"
+              }
+            ]
+          }
+        },
+        {
+          "name": "convert_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 118, 101, 114, 116]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              },
+              {
+                "kind": "account",
+                "path": "asset.mint",
+                "account": "Asset"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner_source",
+          "docs": ["The owner's pre-IPO token account; the Convert authority is its delegate."],
+          "writable": true
+        },
+        {
+          "name": "convert_source",
+          "writable": true
+        },
+        {
+          "name": "destination",
+          "docs": ["The owner's account for the conversion target."],
+          "writable": true
+        },
+        {
+          "name": "asset_mint"
+        },
+        {
+          "name": "target_mint"
+        },
+        {
+          "name": "jupiter_program"
+        },
+        {
+          "name": "asset_token_program"
+        },
+        {
+          "name": "target_token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "swap_data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
       "name": "create_router",
       "discriminator": [75, 219, 162, 173, 199, 87, 169, 123],
       "accounts": [
@@ -1074,6 +1186,142 @@
       "args": []
     },
     {
+      "name": "swap_guarded",
+      "discriminator": [238, 241, 44, 95, 219, 31, 2, 212],
+      "accounts": [
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "asset",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 115, 115, 101, 116]
+              },
+              {
+                "kind": "account",
+                "path": "asset.mint",
+                "account": "Asset"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 117, 116, 104, 111, 114, 105, 116, 121]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pay_in",
+          "writable": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "authority_usdc",
+          "writable": true
+        },
+        {
+          "name": "owner_asset",
+          "docs": ["The owner's account for the asset: destination on a buy, source on a sell."],
+          "writable": true
+        },
+        {
+          "name": "authority_asset",
+          "writable": true
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "asset_mint"
+        },
+        {
+          "name": "price_update",
+          "optional": true
+        },
+        {
+          "name": "price_update_247",
+          "optional": true
+        },
+        {
+          "name": "instructions_sysvar",
+          "optional": true,
+          "address": "Sysvar1nstructions1111111111111111111111111"
+        },
+        {
+          "name": "usdc_price_update"
+        },
+        {
+          "name": "jupiter_program"
+        },
+        {
+          "name": "usdc_token_program"
+        },
+        {
+          "name": "asset_token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "GuardedSwapParams"
+            }
+          }
+        },
+        {
+          "name": "swap_data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
       "name": "sync_watermark",
       "discriminator": [245, 200, 201, 29, 54, 238, 98, 158],
       "accounts": [
@@ -1975,6 +2223,10 @@
             "type": "u64"
           },
           {
+            "name": "issuer_fee",
+            "type": "u64"
+          },
+          {
             "name": "min_out",
             "type": "u64"
           },
@@ -2024,6 +2276,31 @@
       }
     },
     {
+      "name": "GuardedSwapParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "side",
+            "type": {
+              "defined": {
+                "name": "SwapSide"
+              }
+            }
+          },
+          {
+            "name": "amount_in",
+            "docs": ["USDC base units for a buy, raw asset units for a sell."],
+            "type": "u64"
+          },
+          {
+            "name": "band_bps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
       "name": "HoldingConverted",
       "type": {
         "kind": "struct",
@@ -2046,6 +2323,10 @@
           },
           {
             "name": "out_amount",
+            "type": "u64"
+          },
+          {
+            "name": "issuer_fee",
             "type": "u64"
           },
           {
