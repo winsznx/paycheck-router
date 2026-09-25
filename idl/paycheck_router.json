@@ -64,6 +64,40 @@
       ]
     },
     {
+      "name": "close_paycheck",
+      "discriminator": [112, 110, 153, 17, 119, 253, 213, 73],
+      "accounts": [
+        {
+          "name": "paycheck",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 97, 121, 99, 104, 101, 99, 107]
+              },
+              {
+                "kind": "account",
+                "path": "paycheck.router",
+                "account": "Paycheck"
+              },
+              {
+                "kind": "account",
+                "path": "paycheck.seq",
+                "account": "Paycheck"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rent_payer",
+          "writable": true,
+          "relations": ["paycheck"]
+        }
+      ],
+      "args": []
+    },
+    {
       "name": "close_router",
       "discriminator": [6, 38, 17, 63, 66, 31, 67, 174],
       "accounts": [
@@ -284,6 +318,486 @@
         }
       ],
       "args": []
+    },
+    {
+      "name": "execute_leg",
+      "discriminator": [157, 202, 139, 249, 134, 122, 161, 102],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "router.owner",
+                "account": "Router"
+              }
+            ]
+          },
+          "relations": ["paycheck"]
+        },
+        {
+          "name": "paycheck",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 97, 121, 99, 104, 101, 99, 107]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              },
+              {
+                "kind": "account",
+                "path": "paycheck.seq",
+                "account": "Paycheck"
+              }
+            ]
+          }
+        },
+        {
+          "name": "asset",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 115, 115, 101, 116]
+              },
+              {
+                "kind": "account",
+                "path": "asset.mint",
+                "account": "Asset"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 117, 116, 104, 111, 114, 105, 116, 121]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pay_in",
+          "writable": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "authority_usdc",
+          "writable": true
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "destination",
+          "writable": true
+        },
+        {
+          "name": "asset_mint"
+        },
+        {
+          "name": "price_update",
+          "docs": ["verification level, feed and age are checked in the handler."]
+        },
+        {
+          "name": "price_update_247",
+          "optional": true
+        },
+        {
+          "name": "usdc_price_update"
+        },
+        {
+          "name": "jupiter_program"
+        },
+        {
+          "name": "usdc_token_program"
+        },
+        {
+          "name": "asset_token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "leg_index",
+          "type": "u8"
+        },
+        {
+          "name": "swap_data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "execute_leg_owner",
+      "discriminator": [203, 30, 69, 252, 236, 66, 75, 83],
+      "accounts": [
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          },
+          "relations": ["paycheck"]
+        },
+        {
+          "name": "paycheck",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 97, 121, 99, 104, 101, 99, 107]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              },
+              {
+                "kind": "account",
+                "path": "paycheck.seq",
+                "account": "Paycheck"
+              }
+            ]
+          }
+        },
+        {
+          "name": "asset",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 115, 115, 101, 116]
+              },
+              {
+                "kind": "account",
+                "path": "asset.mint",
+                "account": "Asset"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 117, 116, 104, 111, 114, 105, 116, 121]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pay_in",
+          "writable": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "authority_usdc",
+          "writable": true
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "destination",
+          "writable": true
+        },
+        {
+          "name": "asset_mint"
+        },
+        {
+          "name": "price_update",
+          "optional": true
+        },
+        {
+          "name": "price_update_247",
+          "optional": true
+        },
+        {
+          "name": "instructions_sysvar",
+          "optional": true,
+          "address": "Sysvar1nstructions1111111111111111111111111"
+        },
+        {
+          "name": "usdc_price_update"
+        },
+        {
+          "name": "jupiter_program"
+        },
+        {
+          "name": "usdc_token_program"
+        },
+        {
+          "name": "asset_token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "leg_index",
+          "type": "u8"
+        },
+        {
+          "name": "band_bps",
+          "type": "u16"
+        },
+        {
+          "name": "swap_data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "execute_prestock_leg",
+      "discriminator": [253, 170, 57, 240, 239, 101, 139, 101],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "router.owner",
+                "account": "Router"
+              }
+            ]
+          },
+          "relations": ["paycheck"]
+        },
+        {
+          "name": "paycheck",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 97, 121, 99, 104, 101, 99, 107]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              },
+              {
+                "kind": "account",
+                "path": "paycheck.seq",
+                "account": "Paycheck"
+              }
+            ]
+          }
+        },
+        {
+          "name": "asset",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 115, 115, 101, 116]
+              },
+              {
+                "kind": "account",
+                "path": "asset.mint",
+                "account": "Asset"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 117, 116, 104, 111, 114, 105, 116, 121]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pay_in",
+          "writable": true,
+          "relations": ["router"]
+        },
+        {
+          "name": "authority_usdc",
+          "writable": true
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "destination",
+          "writable": true
+        },
+        {
+          "name": "asset_mint"
+        },
+        {
+          "name": "instructions_sysvar",
+          "address": "Sysvar1nstructions1111111111111111111111111"
+        },
+        {
+          "name": "usdc_price_update"
+        },
+        {
+          "name": "jupiter_program"
+        },
+        {
+          "name": "usdc_token_program"
+        },
+        {
+          "name": "asset_token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "leg_index",
+          "type": "u8"
+        },
+        {
+          "name": "swap_data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "expire_leg",
+      "discriminator": [67, 128, 192, 209, 180, 197, 183, 48],
+      "accounts": [
+        {
+          "name": "router",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [114, 111, 117, 116, 101, 114]
+              },
+              {
+                "kind": "account",
+                "path": "router.owner",
+                "account": "Router"
+              }
+            ]
+          },
+          "relations": ["paycheck"]
+        },
+        {
+          "name": "paycheck",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 97, 121, 99, 104, 101, 99, 107]
+              },
+              {
+                "kind": "account",
+                "path": "router"
+              },
+              {
+                "kind": "account",
+                "path": "paycheck.seq",
+                "account": "Paycheck"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "leg_index",
+          "type": "u8"
+        }
+      ]
     },
     {
       "name": "initialize_config",
@@ -1687,6 +2201,10 @@
             "type": "u64"
           },
           {
+            "name": "issuer_fee",
+            "type": "u64"
+          },
+          {
             "name": "min_out",
             "type": "u64"
           },
@@ -1794,6 +2312,7 @@
           },
           {
             "name": "out_amount",
+            "docs": ["Shares the owner's account gained, net of any issuer transfer fee."],
             "type": "u64"
           },
           {
@@ -1807,6 +2326,14 @@
           {
             "name": "executed_at",
             "type": "i64"
+          },
+          {
+            "name": "issuer_fee",
+            "docs": [
+              "Issuer transfer fee withheld in the destination (Token-2022",
+              "TransferFeeConfig mints such as PreStocks); zero otherwise."
+            ],
+            "type": "u64"
           }
         ]
       }
