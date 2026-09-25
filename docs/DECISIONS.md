@@ -2,6 +2,12 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: PreStocks tokens charge a Token-2022 transfer fee, and marks are per scaled token
+
+**Observed.** Every PreStocks mint is Token-2022 with 9 decimals and a TransferFee extension: 100 bps from epoch 1039, rising to 300 bps from epoch 1043 (about 27 hours after this check), with no maximum. The fee is withheld in the receiving account. The OpenAI mint also carries a Scaled UI multiplier of 1.4861347, in effect since Jul 17, 2026, and the PreStocks API quotes `markPrice` and `tokenPrice` per scaled token. xStocks have no transfer fee. On a fork, $100 of USDC bought OpenAI in one transfer from the Manifest vault straight into the owner's account: 49,891,236 raw gross, 498,913 withheld, 49,392,323 received. That is $1,349 per scaled token against a $1,023.70 mark. Evidence: `evidence/day-one/prestocks-fee-2026-09-25T11-04-30-889Z.json`.
+
+**Changed.** The guard compares price with the reference on the gross output: the owner's balance change plus the change in the account's withheld fee must reach the minimum. The issuer's transfer fee is read onchain, recorded per slice as `issuer_fee`, and reported as a cost next to the 0.20% protocol fee. It is included in all-in cost per $100 and never folded into the price band. Counting it inside the band would stop every PreStocks slice from buying once the fee reaches 300 bps, and the band exists to catch overpaying the market, not issuer fees. The multiplier applies to pre-IPO slices exactly as it does to xStocks.
+
 ## 2026-09-25: Three contrast pairs adjusted to meet WCAG AA
 
 **Observed.** Measured against the design tokens, dark `--text-3` on `--surface-1` is 4.47:1, light `--text-3` on `--surface-2` is 4.49:1, and near-black text on the light danger fill `#c2183a` is 3.28:1. All three are under the 4.5:1 AA floor.
