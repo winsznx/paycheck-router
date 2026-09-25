@@ -5,6 +5,7 @@ import { secureHeaders } from "hono/secure-headers";
 import { allowedOrigins, ConfigError } from "./config.ts";
 import type { Env } from "./env.ts";
 import type { AppEnv, Services } from "./http/context.ts";
+import { idempotency } from "./http/idempotency.ts";
 import { ApiError, notFound, problemResponse } from "./http/problem.ts";
 import { log } from "./log.ts";
 import { authRoutes } from "./routes/auth.ts";
@@ -46,6 +47,8 @@ export function createApp(makeServices: ServicesFactory): Hono<AppEnv> {
       maxAge: 600,
     }),
   );
+
+  app.use(idempotency);
 
   app.onError((error, c) => {
     const id = c.var.requestId ?? "unknown";
