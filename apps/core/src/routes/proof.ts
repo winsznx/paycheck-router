@@ -52,37 +52,39 @@ function proofLeg(env: AppEnv["Bindings"], row: Row): api.ProofLeg | null {
 /** Public proof: the campaign totals and the latest executed slices, with no personal data. */
 proofRoutes.get("/proof", async (c) => {
   const { db, now } = c.var.services;
-  const [[paycheckCount], [executedCount], [verifiedCount], waits, medians, recent] =
-    await Promise.all([
-      db.select({ n: count() }).from(paychecks),
-      db
-        .select({ n: count() })
-        .from(legs)
-        .where(inArray(legs.status, ["executed", "verified", "unverified"])),
-      db.select({ n: count() }).from(legs).where(eq(legs.status, "verified")),
-      db
-        .select({ reason: attempts.reason, n: count() })
-        .from(attempts)
-        .where(and(isNotNull(attempts.reason), eq(attempts.outcome, "waiting")))
-        .groupBy(attempts.reason),
-      db
-        .select({
-          median: sql<
-            string | null
-          >`percentile_cont(0.5) within group (order by extract(epoch from ${legs.executedAt} - ${paychecks.recordedAt}))`,
-        })
-        .from(legs)
-        .innerJoin(paychecks, eq(paychecks.id, legs.paycheckId))
-        .where(isNotNull(legs.executedAt)),
-      db
-        .select({ leg: legs, paycheck: paychecks, verification: verifications })
-        .from(legs)
-        .innerJoin(paychecks, eq(paychecks.id, legs.paycheckId))
-        .leftJoin(verifications, eq(verifications.legId, legs.id))
-        .where(isNotNull(legs.executedSig))
-        .orderBy(desc(legs.executedAt))
-        .limit(20),
-    ]);
+  // One statement at a time: the demo database (PGlite behind a wire server) cannot interleave
+  // pipelined statements on a connection.
+  const [paycheckCount] = await db.select({ n: count() }).from(paychecks);
+  const [executedCount] = await db
+    .select({ n: count() })
+    .from(legs)
+    .where(inArray(legs.status, ["executed", "verified", "unverified"]));
+  const [verifiedCount] = await db
+    .select({ n: count() })
+    .from(legs)
+    .where(eq(legs.status, "verified"));
+  const waits = await db
+    .select({ reason: attempts.reason, n: count() })
+    .from(attempts)
+    .where(and(isNotNull(attempts.reason), eq(attempts.outcome, "waiting")))
+    .groupBy(attempts.reason);
+  const medians = await db
+    .select({
+      median: sql<
+        string | null
+      >`percentile_cont(0.5) within group (order by extract(epoch from ${legs.executedAt} - ${paychecks.recordedAt}))`,
+    })
+    .from(legs)
+    .innerJoin(paychecks, eq(paychecks.id, legs.paycheckId))
+    .where(isNotNull(legs.executedAt));
+  const recent = await db
+    .select({ leg: legs, paycheck: paychecks, verification: verifications })
+    .from(legs)
+    .innerJoin(paychecks, eq(paychecks.id, legs.paycheckId))
+    .leftJoin(verifications, eq(verifications.legId, legs.id))
+    .where(isNotNull(legs.executedSig))
+    .orderBy(desc(legs.executedAt))
+    .limit(20);
   const median = medians[0]?.median;
   const body: api.ProofResponse = {
     environment: environment(c.env),

@@ -23,9 +23,9 @@ routerRoutes.get("/routers", async (c) => {
   const { userId } = sessionOf(c);
   await syncUserRouters(c.env, services, userId);
   const rows = await routersOf(services.db, userId);
-  const body: api.RoutersResponse = {
-    routers: await Promise.all(rows.map((row) => routerView(c.env, services, row))),
-  };
+  const views: api.Router[] = [];
+  for (const row of rows) views.push(await routerView(c.env, services, row));
+  const body: api.RoutersResponse = { routers: views };
   return c.json(body);
 });
 
