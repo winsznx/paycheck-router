@@ -2,6 +2,12 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: A rejected price feed makes only its own slices wait
+
+**Observed.** One Hermes request carries every feed a paycheck's slices need. When Hermes rejects one feed (403, not entitled), the whole update fails, so a PreStocks slice that only needs USDC/USD would wait behind an xStock slice whose equity feed is rejected.
+
+**Changed.** The first request still batches every feed. If Hermes rejects named feeds, the crank drops them and retries with the rest in the same run. Slices that needed only the rejected feeds wait with a new reason, `PRICE_UNAVAILABLE` (retried every 15 minutes, with the Hermes response kept as evidence). Every other slice proceeds. No slice ever buys without its own verified reference.
+
 ## 2026-09-25: A Pyth Terminal key covers crypto feeds only until equity grants are added
 
 **Observed.** With a fresh Pyth Terminal API key, Hermes returns a signed update for `Crypto.USDC/USD` (200). It returns 403 for `Equity.US.*` regular-session feeds ("Not entitled … asset type 'equity'"), for the 24/7 equity and pre-IPO feeds ("gated feed; requires group pyth-indices") and for FX feeds. Checked at 13:08 WAT.
