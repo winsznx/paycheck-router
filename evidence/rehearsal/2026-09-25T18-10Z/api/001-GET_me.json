@@ -1,0 +1,24 @@
+{
+  "method": "GET",
+  "path": "/me",
+  "status": 200,
+  "body": {
+    "id": "a9d7b8d9-7b3e-4393-9a48-d2f966980e27",
+    "email": null,
+    "locale": "en",
+    "refCurrency": "USD",
+    "countryDeclared": null,
+    "countryIp": "NG",
+    "eligibilityStatus": "pending",
+    "tosVersion": null,
+    "riskAckVersion": null,
+    "ackedAt": null,
+    "wallets": [
+      {
+        "address": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+        "kind": "external"
+      }
+    ],
+    "createdAt": "2026-09-25T18:09:24.762Z"
+  }
+}

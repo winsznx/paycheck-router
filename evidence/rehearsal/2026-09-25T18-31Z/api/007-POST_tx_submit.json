@@ -1,0 +1,16 @@
+{
+  "method": "POST",
+  "path": "/tx/submit",
+  "status": 200,
+  "body": {
+    "signature": "86LgWcsAYrUCjgCmZjpRZmwA9nvUhQJDtvrFJhAb4dixtgPzRQWyYgCuvTFjpKVVAa8RRbGUfZTKosvzLGdVDvP",
+    "status": "confirmed",
+    "error": null,
+    "links": [
+      {
+        "label": "Explorer",
+        "url": "https://explorer.solana.com/tx/86LgWcsAYrUCjgCmZjpRZmwA9nvUhQJDtvrFJhAb4dixtgPzRQWyYgCuvTFjpKVVAa8RRbGUfZTKosvzLGdVDvP?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+      }
+    ]
+  }
+}

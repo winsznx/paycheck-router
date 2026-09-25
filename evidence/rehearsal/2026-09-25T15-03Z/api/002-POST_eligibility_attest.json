@@ -1,0 +1,17 @@
+{
+  "method": "POST",
+  "path": "/eligibility/attest",
+  "status": 200,
+  "body": {
+    "status": "eligible",
+    "countryDeclared": "NG",
+    "countryIp": "NG",
+    "countryMismatch": false,
+    "sanctions": [
+      {
+        "address": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+        "status": "not_configured"
+      }
+    ]
+  }
+}

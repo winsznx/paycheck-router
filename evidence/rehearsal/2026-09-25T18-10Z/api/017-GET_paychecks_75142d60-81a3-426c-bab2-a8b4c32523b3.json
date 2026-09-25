@@ -1,0 +1,155 @@
+{
+  "method": "GET",
+  "path": "/paychecks/75142d60-81a3-426c-bab2-a8b4c32523b3",
+  "status": 200,
+  "body": {
+    "id": "75142d60-81a3-426c-bab2-a8b4c32523b3",
+    "routerId": "3f5f43ce-beb9-48df-81b3-fe59b2dfad00",
+    "seq": "0",
+    "paycheckPda": "86p8DmfvC4abd1aDutoeJC7nYNWih3FgvQKAKaKZqnfN",
+    "inflow": "1850000000",
+    "investTotal": "370000000",
+    "sender": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "inflowSig": "3HBMYe5bMXKh3dHaFdpBYP2kKLWrPzrzGJ9GimefjrsL1yTxiFg8jLRhwUqMaPp7SBNnhNRfXtBbkmTvmoHSVz83",
+    "recordedSig": "5YaTsJQ7qgz67qMh5KWjWgDCnjjV1t4DYbxYZ8nhRcgeZD1zfG6RR3QZW2zFWXhWKCBXQHN9AxhKzmtK5bdXEsYM",
+    "recordedAt": "2026-09-25T18:09:33.000Z",
+    "expiresAt": "2026-09-28T18:09:33.000Z",
+    "status": "open",
+    "legs": [
+      {
+        "id": "cd8ed724-e168-4c0d-bbe9-e82411cd7845",
+        "idx": 0,
+        "mint": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+        "symbol": "SPYx",
+        "amountIn": "222000000",
+        "status": "waiting",
+        "waitReason": "PRICE_UNAVAILABLE",
+        "nextAttemptAt": "2026-09-25T18:24:38.999Z",
+        "outAmount": null,
+        "fee": null,
+        "issuerFee": null,
+        "uiMultiplier": null,
+        "sharesUi": null,
+        "refPriceE9": null,
+        "execPriceE9": null,
+        "premiumBps": null,
+        "executedSig": null,
+        "executedAt": null,
+        "verifiedAt": null,
+        "attempts": [
+          {
+            "attemptNo": 0,
+            "kind": "simulate",
+            "outcome": "waiting",
+            "programErrorCode": null,
+            "reason": "PRICE_UNAVAILABLE",
+            "signature": null,
+            "priorityFeeLamports": null,
+            "cuUsed": null,
+            "createdAt": "2026-09-25T18:09:39.106Z"
+          }
+        ],
+        "verification": null,
+        "links": []
+      },
+      {
+        "id": "adf798cd-8f9c-4dc1-a043-8d217a375f12",
+        "idx": 1,
+        "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+        "symbol": "NVDAx",
+        "amountIn": "74000000",
+        "status": "waiting",
+        "waitReason": "PRICE_UNAVAILABLE",
+        "nextAttemptAt": "2026-09-25T18:24:39.004Z",
+        "outAmount": null,
+        "fee": null,
+        "issuerFee": null,
+        "uiMultiplier": null,
+        "sharesUi": null,
+        "refPriceE9": null,
+        "execPriceE9": null,
+        "premiumBps": null,
+        "executedSig": null,
+        "executedAt": null,
+        "verifiedAt": null,
+        "attempts": [
+          {
+            "attemptNo": 0,
+            "kind": "simulate",
+            "outcome": "waiting",
+            "programErrorCode": null,
+            "reason": "PRICE_UNAVAILABLE",
+            "signature": null,
+            "priorityFeeLamports": null,
+            "cuUsed": null,
+            "createdAt": "2026-09-25T18:09:39.110Z"
+          }
+        ],
+        "verification": null,
+        "links": []
+      },
+      {
+        "id": "4fc2ee2e-df36-4f9e-b6fd-7a83a38ba4ab",
+        "idx": 2,
+        "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+        "symbol": "Anthropic",
+        "amountIn": "37000000",
+        "status": "executing",
+        "waitReason": null,
+        "nextAttemptAt": null,
+        "outAmount": null,
+        "fee": null,
+        "issuerFee": null,
+        "uiMultiplier": null,
+        "sharesUi": null,
+        "refPriceE9": null,
+        "execPriceE9": null,
+        "premiumBps": null,
+        "executedSig": null,
+        "executedAt": null,
+        "verifiedAt": null,
+        "attempts": [],
+        "verification": null,
+        "links": []
+      },
+      {
+        "id": "39f9b65d-f2a7-4656-ba63-6956694a846e",
+        "idx": 3,
+        "mint": "PreweJYECqtQwBtpxHL171nL2K6umo692gTm7Q3rpgF",
+        "symbol": "OpenAI",
+        "amountIn": "37000000",
+        "status": "pending",
+        "waitReason": null,
+        "nextAttemptAt": null,
+        "outAmount": null,
+        "fee": null,
+        "issuerFee": null,
+        "uiMultiplier": null,
+        "sharesUi": null,
+        "refPriceE9": null,
+        "execPriceE9": null,
+        "premiumBps": null,
+        "executedSig": null,
+        "executedAt": null,
+        "verifiedAt": null,
+        "attempts": [],
+        "verification": null,
+        "links": []
+      }
+    ],
+    "links": [
+      {
+        "label": "Inflow",
+        "url": "https://explorer.solana.com/tx/3HBMYe5bMXKh3dHaFdpBYP2kKLWrPzrzGJ9GimefjrsL1yTxiFg8jLRhwUqMaPp7SBNnhNRfXtBbkmTvmoHSVz83?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+      },
+      {
+        "label": "Paycheck account",
+        "url": "https://explorer.solana.com/address/86p8DmfvC4abd1aDutoeJC7nYNWih3FgvQKAKaKZqnfN?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+      },
+      {
+        "label": "record_paycheck",
+        "url": "https://explorer.solana.com/tx/5YaTsJQ7qgz67qMh5KWjWgDCnjjV1t4DYbxYZ8nhRcgeZD1zfG6RR3QZW2zFWXhWKCBXQHN9AxhKzmtK5bdXEsYM?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+      }
+    ]
+  }
+}

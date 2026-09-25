@@ -1,0 +1,27 @@
+{
+  "runId": "2026-09-25T15-03Z",
+  "baseURL": "http://127.0.0.1:3200",
+  "apiUrl": "http://127.0.0.1:8787",
+  "startedAt": "2026-09-25T15:04:52.849Z",
+  "settled": false,
+  "screenshots": [
+    "onboarding-done.png"
+  ],
+  "apiResponses": "evidence/rehearsal/2026-09-25T15-03Z/api",
+  "demoRecordLogs": ".demo/ in the checkout that ran pnpm demo:record",
+  "bundle": null,
+  "notes": [
+    "pnpm demo:record writes no evidence bundle; its surfpool, core and web logs are in .demo/.",
+    "Session, auth and realtime traffic is not recorded because it carries tokens."
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+  ],
+  "onboardedAt": "2026-09-25T15:05:07.022Z",
+  "paycheckTriggeredAt": "2026-09-25T15:05:07.166Z",
+  "paycheckId": "9688c10c-b874-4c9f-9319-91c86f1f4a65",
+  "finishedAt": "2026-09-25T15:05:15.106Z"
+}

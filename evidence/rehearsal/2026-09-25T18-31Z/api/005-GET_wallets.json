@@ -1,0 +1,21 @@
+{
+  "method": "GET",
+  "path": "/wallets",
+  "status": 200,
+  "body": {
+    "wallets": [
+      {
+        "id": "cf71edac-8e97-4899-acb0-21cbf686b7d4",
+        "address": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+        "kind": "external",
+        "verifiedAt": "2026-09-25T18:30:02.137Z",
+        "sanctionsStatus": "not_configured",
+        "payInAta": "AecooygcVfjSsaz26rcXDZg5ay46XTV5EfvtxYP1QLJM",
+        "payInAtaExists": false,
+        "usdcBalance": "0",
+        "routerPda": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e",
+        "hasRouter": false
+      }
+    ]
+  }
+}
