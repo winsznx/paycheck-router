@@ -27,6 +27,37 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
 
+  program:
+    runs-on: ubuntu-24.04
+    env:
+      AGAVE_VERSION: v2.1.11
+      SBF_TOOLS_VERSION: v1.52
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - uses: Swatinem/rust-cache@v2
+      - name: Install Agave CLI
+        run: |
+          sh -c "$(curl -sSfL https://release.anza.xyz/${AGAVE_VERSION}/install)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> "$GITHUB_PATH"
+      - name: Install Anchor CLI
+        run: npm install -g @anchor-lang/cli@1.0.2
+      - name: Build
+        run: |
+          anchor build
+          cargo build-sbf --tools-version "${SBF_TOOLS_VERSION}" \
+            --manifest-path programs/paycheck_router/test-programs/test_swap/Cargo.toml \
+            --sbf-out-dir target/deploy
+      - name: IDL is committed and current
+        run: |
+          npx --yes @biomejs/biome@2.5.14 format --write target/idl/paycheck_router.json
+          diff <(python3 -m json.tool target/idl/paycheck_router.json) <(python3 -m json.tool idl/paycheck_router.json)
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --workspace --all-targets -- -D warnings
+      - run: cargo test -p paycheck_router
+
   secrets:
     runs-on: ubuntu-24.04
     steps:
