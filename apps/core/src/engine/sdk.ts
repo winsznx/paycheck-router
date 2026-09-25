@@ -20,6 +20,7 @@ import {
 import { fetchAddressLookupTable } from "@solana-program/address-lookup-table";
 import { routerPdaFor } from "../chain/accounts.ts";
 import { hotSigner } from "../chain/keys.ts";
+import { multiplierFromE12 } from "../chain/shares.ts";
 import { chainEndpoints } from "../config.ts";
 import { throughGate } from "../do/rate-gate.ts";
 import type { Env } from "../env.ts";
@@ -113,6 +114,7 @@ function outcomeOf(job: LegJob, run: sdk.LegRun<Executed>): LegOutcome {
         outAmount: last.event.outAmount,
         fee: last.event.fee,
         issuerFee: last.event.issuerFee,
+        uiMultiplier: multiplierFromE12(last.event.multiplierE12),
         refPriceE9: last.event.refPriceE9,
         execPriceE9: execPriceE9(last.event, decimals),
         premiumBps: Number(sdk.legCosts(view, decimals).premiumBps),

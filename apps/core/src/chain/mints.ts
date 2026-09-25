@@ -63,3 +63,38 @@ export async function mintTerms(
   });
   return out;
 }
+
+/**
+ * The Scaled UI multiplier each mint applies at `now`, as the decimal string the mint stores
+ * (null when the mint has no ScaledUiAmount extension).
+ */
+export async function multiplierNow(
+  chain: ChainClient,
+  mints: readonly string[],
+  now: Date,
+): Promise<Map<string, string | null>> {
+  const out = new Map<string, string | null>();
+  if (mints.length === 0) return out;
+  const { value } = await chain.rpc
+    .getMultipleAccounts(mints.map(address), { encoding: "jsonParsed", commitment: "confirmed" })
+    .send();
+  const nowSecs = Math.floor(now.getTime() / 1000);
+  mints.forEach((mint, index) => {
+    const account = value[index] as {
+      data?: { parsed?: { info?: { extensions?: Extension[] } } };
+    } | null;
+    const scaled = account?.data?.parsed?.info?.extensions?.find(
+      (ext) => ext.extension === "scaledUiAmountConfig",
+    )?.state;
+    if (!scaled?.multiplier) {
+      out.set(mint, null);
+      return;
+    }
+    const switched =
+      scaled.newMultiplier !== undefined &&
+      scaled.newMultiplierEffectiveTimestamp !== undefined &&
+      nowSecs >= scaled.newMultiplierEffectiveTimestamp;
+    out.set(mint, switched ? (scaled.newMultiplier ?? scaled.multiplier) : scaled.multiplier);
+  });
+  return out;
+}

@@ -2,6 +2,8 @@ import { api, assetByMint, TOKEN_2022_PROGRAM_ID } from "@paycheck-router/shared
 import { address } from "@solana/kit";
 import { and, desc, eq, inArray, lt } from "drizzle-orm";
 import { Hono } from "hono";
+import { multiplierNow } from "../chain/mints.ts";
+import { sharesUi } from "../chain/shares.ts";
 import { explorerAddressUrl, explorerTxUrl } from "../config.ts";
 import type { Db } from "../db/client.ts";
 import { attempts, legs, paychecks, routerLegs, routers, verifications } from "../db/schema.ts";
@@ -40,6 +42,11 @@ export function legApi(leg: LegRecord): api.Leg {
     outAmount: str(leg.outAmount),
     fee: str(leg.fee),
     issuerFee: str(leg.issuerFee),
+    uiMultiplier: leg.uiMultiplier,
+    sharesUi:
+      leg.outAmount !== null && leg.uiMultiplier !== null
+        ? sharesUi(leg.outAmount, assetByMint(leg.assetMint)?.decimals ?? 0, leg.uiMultiplier)
+        : null,
     refPriceE9: str(leg.refPriceE9),
     execPriceE9: str(leg.execPriceE9),
     premiumBps: leg.premiumBps,
@@ -311,7 +318,7 @@ paycheckRoutes.get("/portfolio", async (c) => {
             ),
           );
 
-  const balances = new Map<string, { amount: bigint; decimals: number; ui: string }>();
+  const balances = new Map<string, { amount: bigint; decimals: number }>();
   for (const router of owned) {
     const { value } = await chain.rpc
       .getTokenAccountsByOwner(
@@ -325,8 +332,7 @@ paycheckRoutes.get("/portfolio", async (c) => {
       if (!assetByMint(info.mint)) continue;
       const prior = balances.get(info.mint);
       const amount = BigInt(info.tokenAmount.amount) + (prior?.amount ?? 0n);
-      const ui = info.tokenAmount.uiAmountString ?? "0";
-      balances.set(info.mint, { amount, decimals: info.tokenAmount.decimals, ui });
+      balances.set(info.mint, { amount, decimals: info.tokenAmount.decimals });
     }
   }
 
@@ -341,6 +347,12 @@ paycheckRoutes.get("/portfolio", async (c) => {
     };
   });
   const board = await priceBoard(c.env, pricing, now());
+  const multipliers = await multiplierNow(chain, mints, now());
+  const uiShares = (mint: string): string => {
+    const balance = balances.get(mint);
+    const decimals = balance?.decimals ?? assetByMint(mint)?.decimals ?? 0;
+    return sharesUi(balance?.amount ?? 0n, decimals, multipliers.get(mint) ?? "1");
+  };
 
   const cost = new Map<string, bigint>();
   let invested = 0n;
@@ -358,7 +370,7 @@ paycheckRoutes.get("/portfolio", async (c) => {
     values.set(
       mint,
       balance && reference
-        ? (scaled(balance.ui, 9) * reference.priceE9) / 10n ** 12n
+        ? (scaled(uiShares(mint), 9) * reference.priceE9) / 10n ** 12n
         : balance
           ? null
           : 0n,
@@ -376,6 +388,8 @@ paycheckRoutes.get("/portfolio", async (c) => {
       symbol: assetByMint(mint)?.symbol ?? mint.slice(0, 4),
       amountRaw: (balances.get(mint)?.amount ?? 0n).toString(),
       decimals: balances.get(mint)?.decimals ?? assetByMint(mint)?.decimals ?? 0,
+      uiMultiplier: multipliers.get(mint) ?? null,
+      sharesUi: uiShares(mint),
       valueUsdc: value?.toString() ?? null,
       costBasisUsdc: basis.toString(),
       pnlUsdc: value === null ? null : (value - basis).toString(),

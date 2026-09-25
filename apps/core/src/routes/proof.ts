@@ -1,6 +1,7 @@
 import { api, assetByMint } from "@paycheck-router/shared";
 import { and, count, desc, eq, inArray, isNotNull, sql } from "drizzle-orm";
 import { Hono } from "hono";
+import { sharesUi } from "../chain/shares.ts";
 import { environment, explorerTxUrl } from "../config.ts";
 import { attempts, legs, paychecks, verifications } from "../db/schema.ts";
 import type { AppEnv } from "../http/context.ts";
@@ -30,6 +31,11 @@ function proofLeg(env: AppEnv["Bindings"], row: Row): api.ProofLeg | null {
     outAmount: (leg.outAmount ?? 0n).toString(),
     fee: (leg.fee ?? 0n).toString(),
     issuerFee: (leg.issuerFee ?? 0n).toString(),
+    uiMultiplier: leg.uiMultiplier,
+    sharesUi:
+      leg.outAmount !== null && leg.uiMultiplier !== null
+        ? sharesUi(leg.outAmount, assetByMint(leg.assetMint)?.decimals ?? 0, leg.uiMultiplier)
+        : null,
     refPriceE9: leg.refPriceE9?.toString() ?? null,
     execPriceE9: leg.execPriceE9?.toString() ?? null,
     premiumBps: leg.premiumBps,
