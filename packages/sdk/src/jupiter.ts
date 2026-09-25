@@ -2,6 +2,7 @@ import {
   FORK_EXCLUDED_DEXES,
   JUPITER_BUILD_URL,
   JUPITER_MAX_ACCOUNTS,
+  PDA_TAKER_EXCLUDED_DEXES,
 } from "@paycheck-router/shared";
 import {
   AccountRole,
@@ -61,6 +62,8 @@ export type JupiterBuildParams = {
   slippageBps: number;
   /** True on surfnets, where proprietary AMMs quote zero from stale state. */
   surfnet: boolean;
+  /** More DEX labels to exclude on a surfnet, learned from routes that failed there. */
+  forkExcludedDexes?: readonly string[];
 };
 
 export type JupiterClientOptions = {
@@ -80,8 +83,17 @@ export function jupiterBuildQuery(params: JupiterBuildParams): URLSearchParams {
     slippageBps: String(params.slippageBps),
     maxAccounts: String(JUPITER_MAX_ACCOUNTS),
     computeUnitPricePercentile: "high",
+    // A route through SOL otherwise ends with a CloseAccount on the taker's wSOL account that
+    // the taker must sign, and the Authority PDA can only sign inside the program's CPI.
+    wrapAndUnwrapSol: "false",
   });
-  if (params.surfnet) query.set("excludeDexes", FORK_EXCLUDED_DEXES.join(","));
+  const excluded = new Set<string>(PDA_TAKER_EXCLUDED_DEXES);
+  if (params.surfnet) {
+    for (const dex of [...FORK_EXCLUDED_DEXES, ...(params.forkExcludedDexes ?? [])]) {
+      excluded.add(dex);
+    }
+  }
+  query.set("excludeDexes", [...excluded].join(","));
   return query;
 }
 
@@ -107,6 +119,20 @@ export class JupiterBuildError extends Error {
     super(`Jupiter build ${status}: ${body.slice(0, 500)}`);
     this.name = "JupiterBuildError";
   }
+}
+
+export const JUPITER_PROGRAM_LABELS_URL = "https://api.jup.ag/swap/v1/program-id-to-label";
+
+/** Jupiter's map from AMM program id to the DEX label `excludeDexes` takes. */
+export async function fetchProgramLabels(
+  options: JupiterClientOptions = {},
+): Promise<Record<string, string>> {
+  const headers: Record<string, string> = {};
+  if (options.apiKey) headers["x-api-key"] = options.apiKey;
+  const res = await (options.fetch ?? fetch)(JUPITER_PROGRAM_LABELS_URL, { headers });
+  const raw = await res.text();
+  if (!res.ok) throw new JupiterBuildError(res.status, raw);
+  return z.record(z.string(), z.string()).parse(JSON.parse(raw));
 }
 
 function roleOf(account: z.infer<typeof ApiAccount>): AccountRole {

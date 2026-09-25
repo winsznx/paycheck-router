@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { FORK_EXCLUDED_DEXES, USDC_MINT } from "@paycheck-router/shared";
+import { FORK_EXCLUDED_DEXES, PDA_TAKER_EXCLUDED_DEXES, USDC_MINT } from "@paycheck-router/shared";
 import { AccountRole, address } from "@solana/kit";
 import { describe, expect, it } from "vitest";
 import {
@@ -37,12 +37,22 @@ describe("jupiterBuildQuery", () => {
     expect(query.get("slippageBps")).toBe("50");
     expect(query.get("maxAccounts")).toBe("40");
     expect(query.get("computeUnitPricePercentile")).toBe("high");
+    expect(query.get("wrapAndUnwrapSol")).toBe("false");
     expect(query.get("amount")).toBe("19960000");
   });
 
-  it("excludes proprietary AMMs on surfnets only", () => {
-    expect(jupiterBuildQuery(params).get("excludeDexes")).toBe(FORK_EXCLUDED_DEXES.join(","));
-    expect(jupiterBuildQuery({ ...params, surfnet: false }).has("excludeDexes")).toBe(false);
+  it("excludes proprietary AMMs on surfnets only and PDA-incompatible DEXes everywhere", () => {
+    expect(jupiterBuildQuery(params).get("excludeDexes")).toBe(
+      [...PDA_TAKER_EXCLUDED_DEXES, ...FORK_EXCLUDED_DEXES].join(","),
+    );
+    expect(jupiterBuildQuery({ ...params, surfnet: false }).get("excludeDexes")).toBe(
+      PDA_TAKER_EXCLUDED_DEXES.join(","),
+    );
+    expect(
+      jupiterBuildQuery({ ...params, forkExcludedDexes: ["Flux"] })
+        .get("excludeDexes")
+        ?.endsWith(",Flux"),
+    ).toBe(true);
   });
 });
 
