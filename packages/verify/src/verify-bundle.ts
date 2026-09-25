@@ -138,6 +138,7 @@ async function checkExecuted(bundle: Bundle, leg: LegRecord, owner: Address): Pr
           fee: legState.fee,
           issuerFee: legState.issuerFee,
           refPriceE9: legState.refPriceE9,
+          executedAt: legState.executedAt,
         }
       : null,
     attestation: attestation
