@@ -295,6 +295,7 @@ create table legs (
   wait_reason text,
   out_amount bigint,
   fee bigint,
+  issuer_fee bigint,
   ref_price_e9 bigint,
   exec_price_e9 bigint,
   premium_bps integer,

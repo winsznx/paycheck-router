@@ -64,6 +64,7 @@ export const ProofLeg = z.object({
   amountIn: U64String,
   outAmount: U64String,
   fee: U64String,
+  issuerFee: U64String,
   refPriceE9: U64String.nullable(),
   execPriceE9: U64String.nullable(),
   premiumBps: z.number().int().nullable(),

@@ -362,6 +362,7 @@ export const legs = pgTable(
     waitReason: text("wait_reason"),
     outAmount: int64("out_amount"),
     fee: int64("fee"),
+    issuerFee: int64("issuer_fee"),
     refPriceE9: int64("ref_price_e9"),
     execPriceE9: int64("exec_price_e9"),
     premiumBps: integer("premium_bps"),
