@@ -50,9 +50,14 @@ import {
 } from "../accounts/index.ts";
 import {
   getCancelLegInstructionAsync,
+  getClosePaycheckInstruction,
   getCloseRouterInstructionAsync,
   getCreateRouterInstructionAsync,
   getEmergencyPauseInstructionAsync,
+  getExecuteLegInstructionAsync,
+  getExecuteLegOwnerInstructionAsync,
+  getExecutePrestockLegInstructionAsync,
+  getExpireLegInstruction,
   getInitializeConfigInstructionAsync,
   getRecordPaycheckInstructionAsync,
   getSetAssetStatusInstructionAsync,
@@ -64,9 +69,14 @@ import {
   getUpdateRouterInstructionAsync,
   getUpsertAssetInstructionAsync,
   parseCancelLegInstruction,
+  parseClosePaycheckInstruction,
   parseCloseRouterInstruction,
   parseCreateRouterInstruction,
   parseEmergencyPauseInstruction,
+  parseExecuteLegInstruction,
+  parseExecuteLegOwnerInstruction,
+  parseExecutePrestockLegInstruction,
+  parseExpireLegInstruction,
   parseInitializeConfigInstruction,
   parseRecordPaycheckInstruction,
   parseSetAssetStatusInstruction,
@@ -78,14 +88,24 @@ import {
   parseUpdateRouterInstruction,
   parseUpsertAssetInstruction,
   type CancelLegAsyncInput,
+  type ClosePaycheckInput,
   type CloseRouterAsyncInput,
   type CreateRouterAsyncInput,
   type EmergencyPauseAsyncInput,
+  type ExecuteLegAsyncInput,
+  type ExecuteLegOwnerAsyncInput,
+  type ExecutePrestockLegAsyncInput,
+  type ExpireLegInput,
   type InitializeConfigAsyncInput,
   type ParsedCancelLegInstruction,
+  type ParsedClosePaycheckInstruction,
   type ParsedCloseRouterInstruction,
   type ParsedCreateRouterInstruction,
   type ParsedEmergencyPauseInstruction,
+  type ParsedExecuteLegInstruction,
+  type ParsedExecuteLegOwnerInstruction,
+  type ParsedExecutePrestockLegInstruction,
+  type ParsedExpireLegInstruction,
   type ParsedInitializeConfigInstruction,
   type ParsedRecordPaycheckInstruction,
   type ParsedSetAssetStatusInstruction,
@@ -371,9 +391,14 @@ export function identifyPaycheckRouterEvent(
 
 export enum PaycheckRouterInstruction {
   CancelLeg,
+  ClosePaycheck,
   CloseRouter,
   CreateRouter,
   EmergencyPause,
+  ExecuteLeg,
+  ExecuteLegOwner,
+  ExecutePrestockLeg,
+  ExpireLeg,
   InitializeConfig,
   RecordPaycheck,
   SetAssetStatus,
@@ -400,6 +425,17 @@ export function identifyPaycheckRouterInstruction(
     )
   ) {
     return PaycheckRouterInstruction.CancelLeg;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([112, 110, 153, 17, 119, 253, 213, 73]),
+      ),
+      0,
+    )
+  ) {
+    return PaycheckRouterInstruction.ClosePaycheck;
   }
   if (
     containsBytes(
@@ -433,6 +469,50 @@ export function identifyPaycheckRouterInstruction(
     )
   ) {
     return PaycheckRouterInstruction.EmergencyPause;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([157, 202, 139, 249, 134, 122, 161, 102]),
+      ),
+      0,
+    )
+  ) {
+    return PaycheckRouterInstruction.ExecuteLeg;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([203, 30, 69, 252, 236, 66, 75, 83]),
+      ),
+      0,
+    )
+  ) {
+    return PaycheckRouterInstruction.ExecuteLegOwner;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([253, 170, 57, 240, 239, 101, 139, 101]),
+      ),
+      0,
+    )
+  ) {
+    return PaycheckRouterInstruction.ExecutePrestockLeg;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([67, 128, 192, 209, 180, 197, 183, 48]),
+      ),
+      0,
+    )
+  ) {
+    return PaycheckRouterInstruction.ExpireLeg;
   }
   if (
     containsBytes(
@@ -557,6 +637,9 @@ export type ParsedPaycheckRouterInstruction<
       instructionType: PaycheckRouterInstruction.CancelLeg;
     } & ParsedCancelLegInstruction<TProgram>)
   | ({
+      instructionType: PaycheckRouterInstruction.ClosePaycheck;
+    } & ParsedClosePaycheckInstruction<TProgram>)
+  | ({
       instructionType: PaycheckRouterInstruction.CloseRouter;
     } & ParsedCloseRouterInstruction<TProgram>)
   | ({
@@ -565,6 +648,18 @@ export type ParsedPaycheckRouterInstruction<
   | ({
       instructionType: PaycheckRouterInstruction.EmergencyPause;
     } & ParsedEmergencyPauseInstruction<TProgram>)
+  | ({
+      instructionType: PaycheckRouterInstruction.ExecuteLeg;
+    } & ParsedExecuteLegInstruction<TProgram>)
+  | ({
+      instructionType: PaycheckRouterInstruction.ExecuteLegOwner;
+    } & ParsedExecuteLegOwnerInstruction<TProgram>)
+  | ({
+      instructionType: PaycheckRouterInstruction.ExecutePrestockLeg;
+    } & ParsedExecutePrestockLegInstruction<TProgram>)
+  | ({
+      instructionType: PaycheckRouterInstruction.ExpireLeg;
+    } & ParsedExpireLegInstruction<TProgram>)
   | ({
       instructionType: PaycheckRouterInstruction.InitializeConfig;
     } & ParsedInitializeConfigInstruction<TProgram>)
@@ -608,6 +703,13 @@ export function parsePaycheckRouterInstruction<TProgram extends string>(
         ...parseCancelLegInstruction(instruction),
       };
     }
+    case PaycheckRouterInstruction.ClosePaycheck: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: PaycheckRouterInstruction.ClosePaycheck,
+        ...parseClosePaycheckInstruction(instruction),
+      };
+    }
     case PaycheckRouterInstruction.CloseRouter: {
       assertIsInstructionWithAccounts(instruction);
       return {
@@ -627,6 +729,34 @@ export function parsePaycheckRouterInstruction<TProgram extends string>(
       return {
         instructionType: PaycheckRouterInstruction.EmergencyPause,
         ...parseEmergencyPauseInstruction(instruction),
+      };
+    }
+    case PaycheckRouterInstruction.ExecuteLeg: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: PaycheckRouterInstruction.ExecuteLeg,
+        ...parseExecuteLegInstruction(instruction),
+      };
+    }
+    case PaycheckRouterInstruction.ExecuteLegOwner: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: PaycheckRouterInstruction.ExecuteLegOwner,
+        ...parseExecuteLegOwnerInstruction(instruction),
+      };
+    }
+    case PaycheckRouterInstruction.ExecutePrestockLeg: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: PaycheckRouterInstruction.ExecutePrestockLeg,
+        ...parseExecutePrestockLegInstruction(instruction),
+      };
+    }
+    case PaycheckRouterInstruction.ExpireLeg: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: PaycheckRouterInstruction.ExpireLeg,
+        ...parseExpireLegInstruction(instruction),
       };
     }
     case PaycheckRouterInstruction.InitializeConfig: {
@@ -735,6 +865,10 @@ export type PaycheckRouterPluginInstructions = {
     input: CancelLegAsyncInput,
   ) => ReturnType<typeof getCancelLegInstructionAsync> &
     SelfPlanAndSendFunctions;
+  closePaycheck: (
+    input: ClosePaycheckInput,
+  ) => ReturnType<typeof getClosePaycheckInstruction> &
+    SelfPlanAndSendFunctions;
   closeRouter: (
     input: CloseRouterAsyncInput,
   ) => ReturnType<typeof getCloseRouterInstructionAsync> &
@@ -747,6 +881,21 @@ export type PaycheckRouterPluginInstructions = {
     input: EmergencyPauseAsyncInput,
   ) => ReturnType<typeof getEmergencyPauseInstructionAsync> &
     SelfPlanAndSendFunctions;
+  executeLeg: (
+    input: ExecuteLegAsyncInput,
+  ) => ReturnType<typeof getExecuteLegInstructionAsync> &
+    SelfPlanAndSendFunctions;
+  executeLegOwner: (
+    input: ExecuteLegOwnerAsyncInput,
+  ) => ReturnType<typeof getExecuteLegOwnerInstructionAsync> &
+    SelfPlanAndSendFunctions;
+  executePrestockLeg: (
+    input: ExecutePrestockLegAsyncInput,
+  ) => ReturnType<typeof getExecutePrestockLegInstructionAsync> &
+    SelfPlanAndSendFunctions;
+  expireLeg: (
+    input: ExpireLegInput,
+  ) => ReturnType<typeof getExpireLegInstruction> & SelfPlanAndSendFunctions;
   initializeConfig: (
     input: InitializeConfigAsyncInput,
   ) => ReturnType<typeof getInitializeConfigInstructionAsync> &
@@ -820,6 +969,11 @@ export function paycheckRouterProgram() {
               client,
               getCancelLegInstructionAsync(input),
             ),
+          closePaycheck: (input) =>
+            addSelfPlanAndSendFunctions(
+              client,
+              getClosePaycheckInstruction(input),
+            ),
           closeRouter: (input) =>
             addSelfPlanAndSendFunctions(
               client,
@@ -838,6 +992,23 @@ export function paycheckRouterProgram() {
               client,
               getEmergencyPauseInstructionAsync(input),
             ),
+          executeLeg: (input) =>
+            addSelfPlanAndSendFunctions(
+              client,
+              getExecuteLegInstructionAsync(input),
+            ),
+          executeLegOwner: (input) =>
+            addSelfPlanAndSendFunctions(
+              client,
+              getExecuteLegOwnerInstructionAsync(input),
+            ),
+          executePrestockLeg: (input) =>
+            addSelfPlanAndSendFunctions(
+              client,
+              getExecutePrestockLegInstructionAsync(input),
+            ),
+          expireLeg: (input) =>
+            addSelfPlanAndSendFunctions(client, getExpireLegInstruction(input)),
           initializeConfig: (input) =>
             addSelfPlanAndSendFunctions(
               client,

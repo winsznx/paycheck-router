@@ -7,9 +7,14 @@
  */
 
 export * from "./cancelLeg.ts";
+export * from "./closePaycheck.ts";
 export * from "./closeRouter.ts";
 export * from "./createRouter.ts";
 export * from "./emergencyPause.ts";
+export * from "./executeLeg.ts";
+export * from "./executeLegOwner.ts";
+export * from "./executePrestockLeg.ts";
+export * from "./expireLeg.ts";
 export * from "./initializeConfig.ts";
 export * from "./recordPaycheck.ts";
 export * from "./setAssetStatus.ts";

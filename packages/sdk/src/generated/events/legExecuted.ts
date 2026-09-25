@@ -71,6 +71,7 @@ export type LegExecutedEvent = {
   swappedIn: bigint;
   dustReturned: bigint;
   outAmount: bigint;
+  issuerFee: bigint;
   minOut: bigint;
   refPriceE9: bigint;
   usdcPriceE9: bigint;
@@ -95,6 +96,7 @@ export type LegExecutedEventArgs = {
   swappedIn: number | bigint;
   dustReturned: number | bigint;
   outAmount: number | bigint;
+  issuerFee: number | bigint;
   minOut: number | bigint;
   refPriceE9: number | bigint;
   usdcPriceE9: number | bigint;
@@ -122,6 +124,7 @@ export function getLegExecutedEventEncoder(): Encoder<LegExecutedEventArgs> {
       ["swappedIn", getU64Encoder()],
       ["dustReturned", getU64Encoder()],
       ["outAmount", getU64Encoder()],
+      ["issuerFee", getU64Encoder()],
       ["minOut", getU64Encoder()],
       ["refPriceE9", getU64Encoder()],
       ["usdcPriceE9", getU64Encoder()],
@@ -152,6 +155,7 @@ export function getLegExecutedEventDecoder(): Decoder<LegExecutedEvent> {
       ["swappedIn", getU64Decoder()],
       ["dustReturned", getU64Decoder()],
       ["outAmount", getU64Decoder()],
+      ["issuerFee", getU64Decoder()],
       ["minOut", getU64Decoder()],
       ["refPriceE9", getU64Decoder()],
       ["usdcPriceE9", getU64Decoder()],

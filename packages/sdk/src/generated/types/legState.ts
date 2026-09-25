@@ -28,20 +28,32 @@ export type LegState = {
   mint: Address;
   amountIn: bigint;
   status: number;
+  /** Shares the owner's account gained, net of any issuer transfer fee. */
   outAmount: bigint;
   fee: bigint;
   refPriceE9: bigint;
   executedAt: bigint;
+  /**
+   * Issuer transfer fee withheld in the destination (Token-2022
+   * TransferFeeConfig mints such as PreStocks); zero otherwise.
+   */
+  issuerFee: bigint;
 };
 
 export type LegStateArgs = {
   mint: Address;
   amountIn: number | bigint;
   status: number;
+  /** Shares the owner's account gained, net of any issuer transfer fee. */
   outAmount: number | bigint;
   fee: number | bigint;
   refPriceE9: number | bigint;
   executedAt: number | bigint;
+  /**
+   * Issuer transfer fee withheld in the destination (Token-2022
+   * TransferFeeConfig mints such as PreStocks); zero otherwise.
+   */
+  issuerFee: number | bigint;
 };
 
 export function getLegStateEncoder(): FixedSizeEncoder<LegStateArgs> {
@@ -53,6 +65,7 @@ export function getLegStateEncoder(): FixedSizeEncoder<LegStateArgs> {
     ["fee", getU64Encoder()],
     ["refPriceE9", getU64Encoder()],
     ["executedAt", getI64Encoder()],
+    ["issuerFee", getU64Encoder()],
   ]);
 }
 
@@ -65,6 +78,7 @@ export function getLegStateDecoder(): FixedSizeDecoder<LegState> {
     ["fee", getU64Decoder()],
     ["refPriceE9", getU64Decoder()],
     ["executedAt", getI64Decoder()],
+    ["issuerFee", getU64Decoder()],
   ]);
 }
 

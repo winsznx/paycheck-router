@@ -98,6 +98,7 @@ const input: LegVerificationInput = {
     amountIn: event.amountIn,
     outAmount,
     fee: event.fee,
+    issuerFee: 0n,
     refPriceE9: event.refPriceE9,
   },
   attestation: null,
@@ -121,7 +122,7 @@ describe("verifyLeg", () => {
 
   it("fails when the destination received less than the event claims", async () => {
     const result = await verifyLeg({ ...input, transaction: transaction(outAmount - 1n) });
-    expect(failing(result)).toContain("destination received out_amount less the issuer fee");
+    expect(failing(result)).toContain("destination received out_amount");
   });
 
   it("fails without a chain readback", async () => {
