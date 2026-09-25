@@ -39,7 +39,7 @@ export async function setTokenBalance(
   await rpc("surfnet_setTokenAccount", params);
 }
 
-const KEYS_DIR =
+export const KEYS_DIR =
   process.env.PAYCHECK_ROUTER_KEYS_DIR ??
   resolve(import.meta.dirname, "..", "..", "internal", "keys");
 

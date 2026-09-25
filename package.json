@@ -15,6 +15,7 @@
     "lint": "biome check .",
     "format": "biome format --write .",
     "day-one": "tsx scripts/day-one/run.ts",
+    "demo:fork": "tsx scripts/demo-fork.ts",
     "e2e": "pnpm --filter @paycheck-router/e2e e2e"
   },
   "devDependencies": {
