@@ -1,0 +1,11 @@
+packages:
+  - apps/*
+  - packages/*
+  - tests/*
+  - scripts
+
+allowBuilds:
+  esbuild: true
+  workerd: true
+  sharp: true
+  "@biomejs/biome": true

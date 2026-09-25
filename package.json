@@ -1,0 +1,26 @@
+{
+  "name": "paycheck-router",
+  "private": true,
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@11.23.0",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "type": "module",
+  "scripts": {
+    "prepare": "git config core.hooksPath .githooks",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "day-one": "tsx scripts/day-one/run.ts"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@types/node": "22.20.4",
+    "tsx": "4.23.15",
+    "turbo": "2.11.3",
+    "typescript": "5.9.3"
+  }
+}
