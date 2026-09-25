@@ -22,4 +22,11 @@ export const FORK_EXCLUDED_DEXES = [
   "ZeroFi",
 ] as const;
 
+/**
+ * DEXes that require the swap's user to sign the transaction itself. The taker is the router's
+ * Authority PDA, which signs only inside the program's CPI, so these are excluded everywhere.
+ * Kipseli: `InvalidRealUser: real_user did not sign the transaction` (fork run, Sep 25).
+ */
+export const PDA_TAKER_EXCLUDED_DEXES = ["Kipseli"] as const;
+
 export const JUPITER_MAX_ACCOUNTS = 40;
