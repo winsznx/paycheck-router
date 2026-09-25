@@ -26,7 +26,7 @@ export async function SiteHeader() {
             <span />
             <span />
           </span>
-          <span>{t("wordmark")}</span>
+          <span className="site-brand__word">{t("wordmark")}</span>
         </Link>
         <nav aria-label={t("label")} className="site-nav">
           <ul>

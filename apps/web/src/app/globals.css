@@ -28,11 +28,13 @@
 }
 
 .stack {
+  grid-template-columns: minmax(0, 1fr);
   display: grid;
   gap: var(--space-4);
 }
 
 .stack-lg {
+  grid-template-columns: minmax(0, 1fr);
   display: grid;
   gap: var(--space-8);
 }

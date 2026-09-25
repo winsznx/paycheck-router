@@ -15,6 +15,7 @@ type TurnstileApi = {
       sitekey: string;
       language?: string;
       theme?: "dark" | "light" | "auto";
+      size?: "normal" | "compact" | "flexible";
       callback: (token: string) => void;
       "expired-callback": () => void;
       "error-callback": () => void;
@@ -57,6 +58,8 @@ export function WaitlistForm({ source }: { source: string }) {
       sitekey: turnstileSiteKey,
       language: locale,
       theme: "dark",
+      // The normal widget is 300 px wide; narrower containers (320 px phones) get the compact one.
+      size: element.clientWidth < 300 ? "compact" : "normal",
       callback: setToken,
       "expired-callback": () => setToken(null),
       "error-callback": () => setToken(null),

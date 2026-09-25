@@ -138,7 +138,7 @@
 }
 
 @media (min-width: 1024px) {
-  .landing-hero {
+  .landing-hero.landing-hero {
     grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
     align-items: center;
     padding-block: var(--space-16);
@@ -199,7 +199,7 @@
 }
 
 @media (min-width: 1024px) {
-  .calculator {
+  .calculator.calculator {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 
@@ -236,4 +236,50 @@
 .status-row {
   display: grid;
   gap: var(--space-2);
+}
+
+/* 320 px phones: the header keeps mark, Start and menu; the wordmark stays for screen readers. */
+.site-header__inner > * {
+  min-inline-size: 0;
+}
+
+@media (max-width: 379px) {
+  .site-brand__word {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+.landing-hero {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.landing-hero > *,
+.landing-section > *,
+.site-page > * {
+  min-inline-size: 0;
+}
+
+@media (max-width: 479px) {
+  .site-header__inner {
+    gap: var(--space-2);
+  }
+
+  .site-brand {
+    gap: var(--space-2);
+    font-size: 16px;
+  }
+}
+
+.calculator {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.calculator > *,
+.landing-start > * {
+  min-inline-size: 0;
 }
