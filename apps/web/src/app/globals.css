@@ -1,0 +1,45 @@
+/* App-level chrome. Design tokens and components come from @paycheck-router/ui. */
+
+.fork-banner {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 50;
+  padding: var(--space-2) var(--gutter);
+  padding-block-start: calc(var(--space-2) + env(safe-area-inset-top));
+  background: var(--warn);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.page {
+  inline-size: 100%;
+  max-inline-size: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.reading {
+  max-inline-size: var(--reading-max);
+}
+
+.stack {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.stack-lg {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
