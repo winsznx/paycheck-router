@@ -23,4 +23,6 @@ Every field as entered on the hackathons.solana.com form. Values that depend on 
 >
 > Pyth: every automatic buy is gated onchain by a posted, fully verified `PriceUpdateV2`, and each executed slice is re-checked against Hermes price history by an independent verifier CLI.
 >
-> Result: see the result line in the README (from `submission-facts.json`). Site and proof: links in the README.
+> Result on a Surfpool fork of mainnet (Sep 25, 2026): a $1,850 USDC paycheck from an employer wallet was detected 1.5 s after it landed and recorded onchain, with $370 invested across four slices. The Anthropic slice bought and verified at 0.40% over its signed mark. The OpenAI slice waited because it traded 30.4% over its mark. The SPYx and NVDAx slices waited because our Pyth API key lacks the US equities grant, and the program never buys without a verified price. A 32-run evaluation campaign is published with every failure: 20 of 20 executed slices verified; the guard held off buys 6% to 34% over mark, and replaying the same quotes without the guard would have overpaid $129.95; median all-in cost was $1.00 per $100 ($0.24 for xStocks, $1.75 for PreStocks including the issuer's 1% transfer fee).
+>
+> Check it yourself: `pnpm verify:bundle evidence/stocklana-fork` re-derives the canonical run from its raw artifacts, `pnpm verify:campaign` rebuilds every campaign number, and `pnpm demo:fork` replays a run from a clean clone.
