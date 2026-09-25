@@ -16,7 +16,10 @@
     "format": "biome format --write .",
     "day-one": "tsx scripts/day-one/run.ts",
     "demo:fork": "tsx scripts/demo-fork.ts",
-    "e2e": "pnpm --filter @paycheck-router/e2e e2e"
+    "e2e": "pnpm --filter @paycheck-router/e2e e2e",
+    "campaign": "tsx scripts/campaign/run.ts",
+    "campaign:summary": "tsx scripts/campaign/summary.ts",
+    "verify:campaign": "tsx scripts/campaign/verify.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
