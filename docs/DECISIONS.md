@@ -17,7 +17,7 @@ Observations where the real chain, SDK or API differed from the plan, and what c
 - The campaign reports P5 as run with real waits, P4's third attack as refused by Jupiter, and the cost claim as inconclusive rather than passed.
 - Setup transactions for routers with many pre-IPO legs are split into parts.
 - The Worker uses compatibility date 2026-08-22, v8 queue serialization and nullable readback columns, and its secret list includes the four additions.
-- Open fix: the attester must drop only the malformed PreStocks entry and keep attesting the rest.
+- The attester validates PreStocks entries one by one and refuses only a mint whose own entry is malformed (fixed in #75).
 
 ## 2026-09-25: Pipeline details settled by fork runs
 
