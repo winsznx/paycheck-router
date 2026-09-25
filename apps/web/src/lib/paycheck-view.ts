@@ -38,6 +38,30 @@ export function bandFor(
   return routerLegs?.find((leg) => leg.mint === mint)?.bandBps ?? null;
 }
 
+const BOUGHT: ReadonlySet<api.LegStatus> = new Set(["executed", "verified", "unverified"]);
+const OPEN: ReadonlySet<api.LegStatus> = new Set(["pending", "executing", "waiting"]);
+
+/**
+ * Raw USDC for the paycheck's slices: what is still to be bought (pending, executing or
+ * waiting) and what has been bought. Expired and cancelled slices count as neither; their USDC
+ * never left the wallet.
+ */
+export function investProgress(legs: readonly Pick<AnyLeg, "status" | "amountIn">[]): {
+  open: bigint;
+  bought: bigint;
+} {
+  let open = 0n;
+  let bought = 0n;
+  for (const leg of legs) {
+    if (BOUGHT.has(leg.status)) bought += BigInt(leg.amountIn);
+    else if (OPEN.has(leg.status)) open += BigInt(leg.amountIn);
+  }
+  return { open, bought };
+}
+
+/** The onchain sequence starts at 0; people count paychecks from 1. */
+export const paycheckNumber = (seq: string): string => (BigInt(seq) + 1n).toString();
+
 export type PaycheckPhase = "recording" | "executing" | "waiting" | "complete" | "expired";
 
 /** PRD 13.4 paycheck detail states, derived from the legs. */
