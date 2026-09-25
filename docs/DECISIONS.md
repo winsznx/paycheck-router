@@ -2,6 +2,19 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: Routing constraints for a PDA taker
+
+**Observed on forks with the router program.**
+- Kipseli requires the real user to sign (`InvalidRealUser: real_user did not sign the transaction`), so it can never fill a swap whose taker is a PDA.
+- Routes that pass through SOL end with a `CloseAccount` on the taker's wrapped-SOL account, which the taker must sign as an ordinary instruction. A PDA can only sign inside the program's CPI.
+- On a fork, some DEX programs fail in simulation against stale copied state (Flux returned custom error 6003).
+- An order-book hop (Manifest) can consume slightly less USDC than requested. The program first treated that as InputOverspent; it is being changed so only more-than-the-slice counts as overspending, and the leftover is swept back to the owner.
+
+**Changed.**
+- Kipseli is excluded on every network (`PDA_TAKER_EXCLUDED_DEXES`).
+- Swaps are built with `wrapAndUnwrapSol=false`. That drops the closing instruction and leaves an empty wrapped-SOL account on the Authority PDA, like the output-mint accounts Jupiter already creates.
+- On forks only, when simulation fails inside a routed DEX's program, the crank excludes that DEX and re-quotes, at most twice, and keeps the failed simulation in the evidence bundle.
+
 ## 2026-09-25: A rejected price feed makes only its own slices wait
 
 **Observed.** One Hermes request carries every feed a paycheck's slices need. When Hermes rejects one feed (403, not entitled), the whole update fails, so a PreStocks slice that only needs USDC/USD would wait behind an xStock slice whose equity feed is rejected.
