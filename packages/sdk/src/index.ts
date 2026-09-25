@@ -1,4 +1,5 @@
 export * from "./attester.ts";
+export * from "./builders.ts";
 export * from "./classify.ts";
 export * from "./errors.ts";
 export * from "./events.ts";

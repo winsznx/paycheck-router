@@ -444,6 +444,13 @@ function settleFailure<T>(result: LegAttempt<T>, failure: FailureClassification)
   return result;
 }
 
+/** Callbacks so a caller can stream progress while a paycheck's legs run. */
+export type PipelineHooks<T> = {
+  onLegStart?: (leg: PendingLeg) => void | Promise<void>;
+  onAttempt?: (leg: PendingLeg, attempt: LegAttempt<T>) => void | Promise<void>;
+  onLegDone?: (run: LegRun<T>) => void | Promise<void>;
+};
+
 export type LegRun<T> = { leg: PendingLeg; attempts: LegAttempt<T>[]; posts: PricePosts[] };
 
 export type PaycheckRun<T> = {
@@ -463,33 +470,35 @@ export async function executePaycheckLegs<T>(
   buildExecute: ExecuteInstructionBuilder,
   decodeExecuted: LegExecutedDecoder<T>,
   marks: MarkState = newMarkState(),
+  hooks: PipelineHooks<T> = {},
 ): Promise<PaycheckRun<T>> {
   const now = config.now ?? Date.now;
   const ordered = [...legs].sort((a, b) =>
     a.amountIn === b.amountIn ? a.legIndex - b.legIndex : a.amountIn > b.amountIn ? -1 : 1,
   );
   const feeds = feedsFor(ordered);
-  const posts: PricePosts[] = [await postPrices(config, feeds)];
+  let latest = await postPrices(config, feeds);
+  const posts: PricePosts[] = [latest];
   const runs: LegRun<T>[] = [];
   for (const leg of ordered) {
     const run: LegRun<T> = { leg, attempts: [], posts: [] };
     runs.push(run);
+    await hooks.onLegStart?.(leg);
     let landing = 0;
     let resigned = 0;
     for (let attempt = 0; ; attempt++) {
       let result: LegAttempt<T>;
       try {
-        let current = posts.at(-1) as PricePosts;
-        if (now() - current.fetchedAtMs > PRICE_REFRESH_AGE_SECS * 1000) {
-          current = await postPrices(config, feeds);
-          posts.push(current);
+        if (now() - latest.fetchedAtMs > PRICE_REFRESH_AGE_SECS * 1000) {
+          latest = await postPrices(config, feeds);
+          posts.push(latest);
         }
-        if (!run.posts.includes(current)) run.posts.push(current);
+        if (!run.posts.includes(latest)) run.posts.push(latest);
         result = await attemptLeg(
           config,
           leg,
           attempt,
-          current,
+          latest,
           marks,
           buildExecute,
           decodeExecuted,
@@ -498,6 +507,7 @@ export async function executePaycheckLegs<T>(
         result = crashedAttempt<T>(leg, attempt, now(), error);
       }
       run.attempts.push(result);
+      await hooks.onAttempt?.(leg, result);
       if (result.waitReason === WaitReason.LANDING && landing < LANDING_RETRIES) {
         landing++;
         continue;
@@ -512,6 +522,7 @@ export async function executePaycheckLegs<T>(
       }
       break;
     }
+    await hooks.onLegDone?.(run);
   }
   const closeSignatures: Signature[] = [];
   for (const post of posts) closeSignatures.push(...(await closePricePosts(config, post)));
