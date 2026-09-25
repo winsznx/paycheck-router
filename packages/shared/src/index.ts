@@ -1,3 +1,4 @@
+export * as api from "./api/index.ts";
 export * from "./caps.ts";
 export * from "./errors.ts";
 export * from "./evidence.ts";
