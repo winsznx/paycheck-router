@@ -6,6 +6,7 @@ import {
   USDC_MINT,
 } from "@paycheck-router/shared";
 import {
+  AccountRole,
   type Address,
   createNoopSigner,
   type Instruction,
@@ -54,7 +55,8 @@ async function ownerUsdcAccount(owner: Address): Promise<Address> {
 }
 
 /**
- * The setup transaction's instructions: the owner's USDC account (idempotent), `create_router`,
+ * The setup transaction's instructions: the owner's USDC account (idempotent), `create_router`
+ * with each leg's Asset account appended in leg order,
  * an SPL approve of `allowance` USDC to the Authority PDA and, for every pre-IPO leg, the
  * owner's token account (idempotent) with an approve to that token's Convert authority. Pass the
  * owner as an address to build for a wallet that signs later (a no-op signer stands in).
@@ -74,6 +76,12 @@ export async function buildSetupInstructions(input: {
     usdcTokenProgram: TOKEN_PROGRAM_ID,
     params: input.params,
   });
+  const assetAccounts = await Promise.all(
+    input.params.legs.map(async (leg) => ({
+      address: (await findAssetPda({ mint: leg.mint }))[0],
+      role: AccountRole.READONLY,
+    })),
+  );
   const [router] = await findRouterPda({ owner: owner.address });
   const [authority] = await findAuthorityPda({ router });
   const instructions: Instruction[] = [
@@ -84,7 +92,7 @@ export async function buildSetupInstructions(input: {
       mint: USDC_MINT,
       tokenProgram: TOKEN_PROGRAM_ID,
     }),
-    create,
+    { ...create, accounts: [...create.accounts, ...assetAccounts] },
     getApproveCheckedInstruction({
       source: payIn,
       mint: USDC_MINT,
