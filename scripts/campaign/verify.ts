@@ -12,6 +12,7 @@ const root = values.root ? resolve(values.root) : CAMPAIGN_ROOT;
 const report = verifyCampaign(root);
 const { runs, artifacts, probes, fills } = report.checked;
 console.log(`${root}: ${runs} case runs, ${artifacts} artifacts, ${probes} probes, ${fills} fills`);
+for (const note of report.notes) console.log(`NOTE ${note}`);
 for (const error of report.errors) console.error(`MISMATCH ${error}`);
 console.log(
   report.ok

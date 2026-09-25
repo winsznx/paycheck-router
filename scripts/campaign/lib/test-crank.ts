@@ -185,7 +185,7 @@ export async function runTamperedLeg(
       outcome.signature,
       { encoding: "jsonParsed", maxSupportedTransactionVersion: 0, commitment: "confirmed" },
     ]);
-    run.transactionRef = bundle.write(`raw/tx/${outcome.signature}.json`, raw);
+    run.transactionRef = bundle.write(`raw/test-crank/${name}-transaction.json`, raw);
   }
   return run;
 }
