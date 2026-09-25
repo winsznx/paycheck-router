@@ -55,10 +55,12 @@ import { detectPaycheck, pendingLegs, recordPaycheckRun, TransactionLog } from "
 import { type CaseContext, type ForkState, requireFork } from "./case.ts";
 import { requireHermes } from "./env.ts";
 import type { PaycheckEntry } from "./manifest.ts";
+import { INFRASTRUCTURE_FAILURE } from "./slices.ts";
 
 const DETECT_TIMEOUT_MS = 60_000;
 const _SWEEP_INTERVAL_MS = 2_000;
 const EXPIRY_GRACE_MS = 5_000;
+const INFRASTRUCTURE_RETRY_MS = 60_000;
 /** The fork clock can trail wall time by a few seconds; expire_leg retries until it passes. */
 const EXPIRE_ATTEMPTS = 6;
 const EXPIRE_RETRY_MS = 20_000;
@@ -630,6 +632,7 @@ async function executeWithRetries(
 
     const waiting = result.legs.filter((legRun) => {
       const last = legRun.attempts.at(-1);
+      if (last?.outcome === "failed") return INFRASTRUCTURE_FAILURE.test(last.error ?? "");
       return last?.outcome === "waiting" && isRetryable(last.waitReason);
     });
     if (waiting.length === 0) break;
@@ -649,7 +652,10 @@ async function executeWithRetries(
     if (input.retryUntilMs === null) break;
     const nextAt = Math.min(
       ...waiting.map((legRun) => {
-        const reason = legRun.attempts.at(-1)?.waitReason ?? WaitReason.PREMIUM_TOO_HIGH;
+        const last = legRun.attempts.at(-1);
+        // A datasource or transport failure says nothing about the market: retry in a minute.
+        if (last?.outcome === "failed") return now + INFRASTRUCTURE_RETRY_MS;
+        const reason = last?.waitReason ?? WaitReason.PREMIUM_TOO_HIGH;
         const prior = (runs.get(legRun.leg.legIndex)?.rounds ?? [])
           .flatMap((r) => r.attempts)
           .filter((a) => a.waitReason === reason).length;
