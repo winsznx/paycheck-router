@@ -1,0 +1,551 @@
+import * as sdk from "@paycheck-router/sdk";
+import {
+  AssetKind,
+  assetByMint,
+  USDC_FEED_ID,
+  USDC_MINT,
+  WaitReason,
+} from "@paycheck-router/shared";
+import {
+  type Address,
+  address,
+  createNoopSigner,
+  getBase64EncodedWireTransaction,
+  type Instruction,
+  type KeyPairSigner,
+  partiallySignTransactionMessageWithSigners,
+  signature as toSignature,
+} from "@solana/kit";
+import { routerPdaFor } from "../chain/accounts.ts";
+import { hotSigner } from "../chain/keys.ts";
+import { chainEndpoints } from "../config.ts";
+import { throughGate } from "../do/rate-gate.ts";
+import type { Env } from "../env.ts";
+import { log } from "../log.ts";
+import type {
+  AttemptRecord,
+  BuiltTransaction,
+  Engine,
+  LegJob,
+  LegOutcome,
+  RouterRef,
+  RouterState,
+  VerificationOutcome,
+} from "./types.ts";
+
+type Executed = NonNullable<Awaited<ReturnType<typeof sdk.decodeLegExecuted>>>;
+
+const LEG_STATUS_EXECUTED = 2;
+
+/** JSON-safe copy of an SDK object for evidence and attempt records. */
+function plain(value: unknown): Record<string, unknown> {
+  return JSON.parse(
+    JSON.stringify(value, (_key, inner) => (typeof inner === "bigint" ? inner.toString() : inner)),
+  ) as Record<string, unknown>;
+}
+
+function pendingLegOf(job: LegJob): sdk.PendingLeg {
+  const asset = assetByMint(job.mint);
+  if (!asset) throw new Error(`asset ${job.mint} is not in the registry`);
+  return {
+    router: address(job.router.routerPda),
+    owner: address(job.router.owner),
+    authority: address(job.router.authority),
+    paycheck: address(job.paycheckPda),
+    seq: job.seq,
+    legIndex: job.idx,
+    asset,
+    amountIn: job.amountIn,
+    bandBps: job.bandBps,
+  };
+}
+
+function attemptRecord(attempt: sdk.LegAttempt<Executed>, attemptNo: number): AttemptRecord {
+  const failure = attempt.failure;
+  return {
+    attemptNo,
+    kind: attempt.signature ? "send" : "simulate",
+    outcome: attempt.outcome,
+    programErrorCode: failure?.kind === "program" ? failure.error.code : null,
+    reason: attempt.waitReason ?? attempt.error ?? (failure ? failure.kind : null),
+    signature: attempt.signature,
+    cuUsed:
+      attempt.simulation?.unitsConsumed !== null && attempt.simulation?.unitsConsumed !== undefined
+        ? Number(attempt.simulation.unitsConsumed)
+        : null,
+    priorityFeeLamports: null,
+    quote: attempt.jupiter
+      ? {
+          inAmount: attempt.jupiter.response.inAmount,
+          outAmount: attempt.jupiter.response.outAmount,
+          route: attempt.jupiter.response.routePlan.map((hop) => hop.swapInfo.label),
+        }
+      : null,
+    simLogs: attempt.simulation?.logs ?? null,
+  };
+}
+
+/** Execution price per whole share in USD × 1e9 from what the swap actually delivered. */
+function execPriceE9(event: Executed, decimals: number): bigint | null {
+  const shares = event.outAmount + event.issuerFee;
+  if (shares <= 0n || event.multiplierE12 <= 0n) return null;
+  return (
+    (event.swappedIn * 1_000n * 10n ** BigInt(decimals) * 1_000_000_000_000n) /
+    (shares * event.multiplierE12)
+  );
+}
+
+/** Maps one leg's run through the SDK pipeline to core's outcome. */
+function outcomeOf(job: LegJob, run: sdk.LegRun<Executed>): LegOutcome {
+  const records = run.attempts.map((attempt, i) => attemptRecord(attempt, job.attemptNo + i));
+  const last = run.attempts.at(-1);
+  if (last?.outcome === "executed" && last.event && last.signature) {
+    const decimals = run.leg.asset.decimals;
+    const view = sdk.legExecutedView(last.event);
+    return {
+      kind: "executed",
+      attempts: records,
+      leg: {
+        signature: last.signature,
+        slot: last.slot ?? 0n,
+        outAmount: last.event.outAmount,
+        fee: last.event.fee,
+        issuerFee: last.event.issuerFee,
+        refPriceE9: last.event.refPriceE9,
+        execPriceE9: execPriceE9(last.event, decimals),
+        premiumBps: Number(sdk.legCosts(view, decimals).premiumBps),
+        evidence: {
+          event: last.event,
+          postedUpdate: run.posts.at(-1)?.hermes.response ?? null,
+          attestationSignature: last.attestation?.signed.signature ?? null,
+        },
+      },
+    };
+  }
+  const programErrorCode = last?.failure?.kind === "program" ? last.failure.error.code : null;
+  if (last?.outcome === "waiting" && last.waitReason) {
+    return { kind: "waiting", reason: last.waitReason, programErrorCode, attempts: records };
+  }
+  return {
+    kind: "failed",
+    error: last?.error ?? "attempt ended without an outcome",
+    programErrorCode,
+    attempts: records,
+  };
+}
+
+/**
+ * The `packages/sdk` pipeline behind core's Engine port. Every read and send goes to the
+ * configured chain endpoint, which on a surfnet is the surfnet alone.
+ */
+export function createSdkEngine(env: Env): Engine {
+  const endpoints = chainEndpoints(env);
+  const rpc = sdk.createRpc(endpoints.rpcUrl);
+  const verifyRpc = sdk.createRpc(endpoints.verifyRpcUrl);
+  const hermes: sdk.HermesOptions = {
+    baseUrl: env.HERMES_URL,
+    ...(env.PYTH_API_KEY ? { apiKey: env.PYTH_API_KEY } : {}),
+  };
+  const jupiter: sdk.JupiterClientOptions = {
+    ...(env.JUPITER_API_KEY ? { apiKey: env.JUPITER_API_KEY } : {}),
+    fetch: async (input, init) => {
+      await throughGate(env.RATE_GATE, "jupiter");
+      return fetch(input, init);
+    },
+  };
+
+  let configCache: Promise<{ treasury: Address; feeBps: number; attester: Address }> | null = null;
+  const protocolConfig = () => {
+    configCache ??= (async () => {
+      const [configPda] = await sdk.findConfigPda();
+      const config = await sdk.fetchConfig(rpc, configPda, { commitment: "confirmed" });
+      return {
+        treasury: config.data.treasury,
+        feeBps: config.data.feeBps,
+        attester: config.data.attester,
+      };
+    })();
+    return configCache;
+  };
+
+  const pipelineConfig = async (): Promise<sdk.PipelineConfig> => {
+    const config = await protocolConfig();
+    return {
+      rpc,
+      rpcUrl: endpoints.rpcUrl,
+      surfnet: endpoints.surfnet,
+      crank: await hotSigner(env, "CRANK_KEY"),
+      attester: env.ATTESTER_KEY ? await hotSigner(env, "ATTESTER_KEY") : null,
+      jupiter,
+      hermes,
+      protocolLookupTable: {},
+      feeBps: config.feeBps,
+    };
+  };
+
+  async function sendWith(payer: KeyPairSigner, instructions: Instruction[]): Promise<string> {
+    const outcome = await sdk.signSendConfirm(
+      rpc,
+      sdk.buildMessage(payer, await sdk.latestLifetime(rpc), instructions),
+    );
+    if (outcome.status !== "confirmed") {
+      throw new Error(
+        `transaction ${outcome.signature} ${outcome.status}: ${JSON.stringify(plain({ err: outcome.err }))}`,
+      );
+    }
+    return outcome.signature;
+  }
+
+  async function sponsoredTransaction(
+    instructions: Instruction[],
+    summary: string[],
+  ): Promise<BuiltTransaction> {
+    const sponsor = await hotSigner(env, "SPONSOR_KEY");
+    const lifetime = await sdk.latestLifetime(rpc);
+    const message = sdk.buildMessage(sponsor, lifetime, instructions);
+    const signed = await partiallySignTransactionMessageWithSigners(message);
+    return {
+      tx: getBase64EncodedWireTransaction(signed),
+      feePayer: sponsor.address,
+      lastValidBlockHeight: lifetime.lastValidBlockHeight,
+      summary,
+    };
+  }
+
+  return {
+    async sweep(routers, inFlight) {
+      const hits = await sdk.reconcileSweep(
+        rpc,
+        routers.map((router) => ({
+          router: address(router.routerPda),
+          payIn: address(router.payIn),
+        })),
+        sdk.decodeRouterSnapshot,
+        inFlight,
+      );
+      return hits.map((hit) => ({
+        routerPda: hit.router,
+        balance: hit.balance,
+        watermark: hit.watermark,
+        delta: hit.delta,
+        slot: hit.slot,
+      }));
+    },
+
+    async resolveInflows(payIn, until) {
+      const inflows = await sdk.resolveInflows(
+        rpc,
+        address(payIn),
+        until ? toSignature(until) : null,
+      );
+      return inflows.map((inflow) => ({
+        signature: inflow.signature,
+        slot: inflow.slot,
+        amount: inflow.amount,
+        sender: inflow.sender,
+      }));
+    },
+
+    classify(inflow, router, rules) {
+      return sdk.classifyInflow(
+        { amount: inflow.amount, sender: inflow.sender ? address(inflow.sender) : null },
+        {
+          owner: address(router.owner),
+          authority: address(router.authority),
+          routerMinInflow: rules.minInflow,
+          appThreshold: rules.appThreshold,
+          taggedPayersOnly: rules.taggedPayersOnly,
+          taggedPayers: new Set(rules.taggedPayers.map((payer) => address(payer))),
+        },
+      );
+    },
+
+    async recordPaycheck(router: RouterRef) {
+      const recorder = await hotSigner(env, "RECORDER_KEY");
+      const crank = await hotSigner(env, "CRANK_KEY");
+      const detectedSlot = await rpc.getSlot({ commitment: "confirmed" }).send();
+      const { outcome, paycheck, account } = await sdk.recordPaycheck(rpc, {
+        recorder,
+        payer: crank,
+        router: address(router.routerPda),
+        payIn: address(router.payIn),
+        detectedSlot,
+      });
+      if (outcome.status !== "confirmed" || !account) {
+        const failure = outcome.status === "failed" ? sdk.classifyFailure(outcome.err, []) : null;
+        if (failure?.kind === "program" && failure.error.name === "NoNewInflow") {
+          return { kind: "nothing_new" };
+        }
+        return {
+          kind: "failed",
+          error: `record_paycheck ${outcome.status}: ${JSON.stringify(plain({ err: outcome.err }))}`,
+          programErrorCode: failure?.kind === "program" ? failure.error.code : null,
+        };
+      }
+      const routerAccount = await sdk.fetchRouter(rpc, address(router.routerPda), {
+        commitment: "confirmed",
+      });
+      const bands = new Map(routerAccount.data.legs.map((leg) => [leg.mint, leg.bandBps]));
+      return {
+        kind: "recorded",
+        paycheck: {
+          signature: outcome.signature,
+          paycheckPda: paycheck,
+          seq: account.seq,
+          inflow: account.inflow,
+          investTotal: account.investTotal,
+          recordedAt: new Date(Number(account.recordedAt) * 1000),
+          expiresAt: new Date(Number(account.expiresAt) * 1000),
+          legs: account.legs.map((leg, idx) => ({
+            idx,
+            mint: leg.mint,
+            amountIn: leg.amountIn,
+            bandBps: bands.get(leg.mint) ?? 0,
+          })),
+        },
+      };
+    },
+
+    async skipInflow(router) {
+      const recorder = await hotSigner(env, "RECORDER_KEY");
+      const crank = await hotSigner(env, "CRANK_KEY");
+      const signature = await sendWith(crank, [
+        sdk.getSkipInflowInstruction({
+          signer: recorder,
+          router: address(router.routerPda),
+          payIn: address(router.payIn),
+        }),
+      ]);
+      return { signature };
+    },
+
+    async executeLegs(jobs, hooks) {
+      if (jobs.length === 0) return;
+      const config = await pipelineConfig();
+      const { treasury } = await protocolConfig();
+      const byIndex = new Map(jobs.map((job) => [job.idx, job]));
+      const reported = new Set<number>();
+      try {
+        await sdk.executePaycheckLegs(
+          config,
+          jobs.map(pendingLegOf),
+          sdk.executeInstructionBuilder({ treasury }),
+          sdk.decodeLegExecuted,
+          sdk.newMarkState(),
+          {
+            onLegStart: async (leg) => {
+              const job = byIndex.get(leg.legIndex);
+              if (job) await hooks.executing(job);
+            },
+            onLegDone: async (run) => {
+              const job = byIndex.get(run.leg.legIndex);
+              if (!job) return;
+              reported.add(job.idx);
+              await hooks.outcome(job, outcomeOf(job, run));
+            },
+          },
+        );
+      } catch (error) {
+        log.error("paycheck batch failed", { error });
+        for (const job of jobs) {
+          if (reported.has(job.idx)) continue;
+          await hooks.outcome(job, {
+            kind: "waiting",
+            reason: WaitReason.LANDING,
+            programErrorCode: null,
+            attempts: [
+              {
+                attemptNo: job.attemptNo,
+                kind: "simulate",
+                outcome: "failed",
+                programErrorCode: null,
+                reason: error instanceof Error ? error.message : String(error),
+                signature: null,
+                cuUsed: null,
+                priorityFeeLamports: null,
+                quote: null,
+                simLogs: null,
+              },
+            ],
+          });
+        }
+      }
+    },
+
+    async expireLeg(job) {
+      const crank = await hotSigner(env, "CRANK_KEY");
+      const signature = await sendWith(crank, [
+        sdk.buildExpireLegInstruction({
+          router: address(job.router.routerPda),
+          paycheck: address(job.paycheckPda),
+          legIndex: job.idx,
+        }),
+      ]);
+      return { signature };
+    },
+
+    async verifyLeg(job): Promise<VerificationOutcome> {
+      const asset = assetByMint(job.mint);
+      if (!asset) throw new Error(`asset ${job.mint} is not in the registry`);
+      const event = job.evidence.event as Executed | undefined;
+      if (!event) throw new Error("verification needs the decoded LegExecuted event");
+      const view = sdk.legExecutedView(event);
+      const commitment = endpoints.surfnet ? "confirmed" : "finalized";
+      const transaction = await verifyRpc
+        .getTransaction(toSignature(job.signature), {
+          encoding: "jsonParsed",
+          maxSupportedTransactionVersion: 0,
+          commitment,
+        })
+        .send();
+      if (!transaction) throw new Error(`transaction ${job.signature} is not ${commitment} yet`);
+      const paycheck = await sdk.fetchPaycheck(verifyRpc, address(view.paycheck), { commitment });
+      const legState = paycheck.data.legs[job.idx];
+      const feedId =
+        view.priceSource === "Pyth247"
+          ? asset.feedId247
+          : view.priceSource === "PythRegular"
+            ? asset.feedId
+            : null;
+      const historyFeeds = feedId ? [feedId, USDC_FEED_ID] : [USDC_FEED_ID];
+      const history = await sdk
+        .fetchUpdateAt(Number(view.pricePublishTime), historyFeeds, hermes)
+        .then((update) => update.response)
+        .catch((error: unknown) => {
+          log.warn("Hermes history unavailable", { error });
+          return null;
+        });
+      const { attester } = await protocolConfig();
+      const attestationSignature = job.evidence.attestationSignature as
+        | Uint8Array
+        | null
+        | undefined;
+      const result = await sdk.verifyLeg({
+        event: view,
+        transaction: transaction as unknown as sdk.ParsedTransactionView,
+        owner: address(job.router.owner),
+        usdcMint: USDC_MINT,
+        decimals: asset.decimals,
+        postedUpdate: (job.evidence.postedUpdate as sdk.HermesUpdateResponse | null) ?? null,
+        history,
+        feedId,
+        usdcFeedId: USDC_FEED_ID,
+        readback: legState
+          ? {
+              executed: legState.status === LEG_STATUS_EXECUTED,
+              amountIn: legState.amountIn,
+              outAmount: legState.outAmount,
+              fee: legState.fee,
+              issuerFee: legState.issuerFee,
+              refPriceE9: legState.refPriceE9,
+            }
+          : null,
+        attestation:
+          asset.kind === AssetKind.preIpo && attestationSignature
+            ? { attester, signature: attestationSignature }
+            : null,
+      });
+      const failed = result.checks.filter((check) => !check.pass);
+      const received = BigInt(event.outAmount);
+      return {
+        rpcProvider: endpoints.verifyProvider,
+        finalizedSlot: BigInt(transaction.slot),
+        ownerDeltaRaw: received,
+        ownerUsdcDelta: -(event.amountIn - event.dustReturned),
+        recomputedMinOut: event.minOut,
+        recomputedPremiumBps: Number(sdk.legCosts(view, asset.decimals).premiumBps),
+        matches: result.state === "VERIFIED",
+        diff:
+          failed.length > 0
+            ? { failed: plain(failed), checks: plain(result.checks) }
+            : { checks: plain(result.checks) },
+        hermesPublishTime: new Date(Number(view.pricePublishTime) * 1000),
+      };
+    },
+
+    async readRouter(routerPda) {
+      const account = await sdk.fetchMaybeRouter(rpc, address(routerPda), {
+        commitment: "confirmed",
+      });
+      if (!account.exists) return null;
+      const data = account.data;
+      const state: RouterState = {
+        owner: data.owner,
+        payIn: data.payIn,
+        recorder: data.recorder,
+        investBps: data.investBps,
+        minInflow: data.minInflow,
+        dailyCap: data.dailyCap,
+        maxWaitSecs: data.maxWaitSecs,
+        autoConvert: data.autoConvert,
+        paused: data.paused,
+        watermark: data.watermark,
+        paycheckSeq: data.paycheckSeq,
+        legs: data.legs.slice(0, data.legCount).map((leg) => ({
+          mint: leg.mint,
+          weightBps: leg.weightBps,
+          bandBps: leg.bandBps,
+          enabled: leg.enabled,
+        })),
+      };
+      return state;
+    },
+
+    async buildCreateRouter(input) {
+      const sponsor = await hotSigner(env, "SPONSOR_KEY");
+      const recorder = await hotSigner(env, "RECORDER_KEY");
+      const instructions = await sdk.buildSetupInstructions({
+        owner: address(input.owner),
+        payer: sponsor,
+        allowance: input.allowance,
+        params: {
+          recorder: recorder.address,
+          investBps: input.investBps,
+          minInflow: input.minInflow,
+          dailyCap: input.dailyCap,
+          maxWaitSecs: input.maxWaitSecs,
+          autoConvert: input.autoConvert,
+          legs: input.legs.map((leg) => ({
+            mint: address(leg.mint),
+            weightBps: leg.weightBps,
+            bandBps: leg.bandBps,
+            enabled: true,
+          })),
+        },
+      });
+      const symbols = input.legs.map((leg) => assetByMint(leg.mint)?.symbol ?? leg.mint);
+      const allowance = (Number(input.allowance) / 1_000_000).toLocaleString("en-US");
+      const summary = [
+        "Create your Paycheck Router",
+        `Allow it to spend up to ${allowance} USDC from this wallet, only to buy ${symbols.join(", ")} into this wallet`,
+      ];
+      const preIpo = input.legs
+        .map((leg) => assetByMint(leg.mint))
+        .filter((asset) => asset?.kind === AssetKind.preIpo)
+        .map((asset) => asset?.symbol);
+      if (preIpo.length > 0) {
+        summary.push(`Allow ${preIpo.join(", ")} conversion at IPO, into this wallet only`);
+      }
+      summary.push("Network fees and account rent paid by Paycheck Router");
+      return sponsoredTransaction(instructions, summary);
+    },
+
+    async buildCancelLeg(input) {
+      const router = await routerPdaFor(address(env.PROGRAM_ID), address(input.owner));
+      const instruction = sdk.buildCancelLegInstruction({
+        owner: createNoopSigner(address(input.owner)),
+        router,
+        paycheck: address(input.paycheckPda),
+        legIndex: input.idx,
+      });
+      return sponsoredTransaction(
+        [instruction],
+        ["Cancel this waiting slice", "Its USDC stays in your wallet"],
+      );
+    },
+
+    async buildBuyNow() {
+      throw new Error("buy-now needs execute_leg_owner support in the SDK pipeline");
+    },
+  };
+}

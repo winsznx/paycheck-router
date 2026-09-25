@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@paycheck-router/guard-math": "workspace:*",
+    "@paycheck-router/sdk": "workspace:*",
     "@paycheck-router/shared": "workspace:*",
     "@solana-program/compute-budget": "0.19.0",
     "@solana-program/system": "0.15.0",
