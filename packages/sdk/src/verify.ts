@@ -6,7 +6,8 @@ import {
   signatureBytes,
   verifySignature,
 } from "@solana/kit";
-import { encodeMarkAttestation, type MarkAttestation } from "./attester.ts";
+import { encodeMarkAttestation } from "./attester.ts";
+import type { MarkAttestation } from "./generated/index.ts";
 import type { HermesParsedUpdate, HermesUpdateResponse } from "./hermes.ts";
 
 /** The `LegExecuted` fields the verifier re-derives, whatever client decoded them. */
