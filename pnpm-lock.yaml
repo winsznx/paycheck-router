@@ -357,12 +357,18 @@ importers:
       '@paycheck-router/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      '@paycheck-router/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@playwright/test':
         specifier: 1.63.0
         version: 1.63.0
       '@types/node':
         specifier: 22.20.4
         version: 22.20.4
+      tsx:
+        specifier: 4.23.15
+        version: 4.23.15
       typescript:
         specifier: 5.9.3
         version: 5.9.3

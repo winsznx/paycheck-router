@@ -9,8 +9,10 @@
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
     "@paycheck-router/shared": "workspace:*",
+    "@paycheck-router/ui": "workspace:*",
     "@playwright/test": "1.63.0",
     "@types/node": "22.20.4",
+    "tsx": "4.23.15",
     "typescript": "5.9.3"
   }
 }
