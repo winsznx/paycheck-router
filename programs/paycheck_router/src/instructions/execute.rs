@@ -30,6 +30,8 @@ pub struct LegAccounts<'a, 'info> {
     pub jupiter_program: &'a UncheckedAccount<'info>,
     pub usdc_token_program: &'a Interface<'info, TokenInterface>,
     pub asset_token_program: &'a Interface<'info, TokenInterface>,
+    pub owner_intermediate: Option<&'a InterfaceAccount<'info, TokenAccount>>,
+    pub intermediate_mint: Option<&'a InterfaceAccount<'info, Mint>>,
 }
 
 macro_rules! leg_accounts {
@@ -49,6 +51,8 @@ macro_rules! leg_accounts {
             jupiter_program: &$accounts.jupiter_program,
             usdc_token_program: &$accounts.usdc_token_program,
             asset_token_program: &$accounts.asset_token_program,
+            owner_intermediate: $accounts.owner_intermediate.as_deref(),
+            intermediate_mint: $accounts.intermediate_mint.as_deref(),
         }
     };
 }
@@ -115,6 +119,8 @@ pub fn settle_leg<'info>(
         jupiter_program,
         usdc_token_program,
         asset_token_program,
+        owner_intermediate,
+        intermediate_mint,
     } = accounts;
     let leg_slot = usize::from(leg_index);
     let amount_in = paycheck.legs[leg_slot].amount_in;
@@ -217,28 +223,36 @@ pub fn settle_leg<'info>(
     let asset_mint_info = asset_mint.to_account_info();
     let asset_program = asset_token_program.to_account_info();
     let destination_info = destination.to_account_info();
+    let intermediate = token_ops::intermediate_target(
+        owner_intermediate,
+        intermediate_mint,
+        &router.owner,
+        &[usdc_program.clone(), asset_program.clone()],
+    )?;
+    let mut targets = vec![
+        SweepTarget {
+            mint: usdc,
+            to: &pay_in_info,
+        },
+        SweepTarget {
+            mint: MintRef {
+                mint: &asset_mint_info,
+                token_program: &asset_program,
+                decimals: asset_mint.decimals,
+            },
+            to: &destination_info,
+        },
+    ];
+    if let Some(target) = &intermediate {
+        targets.push(target.as_sweep());
+    }
     let mut touched = route_accounts.to_vec();
     touched.push(authority_usdc_info);
-    let swept = token_ops::sweep_authority_accounts(
-        &touched,
-        &authority_info,
-        authority_seeds,
-        &[
-            SweepTarget {
-                mint: usdc,
-                to: &pay_in_info,
-            },
-            SweepTarget {
-                mint: MintRef {
-                    mint: &asset_mint_info,
-                    token_program: &asset_program,
-                    decimals: asset_mint.decimals,
-                },
-                to: &destination_info,
-            },
-        ],
-    )?;
+    let swept =
+        token_ops::sweep_authority_accounts(&touched, &authority_info, authority_seeds, &targets)?;
     let dust_returned = swept[0];
+    let intermediate_returned = swept.get(2).copied().unwrap_or(0);
+    let usdc_consumed = swapped_in.saturating_sub(dust_returned);
 
     destination.reload()?;
     let out_amount = destination
@@ -264,6 +278,7 @@ pub fn settle_leg<'info>(
     leg.ref_price_e9 = reference.price_e9;
     leg.executed_at = clock.unix_timestamp;
     leg.issuer_fee = issuer_fee;
+    leg.dust_returned = dust_returned;
     let mint = leg.mint;
 
     let net_spent = amount_in
@@ -278,7 +293,7 @@ pub fn settle_leg<'info>(
         .ok_or(RouterError::MathOverflow)?;
     router.total_invested = router
         .total_invested
-        .checked_add(swapped_in - dust_returned.min(swapped_in))
+        .checked_add(usdc_consumed)
         .ok_or(RouterError::MathOverflow)?;
     router.total_fees = router
         .total_fees
@@ -296,7 +311,9 @@ pub fn settle_leg<'info>(
         amount_in,
         fee,
         swapped_in,
+        usdc_consumed,
         dust_returned,
+        intermediate_returned,
         out_amount,
         issuer_fee,
         min_out,
@@ -360,6 +377,11 @@ pub struct ExecuteLeg<'info> {
     pub usdc_token_program: Interface<'info, TokenInterface>,
     #[account(address = asset.token_program)]
     pub asset_token_program: Interface<'info, TokenInterface>,
+    /// The owner's token account for the route's intermediate mint, when the
+    /// route passes through one. Leftovers of that mint are swept here.
+    #[account(mut)]
+    pub owner_intermediate: Option<Box<InterfaceAccount<'info, TokenAccount>>>,
+    pub intermediate_mint: Option<Box<InterfaceAccount<'info, Mint>>>,
 }
 
 pub fn execute_leg<'info>(
@@ -511,6 +533,11 @@ pub struct ExecutePrestockLeg<'info> {
     pub usdc_token_program: Interface<'info, TokenInterface>,
     #[account(address = asset.token_program)]
     pub asset_token_program: Interface<'info, TokenInterface>,
+    /// The owner's token account for the route's intermediate mint, when the
+    /// route passes through one. Leftovers of that mint are swept here.
+    #[account(mut)]
+    pub owner_intermediate: Option<Box<InterfaceAccount<'info, TokenAccount>>>,
+    pub intermediate_mint: Option<Box<InterfaceAccount<'info, Mint>>>,
 }
 
 pub fn execute_prestock_leg<'info>(
@@ -603,6 +630,11 @@ pub struct ExecuteLegOwner<'info> {
     pub usdc_token_program: Interface<'info, TokenInterface>,
     #[account(address = asset.token_program)]
     pub asset_token_program: Interface<'info, TokenInterface>,
+    /// The owner's token account for the route's intermediate mint, when the
+    /// route passes through one. Leftovers of that mint are swept here.
+    #[account(mut)]
+    pub owner_intermediate: Option<Box<InterfaceAccount<'info, TokenAccount>>>,
+    pub intermediate_mint: Option<Box<InterfaceAccount<'info, Mint>>>,
 }
 
 pub fn execute_leg_owner<'info>(

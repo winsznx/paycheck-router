@@ -49,6 +49,11 @@ pub struct ConvertHolding<'info> {
     #[account(address = asset.token_program)]
     pub asset_token_program: Interface<'info, TokenInterface>,
     pub target_token_program: Interface<'info, TokenInterface>,
+    /// The owner's token account for the route's intermediate mint, when the
+    /// route passes through one. Leftovers of that mint are swept here.
+    #[account(mut)]
+    pub owner_intermediate: Option<Box<InterfaceAccount<'info, TokenAccount>>>,
+    pub intermediate_mint: Option<Box<InterfaceAccount<'info, Mint>>>,
 }
 
 pub fn convert_holding<'info>(
@@ -192,23 +197,28 @@ pub fn convert_holding<'info>(
         .ok_or(RouterError::InputOverspent)?;
     require!(moved == amount, RouterError::InputOverspent);
 
+    let intermediate = token_ops::intermediate_target(
+        accounts.owner_intermediate.as_deref(),
+        accounts.intermediate_mint.as_deref(),
+        &owner,
+        &[asset_program.clone(), target_program.clone()],
+    )?;
+    let mut targets = vec![
+        SweepTarget {
+            mint: pre_ipo,
+            to: &source_info,
+        },
+        SweepTarget {
+            mint: target,
+            to: &destination_info,
+        },
+    ];
+    if let Some(intermediate) = &intermediate {
+        targets.push(intermediate.as_sweep());
+    }
     let mut touched = ctx.remaining_accounts.to_vec();
     touched.push(convert_source_info);
-    token_ops::sweep_authority_accounts(
-        &touched,
-        &convert_info,
-        convert_seeds,
-        &[
-            SweepTarget {
-                mint: pre_ipo,
-                to: &source_info,
-            },
-            SweepTarget {
-                mint: target,
-                to: &destination_info,
-            },
-        ],
-    )?;
+    token_ops::sweep_authority_accounts(&touched, &convert_info, convert_seeds, &targets)?;
 
     accounts.destination.reload()?;
     let out_amount = accounts

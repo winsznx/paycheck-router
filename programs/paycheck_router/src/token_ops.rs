@@ -11,7 +11,7 @@ use anchor_spl::{
         },
         state::Account as TokenAccountState,
     },
-    token_interface::{self, TransferChecked},
+    token_interface::{self, Mint, TokenAccount, TransferChecked},
 };
 
 use crate::error::RouterError;
@@ -110,6 +110,7 @@ pub fn invoke_swap<'info>(
     Ok(())
 }
 
+#[derive(Clone, Copy)]
 pub struct SweepTarget<'a, 'info> {
     pub mint: MintRef<'a, 'info>,
     pub to: &'a AccountInfo<'info>,
@@ -151,4 +152,62 @@ pub fn sweep_authority_accounts<'info>(
             .ok_or(RouterError::MathOverflow)?;
     }
     Ok(swept)
+}
+
+/// Where leftovers of a route's intermediate mint go: the owner's token
+/// account for that mint. A two-hop route (USDC to wrapped SOL to a PreStocks
+/// order book, say) leaves the unfilled part of the middle hop with the
+/// authority.
+pub struct OwnerTarget<'info> {
+    pub to: AccountInfo<'info>,
+    pub mint: AccountInfo<'info>,
+    pub token_program: AccountInfo<'info>,
+    pub decimals: u8,
+}
+
+impl<'info> OwnerTarget<'info> {
+    pub fn as_sweep(&self) -> SweepTarget<'_, 'info> {
+        SweepTarget {
+            mint: MintRef {
+                mint: &self.mint,
+                token_program: &self.token_program,
+                decimals: self.decimals,
+            },
+            to: &self.to,
+        }
+    }
+}
+
+/// Validates the optional intermediate pair: both or neither, owned by
+/// `owner`, mint matching, and a token program the instruction already has.
+pub fn intermediate_target<'info>(
+    account: Option<&InterfaceAccount<'info, TokenAccount>>,
+    mint: Option<&InterfaceAccount<'info, Mint>>,
+    owner: &Pubkey,
+    token_programs: &[AccountInfo<'info>],
+) -> Result<Option<OwnerTarget<'info>>> {
+    match (account, mint) {
+        (None, None) => Ok(None),
+        (Some(account), Some(mint)) => {
+            require_keys_eq!(account.owner, *owner, RouterError::DestinationOwnerMismatch);
+            require_keys_eq!(
+                account.mint,
+                mint.key(),
+                RouterError::DestinationMintMismatch
+            );
+            let mint_info = mint.to_account_info();
+            let token_program = token_programs
+                .iter()
+                .find(|program| program.key == mint_info.owner)
+                .cloned()
+                .ok_or(RouterError::InvalidParameter)?;
+            Ok(Some(OwnerTarget {
+                to: account.to_account_info(),
+                mint: mint_info,
+                token_program,
+                decimals: mint.decimals,
+            }))
+        }
+        _ => err!(RouterError::InvalidParameter),
+    }
 }

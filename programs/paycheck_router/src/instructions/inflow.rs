@@ -156,6 +156,7 @@ pub fn record_paycheck(ctx: Context<RecordPaycheck>, detected_slot: u64) -> Resu
             ref_price_e9: 0,
             executed_at: 0,
             issuer_fee: 0,
+            dust_returned: 0,
         })
         .collect();
     let invest_total = legs

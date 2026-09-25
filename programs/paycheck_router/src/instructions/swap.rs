@@ -80,6 +80,11 @@ pub struct SwapGuarded<'info> {
     pub usdc_token_program: Interface<'info, TokenInterface>,
     #[account(address = asset.token_program)]
     pub asset_token_program: Interface<'info, TokenInterface>,
+    /// The owner's token account for the route's intermediate mint, when the
+    /// route passes through one. Leftovers of that mint are swept here.
+    #[account(mut)]
+    pub owner_intermediate: Option<Box<InterfaceAccount<'info, TokenAccount>>>,
+    pub intermediate_mint: Option<Box<InterfaceAccount<'info, Mint>>>,
 }
 
 fn reference_for(accounts: &SwapGuarded, band_bps: u16, now: i64) -> Result<Reference> {
@@ -191,6 +196,25 @@ pub fn swap_guarded<'info>(
         token_program: &asset_program,
         decimals: accounts.asset_mint.decimals,
     };
+    let intermediate = token_ops::intermediate_target(
+        accounts.owner_intermediate.as_deref(),
+        accounts.intermediate_mint.as_deref(),
+        &owner_key,
+        &[usdc_program.clone(), asset_program.clone()],
+    )?;
+    let mut targets = vec![
+        SweepTarget {
+            mint: usdc,
+            to: &pay_in_info,
+        },
+        SweepTarget {
+            mint: asset,
+            to: &owner_asset_info,
+        },
+    ];
+    if let Some(target) = &intermediate {
+        targets.push(target.as_sweep());
+    }
     let mut touched = ctx.remaining_accounts.to_vec();
     touched.push(authority_usdc_info.clone());
     touched.push(authority_asset_info.clone());
@@ -246,16 +270,7 @@ pub fn swap_guarded<'info>(
                 &touched,
                 &authority_info,
                 authority_seeds,
-                &[
-                    SweepTarget {
-                        mint: usdc,
-                        to: &pay_in_info,
-                    },
-                    SweepTarget {
-                        mint: asset,
-                        to: &owner_asset_info,
-                    },
-                ],
+                &targets,
             )?;
             accounts.owner_asset.reload()?;
             let out_amount = accounts
@@ -327,16 +342,7 @@ pub fn swap_guarded<'info>(
                 &touched,
                 &authority_info,
                 authority_seeds,
-                &[
-                    SweepTarget {
-                        mint: usdc,
-                        to: &pay_in_info,
-                    },
-                    SweepTarget {
-                        mint: asset,
-                        to: &owner_asset_info,
-                    },
-                ],
+                &targets,
             )?;
             accounts.pay_in.reload()?;
             let gross = accounts

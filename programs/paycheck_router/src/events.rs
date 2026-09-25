@@ -146,8 +146,13 @@ pub struct LegExecuted {
     pub destination: Pubkey,
     pub amount_in: u64,
     pub fee: u64,
+    /// USDC handed to the route: amount_in less the fee.
     pub swapped_in: u64,
+    /// USDC the route actually spent: swapped_in less dust_returned.
+    pub usdc_consumed: u64,
     pub dust_returned: u64,
+    /// Intermediate-mint leftovers swept to the owner's intermediate account.
+    pub intermediate_returned: u64,
     pub out_amount: u64,
     pub issuer_fee: u64,
     pub min_out: u64,

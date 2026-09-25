@@ -35,6 +35,8 @@ fn swap_ix(m: &Market, params: GuardedSwapParams, call: &Call, route: &Route) ->
         jupiter_program: call.swap_program.unwrap_or(test_swap::ID),
         usdc_token_program: TOKEN_PROGRAM,
         asset_token_program: TOKEN_2022_PROGRAM,
+        owner_intermediate: call.intermediate.map(|(account, _)| account),
+        intermediate_mint: call.intermediate.map(|(_, mint)| mint),
     }
     .to_account_metas(None);
     accounts.extend(route.accounts.iter().cloned());
