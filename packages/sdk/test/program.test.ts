@@ -24,6 +24,7 @@ const event = {
   swappedIn: 99_800_000n,
   dustReturned: 0n,
   outAmount: 55_000_000n,
+  issuerFee: 12n,
   minOut: 54_000_000n,
   refPriceE9: 180_000_000_000n,
   usdcPriceE9: 1_000_000_000n,
@@ -91,7 +92,7 @@ describe("generated client adapters", () => {
     ];
     const [decoded] = legExecutedFromLogs(logs);
     expect(decoded?.outAmount).toBe(55_000_000n);
-    const view = legExecutedView(decoded ?? { ...event, attestation: none() }, 12n);
+    const view = legExecutedView(decoded ?? { ...event, attestation: none() });
     expect(view.priceSource).toBe("MarkAttestation");
     expect(view.attestation?.markPriceE9).toBe(1n);
     expect(view.issuerFee).toBe(12n);
