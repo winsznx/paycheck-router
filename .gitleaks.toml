@@ -8,3 +8,10 @@ useDefault = true
 description = "Public Solana addresses under ammKey and accountKey"
 regexTarget = "line"
 regexes = ['''"(ammKey|accountKey)":\s*"[1-9A-HJ-NP-Za-km-z]{32,44}"''']
+
+# getTransaction responses that fork runs record, each named by its signature. They hold public
+# signatures and account keys only; a signature that happens to contain "Keys" reads as a key
+# assignment to the generic rule.
+[[allowlists]]
+description = "Recorded Solana transaction responses in evidence bundles"
+paths = ['''^evidence/.+/raw/tx/[1-9A-HJ-NP-Za-km-z]{64,88}\.json$''']
