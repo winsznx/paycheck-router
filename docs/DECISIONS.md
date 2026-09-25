@@ -2,6 +2,12 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: The demo environment runs Postgres 17 in PGlite
+
+**Observed.** The recording machine's Docker engine answers HTTP 500, and the disk had 1.6 GB free at 12:43 WAT, while `supabase start` pulls several GB of images. The demo database only mirrors offchain state; the money state it describes lives onchain.
+
+**Changed.** `pnpm demo:record` always runs Postgres 17 through PGlite's wire-protocol server on port 54322, applying the same `supabase/migrations` and `seed.sql`. It is the only database path for `demo`, not a fallback, and the startup log says which database is running. Supabase through Hyperdrive stays the database for staging and production. `pnpm demo:fork` needs no database at all.
+
 ## 2026-09-25: Fuzzing with proptest under LiteSVM instead of Trident
 
 **Observed.** Trident 0.12.0 (and 0.13.0-rc.4) is built on Solana 2.x crates, while Anchor 1.0.2 is on Solana 3.x. The program's entry point compiles under Trident, but the first sysvar read fails at runtime (`UnsupportedSysvar`) because Trident installs only the 2.x syscall stubs, and every instruction here reads `Clock`.
