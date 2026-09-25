@@ -154,6 +154,10 @@ export function attemptRecord(
     jupiterBuild: attempt.jupiter
       ? bundle.write(`raw/jupiter/${key}.json`, attempt.jupiter.raw)
       : null,
+    jupiterBuilds: attempt.jupiterBuilds.map((build, i) =>
+      bundle.write(`raw/jupiter/${key}-quote-${i}.json`, build.raw),
+    ),
+    notes: attempt.notes,
     hermesUpdate: hermesRef,
     prices,
     attestation:
@@ -290,6 +294,7 @@ export async function verifyExecuted(input: {
           fee: legState.fee,
           issuerFee: legState.issuerFee,
           refPriceE9: legState.refPriceE9,
+          executedAt: legState.executedAt,
         }
       : null,
     attestation: attempt.attestation

@@ -100,6 +100,7 @@ const input: LegVerificationInput = {
     fee: event.fee,
     issuerFee: 0n,
     refPriceE9: event.refPriceE9,
+    executedAt: BigInt(PUBLISH + 3),
   },
   attestation: null,
 };

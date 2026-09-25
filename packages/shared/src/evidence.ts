@@ -74,6 +74,10 @@ export const LegAttempt = z.object({
   key: z.string(),
   startedAt: z.iso.datetime(),
   jupiterBuild: ArtifactRef.nullable(),
+  /** Every Jupiter build the attempt requested, re-quotes included. */
+  jupiterBuilds: z.array(ArtifactRef),
+  /** Why the attempt re-quoted (route hops, transaction size, failing fork DEX). */
+  notes: z.array(z.string()),
   hermesUpdate: ArtifactRef.nullable(),
   prices: z.array(PythPriceRecord),
   attestation: AttestationRecord.nullable(),

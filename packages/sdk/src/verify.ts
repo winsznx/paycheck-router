@@ -63,6 +63,8 @@ export type PaycheckLegReadback = {
   fee: bigint;
   issuerFee: bigint;
   refPriceE9: bigint;
+  /** Unix seconds by the chain's clock when the leg executed. */
+  executedAt: bigint;
 };
 
 export type LegVerificationInput = {
@@ -274,9 +276,15 @@ export async function verifyLeg(
         event.refPriceE9,
       ),
     );
+    // The chain's own clock at execution, from the Paycheck readback. Surfpool 1.5.0 reports
+    // getTransaction blockTime divided by 1,000, so the transaction's blockTime is a fallback.
+    const executedAt =
+      input.readback?.executedAt !== undefined
+        ? Number(input.readback.executedAt)
+        : transaction.blockTime;
     const age =
-      attestation && transaction.blockTime !== null
-        ? Math.abs(transaction.blockTime - Number(attestation.observedAt))
+      attestation && executedAt !== null
+        ? Math.abs(executedAt - Number(attestation.observedAt))
         : null;
     checks.push(
       check(
