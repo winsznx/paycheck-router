@@ -151,19 +151,19 @@ export function packGroups(
   groups: readonly { instructions: readonly Instruction[]; computeUnits: number }[],
   lookupTables: AddressesByLookupTableAddress,
   microLamports: bigint,
+  minUnits = 0,
 ): Instruction[][] {
+  const budget = (units: number) =>
+    computeBudgetInstructions(
+      Math.min(Math.max(units, minUnits), SIMULATION_COMPUTE_UNITS),
+      microLamports,
+    );
   const batches: Instruction[][] = [];
   let current: Instruction[] = [];
   let units = 0;
   const fits = (instructions: Instruction[], cu: number) =>
-    messageSize(
-      buildMessage(
-        feePayer,
-        lifetime,
-        [...computeBudgetInstructions(cu, microLamports), ...instructions],
-        lookupTables,
-      ),
-    ) <= MAX_TRANSACTION_BYTES;
+    messageSize(buildMessage(feePayer, lifetime, [...budget(cu), ...instructions], lookupTables)) <=
+    MAX_TRANSACTION_BYTES;
   for (const group of groups) {
     const candidate = [...current, ...group.instructions];
     const candidateUnits = Math.min(units + group.computeUnits, SIMULATION_COMPUTE_UNITS);
@@ -172,12 +172,12 @@ export function packGroups(
       units = candidateUnits;
       continue;
     }
-    batches.push([...computeBudgetInstructions(units, microLamports), ...current]);
+    batches.push([...budget(units), ...current]);
     current = [...group.instructions];
     units = group.computeUnits;
   }
   if (current.length > 0) {
-    batches.push([...computeBudgetInstructions(units, microLamports), ...current]);
+    batches.push([...budget(units), ...current]);
   }
   for (const batch of batches) {
     const size = messageSize(buildMessage(feePayer, lifetime, batch, lookupTables));
