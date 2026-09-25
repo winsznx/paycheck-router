@@ -138,6 +138,7 @@ describe("run manifest schema", () => {
     programId: "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
     programSha256: null,
     programExecutableHash: null,
+    programSource: null,
     crankVersion: "0.1.0",
     rpc: { sender: "http://127.0.0.1:8899", verifier: "http://127.0.0.1:8899" },
     feedIds: [USDC_FEED_ID],
