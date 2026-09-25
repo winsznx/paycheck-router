@@ -59,6 +59,10 @@ export const SessionResponse = z.object({
 });
 export type SessionResponse = z.infer<typeof SessionResponse>;
 
+/** `POST /auth/privy`: exchange a Privy access token (email, Google, Apple sign-in). */
+export const PrivyRequest = z.object({ token: z.string().min(1).max(8192) });
+export type PrivyRequest = z.infer<typeof PrivyRequest>;
+
 /** `POST /auth/refresh`. Web may omit the body and rely on the refresh cookie. */
 export const RefreshRequest = z.object({ refreshToken: z.string().min(1) }).partial();
 export type RefreshRequest = z.infer<typeof RefreshRequest>;

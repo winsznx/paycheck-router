@@ -3,6 +3,7 @@ import { address } from "@solana/kit";
 import { and, eq, gt, isNull } from "drizzle-orm";
 import { Hono } from "hono";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
+import { fetchPrivyIdentity, type PrivyIdentity, verifyPrivyToken } from "../auth/privy.ts";
 import {
   checkSiwsMessage,
   parseSiwsMessage,
@@ -21,7 +22,7 @@ import type { Db } from "../db/client.ts";
 import { authNonces, sessions, users, wallets } from "../db/schema.ts";
 import type { AppContext, AppEnv } from "../http/context.ts";
 import { readJson } from "../http/json.ts";
-import { ApiError, parseOrThrow, unauthorized } from "../http/problem.ts";
+import { ApiError, notConfigured, parseOrThrow, unauthorized } from "../http/problem.ts";
 import { rateLimit } from "../http/rate-limit.ts";
 import { ACCESS_COOKIE, REFRESH_COOKIE } from "../http/session.ts";
 
@@ -82,6 +83,34 @@ authRoutes.post("/siws", async (c) => {
   const ipCountry = countryOf(c);
   const user = await upsertWalletUser(db, body.address, ipCountry, now());
   return c.json(await issueSession(c, user, body.address, null));
+});
+
+/**
+ * Email, Google and Apple sign-in through Privy (section 12.1): the Privy access token is verified
+ * with the app's ES256 key, the user's Solana wallets are read from Privy's server API, and the
+ * session is Paycheck Router's own, bound to the embedded wallet.
+ */
+authRoutes.post("/privy", async (c) => {
+  const { db, now } = c.var.services;
+  const { PRIVY_APP_ID, PRIVY_APP_SECRET, PRIVY_VERIFICATION_KEY } = c.env;
+  if (!PRIVY_APP_ID || !PRIVY_APP_SECRET || !PRIVY_VERIFICATION_KEY) {
+    throw notConfigured("Privy sign-in");
+  }
+  const config = {
+    appId: PRIVY_APP_ID,
+    appSecret: PRIVY_APP_SECRET,
+    verificationKey: PRIVY_VERIFICATION_KEY,
+  };
+  const body = parseOrThrow(api.PrivyRequest, await readJson(c));
+  const did = await verifyPrivyToken(config, body.token, now());
+  if (!did) throw unauthorized("The Privy token is invalid or expired");
+  const identity = await fetchPrivyIdentity(config, did);
+  const wallet = identity.solanaWallets[0];
+  if (!wallet) {
+    throw new ApiError(409, "conflict", "This Privy account has no Solana wallet yet");
+  }
+  const user = await upsertPrivyUser(db, identity, countryOf(c), now());
+  return c.json(await issueSession(c, user, wallet.address, null));
 });
 
 authRoutes.post("/refresh", async (c) => {
@@ -183,6 +212,51 @@ async function upsertWalletUser(
     if (!winner) throw new Error("wallet link vanished during sign-in");
     return winner.user;
   }
+}
+
+/** Finds or creates the user for a Privy DID and links every Solana wallet not linked elsewhere. */
+async function upsertPrivyUser(
+  db: Db,
+  identity: PrivyIdentity,
+  ipCountry: string | null,
+  now: Date,
+): Promise<UserRow> {
+  const [existing] = await db.select().from(users).where(eq(users.privyDid, identity.did)).limit(1);
+  let user = existing;
+  if (!user) {
+    const [created] = await db
+      .insert(users)
+      .values({ privyDid: identity.did, email: identity.email, countryIpLast: ipCountry })
+      .onConflictDoNothing({ target: users.privyDid })
+      .returning();
+    user =
+      created ??
+      (await db.select().from(users).where(eq(users.privyDid, identity.did)).limit(1))[0];
+  }
+  if (!user) throw new Error("Privy user upsert returned no row");
+  if (user.deletedAt) throw new ApiError(403, "forbidden", "This account was deleted");
+  const [updated] = await db
+    .update(users)
+    .set({
+      email: user.email ?? identity.email,
+      countryIpLast: ipCountry ?? user.countryIpLast,
+      updatedAt: now,
+    })
+    .where(eq(users.id, user.id))
+    .returning();
+  for (const wallet of identity.solanaWallets) {
+    await db
+      .insert(wallets)
+      .values({
+        userId: user.id,
+        address: wallet.address,
+        kind: wallet.embedded ? "embedded" : "external",
+        provider: "privy",
+        verifiedAt: now,
+      })
+      .onConflictDoNothing({ target: wallets.address });
+  }
+  return updated ?? user;
 }
 
 async function issueSession(
