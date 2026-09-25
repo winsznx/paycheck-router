@@ -127,7 +127,9 @@
       "home": "Início",
       "paychecks": "Salários",
       "portfolio": "Carteira",
-      "help": "Ajuda"
+      "help": "Ajuda",
+      "activity": "Atividade",
+      "settings": "Configurações"
     },
     "status": {
       "none": "Sem router",
@@ -315,6 +317,77 @@
       "mismatch": "Não confere",
       "pending": "Aguardando finalidade",
       "publicProof": "Abrir a página pública de prova"
+    },
+    "activity": {
+      "title": "Atividade",
+      "loadError": "Não foi possível carregar sua atividade. Verifique sua conexão e tente de novo.",
+      "filter": "Mostrar",
+      "filters": {
+        "all": "Tudo",
+        "bought": "Compradas",
+        "waiting": "Aguardando",
+        "ended": "Encerradas"
+      },
+      "empty": "Nada por aqui ainda."
+    },
+    "settings": {
+      "title": "Configurações",
+      "sections": "Seções de configurações",
+      "tabs": {
+        "wallet": "Carteira",
+        "preferences": "Preferências",
+        "security": "Segurança"
+      },
+      "preferences": {
+        "title": "Preferências",
+        "language": "Idioma",
+        "currency": "Moeda de referência",
+        "currencyNote": "A moeda local é só uma referência de exibição e nunca afeta o que é comprado.",
+        "theme": "Tema",
+        "themes": {
+          "dark": "Escuro",
+          "light": "Claro",
+          "system": "Igual a este dispositivo"
+        },
+        "reducedMotion": "Reduzir movimento",
+        "dataSaver": "Economia de dados: sem preços ao vivo nem animações",
+        "saved": "Salvo",
+        "saveFailed": "Não foi salvo. Tente de novo.",
+        "languages": {
+          "en": "English",
+          "es-419": "Español (Latinoamérica)",
+          "pt-BR": "Português (Brasil)",
+          "fr": "Français"
+        }
+      },
+      "wallet": {
+        "title": "Carteira e autorização",
+        "noRouter": "Você ainda não tem um router.",
+        "payIn": "Sua carteira de recebimento",
+        "address": "Endereço da carteira",
+        "copy": "Copiar",
+        "copied": "Copiado",
+        "explorer": "Explorador",
+        "qr": "QR code do endereço da sua carteira",
+        "allowance": "Autorização",
+        "allowanceValue": "Restam {amount} para gastar",
+        "health": {
+          "none": "Sem router",
+          "live": "Ativo",
+          "paused": "Pausado",
+          "attention": "Precisa de atenção"
+        },
+        "invests": "Investe {percent} de cada salário",
+        "revokeHint": "Você pode revogar esta autorização no app da sua carteira a qualquer momento; aí todas as fatias aguardam e nada se move."
+      },
+      "security": {
+        "title": "Segurança",
+        "signedInAs": "Conectado com a carteira {wallet}",
+        "signedOut": "Você saiu.",
+        "via": "Assinado com {wallet}",
+        "signOut": "Sair",
+        "signingOut": "Saindo"
+      }
     }
   },
   "onboarding": {

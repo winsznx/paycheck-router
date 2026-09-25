@@ -127,7 +127,9 @@
       "home": "Accueil",
       "paychecks": "Salaires",
       "portfolio": "Portefeuille",
-      "help": "Aide"
+      "help": "Aide",
+      "activity": "Activité",
+      "settings": "Réglages"
     },
     "status": {
       "none": "Aucun router",
@@ -315,6 +317,77 @@
       "mismatch": "Non conforme",
       "pending": "En attente de finalité",
       "publicProof": "Ouvrir la page de preuve publique"
+    },
+    "activity": {
+      "title": "Activité",
+      "loadError": "Votre activité n'a pas pu être chargée. Vérifiez votre connexion et réessayez.",
+      "filter": "Afficher",
+      "filters": {
+        "all": "Tout",
+        "bought": "Achetées",
+        "waiting": "En attente",
+        "ended": "Terminées"
+      },
+      "empty": "Rien ici pour l'instant."
+    },
+    "settings": {
+      "title": "Réglages",
+      "sections": "Sections des réglages",
+      "tabs": {
+        "wallet": "Wallet",
+        "preferences": "Préférences",
+        "security": "Sécurité"
+      },
+      "preferences": {
+        "title": "Préférences",
+        "language": "Langue",
+        "currency": "Devise de référence",
+        "currencyNote": "La devise locale n'est qu'une référence d'affichage et n'influe jamais sur les achats.",
+        "theme": "Thème",
+        "themes": {
+          "dark": "Sombre",
+          "light": "Clair",
+          "system": "Comme cet appareil"
+        },
+        "reducedMotion": "Réduire les animations",
+        "dataSaver": "Économie de données : pas de prix en direct ni d'animations",
+        "saved": "Enregistré",
+        "saveFailed": "L'enregistrement a échoué. Réessayez.",
+        "languages": {
+          "en": "English",
+          "es-419": "Español (Latinoamérica)",
+          "pt-BR": "Português (Brasil)",
+          "fr": "Français"
+        }
+      },
+      "wallet": {
+        "title": "Wallet et autorisation",
+        "noRouter": "Vous n'avez pas encore de router.",
+        "payIn": "Votre wallet de réception",
+        "address": "Adresse du wallet",
+        "copy": "Copier",
+        "copied": "Copié",
+        "explorer": "Explorateur",
+        "qr": "QR code de l'adresse de votre wallet",
+        "allowance": "Autorisation",
+        "allowanceValue": "{amount} restants à dépenser",
+        "health": {
+          "none": "Aucun router",
+          "live": "Actif",
+          "paused": "En pause",
+          "attention": "À vérifier"
+        },
+        "invests": "Investit {percent} de chaque salaire",
+        "revokeHint": "Vous pouvez révoquer cette autorisation depuis votre wallet à tout moment ; toutes les tranches attendent alors et rien ne bouge."
+      },
+      "security": {
+        "title": "Sécurité",
+        "signedInAs": "Connecté avec le wallet {wallet}",
+        "signedOut": "Vous êtes déconnecté.",
+        "via": "Signé avec {wallet}",
+        "signOut": "Se déconnecter",
+        "signingOut": "Déconnexion"
+      }
     }
   },
   "onboarding": {

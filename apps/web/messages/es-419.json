@@ -127,7 +127,9 @@
       "home": "Inicio",
       "paychecks": "Sueldos",
       "portfolio": "Portafolio",
-      "help": "Ayuda"
+      "help": "Ayuda",
+      "activity": "Actividad",
+      "settings": "Ajustes"
     },
     "status": {
       "none": "Sin router",
@@ -315,6 +317,77 @@
       "mismatch": "No coincide",
       "pending": "Esperando la finalidad",
       "publicProof": "Abrir la página pública de prueba"
+    },
+    "activity": {
+      "title": "Actividad",
+      "loadError": "No se pudo cargar tu actividad. Revisa tu conexión e inténtalo de nuevo.",
+      "filter": "Mostrar",
+      "filters": {
+        "all": "Todo",
+        "bought": "Compradas",
+        "waiting": "En espera",
+        "ended": "Terminadas"
+      },
+      "empty": "Todavía no hay nada aquí."
+    },
+    "settings": {
+      "title": "Ajustes",
+      "sections": "Secciones de ajustes",
+      "tabs": {
+        "wallet": "Billetera",
+        "preferences": "Preferencias",
+        "security": "Seguridad"
+      },
+      "preferences": {
+        "title": "Preferencias",
+        "language": "Idioma",
+        "currency": "Moneda de referencia",
+        "currencyNote": "La moneda local es solo una referencia visual y nunca afecta lo que se compra.",
+        "theme": "Tema",
+        "themes": {
+          "dark": "Oscuro",
+          "light": "Claro",
+          "system": "Igual que este dispositivo"
+        },
+        "reducedMotion": "Reducir el movimiento",
+        "dataSaver": "Ahorro de datos: sin precios en vivo ni animaciones",
+        "saved": "Guardado",
+        "saveFailed": "No se guardó. Inténtalo de nuevo.",
+        "languages": {
+          "en": "English",
+          "es-419": "Español (Latinoamérica)",
+          "pt-BR": "Português (Brasil)",
+          "fr": "Français"
+        }
+      },
+      "wallet": {
+        "title": "Billetera y autorización",
+        "noRouter": "Todavía no tienes un router.",
+        "payIn": "Tu billetera de cobro",
+        "address": "Dirección de la billetera",
+        "copy": "Copiar",
+        "copied": "Copiado",
+        "explorer": "Explorador",
+        "qr": "Código QR de la dirección de tu billetera",
+        "allowance": "Autorización",
+        "allowanceValue": "Quedan {amount} por gastar",
+        "health": {
+          "none": "Sin router",
+          "live": "Activo",
+          "paused": "En pausa",
+          "attention": "Requiere atención"
+        },
+        "invests": "Invierte {percent} de cada sueldo",
+        "revokeHint": "Puedes revocar esta autorización desde tu billetera cuando quieras; entonces todas las porciones esperan y nada se mueve."
+      },
+      "security": {
+        "title": "Seguridad",
+        "signedInAs": "Sesión iniciada con la billetera {wallet}",
+        "signedOut": "No has iniciado sesión.",
+        "via": "Firmado con {wallet}",
+        "signOut": "Cerrar sesión",
+        "signingOut": "Cerrando sesión"
+      }
     }
   },
   "onboarding": {
