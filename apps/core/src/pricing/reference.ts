@@ -1,0 +1,179 @@
+import { USDC_FEED_ID } from "@paycheck-router/shared";
+import { z } from "zod";
+import type { Env } from "../env.ts";
+import { log } from "../log.ts";
+import { type HermesPrice, latestPrices, priceE9 } from "./hermes.ts";
+
+/** A regular-session price older than this means the market is closed (section 7.3). */
+const FRESH_SECS = 60;
+
+export type AssetForPricing = {
+  mint: string;
+  kind: "listed_equity" | "pre_ipo";
+  feedId: string | null;
+  feedId247: string | null;
+};
+
+export type Reference = {
+  source: "pyth" | "pyth247" | "mark";
+  priceE9: bigint;
+  publishTime: Date;
+  pyth: HermesPrice | null;
+};
+
+export type MarketState = "open" | "extended" | "closed" | "always_open" | "unknown";
+
+export type PriceBoard = {
+  asOf: Date;
+  usdc: HermesPrice | null;
+  reference: Map<string, Reference>;
+  market: Map<string, MarketState>;
+  onchainE9: Map<string, bigint>;
+  markE9: Map<string, bigint>;
+};
+
+const PRESTOCKS_URL = "https://prestocks.com/api/prestocks";
+
+const PreStocksEntry = z.object({ contract_address: z.string(), markPrice: z.number().positive() });
+
+function decimalToE9(value: number): bigint {
+  const [whole = "0", fraction = ""] = value.toFixed(9).split(".");
+  return BigInt(whole) * 1_000_000_000n + BigInt(fraction.padEnd(9, "0").slice(0, 9));
+}
+
+/** PreStocks marks in USD × 1e9 by mint, from the public PreStocks API. */
+export async function prestocksMarks(): Promise<Map<string, bigint>> {
+  const response = await fetch(PRESTOCKS_URL, { headers: { accept: "application/json" } });
+  if (!response.ok) throw new Error(`PreStocks API failed with ${response.status}`);
+  const entries = z.array(PreStocksEntry).parse(await response.json());
+  return new Map(entries.map((entry) => [entry.contract_address, decimalToE9(entry.markPrice)]));
+}
+
+const JupiterPrice = z.record(z.string(), z.object({ usdPrice: z.number().positive() }).nullable());
+
+/** Jupiter Price V3 USD price per whole token, × 1e9. Display only; never feeds a guard. */
+export async function jupiterPrices(
+  env: Env,
+  mints: readonly string[],
+): Promise<Map<string, bigint>> {
+  if (mints.length === 0) return new Map();
+  const url = new URL("/price/v3", env.JUPITER_BASE_URL);
+  url.searchParams.set("ids", mints.join(","));
+  const headers: Record<string, string> = { accept: "application/json" };
+  if (env.JUPITER_API_KEY) headers["x-api-key"] = env.JUPITER_API_KEY;
+  const response = await fetch(url, { headers });
+  if (!response.ok) throw new Error(`Jupiter price failed with ${response.status}`);
+  const body = JupiterPrice.parse(await response.json());
+  const out = new Map<string, bigint>();
+  for (const [mint, entry] of Object.entries(body)) {
+    if (entry) out.set(mint, decimalToE9(entry.usdPrice));
+  }
+  return out;
+}
+
+async function settle<T>(label: string, promise: Promise<T>, empty: T): Promise<T> {
+  try {
+    return await promise;
+  } catch (error) {
+    log.warn(`${label} unavailable`, { error });
+    return empty;
+  }
+}
+
+/**
+ * Reference, onchain and market state for every asset, read live. An upstream that fails leaves
+ * its prices out rather than guessing them.
+ */
+export async function priceBoard(
+  env: Env,
+  assets: readonly AssetForPricing[],
+  now: Date,
+): Promise<PriceBoard> {
+  const feeds = new Set<string>([USDC_FEED_ID]);
+  for (const asset of assets) {
+    if (asset.feedId) feeds.add(asset.feedId);
+    if (asset.feedId247) feeds.add(asset.feedId247);
+  }
+  const hasPreIpo = assets.some((asset) => asset.kind === "pre_ipo");
+  const [pyth, marks, onchain] = await Promise.all([
+    settle(
+      "Hermes",
+      latestPrices({ url: env.HERMES_URL, apiKey: env.PYTH_API_KEY }, [...feeds]),
+      [],
+    ),
+    hasPreIpo
+      ? settle("PreStocks", prestocksMarks(), new Map<string, bigint>())
+      : new Map<string, bigint>(),
+    settle(
+      "Jupiter price",
+      jupiterPrices(
+        env,
+        assets.map((asset) => asset.mint),
+      ),
+      new Map<string, bigint>(),
+    ),
+  ]);
+  const byFeed = new Map(pyth.map((price) => [price.feedId, price]));
+  const fresh = (price: HermesPrice | undefined) =>
+    price !== undefined && (now.getTime() - price.publishTime.getTime()) / 1000 <= FRESH_SECS;
+
+  const reference = new Map<string, Reference>();
+  const market = new Map<string, MarketState>();
+  for (const asset of assets) {
+    if (asset.kind === "pre_ipo") {
+      market.set(asset.mint, "always_open");
+      const mark = marks.get(asset.mint);
+      if (mark !== undefined) {
+        reference.set(asset.mint, { source: "mark", priceE9: mark, publishTime: now, pyth: null });
+      }
+      continue;
+    }
+    const regular = asset.feedId ? byFeed.get(asset.feedId) : undefined;
+    const allDay = asset.feedId247 ? byFeed.get(asset.feedId247) : undefined;
+    if (fresh(regular) && regular) {
+      market.set(asset.mint, "open");
+      reference.set(asset.mint, {
+        source: "pyth",
+        priceE9: priceE9(regular),
+        publishTime: regular.publishTime,
+        pyth: regular,
+      });
+    } else if (fresh(allDay) && allDay) {
+      market.set(asset.mint, "extended");
+      reference.set(asset.mint, {
+        source: "pyth247",
+        priceE9: priceE9(allDay),
+        publishTime: allDay.publishTime,
+        pyth: allDay,
+      });
+    } else {
+      market.set(asset.mint, regular || allDay ? "closed" : "unknown");
+      const last = regular ?? allDay;
+      if (last) {
+        reference.set(asset.mint, {
+          source: regular ? "pyth" : "pyth247",
+          priceE9: priceE9(last),
+          publishTime: last.publishTime,
+          pyth: last,
+        });
+      }
+    }
+  }
+  return {
+    asOf: now,
+    usdc: byFeed.get(USDC_FEED_ID) ?? null,
+    reference,
+    market,
+    onchainE9: onchain,
+    markE9: marks,
+  };
+}
+
+/** Onchain over reference in bps, floored toward zero; negative is a discount. */
+export function premiumBps(
+  onchainE9: bigint | undefined,
+  referenceE9: bigint | undefined,
+): number | null {
+  if (onchainE9 === undefined || referenceE9 === undefined || referenceE9 === 0n) return null;
+  return Number(((onchainE9 - referenceE9) * 10_000n) / referenceE9);
+}

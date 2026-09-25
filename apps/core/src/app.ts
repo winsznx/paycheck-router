@@ -8,9 +8,14 @@ import type { AppEnv, Services } from "./http/context.ts";
 import { ApiError, notFound, problemResponse } from "./http/problem.ts";
 import { log } from "./log.ts";
 import { authRoutes } from "./routes/auth.ts";
+import { marketRoutes } from "./routes/market.ts";
 import { meRoutes } from "./routes/me.ts";
+import { paycheckRoutes } from "./routes/paychecks.ts";
+import { proofRoutes } from "./routes/proof.ts";
 import { publicRoutes } from "./routes/public.ts";
 import { realtimeRoutes } from "./routes/realtime.ts";
+import { routerRoutes } from "./routes/routers.ts";
+import { txRoutes } from "./routes/tx.ts";
 
 export type ServicesFactory = (env: Env) => Services;
 
@@ -58,6 +63,11 @@ export function createApp(makeServices: ServicesFactory): Hono<AppEnv> {
   app.route("/", meRoutes);
   app.route("/", publicRoutes);
   app.route("/", realtimeRoutes);
+  app.route("/", marketRoutes);
+  app.route("/", routerRoutes);
+  app.route("/", txRoutes);
+  app.route("/", paycheckRoutes);
+  app.route("/", proofRoutes);
 
   return app;
 }

@@ -818,7 +818,10 @@ export class RouterActor extends DurableObject<Env> {
    * Durable Objects buffer offchain writes and flush on recovery).
    */
   private async mirror(op: MirrorOp): Promise<void> {
-    this.ctx.storage.sql.exec("insert into outbox (payload) values (?)", JSON.stringify(op, bigintJson));
+    this.ctx.storage.sql.exec(
+      "insert into outbox (payload) values (?)",
+      JSON.stringify(op, bigintJson),
+    );
     const current = await this.ctx.storage.getAlarm();
     const soon = Date.now() + 100;
     if (current === null || current > soon) await this.ctx.storage.setAlarm(soon);

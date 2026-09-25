@@ -60,7 +60,12 @@ class ScriptedEngine implements Engine {
   }
   async resolveInflows() {
     return [
-      { signature: signature("Zn2f3w"), slot: 99n, amount: 1_850_000_000n, sender: "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd" },
+      {
+        signature: signature("Zn2f3w"),
+        slot: 99n,
+        amount: 1_850_000_000n,
+        sender: "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+      },
     ];
   }
   classify() {

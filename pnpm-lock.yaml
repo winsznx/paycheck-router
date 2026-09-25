@@ -26,6 +26,9 @@ importers:
 
   apps/core:
     dependencies:
+      '@paycheck-router/guard-math':
+        specifier: workspace:*
+        version: link:../../packages/guard-math
       '@paycheck-router/shared':
         specifier: workspace:*
         version: link:../../packages/shared
