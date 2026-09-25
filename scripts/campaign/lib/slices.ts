@@ -117,6 +117,8 @@ export type Slice = {
   executed: {
     signature: string;
     blockTime: number | null;
+    /** The execute transaction's fee, paid by the crank (the protocol), not the owner. */
+    networkFeeLamports: number | null;
     swappedIn: bigint;
     grossOut: bigint;
     cost: FillCost;
@@ -130,7 +132,7 @@ export type Slice = {
 type TxJson = {
   result: {
     blockTime: number | null;
-    meta: { logMessages: string[] | null };
+    meta: { logMessages: string[] | null; fee?: number };
   } | null;
 };
 
@@ -212,6 +214,7 @@ function executedOf(
   return {
     signature: executed.signature,
     blockTime: tx.result?.blockTime ?? null,
+    networkFeeLamports: tx.result?.meta.fee ?? null,
     swappedIn: event.swappedIn,
     grossOut: event.outAmount + event.issuerFee,
     cost: fillCost({
