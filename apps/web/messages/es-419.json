@@ -194,7 +194,35 @@
       "seeAll": "Ver todo",
       "noHoldings": "Tu primera porción ejecutada aparece aquí.",
       "weightVsTarget": "{actual} de {target} objetivo",
-      "activity": "Actividad"
+      "activity": "Actividad",
+      "chart": {
+        "title": "Invertido por sueldo",
+        "caption": "USDC convertido en acciones, sueldo por sueldo. Una porción en espera cuenta cuando compra.",
+        "empty": "Tu primer sueldo inicia este gráfico.",
+        "summary": "{total} invertidos en {count, plural, one {# sueldo} other {# sueldos}}",
+        "tooltip": "Sueldo {n}",
+        "bought": "+{amount} comprado",
+        "total": "{amount} invertidos hasta ahora",
+        "open": "{amount} aún en espera",
+        "tableCaption": "Invertido por sueldo",
+        "colPaycheck": "Sueldo",
+        "colDate": "Registrado",
+        "colBought": "Comprado",
+        "colTotal": "Invertido hasta ahora"
+      },
+      "kpi": {
+        "investedLabel": "Invertido hasta ahora",
+        "investedDelta": "+{amount} del sueldo {n}",
+        "investedNone": "Aún no se compró nada",
+        "waitingLabel": "En espera de compra",
+        "waitingDelta": "{count, plural, one {# porción} other {# porciones}}, cada una con su motivo",
+        "waitingNone": "Nada en espera",
+        "paychecksLabel": "Sueldos enrutados",
+        "paychecksDelta": "Último {time}",
+        "paychecksNone": "Ninguno aún",
+        "shareLabel": "Invertido de cada sueldo",
+        "shareDelta": "Dividido en {count, plural, one {# activo} other {# activos}}"
+      }
     },
     "paycheck": {
       "metaTitle": "Sueldo",

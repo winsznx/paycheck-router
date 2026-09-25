@@ -194,7 +194,35 @@
       "seeAll": "Ver tudo",
       "noHoldings": "Sua primeira fatia executada aparece aqui.",
       "weightVsTarget": "{actual} de {target} da meta",
-      "activity": "Atividade"
+      "activity": "Atividade",
+      "chart": {
+        "title": "Investido por salário",
+        "caption": "USDC convertido em ações, salário a salário. Uma fatia em espera conta quando compra.",
+        "empty": "Seu primeiro salário começa este gráfico.",
+        "summary": "{total} investidos em {count, plural, one {# salário} other {# salários}}",
+        "tooltip": "Salário {n}",
+        "bought": "+{amount} comprado",
+        "total": "{amount} investidos até agora",
+        "open": "{amount} ainda em espera",
+        "tableCaption": "Investido por salário",
+        "colPaycheck": "Salário",
+        "colDate": "Registrado",
+        "colBought": "Comprado",
+        "colTotal": "Investido até agora"
+      },
+      "kpi": {
+        "investedLabel": "Investido até agora",
+        "investedDelta": "+{amount} do salário {n}",
+        "investedNone": "Nada comprado ainda",
+        "waitingLabel": "Aguardando compra",
+        "waitingDelta": "{count, plural, one {# fatia} other {# fatias}}, cada uma com seu motivo",
+        "waitingNone": "Nada em espera",
+        "paychecksLabel": "Salários roteados",
+        "paychecksDelta": "Último {time}",
+        "paychecksNone": "Nenhum ainda",
+        "shareLabel": "Investido de cada salário",
+        "shareDelta": "Dividido em {count, plural, one {# ativo} other {# ativos}}"
+      }
     },
     "paycheck": {
       "metaTitle": "Salário",

@@ -194,7 +194,35 @@
       "seeAll": "See all",
       "noHoldings": "Your first executed slice shows up here.",
       "weightVsTarget": "{actual} of {target} target",
-      "activity": "Activity"
+      "activity": "Activity",
+      "chart": {
+        "title": "Invested over paychecks",
+        "caption": "USDC turned into shares, paycheck by paycheck. A waiting slice counts once it buys.",
+        "empty": "Your first paycheck starts this chart.",
+        "summary": "{total} invested over {count, plural, one {# paycheck} other {# paychecks}}",
+        "tooltip": "Paycheck {n}",
+        "bought": "+{amount} bought",
+        "total": "{amount} invested so far",
+        "open": "{amount} still waiting",
+        "tableCaption": "Invested per paycheck",
+        "colPaycheck": "Paycheck",
+        "colDate": "Recorded",
+        "colBought": "Bought",
+        "colTotal": "Invested so far"
+      },
+      "kpi": {
+        "investedLabel": "Invested so far",
+        "investedDelta": "+{amount} from paycheck {n}",
+        "investedNone": "Nothing bought yet",
+        "waitingLabel": "Waiting to buy",
+        "waitingDelta": "{count, plural, one {# slice} other {# slices}}, each with a named reason",
+        "waitingNone": "Nothing waiting",
+        "paychecksLabel": "Paychecks routed",
+        "paychecksDelta": "Latest {time}",
+        "paychecksNone": "None yet",
+        "shareLabel": "Invested from each paycheck",
+        "shareDelta": "Split across {count, plural, one {# asset} other {# assets}}"
+      }
     },
     "paycheck": {
       "metaTitle": "Paycheck",

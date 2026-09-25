@@ -21,12 +21,14 @@ import {
   formatUsd,
   formatUsdWhole,
 } from "@paycheck-router/ui/format";
+import { seriesVar } from "@paycheck-router/ui/tokens";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useSyncExternalStore } from "react";
+import { type CSSProperties, useSyncExternalStore } from "react";
 import { ChainValue } from "@/components/chain-value.tsx";
 import { fetchers, keys } from "@/lib/data.ts";
+import { investHistory } from "@/lib/invest-history.ts";
 import { usdc, usdcNumber, walletShares } from "@/lib/money.ts";
 import { colorSlotFor, toSegments } from "@/lib/paycheck-view.ts";
 import { useQuery } from "@/lib/query.ts";
@@ -34,6 +36,8 @@ import { useInvestText } from "@/lib/use-invest-text.ts";
 import { useLegCopy } from "@/lib/use-leg-copy.ts";
 import { PaycheckCardLink } from "../paycheck/paycheck-card-link.tsx";
 import { routerHealth } from "../router-status.tsx";
+import { InvestedChart } from "./invested-chart.tsx";
+import { KpiTiles } from "./kpi-tiles.tsx";
 
 const SplitSequence = dynamic(
   () => import("../split-sequence.tsx").then((mod) => mod.SplitSequence),
@@ -148,29 +152,44 @@ function Holdings({ portfolio }: { portfolio: api.PortfolioResponse }) {
         <ul className="holding-list">
           {top.map((holding, index) => (
             <li key={holding.mint} className="holding-row">
-              <AssetChip
-                asset={holding.mint}
-                ticker={holding.symbol}
-                colorSlot={colorSlotFor(holding.mint, index, undefined)}
+              <AssetIcon asset={holding.mint} size="lg" decorative />
+              <span className="holding-row__id">
+                <span className="pr-num" translate="no">
+                  {holding.symbol}
+                </span>
+                <span className="pr-small pr-muted">
+                  {formatShares(
+                    walletShares(holding, holding.amountRaw, holding.decimals) ?? "0",
+                    locale,
+                  )}{" "}
+                  {holding.symbol}
+                </span>
+              </span>
+              <span className="holding-row__value">
+                <span className="pr-num">
+                  {holding.valueUsdc ? formatUsd(usdc(holding.valueUsdc), locale) : "—"}
+                </span>
+                <span className="pr-small pr-muted">
+                  {t("weightVsTarget", {
+                    actual:
+                      holding.actualWeightBps === null
+                        ? "—"
+                        : formatPercent(holding.actualWeightBps, locale),
+                    target: formatPercent(holding.targetWeightBps, locale),
+                  })}
+                </span>
+              </span>
+              <span
+                className="holding-row__weight"
+                aria-hidden="true"
+                style={
+                  {
+                    "--actual": `${(holding.actualWeightBps ?? 0) / 100}%`,
+                    "--target": `${holding.targetWeightBps / 100}%`,
+                    "--seg": seriesVar(colorSlotFor(holding.mint, index, undefined)),
+                  } as CSSProperties
+                }
               />
-              <span className="pr-num">
-                {formatShares(
-                  walletShares(holding, holding.amountRaw, holding.decimals) ?? "0",
-                  locale,
-                )}
-              </span>
-              <span className="pr-num">
-                {holding.valueUsdc ? formatUsd(usdc(holding.valueUsdc), locale) : "—"}
-              </span>
-              <span className="pr-small pr-muted">
-                {t("weightVsTarget", {
-                  actual:
-                    holding.actualWeightBps === null
-                      ? "—"
-                      : formatPercent(holding.actualWeightBps, locale),
-                  target: formatPercent(holding.targetWeightBps, locale),
-                })}
-              </span>
             </li>
           ))}
         </ul>
@@ -277,6 +296,11 @@ export function HomeView() {
       ? portfolio.updatedAt
       : undefined;
   const value = portfolio.data?.totals.valueUsdc;
+  const history = investHistory(list);
+  const waitingSlices = list.reduce(
+    (sum, paycheck) => sum + paycheck.legs.filter((leg) => leg.status === "waiting").length,
+    0,
+  );
 
   return (
     <div className="home-grid">
@@ -308,6 +332,24 @@ export function HomeView() {
             {t("invested", { amount: formatUsd(usdc(portfolio.data.totals.investedUsdc), locale) })}
           </p>
         ) : null}
+      </section>
+
+      <KpiTiles points={history} router={router} waitingSlices={waitingSlices} />
+
+      <section className="pr-card stack home-grid__wide" aria-labelledby="chart-title">
+        <div className="split-row">
+          <h2 id="chart-title" className="pr-h3">
+            {t("chart.title")}
+          </h2>
+          <p className="pr-small pr-muted">{t("chart.caption")}</p>
+        </div>
+        {paychecks.status === "loading" ? (
+          <Skeleton height={220} />
+        ) : history.length === 0 ? (
+          <EmptyState>{t("chart.empty")}</EmptyState>
+        ) : (
+          <InvestedChart points={history} />
+        )}
       </section>
 
       <RouterCard router={router} lastInflow={latest?.inflow ?? null} />

@@ -90,7 +90,9 @@ body:has(.fork-banner) {
   inset-inline: 0;
   inset-block-end: 0;
   padding-block-end: env(safe-area-inset-bottom);
-  background: var(--surface-1);
+  background: color-mix(in srgb, var(--surface-1) 84%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
   border-block-start: 2px solid var(--text-1);
 }
 
@@ -153,7 +155,24 @@ body:has(.fork-banner) {
   }
 
   .app-frame__main {
+    align-self: start;
+    inline-size: auto;
+    min-block-size: calc(100dvh - var(--banner-h, 0px) - var(--space-6));
+    max-inline-size: none;
+    margin: var(--space-3) var(--space-3) var(--space-3) 0;
     padding-block-end: var(--space-8);
+    padding-inline: var(--space-6);
+    border: 1px solid var(--line);
+    background: var(--surface-1);
+  }
+
+  .app-frame__main > * {
+    max-inline-size: 1120px;
+    margin-inline: auto;
+  }
+
+  .app-frame__main .pr-card {
+    background: var(--bg);
   }
 
   .app-topbar .status-pill {
@@ -267,6 +286,7 @@ body:has(.fork-banner) {
 /* Home (PRD 13.4, 16.3) */
 .home-grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
 }
 
@@ -305,11 +325,49 @@ body:has(.fork-banner) {
 
 .holding-row {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
   gap: var(--space-1) var(--space-3);
   align-items: center;
   padding-block: var(--space-3);
   border-block-end: 1px solid var(--line);
+}
+
+.holding-row__id,
+.holding-row__value {
+  display: grid;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.holding-row__value {
+  justify-items: end;
+  text-align: end;
+}
+
+/* Actual weight as a bar in the asset's series colour, the target as a tick. */
+.holding-row__weight {
+  position: relative;
+  grid-column: 2 / -1;
+  block-size: 4px;
+  background: var(--surface-3);
+}
+
+.holding-row__weight::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: min(var(--actual), 100%);
+  background: var(--seg);
+}
+
+.holding-row__weight::after {
+  content: "";
+  position: absolute;
+  inset-block: -3px;
+  inset-inline-start: min(var(--target), 100%);
+  inline-size: 2px;
+  background: var(--text-1);
 }
 
 .activity-row {
@@ -744,4 +802,165 @@ fieldset.stack {
 
 .prelaunch__run .pr-code {
   font-size: 18px;
+}
+
+/* Dashboard: KPI tiles and the invested chart (PRD 13.4). */
+.split-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+}
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.kpi {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "icon label"
+    "value value"
+    "note note"
+    "trend trend";
+  align-content: start;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-5);
+  background: var(--bg);
+}
+
+.kpi__icon {
+  grid-area: icon;
+  display: grid;
+  place-items: center;
+  inline-size: 32px;
+  block-size: 32px;
+  border: 1px solid var(--line);
+  color: var(--accent-text);
+}
+
+.kpi__label {
+  grid-area: label;
+  align-self: center;
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.kpi__value {
+  grid-area: value;
+  font-family: var(--font-mono);
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.kpi__note {
+  grid-area: note;
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.kpi__spark {
+  grid-area: trend;
+  overflow: visible;
+}
+
+.kpi__spark path {
+  fill: none;
+  stroke: var(--text-3);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.kpi__spark circle {
+  fill: var(--accent-text);
+  stroke: var(--bg);
+  stroke-width: 2;
+}
+
+.invest-chart {
+  display: grid;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+
+.invest-chart__frame {
+  display: grid;
+  gap: var(--space-3);
+  min-inline-size: 0;
+  overflow: hidden;
+}
+
+.invest-chart svg {
+  display: block;
+  max-inline-size: 100%;
+  touch-action: pan-y;
+}
+
+.invest-chart__grid line {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.invest-chart__grid text,
+.invest-chart__x {
+  fill: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.invest-chart__area {
+  fill: var(--accent-text);
+  fill-opacity: 0.1;
+}
+
+.invest-chart__line {
+  fill: none;
+  stroke: var(--accent-text);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.invest-chart__cross {
+  stroke: var(--text-3);
+  stroke-width: 1;
+}
+
+.invest-chart__dot {
+  fill: var(--accent-text);
+  stroke: var(--surface-1);
+  stroke-width: 2;
+}
+
+.invest-chart__end {
+  fill: var(--text-1);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.invest-chart__tip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.invest-chart__tip-title {
+  flex-basis: 100%;
+  color: var(--text-2);
 }
