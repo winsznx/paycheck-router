@@ -8,12 +8,13 @@ Observations where the real chain, SDK or API differed from the plan, and what c
 - Kipseli requires the real user to sign (`InvalidRealUser: real_user did not sign the transaction`), so it can never fill a swap whose taker is a PDA.
 - Routes that pass through SOL end with a `CloseAccount` on the taker's wrapped-SOL account, which the taker must sign as an ordinary instruction. A PDA can only sign inside the program's CPI.
 - On a fork, some DEX programs fail in simulation against stale copied state (Flux returned custom error 6003).
-- An order-book hop (Manifest) can consume slightly less USDC than requested. The program first treated that as InputOverspent; it is being changed so only more-than-the-slice counts as overspending, and the leftover is swept back to the owner.
+- A two-hop route (USDC → wSOL on PancakeSwap → Anthropic on Manifest) left a little wSOL in the Authority's wSOL account, because the second hop spent slightly less than the first bought. The program only swept USDC and the output mint, so it refused the leg with InputOverspent. (An earlier version of this entry said the leftover was USDC; the simulation logs show it was the middle token.)
 
 **Changed.**
 - Kipseli is excluded on every network (`PDA_TAKER_EXCLUDED_DEXES`).
 - Swaps are built with `wrapAndUnwrapSol=false`. That drops the closing instruction and leaves an empty wrapped-SOL account on the Authority PDA, like the output-mint accounts Jupiter already creates.
 - On forks only, when simulation fails inside a routed DEX's program, the crank excludes that DEX and re-quotes, at most twice, and keeps the failed simulation in the evidence bundle.
+- The execute instructions take two optional accounts, the owner's token account for the route's middle mint and that mint. The Authority's leftovers of the middle token are swept to the owner, and USDC left unspent returns to the pay-in account and is recorded as `dust_returned`. Without those accounts, a leftover middle token still fails the leg, so the Authority never keeps funds. InputOverspent still means more than the slice left the owner's wallet.
 
 ## 2026-09-25: A rejected price feed makes only its own slices wait
 
