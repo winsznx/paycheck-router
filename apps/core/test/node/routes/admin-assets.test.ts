@@ -44,7 +44,7 @@ describe("admin and asset detail routes", () => {
       env,
     );
     expect(pause.status).toBe(200);
-    expect(await env.REGISTRY.get(CRANK_PAUSED_KEY)).toBe("1");
+    expect(await env.REGISTRY?.get(CRANK_PAUSED_KEY)).toBe("1");
     const [entry] = await db.select().from(auditLog);
     expect(entry).toMatchObject({ action: "crank.pause", actorId: admin.user.id });
   });

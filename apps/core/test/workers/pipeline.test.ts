@@ -163,6 +163,7 @@ describe("detection to verification", () => {
     const engine = new ScriptedEngine();
     provideEngine(() => engine);
     const ref = routerRef("A");
+    if (!testEnv.HYPERDRIVE) throw new Error("the Workers tests bind HYPERDRIVE");
     const db = createDb(testEnv.HYPERDRIVE);
     await db.insert(routers).values({
       id: ref.routerId,

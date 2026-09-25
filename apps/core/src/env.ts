@@ -32,6 +32,12 @@ type Vars = {
 };
 
 /** Optional variables that are not in every environment's wrangler config. */
-type OptionalVars = { CORS_ORIGINS?: string };
+type OptionalVars = {
+  CORS_ORIGINS?: string;
+  /** Read-only RPC for deployments with no surfnet and no Helius key (the public site). */
+  PUBLIC_RPC_URL?: string;
+  /** `bundle` serves /proof from the committed canonical fork bundle instead of the database. */
+  PROOF_SOURCE?: string;
+};
 
 export type Env = Omit<CloudflareBindings, keyof Vars> & Vars & OptionalVars & Secrets;

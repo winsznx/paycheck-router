@@ -3,20 +3,21 @@ import { api, LAUNCH_CONFIG } from "@paycheck-router/shared";
 import { and, asc, desc, eq, gt, inArray, sql } from "drizzle-orm";
 import { Hono } from "hono";
 import { mintTerms } from "../chain/mints.ts";
-import { assets, priceSnapshots } from "../db/schema.ts";
+import { priceSnapshots } from "../db/schema.ts";
 import type { AppEnv } from "../http/context.ts";
 import { ApiError, notFound, parseOrThrow } from "../http/problem.ts";
 import { rateLimit } from "../http/rate-limit.ts";
 import { requireSession } from "../http/session.ts";
 import { priceE9 } from "../pricing/hermes.ts";
 import { premiumBps, priceBoard } from "../pricing/reference.ts";
+import { type AssetMeta, REGISTRY_ASSETS, registryAsset } from "../pricing/registry.ts";
 
 export const marketRoutes = new Hono<AppEnv>();
 
 marketRoutes.use("/assets", rateLimit("PUBLIC_LIMITER", "ip"));
 marketRoutes.use("/quote/*", requireSession, rateLimit("QUOTE_LIMITER", "user"));
 
-type AssetRow = typeof assets.$inferSelect;
+type AssetRow = AssetMeta;
 type Board = Awaited<ReturnType<typeof priceBoard>>;
 
 function assetView(row: AssetRow, board: Board): api.Asset {
@@ -56,7 +57,7 @@ function assetView(row: AssetRow, board: Board): api.Asset {
 
 marketRoutes.get("/assets", async (c) => {
   const { db, now } = c.var.services;
-  const rows = await db.select().from(assets).orderBy(asc(assets.sortOrder));
+  const rows = REGISTRY_ASSETS;
   const board = await priceBoard(c.env, rows, now());
   const body: api.AssetsResponse = {
     assets: rows.map((row) => assetView(row, board)),
@@ -70,7 +71,7 @@ marketRoutes.use("/assets/:mint", rateLimit("PUBLIC_LIMITER", "ip"));
 marketRoutes.get("/assets/:mint", async (c) => {
   const { db, now } = c.var.services;
   const mint = parseOrThrow(api.AddressString, c.req.param("mint"));
-  const [row] = await db.select().from(assets).where(eq(assets.mint, mint)).limit(1);
+  const row = registryAsset(mint);
   if (!row) throw notFound("Asset");
   const board = await priceBoard(c.env, [row], now());
   const since = new Date(now().getTime() - 30 * 24 * 60 * 60 * 1000);
@@ -113,15 +114,8 @@ marketRoutes.get("/quote/preview", async (c) => {
   if (weightSum !== 10_000) {
     throw new ApiError(400, "validation_failed", "leg weights must sum to 10000 bps");
   }
-  const rows = await db
-    .select()
-    .from(assets)
-    .where(
-      inArray(
-        assets.mint,
-        query.legs.map((leg) => leg.mint),
-      ),
-    );
+  const wanted = new Set(query.legs.map((leg) => leg.mint));
+  const rows = REGISTRY_ASSETS.filter((asset) => wanted.has(asset.mint));
   const byMint = new Map(rows.map((row) => [row.mint, row]));
   const [board, terms] = await Promise.all([
     priceBoard(c.env, rows, now()),

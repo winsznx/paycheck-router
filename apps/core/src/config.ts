@@ -8,7 +8,7 @@ export type ChainEndpoints = {
   sendUrls: readonly string[];
   /** The verifier's read path; a different provider from the sender outside surfnets. */
   verifyRpcUrl: string;
-  verifyProvider: "surfnet" | "alchemy";
+  verifyProvider: "surfnet" | "alchemy" | "public-rpc";
   /** True on local, ci and demo: every read and send goes to the surfnet and nowhere else. */
   surfnet: boolean;
 };
@@ -32,6 +32,16 @@ export function chainEndpoints(env: Env): ChainEndpoints {
       verifyRpcUrl: env.SURFNET_RPC_URL,
       verifyProvider: "surfnet",
       surfnet: true,
+    };
+  }
+  if (!env.HELIUS_RPC_URL && env.PUBLIC_RPC_URL) {
+    // Read-only deployment (the public site): reads only, and nothing can be sent.
+    return {
+      rpcUrl: env.PUBLIC_RPC_URL,
+      sendUrls: [],
+      verifyRpcUrl: env.PUBLIC_RPC_URL,
+      verifyProvider: "public-rpc",
+      surfnet: false,
     };
   }
   const helius = `${required(env.HELIUS_RPC_URL, "HELIUS_RPC_URL")}/?api-key=${required(env.HELIUS_API_KEY, "HELIUS_API_KEY")}`;
@@ -88,4 +98,10 @@ export function allowedOrigins(env: Env): Set<string> {
 /** Domains a SIWS message may name; the first is the one `/auth/nonce` advertises. */
 export function siwsDomains(env: Env): string[] {
   return list(env.SIWS_DOMAIN);
+}
+
+/** A binding some environments leave out (the public site has no queues or database). */
+export function binding<T>(value: T | undefined, name: string): T {
+  if (value === undefined) throw new ConfigError(`${name} is not bound in this environment`);
+  return value;
 }

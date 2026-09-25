@@ -3,6 +3,7 @@ import { count, desc, eq, inArray } from "drizzle-orm";
 import { Hono } from "hono";
 import { createMiddleware } from "hono/factory";
 import { z } from "zod";
+import { binding } from "../config.ts";
 import {
   adminUsers,
   attempts,
@@ -63,7 +64,7 @@ adminRoutes.get("/admin/overview", async (c) => {
     paychecks: paycheckCount?.n ?? 0,
     legsByStatus: Object.fromEntries(byStatus.map((row) => [row.status, row.n])),
     waitingByReason: Object.fromEntries(waits.map((row) => [row.reason ?? "unknown", row.n])),
-    crankPaused: (await c.env.REGISTRY.get(CRANK_PAUSED_KEY)) === "1",
+    crankPaused: (await binding(c.env.REGISTRY, "REGISTRY").get(CRANK_PAUSED_KEY)) === "1",
   });
 });
 
@@ -159,8 +160,8 @@ const CrankPauseRequest = z.object({ paused: z.boolean(), reason: z.string().max
 adminRoutes.post("/admin/crank/pause", requireRole(["admin"]), async (c) => {
   const body = parseOrThrow(CrankPauseRequest, await readJson(c));
   const { userId } = sessionOf(c);
-  if (body.paused) await c.env.REGISTRY.put(CRANK_PAUSED_KEY, "1");
-  else await c.env.REGISTRY.delete(CRANK_PAUSED_KEY);
+  if (body.paused) await binding(c.env.REGISTRY, "REGISTRY").put(CRANK_PAUSED_KEY, "1");
+  else await binding(c.env.REGISTRY, "REGISTRY").delete(CRANK_PAUSED_KEY);
   await c.var.services.db.insert(auditLog).values({
     actorType: "admin",
     actorId: userId,

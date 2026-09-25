@@ -1,4 +1,5 @@
 import { DurableObject } from "cloudflare:workers";
+import { binding } from "../config.ts";
 import { createEngine } from "../engine/factory.ts";
 import type { Engine, RouterRef, SweepHit } from "../engine/types.ts";
 import type { Env } from "../env.ts";
@@ -125,7 +126,7 @@ export class InflowWatcher extends DurableObject<Env> {
       if (!router) continue;
       this.recent.set(hit.routerPda, { balance: hit.balance, at: now });
       const message: InflowMessage = { routerId: router.routerId, hit };
-      await this.env.INFLOWS.send(message, { contentType: "v8" });
+      await binding(this.env.INFLOWS, "INFLOWS").send(message, { contentType: "v8" });
       log.info("inflow candidate", {
         routerId: router.routerId,
         delta: hit.delta,

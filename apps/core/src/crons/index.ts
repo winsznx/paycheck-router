@@ -92,6 +92,10 @@ async function retentionJob(db: Db): Promise<void> {
  * the minute cron only makes sure that loop is alive.
  */
 export async function handleScheduled(controller: ScheduledController, env: Env): Promise<void> {
+  if (!env.HYPERDRIVE) {
+    log.info("cron skipped: no database in this environment", { cron: controller.cron });
+    return;
+  }
   const db = createDb(env.HYPERDRIVE);
   try {
     switch (controller.cron) {
