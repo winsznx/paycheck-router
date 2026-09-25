@@ -2,6 +2,18 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: Three contrast pairs adjusted to meet WCAG AA
+
+**Observed.** Measured against the design tokens, dark `--text-3` on `--surface-1` is 4.47:1, light `--text-3` on `--surface-2` is 4.49:1, and near-black text on the light danger fill `#c2183a` is 3.28:1. All three are under the 4.5:1 AA floor.
+
+**Changed.** `--text-3` is used only on the canvas, where it passes, and a contrast test in `packages/ui` enforces that. The light danger button uses white ink (`--danger-ink: #ffffff`, 6.02:1).
+
+## 2026-09-25: Next.js 16 with edge middleware on OpenNext
+
+**Observed.** The design named Next.js 15 in one place and 16 in another. Next.js 16 renames `middleware` to `proxy`, but OpenNext for Cloudflare 1.20 supports Node proxies only experimentally (opennextjs-cloudflare #1373, #1376).
+
+**Changed.** The web app runs Next.js 16.3.6 (inside OpenNext's supported range) and keeps locale negotiation in `middleware.ts`, which Next 16 still supports with a deprecation warning.
+
 ## 2026-09-25: Pyth Hermes requires an API key
 
 **Observed.** Since Pyth's core upgrade on Aug 26, 2026, Hermes answers `401 unauthorized` on every price-update endpoint without a key: `/v2/updates/price/latest`, `/v2/updates/price/{publish_time}` and `/api/latest_vaas`. Feed metadata (`/v2/price_feeds`) still answers 200. Checked at 11:48 WAT. Keys come from Pyth Terminal and are sent as `Authorization: Bearer <key>`. Routes and response shapes are unchanged, and the onchain receiver is still permissionless.
