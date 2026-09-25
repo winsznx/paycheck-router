@@ -5,8 +5,9 @@ import { Banner, Button } from "@paycheck-router/ui/components";
 import Script from "next/script";
 import { useLocale, useTranslations } from "next-intl";
 import { type FormEvent, useEffect, useId, useMemo, useRef, useState } from "react";
+import { ApiProblem } from "@/lib/api/problem.ts";
 import { countryOptions } from "@/lib/countries.ts";
-import { apiUrl, turnstileSiteKey } from "@/lib/env.ts";
+import { apiUrl, chainEnv, turnstileSiteKey } from "@/lib/env.ts";
 
 type TurnstileApi = {
   render: (
@@ -31,7 +32,8 @@ declare global {
   }
 }
 
-type Status = "idle" | "sending" | "done" | "error";
+/** `opening`: the deployment has no waitlist store yet, so there is nothing to join. */
+type Status = "idle" | "sending" | "done" | "opening" | "error";
 
 /** The API validates fully; this only catches typos before spending a Turnstile token. */
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -98,9 +100,17 @@ export function WaitlistForm({ source }: { source: string }) {
         headers: { "content-type": "application/json", "idempotency-key": crypto.randomUUID() },
         body: JSON.stringify(body),
       });
-      if (!response.ok) throw new Error(String(response.status));
+      if (!response.ok) {
+        const problem = await ApiProblem.fromResponse(response);
+        if (problem.code === "not_configured") {
+          setStatus("opening");
+          return;
+        }
+        throw problem;
+      }
       setStatus("done");
-    } catch {
+    } catch (cause) {
+      console.error("Waitlist signup failed", cause);
       setStatus("error");
       setError(t("failed"));
       if (widgetId.current) window.turnstile?.reset(widgetId.current);
@@ -112,6 +122,20 @@ export function WaitlistForm({ source }: { source: string }) {
     return (
       <Banner tone="info" live="status">
         {t("done")}
+      </Banner>
+    );
+  }
+
+  if (status === "opening") {
+    return (
+      <Banner tone="info" live="status">
+        {t.rich("opening", {
+          repo: (chunks) => (
+            <a href={chainEnv.repoUrl} rel="noopener">
+              {chunks}
+            </a>
+          ),
+        })}
       </Banner>
     );
   }

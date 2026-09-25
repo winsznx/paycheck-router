@@ -394,6 +394,22 @@
         "signOut": "Sign out",
         "signingOut": "Signing out"
       }
+    },
+    "prelaunch": {
+      "brand": "Paycheck Router",
+      "proofLink": "Proof",
+      "label": "Solana mainnet · coming soon",
+      "title": "Launching on Solana mainnet",
+      "body": "Paycheck Router turns each USDC paycheck into US stocks and pre-IPO shares in your own wallet, only at a fair price. The app opens here the day the program is live.",
+      "waitlistCta": "Join the waitlist",
+      "proofCta": "See the fork run",
+      "forkTitle": "Recorded on a Surfpool fork of mainnet",
+      "forkBody": "This slice ran on a fork of mainnet with real mints, Jupiter routes and Pyth prices. No real funds moved.",
+      "runTitle": "Run the whole app on a mainnet fork",
+      "runBody": "The repository runs everything on your machine: a Surfpool fork of mainnet, the core API and this app with a demo wallet.",
+      "runLink": "What you need, in the README",
+      "waitlistTitle": "Hear the day it opens",
+      "waitlistBody": "One email when the program is live on mainnet. Nothing else."
     }
   },
   "onboarding": {
@@ -693,7 +709,8 @@
       "failed": "That didn't go through. Try again.",
       "done": "You're on the list. We'll email you the day the program is live on mainnet.",
       "notConfigured": "The anti-spam check isn't configured on this deployment.",
-      "privacy": "We use your email only to tell you about launch. Delete it any time."
+      "privacy": "We use your email only to tell you about launch. Delete it any time.",
+      "opening": "The waitlist opens shortly. Star the <repo>repository on GitHub</repo> to follow the launch."
     },
     "canonical": {
       "forkLabel": "Recorded on a Surfpool fork of mainnet",
@@ -1141,5 +1158,16 @@
       "own-program": "Paycheck Router program",
       "feed": "Pyth price feed"
     }
+  },
+  "problems": {
+    "notConfigured": "This part of Paycheck Router isn't switched on here yet. Please come back later.",
+    "rateLimited": "Too many tries in a short time. Wait a minute, then try again.",
+    "signedOut": "Your session ended. Sign in again to continue.",
+    "notAllowed": "This account can't do that.",
+    "ineligible": "Paycheck Router isn't available for this account.",
+    "invalid": "That didn't go through. Check the details and try again.",
+    "upstream": "A service Paycheck Router relies on isn't answering. Try again in a minute.",
+    "offline": "You seem to be offline. Check your connection and try again.",
+    "internal": "Something went wrong on our side. Try again in a minute."
   }
 }

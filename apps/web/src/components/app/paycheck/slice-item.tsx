@@ -27,6 +27,7 @@ import { type ReactNode, useState } from "react";
 import { ChainValue } from "@/components/chain-value.tsx";
 import { apiRequest } from "@/lib/api/client.ts";
 import { isPreIpo, priceE9, shares, usdc, walletShares } from "@/lib/money.ts";
+import { useProblemMessage } from "@/lib/problem-copy.ts";
 import { useSession } from "@/lib/session.ts";
 import { useLegCopy } from "@/lib/use-leg-copy.ts";
 import { signAndSubmit } from "@/lib/wallet/sign-and-submit.ts";
@@ -117,6 +118,7 @@ export function SliceItem({ leg, colorSlot, bandBps, buyNowAt, now }: SliceItemP
   const locale = useLocale();
   const copy = useLegCopy();
   const toast = useToast();
+  const problemMessage = useProblemMessage();
   const session = useSession();
   const walletName = session.status === "signed-in" ? session.walletName : null;
   const [sheet, setSheet] = useState<"proof" | "buy" | "cancel" | null>(null);
@@ -196,13 +198,14 @@ export function SliceItem({ leg, colorSlot, bandBps, buyNowAt, now }: SliceItemP
         leg.id,
       );
       if (result.status === "failed" || result.status === "expired") {
-        toast({ tone: "error", text: result.error ?? t("txFailed") });
+        console.error("Transaction did not land", result.error);
+        toast({ tone: "error", text: t("txFailed") });
       } else {
         toast({ tone: "success", text: kind === "buy" ? t("buySent") : t("cancelSent") });
         setSheet(null);
       }
     } catch (error) {
-      toast({ tone: "error", text: error instanceof Error ? error.message : t("txFailed") });
+      toast({ tone: "error", text: problemMessage(error, t("txFailed")) });
     } finally {
       setBusy(undefined);
     }

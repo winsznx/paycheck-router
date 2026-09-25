@@ -2,7 +2,7 @@ import { buttonClassName } from "@paycheck-router/ui/components";
 import { Menu } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation.ts";
-import { mainnetDeployed } from "@/lib/env.ts";
+import { appOpen, mainnetDeployed } from "@/lib/env.ts";
 
 const NAV = [
   ["/how-it-works", "howItWorks"],
@@ -38,12 +38,14 @@ export async function SiteHeader() {
           </ul>
         </nav>
         <div className="site-header__actions">
-          <a
-            href="/app"
-            className={`${buttonClassName({ variant: "ghost", size: "s" })} site-signin`}
-          >
-            {t("signIn")}
-          </a>
+          {appOpen ? (
+            <a
+              href="/app"
+              className={`${buttonClassName({ variant: "ghost", size: "s" })} site-signin`}
+            >
+              {t("signIn")}
+            </a>
+          ) : null}
           <a href={START_HREF} className={buttonClassName({ size: "s" })}>
             {t("start")}
           </a>
@@ -58,9 +60,11 @@ export async function SiteHeader() {
                     <Link href={href}>{t(key)}</Link>
                   </li>
                 ))}
-                <li>
-                  <a href="/app">{t("signIn")}</a>
-                </li>
+                {appOpen ? (
+                  <li>
+                    <a href="/app">{t("signIn")}</a>
+                  </li>
+                ) : null}
               </ul>
             </nav>
           </details>

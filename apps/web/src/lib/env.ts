@@ -24,6 +24,13 @@ export const isForkEnvironment = environment === "local" || environment === "dem
 /** Flipped when the program is live on mainnet; until then public pages carry the fork label. */
 export const mainnetDeployed = process.env.NEXT_PUBLIC_MAINNET_DEPLOYED === "true";
 
+/**
+ * The app runs against a fork locally and in demo builds, and publicly once the program is on
+ * mainnet. Before that, a public build has no program or database behind /app, so every /app
+ * route shows the launch page and every CTA points at the waitlist (PRD 18.1).
+ */
+export const appOpen = isForkEnvironment || mainnetDeployed;
+
 export const apiUrl = (process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8787").replace(
   /\/$/,
   "",

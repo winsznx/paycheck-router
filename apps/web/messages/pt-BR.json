@@ -394,6 +394,22 @@
         "signOut": "Sair",
         "signingOut": "Saindo"
       }
+    },
+    "prelaunch": {
+      "brand": "Paycheck Router",
+      "proofLink": "Prova",
+      "label": "Solana mainnet · em breve",
+      "title": "Chegando à Solana mainnet",
+      "body": "O Paycheck Router transforma cada salário em USDC em ações dos EUA e participações pré-IPO na sua própria carteira, só a um preço justo. O app abre aqui no dia em que o programa entrar no ar.",
+      "waitlistCta": "Entrar na lista de espera",
+      "proofCta": "Ver a execução no fork",
+      "forkTitle": "Gravado em um fork da mainnet com Surfpool",
+      "forkBody": "Esta fatia rodou em um fork da mainnet com mints, rotas da Jupiter e preços da Pyth reais. Nenhum fundo real foi movido.",
+      "runTitle": "Rode o app inteiro em um fork da mainnet",
+      "runBody": "O repositório roda tudo na sua máquina: um fork da mainnet com Surfpool, a API central e este app com uma carteira de demonstração.",
+      "runLink": "O que você precisa, no README",
+      "waitlistTitle": "Saiba no dia em que abrir",
+      "waitlistBody": "Um e-mail quando o programa estiver no ar na mainnet. Nada mais."
     }
   },
   "onboarding": {
@@ -693,7 +709,8 @@
       "failed": "Não foi possível enviar. Tente de novo.",
       "done": "Você está na lista. Vamos avisar por e-mail no dia em que o programa estiver na mainnet.",
       "notConfigured": "A verificação antispam não está configurada nesta implantação.",
-      "privacy": "Usamos seu e-mail só para avisar do lançamento. Apague quando quiser."
+      "privacy": "Usamos seu e-mail só para avisar do lançamento. Apague quando quiser.",
+      "opening": "A lista de espera abre em breve. Dê uma estrela no <repo>repositório no GitHub</repo> para acompanhar o lançamento."
     },
     "canonical": {
       "forkLabel": "Gravado em um fork da mainnet com Surfpool",
@@ -1141,5 +1158,16 @@
       "own-program": "Programa do Paycheck Router",
       "feed": "Feed de preços do Pyth"
     }
+  },
+  "problems": {
+    "notConfigured": "Esta parte do Paycheck Router ainda não está ativa aqui. Volte mais tarde.",
+    "rateLimited": "Muitas tentativas em pouco tempo. Espere um minuto e tente de novo.",
+    "signedOut": "Sua sessão terminou. Entre de novo para continuar.",
+    "notAllowed": "Esta conta não pode fazer isso.",
+    "ineligible": "O Paycheck Router não está disponível para esta conta.",
+    "invalid": "Não deu certo. Confira os dados e tente de novo.",
+    "upstream": "Um serviço do qual o Paycheck Router depende não está respondendo. Tente de novo em um minuto.",
+    "offline": "Parece que você está sem conexão. Confira e tente de novo.",
+    "internal": "Algo deu errado do nosso lado. Tente de novo em um minuto."
   }
 }

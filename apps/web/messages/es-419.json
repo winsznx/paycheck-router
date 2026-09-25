@@ -394,6 +394,22 @@
         "signOut": "Cerrar sesión",
         "signingOut": "Cerrando sesión"
       }
+    },
+    "prelaunch": {
+      "brand": "Paycheck Router",
+      "proofLink": "Prueba",
+      "label": "Solana mainnet · muy pronto",
+      "title": "Llega a Solana mainnet",
+      "body": "Paycheck Router convierte cada sueldo en USDC en acciones de EE. UU. y participaciones pre-IPO en tu propia billetera, solo a un precio justo. La app abre aquí el día que el programa esté en vivo.",
+      "waitlistCta": "Unirme a la lista de espera",
+      "proofCta": "Ver la ejecución en el fork",
+      "forkTitle": "Grabado en un fork de mainnet con Surfpool",
+      "forkBody": "Esta porción se ejecutó en un fork de mainnet con mints, rutas de Jupiter y precios de Pyth reales. No se movieron fondos reales.",
+      "runTitle": "Ejecuta toda la app en un fork de mainnet",
+      "runBody": "El repositorio ejecuta todo en tu equipo: un fork de mainnet con Surfpool, la API central y esta app con una billetera de demostración.",
+      "runLink": "Lo que necesitas, en el README",
+      "waitlistTitle": "Entérate el día que abra",
+      "waitlistBody": "Un correo cuando el programa esté en vivo en mainnet. Nada más."
     }
   },
   "onboarding": {
@@ -693,7 +709,8 @@
       "failed": "No se pudo enviar. Inténtalo de nuevo.",
       "done": "Ya estás en la lista. Te escribiremos el día que el programa esté en mainnet.",
       "notConfigured": "La verificación antispam no está configurada en este despliegue.",
-      "privacy": "Usamos tu correo solo para avisarte del lanzamiento. Bórralo cuando quieras."
+      "privacy": "Usamos tu correo solo para avisarte del lanzamiento. Bórralo cuando quieras.",
+      "opening": "La lista de espera abre pronto. Marca con una estrella el <repo>repositorio en GitHub</repo> para seguir el lanzamiento."
     },
     "canonical": {
       "forkLabel": "Grabado en una bifurcación de mainnet con Surfpool",
@@ -1141,5 +1158,16 @@
       "own-program": "Programa de Paycheck Router",
       "feed": "Feed de precios de Pyth"
     }
+  },
+  "problems": {
+    "notConfigured": "Esta parte de Paycheck Router todavía no está activa aquí. Vuelve más tarde.",
+    "rateLimited": "Demasiados intentos en poco tiempo. Espera un minuto y vuelve a intentarlo.",
+    "signedOut": "Tu sesión terminó. Inicia sesión de nuevo para continuar.",
+    "notAllowed": "Esta cuenta no puede hacer eso.",
+    "ineligible": "Paycheck Router no está disponible para esta cuenta.",
+    "invalid": "No se pudo completar. Revisa los datos y vuelve a intentarlo.",
+    "upstream": "Un servicio del que depende Paycheck Router no responde. Inténtalo de nuevo en un minuto.",
+    "offline": "Parece que no tienes conexión. Revísala y vuelve a intentarlo.",
+    "internal": "Algo falló de nuestro lado. Inténtalo de nuevo en un minuto."
   }
 }

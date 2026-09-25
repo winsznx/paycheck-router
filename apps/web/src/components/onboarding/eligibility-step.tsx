@@ -9,6 +9,7 @@ import { apiRequest } from "@/lib/api/client.ts";
 import { countryOptions } from "@/lib/countries.ts";
 import { fetchers, keys } from "@/lib/data.ts";
 import { RISK_VERSION, TERMS_VERSION, updateDraft, useDraft } from "@/lib/onboarding.ts";
+import { useProblemMessage } from "@/lib/problem-copy.ts";
 import { useQuery } from "@/lib/query.ts";
 import { StepFrame } from "./step-frame.tsx";
 
@@ -25,6 +26,7 @@ export function EligibilityStep() {
   const [blocked, setBlocked] = useState<Blocked | null>(null);
   const [mismatch, setMismatch] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const problemMessage = useProblemMessage();
   const [touched, setTouched] = useState(false);
 
   const country = draft.countryDeclared ?? me.data?.countryIp ?? me.data?.countryDeclared ?? "";
@@ -57,7 +59,7 @@ export function EligibilityStep() {
       }
       router.push("/app/onboarding/wallet");
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : t("failed"));
+      setError(problemMessage(cause, t("failed")));
     } finally {
       setSubmitting(false);
     }

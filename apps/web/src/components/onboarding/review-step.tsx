@@ -17,6 +17,7 @@ import {
   toBaseUnits,
   useDraft,
 } from "@/lib/onboarding.ts";
+import { useProblemMessage } from "@/lib/problem-copy.ts";
 import { fetchQuery } from "@/lib/query.ts";
 import { useSession } from "@/lib/session.ts";
 import { signAndSubmit } from "@/lib/wallet/sign-and-submit.ts";
@@ -77,6 +78,7 @@ export function ReviewStep() {
   const [built, setBuilt] = useState<api.TxBuildResponse | null>(null);
   const [simulation, setSimulation] = useState<Simulation | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const problemMessage = useProblemMessage();
   const [signing, setSigning] = useState(false);
   const secondsLeft = useSecondsLeft(built?.expiresAt);
   const request = wallet ? buildRequest(draft, wallet) : null;
@@ -96,10 +98,10 @@ export function ReviewStep() {
         setSimulation({ state: "running" });
         setSimulation(await simulate(result.tx));
       } catch (cause) {
-        setError(cause instanceof Error ? cause.message : t("buildFailed"));
+        setError(problemMessage(cause, t("buildFailed")));
       }
     },
-    [t],
+    [t, problemMessage],
   );
 
   // Builds the setup transaction for this exact draft; no funds move until the user signs.
@@ -115,13 +117,14 @@ export function ReviewStep() {
     try {
       const result = await signAndSubmit(walletName, built, "router.create");
       if (result.status === "failed" || result.status === "expired") {
-        setError(result.error ?? t("submitFailed"));
+        console.error("Setup transaction did not land", result.error);
+        setError(t("submitFailed"));
         return;
       }
       await fetchQuery(keys.routers, fetchers.routers);
       router.push("/app/onboarding/done");
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : t("submitFailed"));
+      setError(problemMessage(cause, t("submitFailed")));
     } finally {
       setSigning(false);
     }
