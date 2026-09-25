@@ -394,6 +394,22 @@
         "signOut": "Se déconnecter",
         "signingOut": "Déconnexion"
       }
+    },
+    "prelaunch": {
+      "brand": "Paycheck Router",
+      "proofLink": "Preuve",
+      "label": "Solana mainnet · bientôt",
+      "title": "Bientôt sur Solana mainnet",
+      "body": "Paycheck Router transforme chaque salaire en USDC en actions américaines et en parts pré-IPO dans votre propre portefeuille, uniquement à un prix juste. L'app ouvre ici le jour où le programme est en ligne.",
+      "waitlistCta": "Rejoindre la liste d'attente",
+      "proofCta": "Voir l'exécution sur le fork",
+      "forkTitle": "Enregistré sur un fork de mainnet avec Surfpool",
+      "forkBody": "Cette part a été exécutée sur un fork de mainnet avec de vrais mints, de vraies routes Jupiter et de vrais prix Pyth. Aucun fonds réel n'a bougé.",
+      "runTitle": "Lancez toute l'app sur un fork de mainnet",
+      "runBody": "Le dépôt fait tout tourner sur votre machine : un fork de mainnet avec Surfpool, l'API centrale et cette app avec un portefeuille de démonstration.",
+      "runLink": "Ce qu'il vous faut, dans le README",
+      "waitlistTitle": "Soyez prévenu le jour de l'ouverture",
+      "waitlistBody": "Un e-mail quand le programme est en ligne sur mainnet. Rien d'autre."
     }
   },
   "onboarding": {
@@ -693,7 +709,8 @@
       "failed": "L'envoi n'a pas abouti. Réessayez.",
       "done": "Vous êtes sur la liste. Nous vous écrirons le jour où le programme sera sur le mainnet.",
       "notConfigured": "La vérification anti-spam n'est pas configurée sur ce déploiement.",
-      "privacy": "Nous utilisons votre e-mail uniquement pour vous prévenir du lancement. Supprimez-le à tout moment."
+      "privacy": "Nous utilisons votre e-mail uniquement pour vous prévenir du lancement. Supprimez-le à tout moment.",
+      "opening": "La liste d'attente ouvre bientôt. Ajoutez une étoile au <repo>dépôt GitHub</repo> pour suivre le lancement."
     },
     "canonical": {
       "forkLabel": "Enregistré sur un fork du mainnet avec Surfpool",
@@ -1141,5 +1158,16 @@
       "own-program": "Programme Paycheck Router",
       "feed": "Flux de prix Pyth"
     }
+  },
+  "problems": {
+    "notConfigured": "Cette partie de Paycheck Router n'est pas encore activée ici. Revenez plus tard.",
+    "rateLimited": "Trop d'essais en peu de temps. Attendez une minute, puis réessayez.",
+    "signedOut": "Votre session a pris fin. Reconnectez-vous pour continuer.",
+    "notAllowed": "Ce compte ne peut pas faire cela.",
+    "ineligible": "Paycheck Router n'est pas disponible pour ce compte.",
+    "invalid": "Cela n'a pas abouti. Vérifiez les informations et réessayez.",
+    "upstream": "Un service dont dépend Paycheck Router ne répond pas. Réessayez dans une minute.",
+    "offline": "Vous semblez hors ligne. Vérifiez votre connexion et réessayez.",
+    "internal": "Un problème est survenu de notre côté. Réessayez dans une minute."
   }
 }

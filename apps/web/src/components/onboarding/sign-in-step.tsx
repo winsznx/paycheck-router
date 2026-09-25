@@ -4,7 +4,7 @@ import { Banner, Button } from "@paycheck-router/ui/components";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { ApiProblem } from "@/lib/api/problem.ts";
+import { useProblemMessage } from "@/lib/problem-copy.ts";
 import { signInWithWallet } from "@/lib/session.ts";
 import { type SigningWallet, useWallets } from "@/lib/wallet/wallets.ts";
 import { StepFrame } from "./step-frame.tsx";
@@ -15,6 +15,7 @@ export function SignInStep() {
   const router = useRouter();
   const [pending, setPending] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const problemMessage = useProblemMessage();
 
   async function signIn(wallet: SigningWallet) {
     setPending(wallet.name);
@@ -23,7 +24,7 @@ export function SignInStep() {
       await signInWithWallet(wallet);
       router.push("/app/onboarding/eligibility");
     } catch (cause) {
-      setError(cause instanceof ApiProblem || cause instanceof Error ? cause.message : t("failed"));
+      setError(problemMessage(cause, t("failed")));
     } finally {
       setPending(null);
     }

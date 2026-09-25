@@ -44,7 +44,6 @@ export default async function StatusPage({ params }: PageProps<"/[locale]/status
                   status={CHIP[component.status]}
                   label={t(`health.${component.status}`)}
                 />
-                <p className="pr-small pr-muted">{component.detail}</p>
               </li>
             ))}
           </ul>

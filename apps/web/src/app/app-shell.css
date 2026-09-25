@@ -701,3 +701,31 @@ fieldset.stack {
 .status-row p {
   overflow-wrap: anywhere;
 }
+
+/* Public build before the mainnet deploy: every /app route (PRD 18.1). */
+.prelaunch__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) max(var(--space-4), env(safe-area-inset-left));
+  border-block-end: 1px solid var(--line);
+}
+
+.prelaunch__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: inherit;
+  text-decoration: none;
+}
+
+.prelaunch__main {
+  padding-block: var(--space-8) var(--space-12);
+}
+
+.prelaunch .pr-display {
+  overflow-wrap: anywhere;
+}
