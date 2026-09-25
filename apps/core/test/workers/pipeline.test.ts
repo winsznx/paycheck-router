@@ -1,6 +1,9 @@
 import { env } from "cloudflare:workers";
 import { api } from "@paycheck-router/shared";
+import { eq } from "drizzle-orm";
 import { describe, expect, it, vi } from "vitest";
+import { createDb } from "../../src/db/client.ts";
+import { legs, paychecks, routers, verifications } from "../../src/db/schema.ts";
 import { inflowWatcher, routerActorFor, userHubFor } from "../../src/do/stubs.ts";
 import { provideEngine } from "../../src/engine/factory.ts";
 import type {
@@ -156,6 +159,20 @@ describe("detection to verification", () => {
     const engine = new ScriptedEngine();
     provideEngine(() => engine);
     const ref = routerRef("A");
+    const db = createDb(testEnv.HYPERDRIVE);
+    await db.insert(routers).values({
+      id: ref.routerId,
+      owner: ref.owner,
+      routerPda: ref.routerPda,
+      authorityPda: ref.authority,
+      payInAta: ref.payIn,
+      investBps: 2000,
+      minInflow: RULES.minInflow,
+      dailyCap: 5_000_000_000n,
+      maxWaitSecs: 259_200,
+      autoConvert: true,
+      recorder: "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    });
     const actor = routerActorFor(testEnv, ref.routerId);
     await actor.init(ref, RULES);
     const watcher = inflowWatcher(testEnv);
@@ -195,6 +212,30 @@ describe("detection to verification", () => {
       const parsed = api.ServerEvent.safeParse(event);
       expect(parsed.error?.issues ?? [], event.type).toEqual([]);
     }
+
+    // Every transition reaches Supabase through the actor's outbox.
+    const mirroredLegs = () =>
+      db
+        .select({ mint: legs.assetMint, status: legs.status, waitReason: legs.waitReason })
+        .from(legs)
+        .innerJoin(paychecks, eq(paychecks.id, legs.paycheckId))
+        .where(eq(paychecks.routerId, ref.routerId))
+        .orderBy(legs.idx);
+    await vi.waitUntil(
+      async () => (await mirroredLegs()).some((row) => row.status === "verified"),
+      { timeout: 20_000, interval: 200 },
+    );
+    expect(await mirroredLegs()).toEqual([
+      { mint: SPYX, status: "verified", waitReason: null },
+      { mint: NVDAX, status: "waiting", waitReason: "PREMIUM_TOO_HIGH" },
+    ]);
+    const [verification] = await db
+      .select({ matches: verifications.matches })
+      .from(verifications)
+      .innerJoin(legs, eq(legs.id, verifications.legId))
+      .innerJoin(paychecks, eq(paychecks.id, legs.paycheckId))
+      .where(eq(paychecks.routerId, ref.routerId));
+    expect(verification?.matches).toBe(true);
   });
 
   it("does not record again while the watermark covers the balance", async () => {

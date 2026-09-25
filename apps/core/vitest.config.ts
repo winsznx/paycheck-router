@@ -21,14 +21,18 @@ export default defineConfig({
       },
       {
         plugins: [
-          cloudflareTest({
+          cloudflareTest(({ inject }) => ({
             wrangler: { configPath: "./wrangler.jsonc" },
-            miniflare: { bindings: { SESSION_SIGNING_KEY: testSessionKey() } },
-          }),
+            miniflare: {
+              bindings: { SESSION_SIGNING_KEY: testSessionKey() },
+              hyperdrives: { HYPERDRIVE: inject("databaseUrl") },
+            },
+          })),
         ],
         test: {
           name: "workers",
           include: ["test/workers/**/*.test.ts"],
+          globalSetup: ["./test/global-setup.ts"],
           testTimeout: 30_000,
         },
       },

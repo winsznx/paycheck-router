@@ -25,6 +25,7 @@
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "0.22.0",
     "@electric-sql/pglite": "0.5.8",
+    "@electric-sql/pglite-socket": "0.2.11",
     "@vitest/runner": "4.1.11",
     "@vitest/snapshot": "4.1.11",
     "vitest": "4.1.11",
