@@ -174,8 +174,12 @@ async function loadDetail(page: Page, id: string, run: Run): Promise<api.Paychec
   return null;
 }
 
+/** LANDING waits retry at once with a fresh quote, so they are still in flight. */
+const inFlight = (leg: api.Leg) =>
+  UNSETTLED.has(leg.status) || (leg.status === "waiting" && leg.waitReason === "LANDING");
+
 const isSettled = (detail: api.PaycheckDetail | null): detail is api.PaycheckDetail =>
-  detail !== null && !detail.legs.some((leg) => UNSETTLED.has(leg.status));
+  detail !== null && !detail.legs.some(inFlight);
 
 test("rehearsal: onboard, send a paycheck, watch it settle", async ({ page, baseURL }) => {
   test.skip(!TRIGGER, "DEMO_RECORD_INPUT must name the FIFO feeding pnpm demo:record's stdin");
