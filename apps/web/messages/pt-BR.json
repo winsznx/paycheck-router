@@ -15,7 +15,105 @@
     "heroBody": "Defina sua divisão uma vez. Cada salário em USDC compra ações dos EUA e ações pré-IPO na sua própria carteira, só a um preço justo. Funciona com Deel, Rise, Toku e qualquer pagador em USDC.",
     "forkRunLabel": "Gravado em um fork da mainnet com Surfpool",
     "start": "Comece em 2 minutos",
-    "seeForkRun": "Ver a execução no fork"
+    "seeForkRun": "Ver a execução no fork",
+    "joinWaitlist": "Entrar na lista de espera",
+    "seeRealPaycheck": "Ver um salário real",
+    "trust": {
+      "custody": "Sem custódia: USDC e ações ficam na sua carteira",
+      "pyth": "Preços verificados onchain pelo Pyth",
+      "verifiable": "Programa de código aberto e verificável",
+      "fee": "0,20% por fatia investida"
+    },
+    "gapTitle": "Receber em dólar já está resolvido. Ser dono de algo com ele, não.",
+    "gap": {
+      "stays": "Mais da metade dos salários em stablecoin é sacada em stablecoin, não em moeda local. Fica parada.",
+      "cex": "Comprar ações dos EUA tokenizadas em uma exchange na Nigéria custa 2% por operação.",
+      "drift": "Pools fora do horário se descolam: tokens ligados à Apple chegaram a cerca de 12% acima da ação em um fim de semana."
+    },
+    "gapSource": {
+      "stays": "Fonte: Spark, pesquisa sobre folha de pagamento em stablecoin, 2026",
+      "cex": "Fonte: Mariblock, 8 set 2025",
+      "drift": "Fonte: Yahoo Finance, 22 set 2026"
+    },
+    "howTitle": "Configure uma vez. Cada salário faz o resto.",
+    "steps": {
+      "point": {
+        "title": "Aponte seu salário para sua carteira",
+        "body": "Mantenha seu empregador e sua plataforma de folha. Escolha USDC na Solana como forma de pagamento; nada mais muda."
+      },
+      "pick": {
+        "title": "Escolha uma divisão",
+        "body": "Decida quanto de cada salário investir e onde: índices, Big Techs, empresas pré-IPO. Assine uma vez."
+      },
+      "watch": {
+        "title": "Acompanhe o dia do pagamento",
+        "body": "Cada fatia compra assim que o salário cai, ou aguarda com um motivo claro até o preço ser justo."
+      }
+    },
+    "calculatorTitle": "Teste com o seu salário",
+    "ownTitle": "O que você pode ter",
+    "own": {
+      "index": {
+        "title": "Investimento em índices no piloto automático",
+        "body": "SPYx e QQQx a cada pagamento, como um depósito direto numa corretora."
+      },
+      "bigTech": {
+        "title": "Fatias de Big Techs",
+        "body": "NVDAx, AAPLx, MSFTx, GOOGLx, AMZNx, METAx e TSLAx, compradas 24/7 dentro de uma faixa verificada pelo Pyth."
+      },
+      "preIpo": {
+        "title": "Um toque pré-IPO",
+        "body": "Pequenas fatias de OpenAI, Anthropic, Anduril e outras via PreStocks, com a conversão resolvida no IPO."
+      },
+      "cashOut": {
+        "title": "Venda a qualquer hora",
+        "body": "Venda qualquer posição de volta para USDC com a mesma proteção de preço, quando precisar."
+      },
+      "payroll": {
+        "title": "Para plataformas de folha",
+        "body": "Ofereça como benefício pela API de parceiros, com links de convite e webhooks assinados."
+      }
+    },
+    "browseAssets": "Ver ativos",
+    "proofTitle": "Não confie em nós. Confira a chain.",
+    "openAiLive": "Agora o OpenAI PreStocks está sendo negociado {premium} {direction, select, above {acima} other {abaixo}} da marcação ({time}). {direction, select, above {O Paycheck Router aguarda em vez de comprar.} other {Uma fatia compraria dentro da faixa.}}",
+    "campaign": {
+      "paychecks": "Salários roteados",
+      "executed": "Fatias executadas",
+      "verified": "Fatias verificadas"
+    },
+    "keys": "Nenhuma chave do Paycheck Router pode enviar seu dinheiro para outro lugar que não sejam ações na sua própria carteira, a um preço verificado e dentro dos seus próprios limites.",
+    "openProof": "Abrir a prova",
+    "startTitle": "Seu próximo salário pode ser sua primeira ação.",
+    "waitlistLead": "O programa vai ao ar na mainnet da Solana em breve. Deixe seu e-mail e avisamos no dia.",
+    "faqTitle": "Perguntas",
+    "faq": {
+      "custody": {
+        "q": "Quem fica com meu dinheiro?",
+        "a": "Você. USDC e ações ficam na sua própria carteira. O router só pode gastar até a autorização que você definir, só para comprar os ativos que escolheu e só para a sua carteira."
+      },
+      "cost": {
+        "q": "Quanto custa?",
+        "a": "0,20% de cada fatia investida. As taxas de rede e o aluguel das contas são cobertos."
+      },
+      "countries": {
+        "q": "Onde está disponível?",
+        "a": "Em todo lugar que os emissores das ações permitem, exceto os EUA e países sancionados. A página de países restritos lista as exclusões de cada emissor."
+      },
+      "weekends": {
+        "q": "O que acontece nos fins de semana?",
+        "a": "Big Techs com preço Pyth 24/7 ainda podem comprar, dentro de uma faixa um pouco maior. Fatias de índices aguardam a abertura de segunda-feira."
+      },
+      "tokens": {
+        "q": "O que são xStocks e PreStocks?",
+        "a": "xStocks são tokens da Backed na Solana que acompanham ações dos EUA por meio de uma SPV, com dividendos reinvestidos no token. PreStocks acompanham empresas privadas por meio de uma SPV e são convertidos no IPO. Nenhum dá direito a voto ou de acionista."
+      },
+      "stop": {
+        "q": "Como eu paro?",
+        "a": "Pause com uma assinatura, ou revogue a autorização na sua carteira quando quiser. Não precisa de mais nada."
+      }
+    },
+    "forPayroll": "Para plataformas de folha"
   },
   "notFound": {
     "title": "Esta página não existe.",
@@ -146,7 +244,8 @@
         "PROTOCOL_PAUSED": "protocolo pausado",
         "ROUTER_PAUSED": "router pausado",
         "BELOW_MINIMUM": "abaixo do mínimo",
-        "CONVERSION_CLOSED": "conversão encerrada"
+        "CONVERSION_CLOSED": "conversão encerrada",
+        "PRICE_UNAVAILABLE": "preço indisponível"
       },
       "reason": {
         "MARKET_CLOSED": "O mercado dos EUA está fechado. Seus {amount} para {asset} aguardam até {next}.",
@@ -164,7 +263,8 @@
         "PROTOCOL_PAUSED": "O Paycheck Router está pausado. Seus {amount} para {asset} aguardam.",
         "ROUTER_PAUSED": "Seu router está pausado. Seus {amount} para {asset} aguardam.",
         "BELOW_MINIMUM": "Esta fatia está abaixo do mínimo. Seus {amount} ficaram na sua carteira.",
-        "CONVERSION_CLOSED": "A conversão de {asset} foi encerrada."
+        "CONVERSION_CLOSED": "A conversão de {asset} foi encerrada.",
+        "PRICE_UNAVAILABLE": "O preço do Pyth para {asset} não está disponível para o router agora. Seus {amount} aguardam na sua carteira."
       },
       "nextAttempt": "Próxima verificação {time}",
       "noReference": "Sem preço de referência",
@@ -325,7 +425,8 @@
       "preview": "Um salário de {amount} agora",
       "previewError": "Não foi possível precificar a prévia agora.",
       "wouldBuy": "compraria agora",
-      "previewHint": "Defina pesos que somem 100% para ver a prévia."
+      "previewHint": "Defina pesos que somem 100% para ver a prévia.",
+      "priceUnavailable": "Preço indisponível"
     },
     "allowance": {
       "title": "Defina a autorização",
@@ -421,5 +522,528 @@
     "sliceTitle": "Fatia {sig}",
     "back": "Todas as provas",
     "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {marcação} other {Pyth}}"
+  },
+  "site": {
+    "header": {
+      "label": "Site",
+      "wordmark": "Paycheck Router",
+      "howItWorks": "Como funciona",
+      "assets": "Ativos",
+      "proof": "Prova",
+      "security": "Segurança",
+      "fees": "Taxas",
+      "signIn": "Entrar",
+      "start": "Começar",
+      "menu": "Menu",
+      "menuLabel": "Menu do site"
+    },
+    "footer": {
+      "product": "Produto",
+      "trust": "Confiança",
+      "legal": "Jurídico",
+      "elsewhere": "Em outros lugares",
+      "howItWorks": "Como funciona",
+      "assets": "Ativos",
+      "fees": "Taxas",
+      "proof": "Prova",
+      "security": "Segurança",
+      "status": "Status",
+      "help": "Ajuda",
+      "partners": "Parceiros",
+      "terms": "Termos",
+      "risk": "Aviso de riscos",
+      "privacy": "Privacidade",
+      "restricted": "Países restritos",
+      "notUs": "Não disponível para pessoas dos EUA.",
+      "riskStatement": "Ações tokenizadas e tokens pré-IPO podem perder valor e não dão direitos de acionista. O Paycheck Router é um software, não uma corretora nem um consultor, e nada aqui é recomendação de investimento."
+    },
+    "assets": {
+      "unavailable": "Os preços ao vivo não estão disponíveis agora.",
+      "premiumVsPyth": "{premium} vs Pyth",
+      "asOf": "Preços de referência do Pyth de {time}",
+      "market": {
+        "open": "Mercado aberto",
+        "extended": "Preço 24/7",
+        "closed": "Mercado fechado",
+        "always_open": "Negocia 24/7",
+        "unknown": "Status do mercado desconhecido"
+      },
+      "priceUnavailable": "Preço indisponível"
+    },
+    "prestocks": {
+      "unavailable": "Os preços da PreStocks não estão disponíveis agora.",
+      "caption": "Marcações e preços dos tokens da PreStocks",
+      "name": "Empresa",
+      "mark": "Marcação",
+      "token": "Preço do token",
+      "premium": "Prêmio",
+      "wouldBuy": "{premium} · compraria",
+      "wouldWait": "{premium} · aguardaria",
+      "source": "Da API da PreStocks em {time}. Por padrão, uma fatia só compra até 3% acima da marcação."
+    },
+    "calculator": {
+      "paycheck": "Salário",
+      "paycheckError": "Digite um valor, por exemplo 2000.",
+      "invest": "Investir",
+      "investNumber": "Porcentagem do salário",
+      "preset": "Divisão",
+      "presets": {
+        "core": "Base: SPYx 100%",
+        "coreTech": "Base + Tecnologia: SPYx 70%, QQQx 30%",
+        "techTilt": "Foco em tecnologia: QQQx 40%, NVDAx, MSFTx, GOOGLx 20% cada",
+        "preIpoSpice": "Toque pré-IPO: SPYx 60%, NVDAx 20%, Anthropic 10%, OpenAI 10%"
+      },
+      "invested": "investidos",
+      "shares": "≈ {shares} {asset} a {price}",
+      "noPrice": "Preço indisponível",
+      "note": "Estimativas com preços de referência ao vivo, depois da taxa de 0,20%. Cada fatia só compra dentro da sua faixa de preço. Os modelos são exemplos, não recomendação."
+    },
+    "waitlist": {
+      "email": "E-mail",
+      "required": "(obrigatório)",
+      "country": "País",
+      "countryOptional": "Escolha um país (opcional)",
+      "submit": "Entrar na lista de espera",
+      "sending": "Enviando",
+      "verify": "Conclua a verificação acima primeiro.",
+      "invalidEmail": "Digite um e-mail válido.",
+      "failed": "Não foi possível enviar. Tente de novo.",
+      "done": "Você está na lista. Vamos avisar por e-mail no dia em que o programa estiver na mainnet.",
+      "notConfigured": "A verificação antispam não está configurada nesta implantação.",
+      "privacy": "Usamos seu e-mail só para avisar do lançamento. Apague quando quiser."
+    },
+    "canonical": {
+      "forkLabel": "Gravado em um fork da mainnet com Surfpool",
+      "mainnetLabel": "Mainnet da Solana",
+      "line": "Salário de {amount} → {invested} investidos",
+      "check": "{premium} vs {reference, select, mark {marcação} other {Pyth}}",
+      "verified": "Verificada"
+    }
+  },
+  "pages": {
+    "howItWorks": {
+      "title": "Como funciona",
+      "lead": "Do salário às ações na sua própria carteira, em palavras simples.",
+      "liveExample": "Exemplo ao vivo: o OpenAI PreStocks está {premium} em relação à marcação agora ({time}), então uma fatia {outcome, select, wait {aguardaria} other {compraria}}.",
+      "sections": {
+        "lifecycle": {
+          "title": "O ciclo de um salário",
+          "body": "Seu salário cai na sua carteira em USDC, como hoje. O Paycheck Router vê o novo saldo, registra o salário onchain e divide a parte investida em uma fatia por ativo.\n\nCada fatia é uma transação própria. Ela troca USDC pelo ativo via Jupiter, e as ações chegam na sua carteira na mesma transação."
+        },
+        "guard": {
+          "title": "A proteção de preço",
+          "body": "Antes de comprar, o programa calcula o mínimo de ações que você precisa receber a partir de um preço recente do Pyth, ou de uma marcação assinada da PreStocks para empresas pré-IPO. Se a rota entregar menos, a transação é revertida e a fatia aguarda com um motivo claro.\n\nA faixa padrão é 0,5% acima da referência para ações listadas e 3% acima da marcação para tokens pré-IPO."
+        },
+        "weekends": {
+          "title": "Fins de semana e horário de mercado",
+          "body": "Onde o Pyth publica um preço 24/7, uma fatia pode comprar fora do horário dentro de uma faixa 0,5% maior. Onde não publica, como SPYx e QQQx, a fatia aguarda a próxima abertura e avisa."
+        },
+        "allowance": {
+          "title": "A autorização",
+          "body": "Uma assinatura de configuração dá ao programa uma autorização SPL com limite sobre sua conta de USDC. Ele pode gastar até esse limite, só para comprar os ativos que você escolheu, só para a sua carteira. Quando estiver acabando, o app pede uma recarga."
+        },
+        "revoke": {
+          "title": "Parar",
+          "body": "Pause com uma assinatura, ou revogue a autorização em qualquer carteira. Depois de revogar, todas as fatias aguardam e nada se move. Fatias que passam do seu tempo máximo de espera expiram, e o USDC nunca sai da sua carteira."
+        }
+      }
+    },
+    "security": {
+      "title": "Segurança",
+      "lead": "Nenhuma chave do Paycheck Router pode mover seu dinheiro para outro lugar que não sejam ações na sua própria carteira.",
+      "tableTitle": "Quem pode fazer o quê",
+      "columns": {
+        "actor": "Quem",
+        "can": "Pode",
+        "cannot": "Não pode"
+      },
+      "actors": {
+        "worker": {
+          "name": "Você",
+          "can": "Criar, alterar, pausar e fechar seu router; revogar a qualquer momento",
+          "cannot": "—"
+        },
+        "upgrade": {
+          "name": "Autoridade de atualização (multisig 2 de 3, espera de 48 h)",
+          "can": "Substituir o código do programa após uma proposta pública e 48 horas de espera",
+          "cannot": "Agir com um só assinante ou antes do fim da espera"
+        },
+        "admin": {
+          "name": "Admin (a mesma multisig)",
+          "can": "Alterar taxas até 0,50%, feeds e faixas dentro dos limites compilados, e o status dos ativos",
+          "cannot": "Passar dos limites compilados no programa ou mexer em fundos de usuários"
+        },
+        "guardian": {
+          "name": "Guardião de pausa",
+          "can": "Pausar todo o protocolo",
+          "cannot": "Retomar, alterar configurações ou mover fundos"
+        },
+        "crank": {
+          "name": "Crank",
+          "can": "Executar e expirar fatias, publicar preços, pagar taxas",
+          "cannot": "Enviar ações para fora da sua carteira, gastar a mais numa fatia ou pular a proteção de preço"
+        },
+        "recorder": {
+          "name": "Registrador",
+          "can": "Registrar ou ignorar um salário do seu router",
+          "cannot": "Registrar mais do que o novo saldo que você recebeu"
+        },
+        "attester": {
+          "name": "Atestador da PreStocks",
+          "can": "Assinar marcações da PreStocks",
+          "cannot": "Afetar fatias de ações listadas; marcações que variam mais de 20% são rejeitadas"
+        },
+        "sponsor": {
+          "name": "Patrocinador de taxas",
+          "can": "Pagar taxas de configuração e aluguel de contas",
+          "cannot": "Assinar algo que ele não montou"
+        },
+        "jupiter": {
+          "name": "Rota da Jupiter",
+          "can": "Rotear a troca",
+          "cannot": "Entregar menos que o mínimo do programa; a transação é revertida"
+        },
+        "pyth": {
+          "name": "Pyth",
+          "can": "Publicar preços",
+          "cannot": "Passar um preço velho ou incerto; frescor e confiança são verificados onchain"
+        }
+      },
+      "sections": {
+        "custody": {
+          "title": "Custódia",
+          "body": "Seu USDC e suas ações ficam na sua carteira o tempo todo, exceto dentro de uma transação atômica que devolve as ações para essa mesma carteira."
+        },
+        "program": {
+          "title": "O programa",
+          "body": "O programa é de código aberto sob Apache-2.0 e compilado com solana-verify, então qualquer pessoa pode comparar o bytecode implantado com um commit público. O endereço dele:"
+        },
+        "audit": {
+          "title": "Status da auditoria",
+          "body": "Ainda não auditado. Uma empresa especializada em Solana fará a auditoria antes do lançamento público na mainnet; o relatório e as correções serão publicados aqui."
+        },
+        "bounty": {
+          "title": "Recompensa por bugs",
+          "body": "Relate vulnerabilidades pelo contato do security.txt. As recompensas são pagas em USDC, até US$ 10.000 para achados críticos, conforme a gravidade e os fundos em risco."
+        },
+        "incidents": {
+          "title": "Histórico de incidentes",
+          "body": "Nenhum incidente até agora."
+        }
+      }
+    },
+    "fees": {
+      "title": "Taxas",
+      "lead": "{fee} de cada fatia investida. Só isso.",
+      "compareTitle": "Comparado às alternativas",
+      "columns": {
+        "route": "Caminho",
+        "cost": "Custo",
+        "steps": "Passos a cada pagamento",
+        "guard": "Proteção de preço"
+      },
+      "routes": {
+        "router": {
+          "name": "Paycheck Router",
+          "cost": "{fee} por fatia",
+          "steps": "Nenhum",
+          "guard": "Verificação onchain com Pyth ou marcação em toda compra"
+        },
+        "cex": {
+          "name": "Exchange na Nigéria",
+          "cost": "2% por operação",
+          "steps": "Sacar ou depositar, depois comprar",
+          "guard": "O preço da própria exchange"
+        },
+        "manual": {
+          "name": "Trocas manuais na Jupiter",
+          "cost": "Taxas de rede e spread da rota",
+          "steps": "Uma troca por ativo",
+          "guard": "Só a configuração de slippage"
+        }
+      },
+      "source": "Taxa da exchange segundo a Mariblock, 8 set 2025.",
+      "sections": {
+        "slice": {
+          "title": "Por fatia",
+          "body": "A taxa é cobrada dentro de cada execução e vai para o tesouro do protocolo. O programa limita a taxa a 0,50%; alterá-la exige a multisig e a espera."
+        },
+        "network": {
+          "title": "Taxas de rede e aluguel",
+          "body": "O Paycheck Router paga as taxas de rede de cada execução e o aluguel das contas que cria. O aluguel volta no fechamento."
+        },
+        "partner": {
+          "title": "Patrocinado por parceiros",
+          "body": "Uma plataforma de folha pode patrocinar a taxa dos seus membros."
+        }
+      }
+    },
+    "help": {
+      "title": "Ajuda",
+      "lead": "Como apontar seu salário para sua carteira, e respostas para dúvidas comuns.",
+      "platformLink": "Ir para {platform}",
+      "faqTitle": "Dúvidas comuns",
+      "platforms": {
+        "deel": {
+          "name": "Deel",
+          "steps": "Nas configurações de saque ou pagamento, escolha USDC na rede Solana e cole o endereço da sua carteira."
+        },
+        "rise": {
+          "name": "Rise",
+          "steps": "Em formas de pagamento, adicione uma carteira cripto, escolha USDC na Solana e cole o endereço da sua carteira."
+        },
+        "toku": {
+          "name": "Toku",
+          "steps": "Nas preferências de pagamento, escolha pagamento em stablecoin com USDC na Solana e cole o endereço da sua carteira."
+        },
+        "bitwage": {
+          "name": "Bitwage",
+          "steps": "Nas carteiras de pagamento, adicione USDC na Solana com o endereço da sua carteira e defina como forma de pagamento."
+        }
+      },
+      "sections": {
+        "payout": {
+          "title": "Guias de pagamento",
+          "body": "Escolha USDC na Solana na sua plataforma de folha e cole o endereço da carteira que você usa com o Paycheck Router. Sempre envie um teste pequeno antes."
+        },
+        "direct": {
+          "title": "Pago diretamente por um cliente",
+          "body": "Envie ao cliente o endereço da sua carteira Solana e peça USDC na Solana. Qualquer remetente conta, a menos que você configure o router para contar só pagadores marcados."
+        }
+      },
+      "faq": {
+        "custody": {
+          "q": "O Paycheck Router pode mover meu dinheiro?",
+          "a": "Só até a sua autorização, só para comprar os ativos que você escolheu, só para a sua própria carteira e só dentro da faixa de preço."
+        },
+        "cost": {
+          "q": "Quanto custa?",
+          "a": "0,20% de cada fatia investida. As taxas de rede e o aluguel são cobertos."
+        },
+        "weekends": {
+          "q": "Compra nos fins de semana?",
+          "a": "Ativos com preço Pyth 24/7 podem comprar dentro de uma faixa um pouco maior. Os outros aguardam a próxima abertura do mercado."
+        },
+        "wait": {
+          "q": "Por que minha fatia está aguardando?",
+          "a": "O app mostra o motivo em uma frase, por exemplo mercado fechado ou preço muito acima da referência. Ele tenta de novo num cronograma e expira no seu tempo máximo de espera sem mexer no USDC."
+        },
+        "stop": {
+          "q": "Como paro tudo?",
+          "a": "Pause o router ou revogue a autorização em qualquer carteira. Depois de revogar, nada pode ser gasto."
+        },
+        "tax": {
+          "q": "Vocês cuidam dos impostos?",
+          "a": "Não. Você pode exportar cada execução com o custo em CSV para seus registros; isso não é orientação tributária."
+        }
+      }
+    },
+    "partners": {
+      "title": "Para plataformas de folha",
+      "lead": "Dê aos seus contratados um jeito de ter ações dos EUA a cada salário, sem custódia do seu lado.",
+      "joinTitle": "Fale com a gente",
+      "joinBody": "Deixe um e-mail de trabalho e configuramos chaves de parceiro e um sandbox no fork.",
+      "sections": {
+        "benefit": {
+          "title": "Um benefício que retém",
+          "body": "Quem investe uma fatia de cada salário tem um motivo para continuar recebendo por você. Você não muda a forma de pagar."
+        },
+        "custody": {
+          "title": "Zero custódia",
+          "body": "Os fundos nunca passam por você nem por nós. O salário cai na carteira do trabalhador e as ações chegam na mesma carteira."
+        },
+        "invites": {
+          "title": "Links de convite",
+          "body": "Crie links de convite com uma divisão predefinida. Os membros veem seu nome e o modelo, e podem editar antes de assinar."
+        },
+        "webhooks": {
+          "title": "Webhooks assinados",
+          "body": "Receba eventos de membro entrou, salário registrado, fatia executada, aguardando e expirada dos membros que consentirem, assinados com HMAC-SHA256."
+        },
+        "sponsored": {
+          "title": "Taxas patrocinadas",
+          "body": "Cubra a taxa de 0,20% dos seus membros se quiser que o benefício seja gratuito para eles."
+        }
+      }
+    },
+    "terms": {
+      "title": "Termos",
+      "lead": "As regras para usar o Paycheck Router.",
+      "version": "Versão 2026-09-25. Rascunho para a demo no fork; um advogado revisa estes termos antes do lançamento na mainnet.",
+      "translationNotice": "Esta tradução é oferecida por conveniência. A versão em inglês é a que vale.",
+      "sections": {
+        "software": {
+          "title": "Software sem custódia",
+          "body": "O Paycheck Router é um software que ajuda você a comprar tokens existentes em liquidez pública para a sua própria carteira. Ele nunca fica com seus fundos e não pode movê-los além do que a sua autorização e as regras do programa permitem."
+        },
+        "eligibility": {
+          "title": "Elegibilidade",
+          "body": "Você não pode usar o Paycheck Router se for uma pessoa dos EUA, morar em um país com sanções amplas ou morar em um lugar excluído pelo emissor de um ativo. Você confirma isso na configuração."
+        },
+        "fees": {
+          "title": "Taxas",
+          "body": "Cada fatia investida paga 0,20% ao tesouro do protocolo, cobrado dentro da transação. O programa limita a taxa a 0,50%."
+        },
+        "advice": {
+          "title": "Sem recomendação",
+          "body": "Nada no produto é recomendação de investimento, jurídica ou tributária. Os modelos de divisão são exemplos. Você decide o que comprar."
+        },
+        "liability": {
+          "title": "Responsabilidade",
+          "body": "O software é fornecido como está. Na medida em que a lei permite, a equipe não responde por perdas causadas por preços de mercado, ações de emissores, condições da rede ou programas de terceiros."
+        }
+      }
+    },
+    "risk": {
+      "title": "Aviso de riscos",
+      "lead": "Leia antes de investir uma fatia do seu salário.",
+      "sections": {
+        "xstocks": {
+          "title": "xStocks",
+          "body": "xStocks dão exposição ao preço de ações dos EUA por meio da SPV da Backed. Não dão direito a voto. Os dividendos são reinvestidos pelo multiplicador do token. O emissor pode pausar ou mover tokens por motivos regulatórios."
+        },
+        "prestocks": {
+          "title": "PreStocks",
+          "body": "PreStocks dão exposição a empresas privadas por meio de uma SPV, sem direitos de acionista. No IPO são convertidos nos termos da PreStocks, e tokens não convertidos após o prazo podem expirar sem valor. O preço do token pode ficar muito acima da marcação."
+        },
+        "contract": {
+          "title": "Risco de contrato inteligente",
+          "body": "O programa e os programas que ele chama podem ter bugs. Ele é de código aberto, testado, e será auditado antes do lançamento na mainnet."
+        },
+        "oracle": {
+          "title": "Risco de oráculo",
+          "body": "As compras dependem de preços do Pyth e de marcações assinadas da PreStocks. As verificações de frescor, confiança e faixa limitam preços ruins, mas não eliminam o risco."
+        },
+        "liquidity": {
+          "title": "Liquidez e prêmio",
+          "body": "Pools onchain podem ser rasos, principalmente fora do horário. A proteção de preço faz a fatia aguardar em vez de pagar a mais, então algumas fatias podem nunca ser compradas."
+        },
+        "usdc": {
+          "title": "USDC",
+          "body": "O USDC é emitido pela Circle, que pode congelar endereços. Se o USDC perder a paridade com o dólar, as fatias aguardam."
+        },
+        "regulatory": {
+          "title": "Regulatório",
+          "body": "As regras para valores mobiliários tokenizados variam por país e estão mudando. O acesso pode ser restringido onde a regra exigir."
+        }
+      }
+    },
+    "privacy": {
+      "title": "Privacidade",
+      "lead": "O que guardamos, por quê e como apagar.",
+      "sections": {
+        "collected": {
+          "title": "O que guardamos",
+          "body": "O endereço da sua carteira, as configurações do seu router, os salários e fatias que ele processou, suas declarações de elegibilidade com a versão, seu idioma e moeda, e seu e-mail se você informar."
+        },
+        "why": {
+          "title": "Por quê",
+          "body": "Para operar seu router, mostrar seu histórico, cumprir obrigações de elegibilidade e sanções, e enviar as notificações que você pediu."
+        },
+        "processors": {
+          "title": "Operadores",
+          "body": "Cloudflare, Supabase, Privy, Resend, Helius, Alchemy, Chainalysis e Telegram tratam dados em nosso nome."
+        },
+        "rights": {
+          "title": "Seus direitos",
+          "body": "Pela Lei de Proteção de Dados da Nigéria de 2023, pelo GDPR, pela LGPD e leis parecidas, você pode acessar, exportar, corrigir e apagar seus dados, e se opor ao tratamento."
+        },
+        "deletion": {
+          "title": "Exclusão",
+          "body": "Apague sua conta em Configurações. Registros onchain ficam na chain pública; dados fora da chain são removidos."
+        }
+      }
+    },
+    "restricted": {
+      "title": "Países restritos",
+      "lead": "Onde o Paycheck Router não está disponível, e por quê.",
+      "sections": {
+        "us": {
+          "title": "Estados Unidos",
+          "body": "O Paycheck Router não está disponível para pessoas dos EUA. Os tokens de ações que ele compra excluem os EUA."
+        },
+        "sanctioned": {
+          "title": "Jurisdições sancionadas",
+          "body": "Países e regiões sob sanções amplas dos EUA, da ONU, da UE ou do Reino Unido no momento de cada verificação são bloqueados."
+        },
+        "issuers": {
+          "title": "Restrições dos emissores",
+          "body": "Cada emissor publica sua própria lista de restrições. Se seu país for excluído para um ativo, esse ativo fica oculto e o resto do produto continua funcionando."
+        },
+        "check": {
+          "title": "Como verificamos",
+          "body": "Usamos o país da sua conexão, a residência que você declara e uma verificação diária de sanções da sua carteira. Se não baterem, pedimos confirmação."
+        }
+      }
+    },
+    "status": {
+      "title": "Status",
+      "lead": "Saúde ao vivo de cada parte do Paycheck Router.",
+      "unreachable": "Não foi possível acessar o serviço de status agora.",
+      "asOf": "Ambiente {environment}, verificado {time}",
+      "components": {
+        "detection": "Detecção",
+        "execution": "Execução",
+        "pricing": "Preços",
+        "routing": "Roteamento",
+        "chain": "Chain",
+        "notifications": "Notificações",
+        "api": "API"
+      },
+      "health": {
+        "operational": "Operacional",
+        "degraded": "Degradado",
+        "down": "Fora do ar",
+        "unknown": "Desconhecido"
+      }
+    },
+    "assets": {
+      "title": "Ativos",
+      "lead": "Cada ação e empresa pré-IPO que um salário pode comprar, com preços ao vivo.",
+      "pricesUnavailable": "Os preços ao vivo do Pyth não estão disponíveis agora; as marcações da PreStocks continuam aparecendo.",
+      "preIpo": "Pré-IPO",
+      "back": "Todos os ativos",
+      "detailTitle": "{asset}",
+      "sources": "Preços de referência do Pyth, marcações da API da PreStocks, preços onchain da Jupiter.",
+      "columns": {
+        "ticker": "Ticker",
+        "name": "Nome",
+        "referenceSource": "Referência",
+        "market": "Mercado",
+        "referencePrice": "Preço de referência",
+        "onchainPrice": "Preço onchain",
+        "premium": "Prêmio agora"
+      },
+      "source": {
+        "pyth": "Pyth, horário de mercado",
+        "pyth247": "Pyth, 24/7",
+        "mark": "Marcação da PreStocks"
+      },
+      "market": {
+        "open": "Aberto",
+        "extended": "Preço 24/7",
+        "closed": "Fechado, abre {next} ET",
+        "always_open": "24/7",
+        "unknown": "Desconhecido"
+      },
+      "detail": {
+        "pyth": "Preço de referência do Pyth",
+        "mark": "Marcação da PreStocks",
+        "onchain": "Preço onchain",
+        "premium": "Prêmio agora",
+        "converting": "Este ativo está em conversão após o IPO. Não pode ser comprado; quem tem converte antes do prazo.",
+        "rightsTitle": "O que você tem",
+        "rightsXstock": "Exposição ao preço das ações dos EUA por meio da SPV da Backed. Sem direito a voto; os dividendos são reinvestidos pelo multiplicador do token.",
+        "rightsPreIpo": "Exposição ao preço da empresa privada por meio de uma SPV da PreStocks. Sem direitos de acionista; converte no IPO nos termos da PreStocks, com um prazo após o qual tokens não convertidos podem expirar.",
+        "restrictedTitle": "Países restritos",
+        "restricted": "Não disponível para pessoas dos EUA nem em jurisdições sancionadas. O emissor pode excluir mais países.",
+        "restrictedLink": "Ver a lista completa",
+        "tokenTitle": "Token",
+        "explorer": "Ver no Solana Explorer",
+        "issuerXstocks": "Emissor: xStocks da Backed",
+        "issuerPreStocks": "Emissor: PreStocks"
+      },
+      "priceUnavailable": "Preço indisponível"
+    }
   }
 }

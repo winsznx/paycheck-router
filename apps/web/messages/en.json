@@ -15,7 +15,105 @@
     "heroBody": "Set a split once. Every USDC paycheck buys US stocks and pre-IPO shares into your own wallet, only at a fair price. Works with Deel, Rise, Toku and any USDC payer.",
     "forkRunLabel": "Recorded on a Surfpool fork of mainnet",
     "start": "Start in 2 minutes",
-    "seeForkRun": "See the fork run"
+    "seeForkRun": "See the fork run",
+    "joinWaitlist": "Join the waitlist",
+    "seeRealPaycheck": "See a real paycheck",
+    "trust": {
+      "custody": "Non-custodial: USDC and shares stay in your wallet",
+      "pyth": "Prices checked onchain by Pyth",
+      "verifiable": "Open-source, verifiable program",
+      "fee": "0.20% per invested slice"
+    },
+    "gapTitle": "Getting paid in dollars is solved. Owning something with them isn't.",
+    "gap": {
+      "stays": "More than half of stablecoin pay is withdrawn as stablecoins, not local currency. It sits idle.",
+      "cex": "Buying tokenized US stocks on an exchange in Nigeria costs 2% per trade.",
+      "drift": "Off-hours pools drift: Apple-linked tokens traded about 12% over the stock one weekend."
+    },
+    "gapSource": {
+      "stays": "Source: Spark, stablecoin payroll research, 2026",
+      "cex": "Source: Mariblock, Sep 8, 2025",
+      "drift": "Source: Yahoo Finance, Sep 22, 2026"
+    },
+    "howTitle": "Set it once. Every paycheck does the rest.",
+    "steps": {
+      "point": {
+        "title": "Point your pay at your wallet",
+        "body": "Keep your employer and payroll platform. Pick USDC on Solana as your payout; nothing else changes."
+      },
+      "pick": {
+        "title": "Pick a split",
+        "body": "Choose how much of each paycheck to invest and where: index funds, Big Tech, pre-IPO names. Sign once."
+      },
+      "watch": {
+        "title": "Watch payday",
+        "body": "Each slice buys the moment pay lands, or waits with a named reason until the price is fair."
+      }
+    },
+    "calculatorTitle": "Try it with your paycheck",
+    "ownTitle": "What you can own",
+    "own": {
+      "index": {
+        "title": "Index investing on autopilot",
+        "body": "SPYx and QQQx on every payday, the way direct deposit into a brokerage works."
+      },
+      "bigTech": {
+        "title": "Big Tech slices",
+        "body": "NVDAx, AAPLx, MSFTx, GOOGLx, AMZNx, METAx and TSLAx, bought 24/7 inside a Pyth-checked band."
+      },
+      "preIpo": {
+        "title": "Pre-IPO spice",
+        "body": "Small slices of OpenAI, Anthropic, Anduril and more through PreStocks, with conversion handled at IPO."
+      },
+      "cashOut": {
+        "title": "Cash out any hour",
+        "body": "Sell any holding back to USDC through the same price guard, whenever you need it."
+      },
+      "payroll": {
+        "title": "For payroll platforms",
+        "body": "Offer it as a benefit through the Partner API, with invite links and signed webhooks."
+      }
+    },
+    "browseAssets": "Browse assets",
+    "proofTitle": "Don't trust us. Check the chain.",
+    "openAiLive": "Right now OpenAI PreStocks trades {premium} {direction, select, above {above} other {below}} its mark ({time}). {direction, select, above {Paycheck Router waits instead of buying.} other {A slice would buy inside its band.}}",
+    "campaign": {
+      "paychecks": "Paychecks routed",
+      "executed": "Slices executed",
+      "verified": "Slices verified"
+    },
+    "keys": "No key Paycheck Router holds can send your money anywhere but into shares in your own wallet, at a checked price, up to your own limits.",
+    "openProof": "Open the proof",
+    "startTitle": "Your next paycheck could be your first share.",
+    "waitlistLead": "The program goes live on Solana mainnet soon. Leave your email and we'll tell you the day it does.",
+    "faqTitle": "Questions",
+    "faq": {
+      "custody": {
+        "q": "Who holds my money?",
+        "a": "You do. USDC and shares stay in your own wallet. The router can only spend up to the allowance you set, only to buy the assets you picked, only into your wallet."
+      },
+      "cost": {
+        "q": "What does it cost?",
+        "a": "0.20% of each invested slice. Network fees and account rent are covered."
+      },
+      "countries": {
+        "q": "Where is it available?",
+        "a": "Everywhere the stock issuers allow, except the US and sanctioned countries. The restricted-countries page lists each issuer's exclusions."
+      },
+      "weekends": {
+        "q": "What happens on weekends?",
+        "a": "Big Tech names with a 24/7 Pyth price can still buy, inside a slightly wider band. Index slices wait for Monday's open."
+      },
+      "tokens": {
+        "q": "What are xStocks and PreStocks?",
+        "a": "xStocks are Solana tokens from Backed that track US shares through an SPV, with dividends reinvested through the token. PreStocks track private companies through an SPV and convert at IPO. Neither carries voting or shareholder rights."
+      },
+      "stop": {
+        "q": "How do I stop?",
+        "a": "Pause with one signature, or revoke the allowance in your wallet at any time. Nothing else is needed."
+      }
+    },
+    "forPayroll": "For payroll platforms"
   },
   "notFound": {
     "title": "This page doesn't exist.",
@@ -146,7 +244,8 @@
         "PROTOCOL_PAUSED": "protocol paused",
         "ROUTER_PAUSED": "router paused",
         "BELOW_MINIMUM": "below minimum",
-        "CONVERSION_CLOSED": "conversion closed"
+        "CONVERSION_CLOSED": "conversion closed",
+        "PRICE_UNAVAILABLE": "price unavailable"
       },
       "reason": {
         "MARKET_CLOSED": "The US market is closed. Your {amount} for {asset} waits for {next}.",
@@ -164,7 +263,8 @@
         "PROTOCOL_PAUSED": "Paycheck Router is paused. Your {amount} for {asset} waits.",
         "ROUTER_PAUSED": "Your router is paused. Your {amount} for {asset} waits.",
         "BELOW_MINIMUM": "This slice is below the minimum. Your {amount} stayed in your wallet.",
-        "CONVERSION_CLOSED": "Conversion for {asset} has closed."
+        "CONVERSION_CLOSED": "Conversion for {asset} has closed.",
+        "PRICE_UNAVAILABLE": "Pyth's price for {asset} isn't available to the router right now. Your {amount} waits in your wallet."
       },
       "nextAttempt": "Next check {time}",
       "noReference": "No reference price",
@@ -325,7 +425,8 @@
       "preview": "A {amount} paycheck right now",
       "previewError": "The preview couldn't be priced right now.",
       "wouldBuy": "would buy now",
-      "previewHint": "Set weights that total 100% to see the preview."
+      "previewHint": "Set weights that total 100% to see the preview.",
+      "priceUnavailable": "Price unavailable"
     },
     "allowance": {
       "title": "Set the allowance",
@@ -421,5 +522,528 @@
     "sliceTitle": "Slice {sig}",
     "back": "All proof",
     "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {mark} other {Pyth}}"
+  },
+  "site": {
+    "header": {
+      "label": "Site",
+      "wordmark": "Paycheck Router",
+      "howItWorks": "How it works",
+      "assets": "Assets",
+      "proof": "Proof",
+      "security": "Security",
+      "fees": "Fees",
+      "signIn": "Sign in",
+      "start": "Start",
+      "menu": "Menu",
+      "menuLabel": "Site menu"
+    },
+    "footer": {
+      "product": "Product",
+      "trust": "Trust",
+      "legal": "Legal",
+      "elsewhere": "Elsewhere",
+      "howItWorks": "How it works",
+      "assets": "Assets",
+      "fees": "Fees",
+      "proof": "Proof",
+      "security": "Security",
+      "status": "Status",
+      "help": "Help",
+      "partners": "Partners",
+      "terms": "Terms",
+      "risk": "Risk disclosure",
+      "privacy": "Privacy",
+      "restricted": "Restricted countries",
+      "notUs": "Not available to US persons.",
+      "riskStatement": "Tokenized stocks and pre-IPO tokens can lose value and carry no shareholder rights. Paycheck Router is software, not a broker or adviser, and nothing here is investment advice."
+    },
+    "assets": {
+      "unavailable": "Live prices are unavailable right now.",
+      "premiumVsPyth": "{premium} vs Pyth",
+      "asOf": "Pyth reference prices as of {time}",
+      "market": {
+        "open": "Market open",
+        "extended": "24/7 price",
+        "closed": "Market closed",
+        "always_open": "Trades 24/7",
+        "unknown": "Market status unknown"
+      },
+      "priceUnavailable": "Price unavailable"
+    },
+    "prestocks": {
+      "unavailable": "PreStocks prices are unavailable right now.",
+      "caption": "PreStocks marks and token prices",
+      "name": "Company",
+      "mark": "Mark",
+      "token": "Token price",
+      "premium": "Premium",
+      "wouldBuy": "{premium} · would buy",
+      "wouldWait": "{premium} · would wait",
+      "source": "From the PreStocks API at {time}. A slice buys only within 3% of the mark by default."
+    },
+    "calculator": {
+      "paycheck": "Paycheck",
+      "paycheckError": "Enter an amount, for example 2000.",
+      "invest": "Invest",
+      "investNumber": "Percent of the paycheck",
+      "preset": "Split",
+      "presets": {
+        "core": "Core: SPYx 100%",
+        "coreTech": "Core + Tech: SPYx 70%, QQQx 30%",
+        "techTilt": "Tech tilt: QQQx 40%, NVDAx, MSFTx, GOOGLx 20% each",
+        "preIpoSpice": "Pre-IPO spice: SPYx 60%, NVDAx 20%, Anthropic 10%, OpenAI 10%"
+      },
+      "invested": "invested",
+      "shares": "≈ {shares} {asset} at {price}",
+      "noPrice": "Price unavailable",
+      "note": "Estimates at live reference prices after the 0.20% fee. Each slice still buys only inside its price band. Presets are examples, not advice."
+    },
+    "waitlist": {
+      "email": "Email",
+      "required": "(required)",
+      "country": "Country",
+      "countryOptional": "Choose a country (optional)",
+      "submit": "Join the waitlist",
+      "sending": "Sending",
+      "verify": "Complete the check above first.",
+      "invalidEmail": "Enter a valid email address.",
+      "failed": "That didn't go through. Try again.",
+      "done": "You're on the list. We'll email you the day the program is live on mainnet.",
+      "notConfigured": "The anti-spam check isn't configured on this deployment.",
+      "privacy": "We use your email only to tell you about launch. Delete it any time."
+    },
+    "canonical": {
+      "forkLabel": "Recorded on a Surfpool fork of mainnet",
+      "mainnetLabel": "Solana mainnet",
+      "line": "{amount} paycheck → {invested} invested",
+      "check": "{premium} vs {reference, select, mark {mark} other {Pyth}}",
+      "verified": "Verified"
+    }
+  },
+  "pages": {
+    "howItWorks": {
+      "title": "How it works",
+      "lead": "From paycheck to shares in your own wallet, in plain words.",
+      "liveExample": "Live example: OpenAI PreStocks is {premium} against its mark right now ({time}), so a slice would {outcome, select, wait {wait} other {buy}}.",
+      "sections": {
+        "lifecycle": {
+          "title": "The paycheck lifecycle",
+          "body": "Your pay lands in your wallet as USDC, exactly as it does today. Paycheck Router sees the new balance, records the paycheck onchain and splits the invested share into one slice per asset.\n\nEach slice is its own transaction. It swaps USDC for the asset through Jupiter, and the shares land in your wallet in the same transaction."
+        },
+        "guard": {
+          "title": "The price guard",
+          "body": "Before any slice buys, the program computes the minimum number of shares you must receive from a fresh Pyth price, or from a signed PreStocks mark for pre-IPO names. If the route would deliver less, the transaction reverts and the slice waits with a named reason.\n\nThe default band is 0.5% over the reference for listed stocks and 3% over the mark for pre-IPO tokens."
+        },
+        "weekends": {
+          "title": "Weekends and market hours",
+          "body": "Where Pyth publishes a 24/7 price, a slice can buy off-hours inside a band 0.5% wider. Where it doesn't, like SPYx and QQQx, the slice waits for the next open and says so."
+        },
+        "allowance": {
+          "title": "The allowance",
+          "body": "One setup signature gives the program a capped SPL allowance on your USDC account. It can spend up to that cap, only to buy the assets you picked, only into your wallet. When it runs low, the app asks for a top-up."
+        },
+        "revoke": {
+          "title": "Stopping",
+          "body": "Pause with one signature, or revoke the allowance from any wallet. After a revoke every slice waits and nothing moves. Slices that wait past your maximum wait expire, and the USDC never leaves your wallet."
+        }
+      }
+    },
+    "security": {
+      "title": "Security",
+      "lead": "No key Paycheck Router holds can move your money anywhere but into shares in your own wallet.",
+      "tableTitle": "Who can do what",
+      "columns": {
+        "actor": "Who",
+        "can": "Can",
+        "cannot": "Cannot"
+      },
+      "actors": {
+        "worker": {
+          "name": "You",
+          "can": "Create, change, pause and close your router; revoke at any time",
+          "cannot": "—"
+        },
+        "upgrade": {
+          "name": "Upgrade authority (2-of-3 multisig, 48 h timelock)",
+          "can": "Replace the program code after a public proposal and a 48-hour wait",
+          "cannot": "Act with one signer or before the timelock ends"
+        },
+        "admin": {
+          "name": "Admin (same multisig)",
+          "can": "Change fees up to 0.50%, feeds and bands inside compiled caps, asset status",
+          "cannot": "Exceed the caps compiled into the program, or touch user funds"
+        },
+        "guardian": {
+          "name": "Pause guardian",
+          "can": "Pause the whole protocol",
+          "cannot": "Unpause, change settings or move funds"
+        },
+        "crank": {
+          "name": "Crank",
+          "can": "Execute and expire slices, post prices, pay fees",
+          "cannot": "Send shares anywhere but your wallet, overspend a slice, skip the price guard"
+        },
+        "recorder": {
+          "name": "Recorder",
+          "can": "Record or skip a paycheck for your router",
+          "cannot": "Record more than the new balance you received"
+        },
+        "attester": {
+          "name": "PreStocks attester",
+          "can": "Sign PreStocks marks",
+          "cannot": "Affect listed-stock slices; marks that move over 20% are rejected"
+        },
+        "sponsor": {
+          "name": "Fee sponsor",
+          "can": "Pay setup fees and account rent",
+          "cannot": "Sign anything it didn't build"
+        },
+        "jupiter": {
+          "name": "Jupiter route",
+          "can": "Route the swap",
+          "cannot": "Deliver less than the program's minimum; the transaction reverts"
+        },
+        "pyth": {
+          "name": "Pyth",
+          "can": "Publish prices",
+          "cannot": "Pass a stale or uncertain price; freshness and confidence are checked onchain"
+        }
+      },
+      "sections": {
+        "custody": {
+          "title": "Custody",
+          "body": "Your USDC and shares stay in your wallet at every moment except inside one atomic transaction that returns shares to that same wallet."
+        },
+        "program": {
+          "title": "The program",
+          "body": "The program is open source under Apache-2.0 and built with solana-verify, so anyone can match the deployed bytecode to a public commit. Its address:"
+        },
+        "audit": {
+          "title": "Audit status",
+          "body": "Not audited yet. An external audit by a Solana specialist firm happens before the public mainnet launch; the report and fixes will be published here."
+        },
+        "bounty": {
+          "title": "Bug bounty",
+          "body": "Report vulnerabilities through the contact in security.txt. Rewards are paid in USDC, up to $10,000 for critical findings, scaled by severity and funds at risk."
+        },
+        "incidents": {
+          "title": "Incident history",
+          "body": "No incidents so far."
+        }
+      }
+    },
+    "fees": {
+      "title": "Fees",
+      "lead": "{fee} of each invested slice. That's it.",
+      "compareTitle": "Compared with the alternatives",
+      "columns": {
+        "route": "Route",
+        "cost": "Cost",
+        "steps": "Steps each payday",
+        "guard": "Price protection"
+      },
+      "routes": {
+        "router": {
+          "name": "Paycheck Router",
+          "cost": "{fee} per slice",
+          "steps": "None",
+          "guard": "Onchain Pyth or mark check on every buy"
+        },
+        "cex": {
+          "name": "Exchange in Nigeria",
+          "cost": "2% per trade",
+          "steps": "Off-ramp or deposit, then buy",
+          "guard": "Exchange's own pricing"
+        },
+        "manual": {
+          "name": "Manual Jupiter swaps",
+          "cost": "Network fees and route spread",
+          "steps": "One swap per asset",
+          "guard": "Slippage setting only"
+        }
+      },
+      "source": "Exchange fee from Mariblock, Sep 8, 2025.",
+      "sections": {
+        "slice": {
+          "title": "Per slice",
+          "body": "The fee is taken inside each execution and goes to the protocol treasury. The program caps it at 0.50%; changing it needs the multisig and the timelock."
+        },
+        "network": {
+          "title": "Network fees and rent",
+          "body": "Paycheck Router pays the network fees for every execution and the rent for accounts it creates. Rent returns on close."
+        },
+        "partner": {
+          "title": "Partner-sponsored",
+          "body": "A payroll platform can sponsor the fee for its members."
+        }
+      }
+    },
+    "help": {
+      "title": "Help",
+      "lead": "Point your pay at your wallet, and answers to common questions.",
+      "platformLink": "Go to {platform}",
+      "faqTitle": "Common questions",
+      "platforms": {
+        "deel": {
+          "name": "Deel",
+          "steps": "In your withdrawal or payout settings, choose USDC on the Solana network and paste your wallet address."
+        },
+        "rise": {
+          "name": "Rise",
+          "steps": "In payout methods, add a crypto wallet, pick USDC on Solana and paste your wallet address."
+        },
+        "toku": {
+          "name": "Toku",
+          "steps": "In your payment preferences, choose a stablecoin payout in USDC on Solana and paste your wallet address."
+        },
+        "bitwage": {
+          "name": "Bitwage",
+          "steps": "In your payout wallets, add USDC on Solana with your wallet address and set it as your payout."
+        }
+      },
+      "sections": {
+        "payout": {
+          "title": "Payout guides",
+          "body": "Pick USDC on Solana in your payroll platform and paste the wallet address you use with Paycheck Router. Always send a small test first."
+        },
+        "direct": {
+          "title": "Paid directly by a client",
+          "body": "Send your client your Solana wallet address and ask for USDC on Solana. Any sender works unless you set the router to count tagged payers only."
+        }
+      },
+      "faq": {
+        "custody": {
+          "q": "Can Paycheck Router move my money?",
+          "a": "Only up to your allowance, only to buy the assets you picked, only into your own wallet, and only inside the price band."
+        },
+        "cost": {
+          "q": "What does it cost?",
+          "a": "0.20% of each invested slice. Network fees and rent are covered."
+        },
+        "weekends": {
+          "q": "Does it buy on weekends?",
+          "a": "Assets with a 24/7 Pyth price can buy inside a slightly wider band. Others wait for the next market open."
+        },
+        "wait": {
+          "q": "Why is my slice waiting?",
+          "a": "The app shows the reason in one sentence, for example the market is closed or the price is too far over the reference. It retries on a schedule and expires at your maximum wait with the USDC untouched."
+        },
+        "stop": {
+          "q": "How do I stop everything?",
+          "a": "Pause the router, or revoke the allowance from any wallet. Nothing can be spent after a revoke."
+        },
+        "tax": {
+          "q": "Do you handle taxes?",
+          "a": "No. You can export every execution with its cost basis as CSV for your own records; this isn't tax advice."
+        }
+      }
+    },
+    "partners": {
+      "title": "For payroll platforms",
+      "lead": "Give your contractors a way to own US stocks from every paycheck, with zero custody on your side.",
+      "joinTitle": "Talk to us",
+      "joinBody": "Leave a work email and we'll set up partner keys and a sandbox on the fork.",
+      "sections": {
+        "benefit": {
+          "title": "A retention benefit",
+          "body": "Workers who invest a slice of every paycheck have a reason to keep getting paid through you. You don't change how you pay."
+        },
+        "custody": {
+          "title": "Zero custody",
+          "body": "Funds never touch you or us. Pay lands in the worker's wallet and shares land in the same wallet."
+        },
+        "invites": {
+          "title": "Invite links",
+          "body": "Create invite links with a preset split. Members see your name and the preset, and can edit it before signing."
+        },
+        "webhooks": {
+          "title": "Signed webhooks",
+          "body": "Receive member joined, paycheck recorded, slice executed, waiting and expired events for members who consent, signed with HMAC-SHA256."
+        },
+        "sponsored": {
+          "title": "Sponsored fees",
+          "body": "Cover the 0.20% fee for your members if you want the benefit to be free for them."
+        }
+      }
+    },
+    "terms": {
+      "title": "Terms",
+      "lead": "The rules for using Paycheck Router.",
+      "version": "Version 2026-09-25. Draft for the fork demo; counsel reviews these terms before the mainnet launch.",
+      "translationNotice": "This translation is provided for convenience. The English version is binding.",
+      "sections": {
+        "software": {
+          "title": "Non-custodial software",
+          "body": "Paycheck Router is software that helps you buy existing tokens from public liquidity into your own wallet. It never holds your funds and can't move them except as your allowance and the program's rules permit."
+        },
+        "eligibility": {
+          "title": "Eligibility",
+          "body": "You may not use Paycheck Router if you are a US person, live in a comprehensively sanctioned country, or live somewhere an asset's issuer excludes. You confirm this when you set up."
+        },
+        "fees": {
+          "title": "Fees",
+          "body": "Each invested slice pays 0.20% to the protocol treasury, taken inside the transaction. The program caps the fee at 0.50%."
+        },
+        "advice": {
+          "title": "No advice",
+          "body": "Nothing in the product is investment, legal or tax advice. Preset splits are examples. You decide what to buy."
+        },
+        "liability": {
+          "title": "Liability",
+          "body": "The software is provided as is. To the extent the law allows, the team isn't liable for losses from market prices, issuer actions, network conditions or third-party programs."
+        }
+      }
+    },
+    "risk": {
+      "title": "Risk disclosure",
+      "lead": "Read this before you invest a slice of your pay.",
+      "sections": {
+        "xstocks": {
+          "title": "xStocks",
+          "body": "xStocks give price exposure to US shares through Backed's SPV. They carry no voting rights. Dividends are reinvested through the token's multiplier. The issuer can pause or move tokens for regulatory reasons."
+        },
+        "prestocks": {
+          "title": "PreStocks",
+          "body": "PreStocks give exposure to private companies through an SPV, with no shareholder rights. At IPO they convert on terms PreStocks sets, and tokens left unconverted after the deadline can expire worthless. Token prices can trade far above the mark."
+        },
+        "contract": {
+          "title": "Smart contract risk",
+          "body": "The program and the programs it calls could contain bugs. It is open source and tested, and will be audited before the mainnet launch."
+        },
+        "oracle": {
+          "title": "Oracle risk",
+          "body": "Buys depend on Pyth prices and signed PreStocks marks. Freshness, confidence and band checks bound bad prices but can't remove the risk."
+        },
+        "liquidity": {
+          "title": "Liquidity and premium",
+          "body": "Onchain pools can be thin, especially off-hours. The price guard makes a slice wait rather than overpay, so some slices may never buy."
+        },
+        "usdc": {
+          "title": "USDC",
+          "body": "USDC is issued by Circle, which can freeze addresses. If USDC loses its dollar peg, slices wait."
+        },
+        "regulatory": {
+          "title": "Regulatory",
+          "body": "Rules for tokenized securities differ by country and are changing. Access can be restricted where they require it."
+        }
+      }
+    },
+    "privacy": {
+      "title": "Privacy",
+      "lead": "What we store, why, and how to delete it.",
+      "sections": {
+        "collected": {
+          "title": "What we store",
+          "body": "Your wallet address, your router settings, the paychecks and slices it processed, your eligibility declarations with their version, your language and currency, and your email if you give it."
+        },
+        "why": {
+          "title": "Why",
+          "body": "To run your router, show your history, meet eligibility and sanctions obligations, and send notifications you asked for."
+        },
+        "processors": {
+          "title": "Processors",
+          "body": "Cloudflare, Supabase, Privy, Resend, Helius, Alchemy, Chainalysis and Telegram process data on our behalf."
+        },
+        "rights": {
+          "title": "Your rights",
+          "body": "Under the Nigeria Data Protection Act 2023, GDPR and similar laws you can access, export, correct and delete your data, and object to processing."
+        },
+        "deletion": {
+          "title": "Deletion",
+          "body": "Delete your account from Settings. Onchain records stay on the public chain; offchain data is removed."
+        }
+      }
+    },
+    "restricted": {
+      "title": "Restricted countries",
+      "lead": "Where Paycheck Router isn't available, and why.",
+      "sections": {
+        "us": {
+          "title": "The United States",
+          "body": "Paycheck Router isn't available to US persons. The stock tokens it buys exclude the US."
+        },
+        "sanctioned": {
+          "title": "Sanctioned jurisdictions",
+          "body": "Countries and regions under comprehensive US, UN, EU or UK sanctions at the time of each check are blocked."
+        },
+        "issuers": {
+          "title": "Issuer restrictions",
+          "body": "Each issuer publishes its own restricted list. Where your country is excluded for an asset, that asset is hidden and the rest of the product still works."
+        },
+        "check": {
+          "title": "How we check",
+          "body": "We use your connection's country, the residence you declare and a daily sanctions screen of your wallet. A mismatch asks you to confirm."
+        }
+      }
+    },
+    "status": {
+      "title": "Status",
+      "lead": "Live health of each part of Paycheck Router.",
+      "unreachable": "The status service can't be reached right now.",
+      "asOf": "Environment {environment}, checked {time}",
+      "components": {
+        "detection": "Detection",
+        "execution": "Execution",
+        "pricing": "Pricing",
+        "routing": "Routing",
+        "chain": "Chain",
+        "notifications": "Notifications",
+        "api": "API"
+      },
+      "health": {
+        "operational": "Operational",
+        "degraded": "Degraded",
+        "down": "Down",
+        "unknown": "Unknown"
+      }
+    },
+    "assets": {
+      "title": "Assets",
+      "lead": "Every stock and pre-IPO name a paycheck can buy, with live prices.",
+      "pricesUnavailable": "Live Pyth prices are unavailable right now; PreStocks marks still show.",
+      "preIpo": "Pre-IPO",
+      "back": "All assets",
+      "detailTitle": "{asset}",
+      "sources": "Reference prices from Pyth, marks from the PreStocks API, onchain prices from Jupiter.",
+      "columns": {
+        "ticker": "Ticker",
+        "name": "Name",
+        "referenceSource": "Reference",
+        "market": "Market",
+        "referencePrice": "Reference price",
+        "onchainPrice": "Onchain price",
+        "premium": "Premium now"
+      },
+      "source": {
+        "pyth": "Pyth, market hours",
+        "pyth247": "Pyth, 24/7",
+        "mark": "PreStocks mark"
+      },
+      "market": {
+        "open": "Open",
+        "extended": "24/7 price",
+        "closed": "Closed, opens {next} ET",
+        "always_open": "24/7",
+        "unknown": "Unknown"
+      },
+      "detail": {
+        "pyth": "Pyth reference price",
+        "mark": "PreStocks mark",
+        "onchain": "Onchain price",
+        "premium": "Premium now",
+        "converting": "This asset is converting after its IPO. It can't be bought; holders convert before the deadline.",
+        "rightsTitle": "What you own",
+        "rightsXstock": "Price exposure to the underlying US shares through Backed's SPV. No voting rights; dividends are reinvested through the token's multiplier.",
+        "rightsPreIpo": "Price exposure to the private company through a PreStocks SPV. No shareholder rights; converts at IPO on PreStocks' terms, with a deadline after which unconverted tokens can expire.",
+        "restrictedTitle": "Restricted countries",
+        "restricted": "Not available to US persons or in sanctioned jurisdictions. The issuer may exclude more countries.",
+        "restrictedLink": "See the full list",
+        "tokenTitle": "Token",
+        "explorer": "View on Solana Explorer",
+        "issuerXstocks": "Issuer: xStocks by Backed",
+        "issuerPreStocks": "Issuer: PreStocks"
+      },
+      "priceUnavailable": "Price unavailable"
+    }
   }
 }

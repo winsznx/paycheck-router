@@ -15,7 +15,105 @@
     "heroBody": "Define tu reparto una vez. Cada sueldo en USDC compra acciones de EE. UU. y acciones pre-IPO en tu propia billetera, solo a un precio justo. Funciona con Deel, Rise, Toku y cualquier pagador en USDC.",
     "forkRunLabel": "Grabado en una bifurcación de mainnet con Surfpool",
     "start": "Empieza en 2 minutos",
-    "seeForkRun": "Ver la ejecución en la bifurcación"
+    "seeForkRun": "Ver la ejecución en la bifurcación",
+    "joinWaitlist": "Únete a la lista de espera",
+    "seeRealPaycheck": "Ver un sueldo real",
+    "trust": {
+      "custody": "Sin custodia: el USDC y las acciones se quedan en tu billetera",
+      "pyth": "Precios verificados onchain por Pyth",
+      "verifiable": "Programa de código abierto y verificable",
+      "fee": "0,20% por porción invertida"
+    },
+    "gapTitle": "Cobrar en dólares ya está resuelto. Ser dueño de algo con ellos, no.",
+    "gap": {
+      "stays": "Más de la mitad del sueldo en stablecoins se retira en stablecoins, no en moneda local. Se queda quieto.",
+      "cex": "Comprar acciones de EE. UU. tokenizadas en un exchange en Nigeria cuesta 2% por operación.",
+      "drift": "Los pools fuera de horario se desvían: tokens ligados a Apple cotizaron cerca de 12% sobre la acción un fin de semana."
+    },
+    "gapSource": {
+      "stays": "Fuente: Spark, investigación sobre nómina en stablecoins, 2026",
+      "cex": "Fuente: Mariblock, 8 sep 2025",
+      "drift": "Fuente: Yahoo Finance, 22 sep 2026"
+    },
+    "howTitle": "Configúralo una vez. Cada sueldo hace el resto.",
+    "steps": {
+      "point": {
+        "title": "Dirige tu sueldo a tu billetera",
+        "body": "Conserva a tu empleador y tu plataforma de nómina. Elige USDC en Solana como forma de pago; nada más cambia."
+      },
+      "pick": {
+        "title": "Elige un reparto",
+        "body": "Decide cuánto de cada sueldo invertir y en qué: índices, grandes tecnológicas, empresas pre-IPO. Firma una vez."
+      },
+      "watch": {
+        "title": "Mira el día de pago",
+        "body": "Cada porción compra en cuanto llega el sueldo, o espera con un motivo concreto hasta que el precio sea justo."
+      }
+    },
+    "calculatorTitle": "Pruébalo con tu sueldo",
+    "ownTitle": "Qué puedes tener",
+    "own": {
+      "index": {
+        "title": "Inversión en índices en piloto automático",
+        "body": "SPYx y QQQx cada día de pago, como el depósito directo en una correduría."
+      },
+      "bigTech": {
+        "title": "Porciones de grandes tecnológicas",
+        "body": "NVDAx, AAPLx, MSFTx, GOOGLx, AMZNx, METAx y TSLAx, compradas 24/7 dentro de un rango verificado por Pyth."
+      },
+      "preIpo": {
+        "title": "Un toque pre-IPO",
+        "body": "Pequeñas porciones de OpenAI, Anthropic, Anduril y más a través de PreStocks, con la conversión resuelta en la IPO."
+      },
+      "cashOut": {
+        "title": "Vende cuando quieras",
+        "body": "Vende cualquier posición a USDC con la misma protección de precio, a cualquier hora."
+      },
+      "payroll": {
+        "title": "Para plataformas de nómina",
+        "body": "Ofrécelo como beneficio con la API para partners, enlaces de invitación y webhooks firmados."
+      }
+    },
+    "browseAssets": "Ver activos",
+    "proofTitle": "No confíes en nosotros. Revisa la cadena.",
+    "openAiLive": "Ahora mismo OpenAI PreStocks cotiza {premium} {direction, select, above {por encima de} other {por debajo de}} su marca ({time}). {direction, select, above {Paycheck Router espera en lugar de comprar.} other {Una porción compraría dentro de su rango.}}",
+    "campaign": {
+      "paychecks": "Sueldos enrutados",
+      "executed": "Porciones ejecutadas",
+      "verified": "Porciones verificadas"
+    },
+    "keys": "Ninguna clave de Paycheck Router puede enviar tu dinero a otro lugar que no sea acciones en tu propia billetera, a un precio verificado y dentro de tus propios límites.",
+    "openProof": "Abrir la prueba",
+    "startTitle": "Tu próximo sueldo podría ser tu primera acción.",
+    "waitlistLead": "El programa estará pronto en la mainnet de Solana. Deja tu correo y te avisaremos el día que salga.",
+    "faqTitle": "Preguntas",
+    "faq": {
+      "custody": {
+        "q": "¿Quién tiene mi dinero?",
+        "a": "Tú. El USDC y las acciones se quedan en tu billetera. El router solo puede gastar hasta la autorización que definas, solo para comprar los activos que elegiste y solo hacia tu billetera."
+      },
+      "cost": {
+        "q": "¿Cuánto cuesta?",
+        "a": "0,20% de cada porción invertida. Las comisiones de red y la renta de las cuentas están cubiertas."
+      },
+      "countries": {
+        "q": "¿Dónde está disponible?",
+        "a": "En todos los lugares que permiten los emisores de las acciones, excepto EE. UU. y países sancionados. La página de países restringidos muestra las exclusiones de cada emisor."
+      },
+      "weekends": {
+        "q": "¿Qué pasa los fines de semana?",
+        "a": "Las tecnológicas con precio Pyth 24/7 pueden comprar dentro de un rango un poco más amplio. Las porciones de índices esperan la apertura del lunes."
+      },
+      "tokens": {
+        "q": "¿Qué son xStocks y PreStocks?",
+        "a": "xStocks son tokens de Backed en Solana que siguen acciones de EE. UU. a través de un SPV, con los dividendos reinvertidos en el token. PreStocks siguen empresas privadas a través de un SPV y se convierten en la IPO. Ninguno da derechos de voto ni de accionista."
+      },
+      "stop": {
+        "q": "¿Cómo lo detengo?",
+        "a": "Pausa con una firma, o revoca la autorización en tu billetera cuando quieras. No hace falta nada más."
+      }
+    },
+    "forPayroll": "Para plataformas de nómina"
   },
   "notFound": {
     "title": "Esta página no existe.",
@@ -146,7 +244,8 @@
         "PROTOCOL_PAUSED": "protocolo en pausa",
         "ROUTER_PAUSED": "router en pausa",
         "BELOW_MINIMUM": "bajo el mínimo",
-        "CONVERSION_CLOSED": "conversión cerrada"
+        "CONVERSION_CLOSED": "conversión cerrada",
+        "PRICE_UNAVAILABLE": "precio no disponible"
       },
       "reason": {
         "MARKET_CLOSED": "El mercado de EE. UU. está cerrado. Tus {amount} para {asset} esperan hasta {next}.",
@@ -164,7 +263,8 @@
         "PROTOCOL_PAUSED": "Paycheck Router está en pausa. Tus {amount} para {asset} esperan.",
         "ROUTER_PAUSED": "Tu router está en pausa. Tus {amount} para {asset} esperan.",
         "BELOW_MINIMUM": "Esta porción está bajo el mínimo. Tus {amount} se quedaron en tu billetera.",
-        "CONVERSION_CLOSED": "La conversión de {asset} está cerrada."
+        "CONVERSION_CLOSED": "La conversión de {asset} está cerrada.",
+        "PRICE_UNAVAILABLE": "El precio de Pyth para {asset} no está disponible para el router en este momento. Tus {amount} esperan en tu billetera."
       },
       "nextAttempt": "Próxima revisión {time}",
       "noReference": "Sin precio de referencia",
@@ -325,7 +425,8 @@
       "preview": "Un sueldo de {amount} ahora mismo",
       "previewError": "No se pudo cotizar la vista previa en este momento.",
       "wouldBuy": "compraría ahora",
-      "previewHint": "Define pesos que sumen 100% para ver la vista previa."
+      "previewHint": "Define pesos que sumen 100% para ver la vista previa.",
+      "priceUnavailable": "Precio no disponible"
     },
     "allowance": {
       "title": "Define la autorización",
@@ -421,5 +522,528 @@
     "sliceTitle": "Porción {sig}",
     "back": "Todas las pruebas",
     "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {marca} other {Pyth}}"
+  },
+  "site": {
+    "header": {
+      "label": "Sitio",
+      "wordmark": "Paycheck Router",
+      "howItWorks": "Cómo funciona",
+      "assets": "Activos",
+      "proof": "Prueba",
+      "security": "Seguridad",
+      "fees": "Comisiones",
+      "signIn": "Iniciar sesión",
+      "start": "Empezar",
+      "menu": "Menú",
+      "menuLabel": "Menú del sitio"
+    },
+    "footer": {
+      "product": "Producto",
+      "trust": "Confianza",
+      "legal": "Legal",
+      "elsewhere": "En otros sitios",
+      "howItWorks": "Cómo funciona",
+      "assets": "Activos",
+      "fees": "Comisiones",
+      "proof": "Prueba",
+      "security": "Seguridad",
+      "status": "Estado",
+      "help": "Ayuda",
+      "partners": "Partners",
+      "terms": "Términos",
+      "risk": "Aviso de riesgos",
+      "privacy": "Privacidad",
+      "restricted": "Países restringidos",
+      "notUs": "No disponible para personas estadounidenses.",
+      "riskStatement": "Las acciones tokenizadas y los tokens pre-IPO pueden perder valor y no dan derechos de accionista. Paycheck Router es software, no un bróker ni un asesor, y nada aquí es asesoría de inversión."
+    },
+    "assets": {
+      "unavailable": "Los precios en vivo no están disponibles en este momento.",
+      "premiumVsPyth": "{premium} vs Pyth",
+      "asOf": "Precios de referencia de Pyth al {time}",
+      "market": {
+        "open": "Mercado abierto",
+        "extended": "Precio 24/7",
+        "closed": "Mercado cerrado",
+        "always_open": "Opera 24/7",
+        "unknown": "Estado del mercado desconocido"
+      },
+      "priceUnavailable": "Precio no disponible"
+    },
+    "prestocks": {
+      "unavailable": "Los precios de PreStocks no están disponibles en este momento.",
+      "caption": "Marcas y precios de los tokens de PreStocks",
+      "name": "Empresa",
+      "mark": "Marca",
+      "token": "Precio del token",
+      "premium": "Prima",
+      "wouldBuy": "{premium} · compraría",
+      "wouldWait": "{premium} · esperaría",
+      "source": "De la API de PreStocks al {time}. Por defecto, una porción solo compra dentro de 3% de la marca."
+    },
+    "calculator": {
+      "paycheck": "Sueldo",
+      "paycheckError": "Ingresa un monto, por ejemplo 2000.",
+      "invest": "Invertir",
+      "investNumber": "Porcentaje del sueldo",
+      "preset": "Reparto",
+      "presets": {
+        "core": "Base: SPYx 100%",
+        "coreTech": "Base + Tecnología: SPYx 70%, QQQx 30%",
+        "techTilt": "Inclinación tecnológica: QQQx 40%, NVDAx, MSFTx, GOOGLx 20% cada una",
+        "preIpoSpice": "Toque pre-IPO: SPYx 60%, NVDAx 20%, Anthropic 10%, OpenAI 10%"
+      },
+      "invested": "invertidos",
+      "shares": "≈ {shares} {asset} a {price}",
+      "noPrice": "Precio no disponible",
+      "note": "Estimaciones con precios de referencia en vivo, después de la comisión de 0,20%. Cada porción solo compra dentro de su rango de precio. Las plantillas son ejemplos, no asesoría."
+    },
+    "waitlist": {
+      "email": "Correo electrónico",
+      "required": "(obligatorio)",
+      "country": "País",
+      "countryOptional": "Elige un país (opcional)",
+      "submit": "Unirme a la lista de espera",
+      "sending": "Enviando",
+      "verify": "Primero completa la verificación de arriba.",
+      "invalidEmail": "Ingresa un correo válido.",
+      "failed": "No se pudo enviar. Inténtalo de nuevo.",
+      "done": "Ya estás en la lista. Te escribiremos el día que el programa esté en mainnet.",
+      "notConfigured": "La verificación antispam no está configurada en este despliegue.",
+      "privacy": "Usamos tu correo solo para avisarte del lanzamiento. Bórralo cuando quieras."
+    },
+    "canonical": {
+      "forkLabel": "Grabado en una bifurcación de mainnet con Surfpool",
+      "mainnetLabel": "Mainnet de Solana",
+      "line": "Sueldo de {amount} → {invested} invertidos",
+      "check": "{premium} vs {reference, select, mark {marca} other {Pyth}}",
+      "verified": "Verificada"
+    }
+  },
+  "pages": {
+    "howItWorks": {
+      "title": "Cómo funciona",
+      "lead": "Del sueldo a acciones en tu propia billetera, en palabras simples.",
+      "liveExample": "Ejemplo en vivo: OpenAI PreStocks está {premium} frente a su marca ahora mismo ({time}), así que una porción {outcome, select, wait {esperaría} other {compraría}}.",
+      "sections": {
+        "lifecycle": {
+          "title": "El ciclo de un sueldo",
+          "body": "Tu sueldo llega a tu billetera en USDC, igual que hoy. Paycheck Router ve el nuevo saldo, registra el sueldo onchain y divide la parte invertida en una porción por activo.\n\nCada porción es su propia transacción. Cambia USDC por el activo a través de Jupiter, y las acciones llegan a tu billetera en la misma transacción."
+        },
+        "guard": {
+          "title": "La protección de precio",
+          "body": "Antes de comprar, el programa calcula cuántas acciones como mínimo debes recibir a partir de un precio fresco de Pyth, o de una marca firmada de PreStocks para las pre-IPO. Si la ruta entregaría menos, la transacción se revierte y la porción espera con un motivo concreto.\n\nEl rango por defecto es 0,5% sobre la referencia para acciones cotizadas y 3% sobre la marca para tokens pre-IPO."
+        },
+        "weekends": {
+          "title": "Fines de semana y horario de mercado",
+          "body": "Donde Pyth publica un precio 24/7, una porción puede comprar fuera de horario dentro de un rango 0,5% más amplio. Donde no, como SPYx y QQQx, la porción espera la próxima apertura y lo dice."
+        },
+        "allowance": {
+          "title": "La autorización",
+          "body": "Una firma de configuración le da al programa una autorización SPL con tope sobre tu cuenta de USDC. Puede gastar hasta ese tope, solo para comprar los activos que elegiste, solo hacia tu billetera. Cuando se agota, la app te pide recargarla."
+        },
+        "revoke": {
+          "title": "Detenerlo",
+          "body": "Pausa con una firma, o revoca la autorización desde cualquier billetera. Tras revocarla, todas las porciones esperan y nada se mueve. Las porciones que esperan más que tu espera máxima vencen, y el USDC nunca sale de tu billetera."
+        }
+      }
+    },
+    "security": {
+      "title": "Seguridad",
+      "lead": "Ninguna clave de Paycheck Router puede mover tu dinero a otro lugar que no sea acciones en tu propia billetera.",
+      "tableTitle": "Quién puede hacer qué",
+      "columns": {
+        "actor": "Quién",
+        "can": "Puede",
+        "cannot": "No puede"
+      },
+      "actors": {
+        "worker": {
+          "name": "Tú",
+          "can": "Crear, cambiar, pausar y cerrar tu router; revocar cuando quieras",
+          "cannot": "—"
+        },
+        "upgrade": {
+          "name": "Autoridad de actualización (multifirma 2 de 3, espera de 48 h)",
+          "can": "Reemplazar el código del programa tras una propuesta pública y 48 horas de espera",
+          "cannot": "Actuar con un solo firmante o antes de que termine la espera"
+        },
+        "admin": {
+          "name": "Admin (la misma multifirma)",
+          "can": "Cambiar comisiones hasta 0,50%, feeds y rangos dentro de los topes compilados, y el estado de los activos",
+          "cannot": "Superar los topes compilados en el programa ni tocar fondos de usuarios"
+        },
+        "guardian": {
+          "name": "Guardián de pausa",
+          "can": "Pausar todo el protocolo",
+          "cannot": "Reanudar, cambiar ajustes ni mover fondos"
+        },
+        "crank": {
+          "name": "Crank",
+          "can": "Ejecutar y vencer porciones, publicar precios, pagar comisiones",
+          "cannot": "Enviar acciones a otro lugar que no sea tu billetera, gastar de más en una porción ni saltarse la protección de precio"
+        },
+        "recorder": {
+          "name": "Registrador",
+          "can": "Registrar u omitir un sueldo de tu router",
+          "cannot": "Registrar más que el nuevo saldo que recibiste"
+        },
+        "attester": {
+          "name": "Certificador de PreStocks",
+          "can": "Firmar marcas de PreStocks",
+          "cannot": "Afectar porciones de acciones cotizadas; las marcas que se mueven más de 20% se rechazan"
+        },
+        "sponsor": {
+          "name": "Patrocinador de comisiones",
+          "can": "Pagar comisiones de configuración y renta de cuentas",
+          "cannot": "Firmar algo que no haya preparado"
+        },
+        "jupiter": {
+          "name": "Ruta de Jupiter",
+          "can": "Enrutar el intercambio",
+          "cannot": "Entregar menos que el mínimo del programa; la transacción se revierte"
+        },
+        "pyth": {
+          "name": "Pyth",
+          "can": "Publicar precios",
+          "cannot": "Hacer pasar un precio viejo o incierto; la frescura y la confianza se verifican onchain"
+        }
+      },
+      "sections": {
+        "custody": {
+          "title": "Custodia",
+          "body": "Tu USDC y tus acciones se quedan en tu billetera en todo momento, salvo dentro de una transacción atómica que devuelve acciones a esa misma billetera."
+        },
+        "program": {
+          "title": "El programa",
+          "body": "El programa es de código abierto bajo Apache-2.0 y se compila con solana-verify, así que cualquiera puede comparar el bytecode desplegado con un commit público. Su dirección:"
+        },
+        "audit": {
+          "title": "Estado de la auditoría",
+          "body": "Aún no está auditado. Una firma especializada en Solana lo auditará antes del lanzamiento público en mainnet; el informe y las correcciones se publicarán aquí."
+        },
+        "bounty": {
+          "title": "Recompensa por errores",
+          "body": "Reporta vulnerabilidades mediante el contacto de security.txt. Las recompensas se pagan en USDC, hasta $10,000 por hallazgos críticos, según la gravedad y los fondos en riesgo."
+        },
+        "incidents": {
+          "title": "Historial de incidentes",
+          "body": "Sin incidentes hasta ahora."
+        }
+      }
+    },
+    "fees": {
+      "title": "Comisiones",
+      "lead": "{fee} de cada porción invertida. Nada más.",
+      "compareTitle": "Frente a las alternativas",
+      "columns": {
+        "route": "Ruta",
+        "cost": "Costo",
+        "steps": "Pasos cada día de pago",
+        "guard": "Protección de precio"
+      },
+      "routes": {
+        "router": {
+          "name": "Paycheck Router",
+          "cost": "{fee} por porción",
+          "steps": "Ninguno",
+          "guard": "Verificación onchain con Pyth o marca en cada compra"
+        },
+        "cex": {
+          "name": "Exchange en Nigeria",
+          "cost": "2% por operación",
+          "steps": "Retirar o depositar, luego comprar",
+          "guard": "El precio propio del exchange"
+        },
+        "manual": {
+          "name": "Intercambios manuales en Jupiter",
+          "cost": "Comisiones de red y diferencial de la ruta",
+          "steps": "Un intercambio por activo",
+          "guard": "Solo el ajuste de deslizamiento"
+        }
+      },
+      "source": "Comisión del exchange según Mariblock, 8 sep 2025.",
+      "sections": {
+        "slice": {
+          "title": "Por porción",
+          "body": "La comisión se cobra dentro de cada ejecución y va a la tesorería del protocolo. El programa la limita a 0,50%; cambiarla requiere la multifirma y la espera."
+        },
+        "network": {
+          "title": "Comisiones de red y renta",
+          "body": "Paycheck Router paga las comisiones de red de cada ejecución y la renta de las cuentas que crea. La renta se devuelve al cerrar."
+        },
+        "partner": {
+          "title": "Patrocinado por un partner",
+          "body": "Una plataforma de nómina puede patrocinar la comisión de sus miembros."
+        }
+      }
+    },
+    "help": {
+      "title": "Ayuda",
+      "lead": "Cómo dirigir tu sueldo a tu billetera, y respuestas a preguntas comunes.",
+      "platformLink": "Ir a {platform}",
+      "faqTitle": "Preguntas comunes",
+      "platforms": {
+        "deel": {
+          "name": "Deel",
+          "steps": "En tus ajustes de retiro o pago, elige USDC en la red Solana y pega la dirección de tu billetera."
+        },
+        "rise": {
+          "name": "Rise",
+          "steps": "En métodos de pago, agrega una billetera cripto, elige USDC en Solana y pega la dirección de tu billetera."
+        },
+        "toku": {
+          "name": "Toku",
+          "steps": "En tus preferencias de pago, elige un pago en stablecoin con USDC en Solana y pega la dirección de tu billetera."
+        },
+        "bitwage": {
+          "name": "Bitwage",
+          "steps": "En tus billeteras de pago, agrega USDC en Solana con la dirección de tu billetera y márcala como forma de pago."
+        }
+      },
+      "sections": {
+        "payout": {
+          "title": "Guías de pago",
+          "body": "Elige USDC en Solana en tu plataforma de nómina y pega la dirección de billetera que usas con Paycheck Router. Envía siempre primero una prueba pequeña."
+        },
+        "direct": {
+          "title": "Si te paga un cliente directamente",
+          "body": "Envía a tu cliente la dirección de tu billetera de Solana y pide USDC en Solana. Cualquier remitente cuenta, salvo que configures el router para contar solo pagadores etiquetados."
+        }
+      },
+      "faq": {
+        "custody": {
+          "q": "¿Paycheck Router puede mover mi dinero?",
+          "a": "Solo hasta tu autorización, solo para comprar los activos que elegiste, solo hacia tu propia billetera y solo dentro del rango de precio."
+        },
+        "cost": {
+          "q": "¿Cuánto cuesta?",
+          "a": "0,20% de cada porción invertida. Las comisiones de red y la renta están cubiertas."
+        },
+        "weekends": {
+          "q": "¿Compra los fines de semana?",
+          "a": "Los activos con precio Pyth 24/7 pueden comprar dentro de un rango un poco más amplio. Los demás esperan la próxima apertura del mercado."
+        },
+        "wait": {
+          "q": "¿Por qué mi porción está en espera?",
+          "a": "La app muestra el motivo en una frase, por ejemplo que el mercado está cerrado o que el precio está muy por encima de la referencia. Reintenta según un calendario y vence en tu espera máxima sin tocar el USDC."
+        },
+        "stop": {
+          "q": "¿Cómo detengo todo?",
+          "a": "Pausa el router o revoca la autorización desde cualquier billetera. Tras revocarla no se puede gastar nada."
+        },
+        "tax": {
+          "q": "¿Se encargan de los impuestos?",
+          "a": "No. Puedes exportar cada ejecución con su costo base en CSV para tus registros; esto no es asesoría fiscal."
+        }
+      }
+    },
+    "partners": {
+      "title": "Para plataformas de nómina",
+      "lead": "Dale a tus contratistas una forma de tener acciones de EE. UU. con cada sueldo, sin custodia de tu lado.",
+      "joinTitle": "Hablemos",
+      "joinBody": "Deja un correo de trabajo y configuraremos claves de partner y un sandbox en la bifurcación.",
+      "sections": {
+        "benefit": {
+          "title": "Un beneficio que retiene",
+          "body": "Quienes invierten una porción de cada sueldo tienen un motivo para seguir cobrando contigo. No cambias cómo pagas."
+        },
+        "custody": {
+          "title": "Sin custodia",
+          "body": "Los fondos nunca pasan por ti ni por nosotros. El sueldo llega a la billetera del trabajador y las acciones llegan a la misma billetera."
+        },
+        "invites": {
+          "title": "Enlaces de invitación",
+          "body": "Crea enlaces de invitación con un reparto predefinido. Los miembros ven tu nombre y la plantilla, y pueden editarla antes de firmar."
+        },
+        "webhooks": {
+          "title": "Webhooks firmados",
+          "body": "Recibe eventos de miembro unido, sueldo registrado, porción ejecutada, en espera y vencida de los miembros que lo consientan, firmados con HMAC-SHA256."
+        },
+        "sponsored": {
+          "title": "Comisiones patrocinadas",
+          "body": "Cubre la comisión de 0,20% de tus miembros si quieres que el beneficio les salga gratis."
+        }
+      }
+    },
+    "terms": {
+      "title": "Términos",
+      "lead": "Las reglas para usar Paycheck Router.",
+      "version": "Versión 2026-09-25. Borrador para la demo en la bifurcación; un abogado revisará estos términos antes del lanzamiento en mainnet.",
+      "translationNotice": "Esta traducción se ofrece por conveniencia. La versión en inglés es la vinculante.",
+      "sections": {
+        "software": {
+          "title": "Software sin custodia",
+          "body": "Paycheck Router es software que te ayuda a comprar tokens existentes desde liquidez pública hacia tu propia billetera. Nunca tiene tus fondos y no puede moverlos salvo lo que permitan tu autorización y las reglas del programa."
+        },
+        "eligibility": {
+          "title": "Elegibilidad",
+          "body": "No puedes usar Paycheck Router si eres una persona estadounidense, vives en un país con sanciones integrales o vives en un lugar que excluye el emisor de un activo. Lo confirmas al configurar."
+        },
+        "fees": {
+          "title": "Comisiones",
+          "body": "Cada porción invertida paga 0,20% a la tesorería del protocolo, cobrado dentro de la transacción. El programa limita la comisión a 0,50%."
+        },
+        "advice": {
+          "title": "Sin asesoría",
+          "body": "Nada en el producto es asesoría de inversión, legal ni fiscal. Las plantillas de reparto son ejemplos. Tú decides qué comprar."
+        },
+        "liability": {
+          "title": "Responsabilidad",
+          "body": "El software se ofrece tal cual. En la medida que la ley lo permita, el equipo no responde por pérdidas por precios de mercado, acciones de emisores, condiciones de la red o programas de terceros."
+        }
+      }
+    },
+    "risk": {
+      "title": "Aviso de riesgos",
+      "lead": "Léelo antes de invertir una porción de tu sueldo.",
+      "sections": {
+        "xstocks": {
+          "title": "xStocks",
+          "body": "Los xStocks dan exposición al precio de acciones de EE. UU. a través del SPV de Backed. No dan derecho a voto. Los dividendos se reinvierten mediante el multiplicador del token. El emisor puede pausar o mover tokens por motivos regulatorios."
+        },
+        "prestocks": {
+          "title": "PreStocks",
+          "body": "Los PreStocks dan exposición a empresas privadas a través de un SPV, sin derechos de accionista. En la IPO se convierten según los términos de PreStocks, y los tokens sin convertir tras el plazo pueden vencer sin valor. El precio del token puede estar muy por encima de la marca."
+        },
+        "contract": {
+          "title": "Riesgo de contrato inteligente",
+          "body": "El programa y los programas que llama pueden tener errores. Es de código abierto, está probado y se auditará antes del lanzamiento en mainnet."
+        },
+        "oracle": {
+          "title": "Riesgo de oráculo",
+          "body": "Las compras dependen de precios de Pyth y de marcas firmadas de PreStocks. Las verificaciones de frescura, confianza y rango acotan los precios malos, pero no eliminan el riesgo."
+        },
+        "liquidity": {
+          "title": "Liquidez y prima",
+          "body": "Los pools onchain pueden ser poco profundos, sobre todo fuera de horario. La protección de precio hace que una porción espere en lugar de pagar de más, así que algunas porciones podrían no comprarse nunca."
+        },
+        "usdc": {
+          "title": "USDC",
+          "body": "USDC lo emite Circle, que puede congelar direcciones. Si USDC pierde su paridad con el dólar, las porciones esperan."
+        },
+        "regulatory": {
+          "title": "Regulatorio",
+          "body": "Las reglas sobre valores tokenizados varían por país y están cambiando. El acceso puede restringirse donde lo exijan."
+        }
+      }
+    },
+    "privacy": {
+      "title": "Privacidad",
+      "lead": "Qué guardamos, por qué y cómo borrarlo.",
+      "sections": {
+        "collected": {
+          "title": "Qué guardamos",
+          "body": "La dirección de tu billetera, los ajustes de tu router, los sueldos y porciones que procesó, tus declaraciones de elegibilidad con su versión, tu idioma y moneda, y tu correo si nos lo das."
+        },
+        "why": {
+          "title": "Por qué",
+          "body": "Para operar tu router, mostrar tu historial, cumplir obligaciones de elegibilidad y sanciones, y enviar las notificaciones que pediste."
+        },
+        "processors": {
+          "title": "Encargados",
+          "body": "Cloudflare, Supabase, Privy, Resend, Helius, Alchemy, Chainalysis y Telegram procesan datos en nuestro nombre."
+        },
+        "rights": {
+          "title": "Tus derechos",
+          "body": "Según la Ley de Protección de Datos de Nigeria de 2023, el RGPD y leyes similares, puedes acceder, exportar, corregir y borrar tus datos, y oponerte a su tratamiento."
+        },
+        "deletion": {
+          "title": "Borrado",
+          "body": "Borra tu cuenta desde Ajustes. Los registros onchain quedan en la cadena pública; los datos fuera de la cadena se eliminan."
+        }
+      }
+    },
+    "restricted": {
+      "title": "Países restringidos",
+      "lead": "Dónde no está disponible Paycheck Router y por qué.",
+      "sections": {
+        "us": {
+          "title": "Estados Unidos",
+          "body": "Paycheck Router no está disponible para personas estadounidenses. Los tokens de acciones que compra excluyen a EE. UU."
+        },
+        "sanctioned": {
+          "title": "Jurisdicciones sancionadas",
+          "body": "Se bloquean los países y regiones bajo sanciones integrales de EE. UU., la ONU, la UE o el Reino Unido al momento de cada verificación."
+        },
+        "issuers": {
+          "title": "Restricciones de los emisores",
+          "body": "Cada emisor publica su propia lista de restricciones. Si tu país está excluido para un activo, ese activo se oculta y el resto del producto sigue funcionando."
+        },
+        "check": {
+          "title": "Cómo verificamos",
+          "body": "Usamos el país de tu conexión, la residencia que declaras y una revisión diaria de sanciones de tu billetera. Si no coinciden, te pedimos confirmar."
+        }
+      }
+    },
+    "status": {
+      "title": "Estado",
+      "lead": "Salud en vivo de cada parte de Paycheck Router.",
+      "unreachable": "No se puede acceder al servicio de estado en este momento.",
+      "asOf": "Entorno {environment}, verificado {time}",
+      "components": {
+        "detection": "Detección",
+        "execution": "Ejecución",
+        "pricing": "Precios",
+        "routing": "Enrutamiento",
+        "chain": "Cadena",
+        "notifications": "Notificaciones",
+        "api": "API"
+      },
+      "health": {
+        "operational": "Operativo",
+        "degraded": "Degradado",
+        "down": "Caído",
+        "unknown": "Desconocido"
+      }
+    },
+    "assets": {
+      "title": "Activos",
+      "lead": "Cada acción y empresa pre-IPO que un sueldo puede comprar, con precios en vivo.",
+      "pricesUnavailable": "Los precios de Pyth en vivo no están disponibles ahora; las marcas de PreStocks sí se muestran.",
+      "preIpo": "Pre-IPO",
+      "back": "Todos los activos",
+      "detailTitle": "{asset}",
+      "sources": "Precios de referencia de Pyth, marcas de la API de PreStocks, precios onchain de Jupiter.",
+      "columns": {
+        "ticker": "Ticker",
+        "name": "Nombre",
+        "referenceSource": "Referencia",
+        "market": "Mercado",
+        "referencePrice": "Precio de referencia",
+        "onchainPrice": "Precio onchain",
+        "premium": "Prima ahora"
+      },
+      "source": {
+        "pyth": "Pyth, horario de mercado",
+        "pyth247": "Pyth, 24/7",
+        "mark": "Marca de PreStocks"
+      },
+      "market": {
+        "open": "Abierto",
+        "extended": "Precio 24/7",
+        "closed": "Cerrado, abre {next} ET",
+        "always_open": "24/7",
+        "unknown": "Desconocido"
+      },
+      "detail": {
+        "pyth": "Precio de referencia de Pyth",
+        "mark": "Marca de PreStocks",
+        "onchain": "Precio onchain",
+        "premium": "Prima ahora",
+        "converting": "Este activo se está convirtiendo tras su IPO. No se puede comprar; quienes lo tienen lo convierten antes del plazo.",
+        "rightsTitle": "Qué tienes",
+        "rightsXstock": "Exposición al precio de las acciones de EE. UU. a través del SPV de Backed. Sin derecho a voto; los dividendos se reinvierten mediante el multiplicador del token.",
+        "rightsPreIpo": "Exposición al precio de la empresa privada a través de un SPV de PreStocks. Sin derechos de accionista; se convierte en la IPO según los términos de PreStocks, con un plazo tras el cual los tokens sin convertir pueden vencer.",
+        "restrictedTitle": "Países restringidos",
+        "restricted": "No disponible para personas estadounidenses ni en jurisdicciones sancionadas. El emisor puede excluir más países.",
+        "restrictedLink": "Ver la lista completa",
+        "tokenTitle": "Token",
+        "explorer": "Ver en Solana Explorer",
+        "issuerXstocks": "Emisor: xStocks de Backed",
+        "issuerPreStocks": "Emisor: PreStocks"
+      },
+      "priceUnavailable": "Precio no disponible"
+    }
   }
 }
