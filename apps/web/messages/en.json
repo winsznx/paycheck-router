@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "siteName": "Paycheck Router",
+    "shortName": "Paycheck",
+    "title": "Paycheck Router: your paycheck, turned into stocks the moment it lands",
+    "description": "Set a split once. Every USDC paycheck buys US stocks and pre-IPO shares into your own wallet, only at a fair price."
+  },
+  "chrome": {
+    "forkBanner": "Mainnet fork (Surfpool) · no real funds",
+    "skipToContent": "Skip to content"
+  },
+  "landing": {
+    "heroLabel": "For people paid in USDC on Solana",
+    "heroTitle": "Your paycheck, turned into stocks the moment it lands.",
+    "heroBody": "Set a split once. Every USDC paycheck buys US stocks and pre-IPO shares into your own wallet, only at a fair price. Works with Deel, Rise, Toku and any USDC payer.",
+    "forkRunLabel": "Recorded on a Surfpool fork of mainnet",
+    "start": "Start in 2 minutes",
+    "seeForkRun": "See the fork run"
+  },
+  "notFound": {
+    "title": "This page doesn't exist.",
+    "body": "Check the address, or go back to the start.",
+    "action": "Go to the start"
+  }
+}
