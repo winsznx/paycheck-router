@@ -54,6 +54,9 @@ const TABLE: readonly [number, string, CrankAction, WaitReason | null][] = [
   [6029, "ConversionDeadlinePassed", "notify_owner", WaitReason.CONVERSION_CLOSED],
   [6030, "MathOverflow", "alert", null],
   [6031, "OpenPaychecksRemain", "notify_owner", null],
+  [6032, "InvalidParameter", "reject_config", null],
+  [6033, "Unauthorized", "alert", null],
+  [6034, "LegNotExpired", "drop", null],
 ];
 
 export const PROGRAM_ERRORS: readonly ProgramErrorInfo[] = TABLE.map(
