@@ -86,12 +86,9 @@ test.describe("problem copy", () => {
     await page.getByRole("button", { name: /E2E wallet/ }).click();
     // #then they read what happened and what to do, and none of the detail
     await expect(
-      page
-        .getByRole("alert")
-        .filter({
-          hasText:
-            "This part of Paycheck Router isn't switched on here yet. Please come back later.",
-        }),
+      page.getByRole("alert").filter({
+        hasText: "This part of Paycheck Router isn't switched on here yet. Please come back later.",
+      }),
     ).toBeVisible();
     await expect(page.getByText(/Hyperdrive|database|not_configured/)).toHaveCount(0);
   });
