@@ -1,9 +1,10 @@
 [extend]
 useDefault = true
 
-# Jupiter route plans name each pool by its account address under "ammKey". These are public
-# Solana addresses that appear in recorded upstream responses and evidence bundles.
+# Recorded upstream responses and evidence bundles name Solana accounts under keys ending in
+# "Key": Jupiter's route plans ("ammKey") and v0 transactions' lookup tables ("accountKey").
+# These are public addresses.
 [[allowlists]]
-description = "Jupiter ammKey public addresses"
+description = "Public Solana addresses under ammKey and accountKey"
 regexTarget = "line"
-regexes = ['''"ammKey":\s*"[1-9A-HJ-NP-Za-km-z]{32,44}"''']
+regexes = ['''"(ammKey|accountKey)":\s*"[1-9A-HJ-NP-Za-km-z]{32,44}"''']
