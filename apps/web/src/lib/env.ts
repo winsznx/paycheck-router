@@ -34,6 +34,11 @@ export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:30
 
 export const surfnetRpcUrl = process.env.NEXT_PUBLIC_SURFNET_RPC_URL ?? "http://127.0.0.1:8899";
 
+/** RPC used for read-only simulation before signing; fork runs simulate on the surfnet. */
+export const rpcUrl =
+  process.env.NEXT_PUBLIC_RPC_URL ??
+  (isForkEnvironment ? surfnetRpcUrl : "https://api.mainnet-beta.solana.com");
+
 export const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 /** The fork banner shows in fork environments, and on public pages until the mainnet deploy. */

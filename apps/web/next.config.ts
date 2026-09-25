@@ -32,6 +32,7 @@ export default function config(phase: string): NextConfig {
     turbopack: { root: monorepoRoot },
     outputFileTracingRoot: monorepoRoot,
     images: { unoptimized: true },
+    experimental: { optimizePackageImports: ["@paycheck-router/ui"] },
     async headers() {
       return [
         {
