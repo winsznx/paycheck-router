@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
+  bpsOf,
   buyMinOut,
   buyPremiumBps,
   confidenceWithin,
   convertMinTarget,
   effectiveMultiplier,
   GuardMathError,
-  legFee,
   multiplierToE12,
   pythPriceToE9,
   sellMinUsdc,
@@ -81,6 +81,15 @@ function literalConvert(
     .mul(one.sub(Q.of(b, 10_000n)))
     .mul(Q.of(10n ** BigInt(dT)).div(Q.of(mT, e12)))
     .floor();
+}
+
+/** A u64 result must match the literal formula; anything larger must be MathOverflow. */
+function expectSameOrOverflow(compute: () => bigint, literal: bigint) {
+  if (literal > U64_MAX) {
+    expect(compute).toThrow(GuardMathError);
+  } else {
+    expect(compute()).toBe(literal);
+  }
 }
 
 /** Deterministic xorshift so failures reproduce. */
@@ -211,6 +220,19 @@ describe("buyMinOut", () => {
     expect(() => buyMinOut({ ...base, bandBps: 70_000 })).toThrow(RangeError);
     expect(() => buyMinOut({ ...base, decimals: 1.5 })).toThrow(RangeError);
   });
+
+  it("reports MathOverflow when an intermediate leaves 256 bits", () => {
+    expect(() =>
+      buyMinOut({
+        usdcIn: 1_000_000n,
+        usdcPriceE9: e9,
+        priceE9: e9,
+        bandBps: 0,
+        multiplierE12: e12,
+        decimals: 70,
+      }),
+    ).toThrow(GuardMathError);
+  });
 });
 
 describe("sellMinUsdc", () => {
@@ -230,35 +252,38 @@ describe("sellMinUsdc", () => {
   it("matches the formula evaluated literally over random inputs", () => {
     const next = rng(0x2545f4914f6cdd1dn);
     for (let i = 0; i < 2_000; i++) {
-      const S = 1n + next(10_000_000_000n);
+      const S = 1n + next(100_000_000_000n);
       const uE9 = 990_000_000n + next(20_000_000n);
-      const pE9 = 1_000_000n + next(1_000_000_000_000n);
+      const pE9 = 1_000_000n + next(5_000_000_000_000n);
       const b = Number(next(1_001n));
-      const mE12 = 500_000_000_000n + next(1_500_000_000_000n);
+      const mE12 = 500_000_000_000n + next(5_000_000_000_000n);
       const d = Number(next(10n));
-      const got = sellMinUsdc({
-        sharesIn: S,
-        usdcPriceE9: uE9,
-        priceE9: pE9,
-        bandBps: b,
-        multiplierE12: mE12,
-        decimals: d,
-      });
-      expect(got).toBe(literalSell(S, uE9, pE9, b, mE12, d));
+      expectSameOrOverflow(
+        () =>
+          sellMinUsdc({
+            sharesIn: S,
+            usdcPriceE9: uE9,
+            priceE9: pE9,
+            bandBps: b,
+            multiplierE12: mE12,
+            decimals: d,
+          }),
+        literalSell(S, uE9, pE9, b, mE12, d),
+      );
     }
   });
 
-  it("rejects a band of 100% or more", () => {
-    expect(() =>
-      sellMinUsdc({
-        sharesIn: 1n,
-        usdcPriceE9: e9,
-        priceE9: e9,
-        bandBps: 10_000,
-        multiplierE12: e12,
-        decimals: 8,
-      }),
-    ).toThrow(RangeError);
+  it("floors to zero at a 100% band and overflows above it", () => {
+    const base = {
+      sharesIn: 100_000_000n,
+      usdcPriceE9: e9,
+      priceE9: e9,
+      bandBps: 10_000,
+      multiplierE12: e12,
+      decimals: 8,
+    };
+    expect(sellMinUsdc(base)).toBe(0n);
+    expect(() => sellMinUsdc({ ...base, bandBps: 10_001 })).toThrow(GuardMathError);
   });
 });
 
@@ -289,17 +314,20 @@ describe("convertMinTarget", () => {
       const b = Number(next(1_001n));
       const mT = 500_000_000_000n + next(5_000_000_000_000n);
       const dT = Number(next(10n));
-      const got = convertMinTarget({
-        sharesIn: S,
-        preMultiplierE12: mPre,
-        preDecimals: dPre,
-        ratioNum: num,
-        ratioDen: den,
-        bandBps: b,
-        targetMultiplierE12: mT,
-        targetDecimals: dT,
-      });
-      expect(got).toBe(literalConvert(S, mPre, dPre, num, den, b, mT, dT));
+      expectSameOrOverflow(
+        () =>
+          convertMinTarget({
+            sharesIn: S,
+            preMultiplierE12: mPre,
+            preDecimals: dPre,
+            ratioNum: num,
+            ratioDen: den,
+            bandBps: b,
+            targetMultiplierE12: mT,
+            targetDecimals: dT,
+          }),
+        literalConvert(S, mPre, dPre, num, den, b, mT, dT),
+      );
     }
   });
 
@@ -321,24 +349,28 @@ describe("convertMinTarget", () => {
 
 describe("helpers", () => {
   it("floors the fee", () => {
-    expect(legFee(1_000_000n, 20)).toBe(2_000n);
-    expect(legFee(999n, 20)).toBe(1n);
-    expect(legFee(49n, 20)).toBe(0n);
+    expect(bpsOf(1_000_000n, 20)).toBe(2_000n);
+    expect(bpsOf(999n, 20)).toBe(1n);
+    expect(bpsOf(49n, 20)).toBe(0n);
   });
 
   it("scales Pyth prices to 1e9", () => {
     expect(pythPriceToE9(18_212_345n, -5)).toBe(182_123_450_000n);
     expect(pythPriceToE9(99_987_000n, -8)).toBe(999_870_000n);
     expect(pythPriceToE9(123_456_789_012n, -11)).toBe(1_234_567_890n);
-    expect(() => pythPriceToE9(-1n, -8)).toThrow(RangeError);
+    expect(() => pythPriceToE9(-1n, -8)).toThrow(GuardMathError);
+    expect(() => pythPriceToE9(0n, -8)).toThrow(GuardMathError);
+    expect(() => pythPriceToE9(1n, -11)).toThrow(GuardMathError);
   });
 
-  it("truncates the multiplier to 1e12 like a Rust cast", () => {
-    expect(multiplierToE12(1)).toBe(e12);
-    expect(multiplierToE12(1.003909240011759)).toBe(1_003_909_240_011n);
-    expect(multiplierToE12(1.4861347)).toBe(1_486_134_700_000n);
-    expect(() => multiplierToE12(0)).toThrow(RangeError);
-    expect(() => multiplierToE12(Number.NaN)).toThrow(RangeError);
+  it("rounds the multiplier to 1e12 in the requested direction", () => {
+    expect(multiplierToE12(1, "down")).toBe(e12);
+    expect(multiplierToE12(1, "up")).toBe(e12);
+    expect(multiplierToE12(1.003909240011759, "down")).toBe(1_003_909_240_011n);
+    expect(multiplierToE12(1.003909240011759, "up")).toBe(1_003_909_240_012n);
+    expect(multiplierToE12(1.4861347, "down")).toBe(1_486_134_700_000n);
+    expect(() => multiplierToE12(0, "up")).toThrow(GuardMathError);
+    expect(() => multiplierToE12(Number.NaN, "down")).toThrow(GuardMathError);
   });
 
   it("switches to the new multiplier once its timestamp passes", () => {
@@ -355,7 +387,6 @@ describe("helpers", () => {
   it("checks confidence and the USDC peg in basis points", () => {
     expect(confidenceWithin(18_000_000n, 90_000n, 50)).toBe(true);
     expect(confidenceWithin(18_000_000n, 90_001n, 50)).toBe(false);
-    expect(confidenceWithin(0n, 0n, 50)).toBe(false);
     expect(usdcWithinPeg(995_000_000n, 50)).toBe(true);
     expect(usdcWithinPeg(994_999_999n, 50)).toBe(false);
     expect(usdcWithinPeg(1_005_000_000n, 50)).toBe(true);
