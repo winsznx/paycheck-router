@@ -884,3 +884,35 @@ fn look_alike_receiver_owner_is_rejected() {
     let crank = m.env.crank.insecure_clone();
     assert_router_error(m.env.send(&[ix], &[&crank]), RouterError::PriceFeedMismatch);
 }
+
+#[test]
+fn execute_leg_owner_never_lends_the_owner_signature() {
+    let mut m = market();
+    let leg = m.leg(0);
+    let key = m.worker.key.insecure_clone();
+    let spy = m.spy;
+    let owner_spy = m.destination(&spy);
+    m.env.mint_to(&spy, &owner_spy, 1_000);
+    let thief = Keypair::new().pubkey();
+    let thief_spy = m.env.create_ata(&thief, &spy, TOKEN_2022_PROGRAM);
+    let min_out = m.min_out(&leg, nvda_e9(), 50, 1.0);
+    let call = m.listed_call(&leg);
+
+    // The owner signs this transaction; a route that tries to spend the
+    // owner's other tokens with that signature must fail.
+    let stealing = m.honest_route(&leg, min_out).transfer(
+        (TOKEN_2022_PROGRAM, spy, 8),
+        owner_spy,
+        thief_spy,
+        m.owner(),
+        1_000,
+    );
+    let ix = m.execute_owner_ix(&leg, &call, 50, &stealing);
+    assert!(m.env.send(&[ix], &[&key]).is_err());
+    assert_eq!(m.env.balance(&owner_spy), 1_000);
+    assert_eq!(m.env.balance(&thief_spy), 0);
+
+    let honest = m.honest_route(&leg, min_out);
+    let ix = m.execute_owner_ix(&leg, &call, 50, &honest);
+    m.env.send(&[ix], &[&key]).unwrap();
+}
