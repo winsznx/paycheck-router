@@ -41,6 +41,11 @@ export const Asset = z.object({
   feedId247: z.string().nullable(),
   market: MarketStatus,
   reference: PythPrice.nullable(),
+  /**
+   * Why `reference` (or `markPriceE9`) is missing: `not_entitled` when the Pyth key lacks the
+   * feed grant, `upstream_error` when the source failed. Never replaced by another price.
+   */
+  referenceError: z.enum(["not_entitled", "upstream_error"]).nullable(),
   /** PreStocks mark in USD × 1e9, for pre-IPO assets. */
   markPriceE9: U64String.nullable(),
   /** USD price of one whole token on Jupiter right now, × 1e9. */
@@ -102,6 +107,8 @@ export const QuotePreviewLeg = z.object({
   /** Shares Jupiter quotes for this slice right now, in base units. */
   quotedOut: U64String.nullable(),
   premiumBps: z.number().int().nullable(),
+  /** Set when no reference price could be read; the slice cannot be priced right now. */
+  referenceError: z.enum(["not_entitled", "upstream_error"]).nullable(),
   wouldWait: WaitReasonSchema.nullable(),
 });
 export type QuotePreviewLeg = z.infer<typeof QuotePreviewLeg>;
