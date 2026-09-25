@@ -22,7 +22,8 @@
     "campaign": "tsx scripts/campaign/run.ts",
     "campaign:summary": "tsx scripts/campaign/summary.ts",
     "verify:campaign": "tsx scripts/campaign/verify.ts",
-    "verify:bundle": "node packages/verify/bin/paycheck-verify.js --bundle"
+    "verify:bundle": "node packages/verify/bin/paycheck-verify.js --bundle",
+    "check:facts": "tsx scripts/check-facts.ts"
   },
   "devDependencies": {
     "@paycheck-router/verify": "workspace:*",
