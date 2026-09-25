@@ -1,3 +1,4 @@
+import { FORK_EXCLUDED_DEXES, JUPITER_BUILD_URL } from "@paycheck-router/shared";
 import {
   AccountRole,
   type Address,
@@ -7,27 +8,7 @@ import {
   type Instruction,
 } from "@solana/kit";
 
-export const JUPITER_BUILD_URL = "https://api.jup.ag/swap/v2/build";
-
-// Proprietary AMMs whose quote state is pushed every slot by an off-chain updater.
-// The updater writes to mainnet only, so a fork's copy goes stale and quotes zero.
-export const FORK_EXCLUDED_DEXES = [
-  "AlphaQ",
-  "Aquifer",
-  "BinaryFi",
-  "BisonFi",
-  "BisonFi Predict",
-  "GoonFi V2",
-  "HumidiFi",
-  "Obric V2",
-  "Quantum",
-  "Scorch",
-  "SolFi",
-  "SolFi V2",
-  "TesseraV",
-  "WhaleStreet",
-  "ZeroFi",
-] as const;
+export { FORK_EXCLUDED_DEXES, JUPITER_BUILD_URL };
 
 type ApiAccount = { pubkey: string; isSigner: boolean; isWritable: boolean };
 export type ApiInstruction = { programId: string; accounts: ApiAccount[]; data: string };
