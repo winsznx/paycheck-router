@@ -146,6 +146,20 @@ const ROUTES: Record<string, unknown> = {
   "/paychecks": paychecks,
   [`/paychecks/${PAYCHECK_ID}`]: paycheckDetail,
   "/portfolio": portfolio,
+  "/me": api.Me.parse({
+    id: session.user.id,
+    email: null,
+    locale: "en",
+    refCurrency: "USD",
+    countryDeclared: "NG",
+    countryIp: "NG",
+    eligibilityStatus: "eligible",
+    tosVersion: "2026-09-25",
+    riskAckVersion: "2026-09-25",
+    ackedAt: NOW,
+    wallets: [{ address: OWNER, kind: "external" }],
+    createdAt: NOW,
+  }),
 };
 
 export { PAYCHECK_ID };
