@@ -6,6 +6,7 @@ mod common;
 mod convert;
 mod execute;
 mod fixtures;
+mod fuzz;
 mod inflow;
 mod market;
 mod router;
