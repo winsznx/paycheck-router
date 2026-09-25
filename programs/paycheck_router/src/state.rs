@@ -148,10 +148,14 @@ pub struct LegState {
     pub mint: Pubkey,
     pub amount_in: u64,
     pub status: u8,
+    /// Shares the owner's account gained, net of any issuer transfer fee.
     pub out_amount: u64,
     pub fee: u64,
     pub ref_price_e9: u64,
     pub executed_at: i64,
+    /// Issuer transfer fee withheld in the destination (Token-2022
+    /// TransferFeeConfig mints such as PreStocks); zero otherwise.
+    pub issuer_fee: u64,
 }
 
 impl LegState {

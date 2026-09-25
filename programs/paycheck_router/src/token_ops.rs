@@ -5,7 +5,12 @@ use anchor_lang::solana_program::{
     program_pack::Pack,
 };
 use anchor_spl::{
-    token_2022::spl_token_2022::state::Account as TokenAccountState,
+    token_2022::spl_token_2022::{
+        extension::{
+            transfer_fee::TransferFeeAmount, BaseStateWithExtensions, StateWithExtensions,
+        },
+        state::Account as TokenAccountState,
+    },
     token_interface::{self, TransferChecked},
 };
 
@@ -49,6 +54,20 @@ pub fn token_state(account: &AccountInfo) -> Option<TokenAccountState> {
     }
     let data = account.try_borrow_data().ok()?;
     TokenAccountState::unpack_from_slice(&data[..TokenAccountState::LEN]).ok()
+}
+
+/// Transfer fees withheld in a Token-2022 account; zero for SPL Token
+/// accounts and accounts without the extension.
+pub fn withheld_amount(account: &AccountInfo) -> Result<u64> {
+    if *account.owner != anchor_spl::token_2022::ID {
+        return Ok(0);
+    }
+    let data = account.try_borrow_data()?;
+    let state = StateWithExtensions::<TokenAccountState>::unpack(&data)?;
+    Ok(state
+        .get_extension::<TransferFeeAmount>()
+        .map(|fees| u64::from(fees.withheld_amount))
+        .unwrap_or(0))
 }
 
 pub fn token_amount(account: &AccountInfo) -> Result<u64> {

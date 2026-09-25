@@ -88,4 +88,37 @@ pub mod paycheck_router {
     pub fn record_paycheck(ctx: Context<RecordPaycheck>, detected_slot: u64) -> Result<()> {
         instructions::inflow::record_paycheck(ctx, detected_slot)
     }
+
+    pub fn execute_leg<'info>(
+        ctx: Context<'info, ExecuteLeg<'info>>,
+        leg_index: u8,
+        swap_data: Vec<u8>,
+    ) -> Result<()> {
+        instructions::execute::execute_leg(ctx, leg_index, swap_data)
+    }
+
+    pub fn execute_prestock_leg<'info>(
+        ctx: Context<'info, ExecutePrestockLeg<'info>>,
+        leg_index: u8,
+        swap_data: Vec<u8>,
+    ) -> Result<()> {
+        instructions::execute::execute_prestock_leg(ctx, leg_index, swap_data)
+    }
+
+    pub fn execute_leg_owner<'info>(
+        ctx: Context<'info, ExecuteLegOwner<'info>>,
+        leg_index: u8,
+        band_bps: u16,
+        swap_data: Vec<u8>,
+    ) -> Result<()> {
+        instructions::execute::execute_leg_owner(ctx, leg_index, band_bps, swap_data)
+    }
+
+    pub fn expire_leg(ctx: Context<ExpireLeg>, leg_index: u8) -> Result<()> {
+        instructions::lifecycle::expire_leg(ctx, leg_index)
+    }
+
+    pub fn close_paycheck(ctx: Context<ClosePaycheck>) -> Result<()> {
+        instructions::lifecycle::close_paycheck(ctx)
+    }
 }

@@ -3,6 +3,9 @@
 
 mod admin;
 mod common;
+mod execute;
+mod fixtures;
 mod inflow;
+mod market;
 mod router;
 mod vectors;
