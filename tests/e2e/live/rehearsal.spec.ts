@@ -51,6 +51,8 @@ type Run = {
   bundle: string | null;
   notes: string[];
   consoleErrors: string[];
+  apiErrors: Array<{ at: string; path: string; status: number; body: unknown }>;
+  failure?: string;
   finishedAt?: string;
 };
 
@@ -153,13 +155,27 @@ async function findLatestPaycheck(page: Page): Promise<string> {
   throw new Error(`No paycheck appeared within ${FIND_PAYCHECK_TIMEOUT_MS / 1000} s of sending it`);
 }
 
-async function loadDetail(page: Page, id: string): Promise<api.PaycheckDetail> {
+/** Loads the detail page; a failed API read is recorded and returns null so the poll retries. */
+async function loadDetail(page: Page, id: string, run: Run): Promise<api.PaycheckDetail | null> {
   const response = page.waitForResponse(
     (r) => r.url() === `${API_URL}/paychecks/${id}` && r.request().method() === "GET",
   );
   await page.goto(`/app/paychecks/${id}`);
-  return api.PaycheckDetail.parse(await (await response).json());
+  const result = await response;
+  const body: unknown = await result.json().catch(() => null);
+  const parsed = api.PaycheckDetail.safeParse(body);
+  if (parsed.success) return parsed.data;
+  run.apiErrors.push({
+    at: new Date().toISOString(),
+    path: `/paychecks/${id}`,
+    status: result.status(),
+    body,
+  });
+  return null;
 }
+
+const isSettled = (detail: api.PaycheckDetail | null): detail is api.PaycheckDetail =>
+  detail !== null && !detail.legs.some((leg) => UNSETTLED.has(leg.status));
 
 test("rehearsal: onboard, send a paycheck, watch it settle", async ({ page, baseURL }) => {
   test.skip(!TRIGGER, "DEMO_RECORD_INPUT must name the FIFO feeding pnpm demo:record's stdin");
@@ -179,6 +195,7 @@ test("rehearsal: onboard, send a paycheck, watch it settle", async ({ page, base
       "Session, auth and realtime traffic is not recorded because it carries tokens.",
     ],
     consoleErrors: [],
+    apiErrors: [],
   };
   recordApiResponses(page);
   page.on("console", (message) => {
@@ -198,12 +215,14 @@ test("rehearsal: onboard, send a paycheck, watch it settle", async ({ page, base
     const id = await findLatestPaycheck(page);
     run.paycheckId = id;
     const deadline = Date.now() + SETTLE_TIMEOUT_MS;
-    detail = await loadDetail(page, id);
-    while (detail.legs.some((leg) => UNSETTLED.has(leg.status)) && Date.now() < deadline) {
+    let latest = await loadDetail(page, id, run);
+    while (!isSettled(latest) && Date.now() < deadline) {
       await page.waitForTimeout(POLL_MS);
-      detail = await loadDetail(page, id);
+      latest = (await loadDetail(page, id, run)) ?? latest;
     }
-    run.settled = !detail.legs.some((leg) => UNSETTLED.has(leg.status));
+    if (!latest) throw new Error(`GET /paychecks/${id} never returned a paycheck; see apiErrors`);
+    detail = latest;
+    run.settled = isSettled(detail);
     if (run.settled) run.settledAt = new Date().toISOString();
     run.legs = detail.legs.map((leg) => ({
       symbol: leg.symbol,
@@ -268,6 +287,10 @@ test("rehearsal: onboard, send a paycheck, watch it settle", async ({ page, base
         "/proof is rendered server-side; its API response was not observed by the browser.",
       );
     }
+  } catch (error) {
+    run.failure = error instanceof Error ? error.message.slice(0, 2000) : String(error);
+    await shoot(page, run, "failure", false).catch(() => undefined);
+    throw error;
   } finally {
     run.finishedAt = new Date().toISOString();
     writeFileSync(path.join(OUT, "run.json"), `${JSON.stringify(run, null, 2)}\n`);
