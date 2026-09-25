@@ -149,6 +149,7 @@ pub struct LegExecuted {
     pub swapped_in: u64,
     pub dust_returned: u64,
     pub out_amount: u64,
+    pub issuer_fee: u64,
     pub min_out: u64,
     pub ref_price_e9: u64,
     pub usdc_price_e9: u64,
