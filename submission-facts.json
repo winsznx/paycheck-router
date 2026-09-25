@@ -23,7 +23,10 @@
     "buildImage": "solanafoundation/solana-verifiable-build:4.3.0",
     "buildRun": "https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
     "binaryBytes": 629944,
-    "$comment": "The canonical fork run used this binary. No program source changed after e53fbfe, so the stocklana-submission release build must reproduce this hash; the freeze checks it."
+    "$comment": "The stocklana-submission release build (commit 18a0a60) reproduced the canonical run's executable hash exactly.",
+    "releaseUrl": "https://github.com/winsznx/paycheck-router/releases/tag/stocklana-submission",
+    "releaseBuildRun": "https://github.com/winsznx/paycheck-router/actions/runs/36175589252",
+    "releaseCommit": "18a0a60917f2a73ebb8ab063635ad8e0a8d635dc"
   },
   "runs": [
     {
