@@ -21,6 +21,7 @@ import {
   formatUsd,
   formatUsdWhole,
 } from "@paycheck-router/ui/format";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useSyncExternalStore } from "react";
@@ -32,7 +33,13 @@ import { useQuery } from "@/lib/query.ts";
 import { useLegCopy } from "@/lib/use-leg-copy.ts";
 import { PaycheckCardLink } from "../paycheck/paycheck-card-link.tsx";
 import { routerHealth } from "../router-status.tsx";
-import { SplitSequence } from "../split-sequence.tsx";
+
+const SplitSequence = dynamic(
+  () => import("../split-sequence.tsx").then((mod) => mod.SplitSequence),
+  {
+    loading: () => <Skeleton height={88} />,
+  },
+);
 
 const JUST_LANDED_MS = 2 * 60 * 1000;
 
