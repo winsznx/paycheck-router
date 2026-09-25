@@ -8,6 +8,7 @@ import {
   HARD_CAPS,
   PRESTOCKS,
   PROGRAM_ERRORS,
+  priceUnavailableMessage,
   programErrorByCode,
   programErrorByName,
   REGISTRY,
@@ -102,6 +103,14 @@ describe("retry schedules", () => {
   it("retries landing five times immediately, then every minute", () => {
     const delays = Array.from({ length: 7 }, (_, i) => retryDelaySecs("LANDING", i));
     expect(delays).toEqual([0, 0, 0, 0, 0, 60, 60]);
+  });
+
+  it("retries an unavailable price every 15 minutes and tells the owner their USDC stays put", () => {
+    expect(retryDelaySecs("PRICE_UNAVAILABLE", 0)).toBe(900);
+    expect(retryDelaySecs("PRICE_UNAVAILABLE", 9)).toBe(900);
+    expect(priceUnavailableMessage("NVDAx", "$92.50")).toBe(
+      "Pyth's price for NVDAx isn't available to the router right now. Your $92.50 waits in your wallet.",
+    );
   });
 
   it("defers session and terminal schedules to the caller", () => {
