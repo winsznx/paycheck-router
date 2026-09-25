@@ -10,7 +10,7 @@ import {
   formatUsdWhole,
 } from "@paycheck-router/ui/format";
 import { useLocale, useTranslations } from "next-intl";
-import { assetLabel, isPreIpo, priceE9, shares, usdc } from "./money.ts";
+import { assetLabel, isPreIpo, priceE9, usdc, walletShares } from "./money.ts";
 
 /** Copy for one slice, following PRD 13.5: plain words, exact numbers, where the money is. */
 export function useLegCopy() {
@@ -70,7 +70,7 @@ export function useLegCopy() {
   }
 
   function bought(leg: api.Leg): string | null {
-    const amount = shares(leg.mint, leg.outAmount);
+    const amount = walletShares(leg, leg.outAmount);
     const price = priceE9(leg.execPriceE9);
     if (amount === null || price === null) return null;
     const premium = leg.premiumBps ?? 0;

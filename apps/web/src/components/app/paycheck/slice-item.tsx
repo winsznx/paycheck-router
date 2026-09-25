@@ -27,7 +27,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { apiRequest } from "@/lib/api/client.ts";
 import { explorerUrl } from "@/lib/env.ts";
-import { isPreIpo, priceE9, shares, usdc } from "@/lib/money.ts";
+import { isPreIpo, priceE9, shares, usdc, walletShares } from "@/lib/money.ts";
 import { useSession } from "@/lib/session.ts";
 import { useLegCopy } from "@/lib/use-leg-copy.ts";
 import { signAndSubmit } from "@/lib/wallet/sign-and-submit.ts";
@@ -48,6 +48,7 @@ function ProofDetails({ leg }: { leg: DetailLeg }) {
   const t = useTranslations("app.proof");
   const locale = useLocale();
   const v = leg.verification;
+  const walletAmount = walletShares(leg, leg.outAmount);
   const rows: Array<[string, string]> = [
     [t("reference"), isPreIpo(leg.mint) ? t("referenceMark") : t("referencePyth")],
     [
@@ -67,6 +68,11 @@ function ProofDetails({ leg }: { leg: DetailLeg }) {
         ? `${formatShares(shares(leg.mint, leg.outAmount) ?? "0", locale, "full")} ${leg.symbol}`
         : "—",
     ],
+    [
+      t("walletShares"),
+      walletAmount === null ? "—" : `${formatShares(walletAmount, locale, "full")} ${leg.symbol}`,
+    ],
+    [t("multiplier"), leg.uiMultiplier ?? "—"],
     [t("finalizedSlot"), v?.finalizedSlot ?? "—"],
     [t("readback"), v ? v.rpcProvider : "—"],
     [t("result"), v ? (v.matches ? t("matches") : t("mismatch")) : t("pending")],
@@ -116,14 +122,22 @@ export function SliceItem({ leg, colorSlot, bandBps, buyNowAt, now }: SliceItemP
   const [busy, setBusy] = useState<string | undefined>(undefined);
 
   const check = copy.priceCheck(leg, bandBps);
-  const out = shares(leg.mint, leg.outAmount);
+  const out = walletShares(leg, leg.outAmount);
+  const raw = shares(leg.mint, leg.outAmount);
   const exec = priceE9(leg.execPriceE9);
   const ref = priceE9(leg.refPriceE9);
   const facts: SliceFact[] = [
     {
       key: "shares",
       term: t("facts.shares"),
-      value: out === null ? "—" : `${formatShares(out, locale)} ${leg.symbol}`,
+      value:
+        out === null ? (
+          "—"
+        ) : (
+          <span title={t("rawShares", { raw: raw ?? "0", asset: leg.symbol })}>
+            {`${formatShares(out, locale)} ${leg.symbol}`}
+          </span>
+        ),
     },
     {
       key: "exec",

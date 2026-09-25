@@ -11,7 +11,7 @@ import {
 } from "@paycheck-router/ui/format";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation.ts";
-import { isPreIpo, priceE9, shares, usdc } from "@/lib/money.ts";
+import { isPreIpo, priceE9, shares, usdc, walletShares } from "@/lib/money.ts";
 
 /** One executed slice as public proof: prices, minimum, delivery and verification. */
 export async function ProofLegCard({
@@ -32,6 +32,11 @@ export async function ProofLegCard({
       t("delivered"),
       `${formatShares(shares(leg.mint, leg.outAmount) ?? "0", locale, "full")} ${leg.symbol}`,
     ],
+    [
+      t("walletShares"),
+      `${formatShares(walletShares(leg, leg.outAmount) ?? "0", locale, "full")} ${leg.symbol}`,
+    ],
+    [t("multiplier"), leg.uiMultiplier ?? "—"],
     [t("fee"), formatUsdcAmount(usdc(leg.fee), locale)],
     [
       t(isPreIpo(leg.mint) ? "referenceMark" : "referencePyth"),

@@ -298,7 +298,8 @@
       "buyNowConfirm": "Firmar y comprar dentro de {band}",
       "cancelTitle": "Cancelar la porción de {asset}",
       "cancelBody": "Tu USDC se queda en tu billetera. Esta porción no se comprará.",
-      "cancelConfirm": "Firmar y cancelar"
+      "cancelConfirm": "Firmar y cancelar",
+      "rawShares": "{raw} {asset} antes del multiplicador Scaled UI"
     },
     "proof": {
       "open": "Prueba",
@@ -309,14 +310,16 @@
       "referencePrice": "Precio de referencia",
       "premium": "Prima",
       "minimum": "Mínimo calculado",
-      "delivered": "Entregado",
+      "delivered": "Entregado (cantidad bruta del token)",
       "finalizedSlot": "Slot finalizado",
       "readback": "Relectura",
       "result": "Verificador",
       "matches": "Coincide con la cadena",
       "mismatch": "No coincide",
       "pending": "Esperando la finalidad",
-      "publicProof": "Abrir la página pública de prueba"
+      "publicProof": "Abrir la página pública de prueba",
+      "walletShares": "Acciones en tu billetera",
+      "multiplier": "Multiplicador Scaled UI"
     },
     "activity": {
       "title": "Actividad",
@@ -578,7 +581,7 @@
       "fork": "Las ejecuciones en la bifurcación no tienen congestión de red ni un segundo proveedor RPC; esas pruebas esperan a mainnet."
     },
     "usdcIn": "USDC de entrada",
-    "delivered": "Entregado",
+    "delivered": "Entregado (cantidad bruta del token)",
     "fee": "Comisión",
     "referenceMark": "Marca de PreStocks",
     "referencePyth": "Precio de Pyth",
@@ -594,7 +597,9 @@
     "openSlice": "Abrir porción {sig}",
     "sliceTitle": "Porción {sig}",
     "back": "Todas las pruebas",
-    "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {marca} other {Pyth}}"
+    "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {marca} other {Pyth}}",
+    "walletShares": "Acciones en la billetera",
+    "multiplier": "Multiplicador Scaled UI"
   },
   "site": {
     "header": {

@@ -298,7 +298,8 @@
       "buyNowConfirm": "Sign and buy within {band}",
       "cancelTitle": "Cancel the {asset} slice",
       "cancelBody": "Your USDC stays in your wallet. This slice won't be bought.",
-      "cancelConfirm": "Sign and cancel"
+      "cancelConfirm": "Sign and cancel",
+      "rawShares": "{raw} {asset} before the Scaled UI multiplier"
     },
     "proof": {
       "open": "Proof",
@@ -309,14 +310,16 @@
       "referencePrice": "Reference price",
       "premium": "Premium",
       "minimum": "Computed minimum",
-      "delivered": "Delivered",
+      "delivered": "Delivered (raw token amount)",
       "finalizedSlot": "Finalized slot",
       "readback": "Readback",
       "result": "Verifier",
       "matches": "Matches the chain",
       "mismatch": "Doesn't match",
       "pending": "Waiting for finality",
-      "publicProof": "Open the public proof page"
+      "publicProof": "Open the public proof page",
+      "walletShares": "Shares in your wallet",
+      "multiplier": "Scaled UI multiplier"
     },
     "activity": {
       "title": "Activity",
@@ -578,7 +581,7 @@
       "fork": "Fork runs have no network congestion and no second RPC provider; those checks wait for mainnet."
     },
     "usdcIn": "USDC in",
-    "delivered": "Delivered",
+    "delivered": "Delivered (raw token amount)",
     "fee": "Fee",
     "referenceMark": "PreStocks mark",
     "referencePyth": "Pyth price",
@@ -594,7 +597,9 @@
     "openSlice": "Open slice {sig}",
     "sliceTitle": "Slice {sig}",
     "back": "All proof",
-    "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {mark} other {Pyth}}"
+    "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {mark} other {Pyth}}",
+    "walletShares": "Shares in the wallet",
+    "multiplier": "Scaled UI multiplier"
   },
   "site": {
     "header": {
