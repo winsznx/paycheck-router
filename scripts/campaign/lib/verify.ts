@@ -27,7 +27,12 @@ import {
 } from "./slices.ts";
 import { buildSummary, summaryPath } from "./summary.ts";
 
-export type VerifyReport = { ok: boolean; errors: string[]; checked: Record<string, number> };
+export type VerifyReport = {
+  ok: boolean;
+  errors: string[];
+  notes: string[];
+  checked: Record<string, number>;
+};
 
 const FAILED = /^Program (\w+) failed: custom program error: 0x([0-9a-fA-F]+)$/;
 const ALREADY_PROCESSED = /already (been )?processed|AlreadyProcessed/i;
@@ -123,16 +128,18 @@ function inflowOf(tx: ParsedTx, payIn: string): { amount: bigint; sender: string
   return { amount, sender };
 }
 
-function deriveProbe(run: CaseRun, p: Probe): string[] {
+function deriveProbe(run: CaseRun, p: Probe, latest: ReadonlyMap<string, ArtifactRef>): string[] {
   const src = p.source;
   const dir = run.dir;
+  const current = (ref: ArtifactRef) => latest.get(ref.path) ?? ref;
+  const json = <T = unknown>(ref: ArtifactRef): T => readArtifactJson<T>(dir, current(ref));
   switch (src.kind) {
     case "program_error":
-      return failureForms(readArtifactJson<LogsFile>(dir, src.logs));
+      return failureForms(json<LogsFile>(src.logs));
     case "rpc_refusal": {
-      const file = readArtifactJson<{
+      const file = json<{
         response: { error?: { message?: string }; result?: unknown };
-      }>(dir, src.response);
+      }>(src.response);
       if (file.response.error) {
         const message = String(file.response.error.message ?? "");
         return [
@@ -144,22 +151,18 @@ function deriveProbe(run: CaseRun, p: Probe): string[] {
       return ["rpc:accepted"];
     }
     case "http_refusal": {
-      const file = readArtifactJson<{ status: number }>(dir, src.response);
+      const file = json<{ status: number }>(src.response);
       return file.status === 401 || file.status === 403
         ? ["hermes:refused"]
         : [`hermes:${file.status}`];
     }
     case "account_absent": {
-      const file = readArtifactJson<{ response: { result: { value: unknown } } }>(dir, src.read);
+      const file = json<{ response: { result: { value: unknown } } }>(src.read);
       return [file.response.result.value === null ? "account:absent" : "account:present"];
     }
     case "balances": {
-      const [usdcBefore = 0n, ...sharesBefore] = amountsOf(
-        readArtifactJson<SnapshotFile>(dir, src.before),
-      );
-      const [usdcAfter = 0n, ...sharesAfter] = amountsOf(
-        readArtifactJson<SnapshotFile>(dir, src.after),
-      );
+      const [usdcBefore = 0n, ...sharesBefore] = amountsOf(json<SnapshotFile>(src.before));
+      const [usdcAfter = 0n, ...sharesAfter] = amountsOf(json<SnapshotFile>(src.after));
       const moved = sharesBefore.some((a, i) => a !== sharesAfter[i]);
       return [
         usdcAfter - usdcBefore === BigInt(src.inflow) && !moved
@@ -168,10 +171,7 @@ function deriveProbe(run: CaseRun, p: Probe): string[] {
       ];
     }
     case "classification": {
-      const { amount, sender } = inflowOf(
-        readArtifactJson<ParsedTx>(dir, src.transaction),
-        src.payIn,
-      );
+      const { amount, sender } = inflowOf(json<ParsedTx>(src.transaction), src.payIn);
       if (sender === src.authority) return ["classification:protocol_movement"];
       if (sender === src.owner) return ["classification:self_transfer"];
       if (amount < BigInt(src.minimum)) return ["classification:not_detected"];
@@ -181,7 +181,7 @@ function deriveProbe(run: CaseRun, p: Probe): string[] {
       return ["classification:record"];
     }
     case "delivery": {
-      const tx = readArtifactJson<ParsedTx>(dir, src.transaction);
+      const tx = json<ParsedTx>(src.transaction);
       const [event] = legExecutedFromLogs(tx.result?.meta.logMessages ?? []);
       if (!event) return ["no LegExecuted"];
       return [
@@ -191,10 +191,10 @@ function deriveProbe(run: CaseRun, p: Probe): string[] {
       ];
     }
     case "min_out_multiplier": {
-      const file = readArtifactJson<LogsFile>(dir, src.transaction);
+      const file = json<LogsFile>(src.transaction);
       const [event] = legExecutedFromLogs(logsOf(file).logs);
       if (!event) return failureForms(file);
-      const { current, pending } = multiplierPairE12(readArtifactJson(dir, src.mintAfter));
+      const { current, pending } = multiplierPairE12(json(src.mintAfter));
       const recomputed = buyMinOut({
         usdcIn: event.swappedIn,
         usdcPriceE9: event.usdcPriceE9,
@@ -209,7 +209,7 @@ function deriveProbe(run: CaseRun, p: Probe): string[] {
       return ["min_out:other_multiplier"];
     }
     case "computed":
-      for (const ref of src.artifacts) readArtifact(dir, ref);
+      for (const ref of src.artifacts) readArtifact(dir, current(ref));
       return [p.observed];
     case "leg":
       return deriveLeg(run, src.bundle, src.legIndex);
@@ -245,7 +245,9 @@ function deriveLeg(run: CaseRun, bundle: string, legIndex: number): string[] {
   const last = leg.attempts.at(-1);
   if (last?.simulation) {
     const forms = failureForms(readArtifactJson<LogsFile>(pc.dir, last.simulation.logs));
-    return forms.filter((f) => f.startsWith("wait:")).map((f) => `leg:WAITING:${f.slice(5)}`);
+    const waits = forms.filter((f) => f.startsWith("wait:"));
+    if (waits.length === 0 || last.outcome !== "waiting") return [`leg:${leg.state}`];
+    return waits.map((f) => `leg:WAITING:${f.slice(5)}`);
   }
   if (last?.waitReason === "PRICE_UNAVAILABLE") {
     const feedId = assetBySymbol(leg.symbol).feedId;
@@ -259,9 +261,30 @@ function deriveLeg(run: CaseRun, bundle: string, legIndex: number): string[] {
   return [`leg:${leg.state}`];
 }
 
-function checkArtifacts(dir: string, refs: readonly ArtifactRef[], errors: string[]): number {
+/**
+ * The last reference recorded for each path. A runner that wrote one path twice left the file as
+ * its second write; the earlier reference is superseded, reported, and never counted as a match.
+ */
+export function latestByPath(refs: readonly ArtifactRef[]): Map<string, ArtifactRef> {
+  return new Map(refs.map((ref) => [ref.path, ref]));
+}
+
+function checkArtifacts(
+  dir: string,
+  refs: readonly ArtifactRef[],
+  errors: string[],
+  notes: string[],
+): number {
+  const latest = latestByPath(refs);
   let n = 0;
   for (const ref of refs) {
+    const last = latest.get(ref.path) ?? ref;
+    if (last.sha256 !== ref.sha256) {
+      notes.push(
+        `${dir}/${ref.path}: written twice; the earlier write (${ref.sha256}) is superseded`,
+      );
+      continue;
+    }
     try {
       readArtifact(dir, ref);
       n++;
@@ -274,23 +297,30 @@ function checkArtifacts(dir: string, refs: readonly ArtifactRef[], errors: strin
 
 export function verifyCampaign(root: string): VerifyReport {
   const errors: string[] = [];
+  const notes: string[] = [];
   const checked = { runs: 0, artifacts: 0, probes: 0, fills: 0 };
   let runs: CaseRun[];
   try {
     runs = loadCampaign(root);
   } catch (error) {
-    return { ok: false, errors: [String(error instanceof Error ? error.message : error)], checked };
+    return {
+      ok: false,
+      errors: [String(error instanceof Error ? error.message : error)],
+      notes,
+      checked,
+    };
   }
   for (const run of runs) {
     checked.runs++;
     const label = `${run.manifest.module}/${run.manifest.runId}`;
-    checked.artifacts += checkArtifacts(run.dir, run.manifest.artifacts, errors);
+    checked.artifacts += checkArtifacts(run.dir, run.manifest.artifacts, errors, notes);
+    const latest = latestByPath(run.manifest.artifacts);
     for (const pc of run.paychecks)
-      checked.artifacts += checkArtifacts(pc.dir, pc.manifest.artifacts, errors);
+      checked.artifacts += checkArtifacts(pc.dir, pc.manifest.artifacts, errors, notes);
     for (const p of run.manifest.probes) {
       checked.probes++;
       try {
-        const forms = deriveProbe(run, p);
+        const forms = deriveProbe(run, p, latest);
         if (!forms.includes(p.observed)) {
           errors.push(
             `${label}: probe "${p.name}" recorded ${p.observed}, raw artifacts give ${forms.join(" | ")}`,
@@ -353,7 +383,7 @@ export function verifyCampaign(root: string): VerifyReport {
       );
     }
   }
-  return { ok: errors.length === 0, errors, checked };
+  return { ok: errors.length === 0, errors, notes, checked };
 }
 
 /** Paths where the stored summary and the rebuilt one disagree. */

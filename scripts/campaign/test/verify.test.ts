@@ -110,6 +110,27 @@ describe("verify:campaign", () => {
     CLI_TIMEOUT_MS,
   );
 
+  it("reports an artifact path written twice and still checks its last write", () => {
+    // #given a manifest that recorded the account read twice, the earlier write since replaced
+    const copy = copyOf(root);
+    const path = resolve(copy, "p2-control", "2026-09-25T13-00-00-000Z", "manifest.json");
+    const manifest = JSON.parse(readFileSync(path, "utf8")) as {
+      artifacts: { path: string; sha256: string }[];
+    };
+    const read = manifest.artifacts.find((a) => a.path.startsWith("raw/accounts/"));
+    if (!read) throw new Error("fixture has no account read");
+    manifest.artifacts.unshift({ path: read.path, sha256: "0".repeat(64) });
+    writeFileSync(path, `${JSON.stringify(manifest, null, 2)}\n`);
+
+    // #when it is verified untouched, and again after one byte of that file flips
+    const untouched = verifyCampaign(copy);
+    flipOneByte(resolve(copy, "p2-control", "2026-09-25T13-00-00-000Z", read.path));
+    const flipped = verifyCampaign(copy);
+
+    // #then the superseded write is a note, and the flip is still a mismatch
+    expect([untouched.ok, untouched.notes.length, flipped.ok]).toEqual([true, 1, false]);
+  });
+
   it("keeps the fixture's run directory intact for the other tests", () => {
     expect(readFileSync(resolve(run, "manifest.json"), "utf8")).toContain("p2-control");
   });
