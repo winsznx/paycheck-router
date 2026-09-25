@@ -78,6 +78,7 @@ export const LegAttempt = z.object({
   prices: z.array(PythPriceRecord),
   attestation: AttestationRecord.nullable(),
   simulation: SimulationRecord.nullable(),
+  transactionBytes: z.number().int().nullable(),
   signatures: z.array(SignatureString),
   outcome: z.enum(["executed", "waiting", "failed"]),
   waitReason: WaitReasonSchema.nullable(),
@@ -104,11 +105,29 @@ export const ExecutedLeg = z.object({
   signature: SignatureString,
   slot: z.number().int(),
   amountIn: IntegerString,
+  /** Protocol fee in USDC base units. */
   fee: IntegerString,
+  swappedIn: IntegerString,
+  /** Shares that reached the owner's balance. */
   outAmount: IntegerString,
+  /** Token-2022 transfer fee the issuer withheld from the delivered shares. */
+  issuerFee: IntegerString,
   minOut: IntegerString,
   refPriceE9: IntegerString,
+  usdcPriceE9: IntegerString,
+  multiplierE12: IntegerString,
+  priceSource: z.enum(["PythRegular", "Pyth247", "MarkAttestation"]),
+  pricePublishTime: z.number().int(),
+  /** Gross fill over the reference price. */
   premiumBps: IntegerString,
+  /** USDC in, protocol fee included, against the shares kept after the issuer fee. */
+  allInCostBps: IntegerString,
+  /** Raw getTransaction (jsonParsed) response. */
+  transaction: ArtifactRef,
+  /** Raw Paycheck account read back after execution. */
+  readback: ArtifactRef,
+  /** Hermes history for the reference feed and for USDC/USD at their publish times. */
+  history: z.array(ArtifactRef),
 });
 export type ExecutedLeg = z.infer<typeof ExecutedLeg>;
 
@@ -145,6 +164,8 @@ export const RunManifest = z.object({
   commit: z.string(),
   programId: AddressString,
   programSha256: Sha256Hex.nullable(),
+  /** `solana-verify get-executable-hash` of the deployed binary. */
+  programExecutableHash: Sha256Hex.nullable(),
   crankVersion: z.string(),
   rpc: z.object({ sender: z.string(), verifier: z.string() }),
   feedIds: z.array(FeedIdHex),
