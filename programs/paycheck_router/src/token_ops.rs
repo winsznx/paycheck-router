@@ -45,8 +45,9 @@ pub fn transfer<'info>(
     token_interface::transfer_checked(ctx, amount, mint.decimals)
 }
 
-/// Reads the base token account state if `account` is a token account under
-/// either token program; `None` for anything else.
+/// Reads the base state of an initialized token account under either token
+/// program; `None` for anything else, including Token-2022 mints whose
+/// extensions make them as long as a token account.
 pub fn token_state(account: &AccountInfo) -> Option<TokenAccountState> {
     let owned_by_token_program =
         *account.owner == anchor_spl::token::ID || *account.owner == anchor_spl::token_2022::ID;
@@ -54,7 +55,9 @@ pub fn token_state(account: &AccountInfo) -> Option<TokenAccountState> {
         return None;
     }
     let data = account.try_borrow_data().ok()?;
-    TokenAccountState::unpack_from_slice(&data[..TokenAccountState::LEN]).ok()
+    StateWithExtensions::<TokenAccountState>::unpack(&data)
+        .ok()
+        .map(|state| state.base)
 }
 
 /// Transfer fees withheld in a Token-2022 account; zero for SPL Token
