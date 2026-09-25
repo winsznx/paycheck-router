@@ -80,7 +80,9 @@
     "campaign": {
       "paychecks": "Salaires routés",
       "executed": "Tranches exécutées",
-      "verified": "Tranches vérifiées"
+      "verified": "Tranches vérifiées",
+      "inflow": "Salaire enregistré",
+      "waits": "Parts qui ont attendu, avec une raison"
     },
     "keys": "Aucune clé détenue par Paycheck Router ne peut envoyer votre argent ailleurs qu'en actions dans votre propre wallet, à un prix vérifié, dans vos propres limites.",
     "openProof": "Ouvrir la preuve",
@@ -113,7 +115,26 @@
         "a": "Mettez en pause d'une signature, ou révoquez l'autorisation dans votre wallet à tout moment. Rien d'autre n'est nécessaire."
       }
     },
-    "forPayroll": "Pour les plateformes de paie"
+    "forPayroll": "Pour les plateformes de paie",
+    "logosTitle": "{count} actifs qu'un salaire peut acheter",
+    "gapLead": "Le salaire en dollars atteint désormais des personnes loin de tout courtier. Le convertir en actions reste coûteux, manuel ou fait au mauvais prix.",
+    "howLead": "Signez une répartition une fois et chaque salaire l'achète. Choisissez une étape pour la voir dans l'exécution enregistrée.",
+    "howLeadNoRun": "Signez une répartition une fois et chaque salaire l'achète.",
+    "ownLead": "Fonds indiciels américains, Big Tech et noms pré-IPO, chacun acheté sous forme de token qui arrive dans votre propre portefeuille.",
+    "how": {
+      "pointLabel": "Le salaire arrive",
+      "point": "L'USDC de {payer} est arrivé dans le portefeuille du salarié à {time}. Rien n'a changé au jour de paie.",
+      "pickLabel": "Mis de côté pour investir",
+      "pick": "{count, plural, one {Une part} other {# parts}}, une par actif de la répartition.",
+      "watchLabel": "Ce que chaque part a fait",
+      "fill": "{premium} vs {reference, select, mark {la marque} other {Pyth}}",
+      "watch": "{bought, plural, one {Une part achetée} other {# parts achetées}} à un prix vérifié. {waited, plural, =0 {Rien n'a attendu.} one {Une a attendu, avec sa raison.} other {# ont attendu, chacune avec sa raison.}}"
+    },
+    "quote": {
+      "mark": "Marque PreStocks",
+      "token": "Prix du token",
+      "inBand": "{premium} vs marque, dans la bande"
+    }
   },
   "notFound": {
     "title": "Cette page n'existe pas.",
@@ -717,7 +738,6 @@
     "canonical": {
       "forkLabel": "Enregistré sur un fork du mainnet avec Surfpool",
       "mainnetLabel": "Mainnet Solana",
-      "line": "Salaire de {amount} → {invested} investis",
       "check": "{premium} vs {reference, select, mark {mark} other {Pyth}}",
       "verified": "Vérifiée"
     }

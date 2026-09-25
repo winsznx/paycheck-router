@@ -80,7 +80,9 @@
     "campaign": {
       "paychecks": "Sueldos enrutados",
       "executed": "Porciones ejecutadas",
-      "verified": "Porciones verificadas"
+      "verified": "Porciones verificadas",
+      "inflow": "Sueldo grabado",
+      "waits": "Porciones que esperaron, con motivo"
     },
     "keys": "Ninguna clave de Paycheck Router puede enviar tu dinero a otro lugar que no sea acciones en tu propia billetera, a un precio verificado y dentro de tus propios límites.",
     "openProof": "Abrir la prueba",
@@ -113,7 +115,26 @@
         "a": "Pausa con una firma, o revoca la autorización en tu billetera cuando quieras. No hace falta nada más."
       }
     },
-    "forPayroll": "Para plataformas de nómina"
+    "forPayroll": "Para plataformas de nómina",
+    "logosTitle": "{count} activos que un sueldo puede comprar",
+    "gapLead": "El pago en dólares ya llega a personas lejos de cualquier bróker. Convertirlo en acciones sigue siendo caro, manual o a un precio equivocado.",
+    "howLead": "Firma una división una vez y cada sueldo la compra. Elige un paso para verlo en la ejecución grabada.",
+    "howLeadNoRun": "Firma una división una vez y cada sueldo la compra.",
+    "ownLead": "Fondos indexados de EE. UU., Big Tech y nombres pre-IPO, cada uno comprado como un token que llega a tu propia billetera.",
+    "how": {
+      "pointLabel": "Llega el sueldo",
+      "point": "El USDC de {payer} llegó a la billetera del trabajador a las {time}. Nada del día de pago cambió.",
+      "pickLabel": "Apartado para invertir",
+      "pick": "{count, plural, one {Una porción} other {# porciones}}, una por activo de la división.",
+      "watchLabel": "Qué hizo cada porción",
+      "fill": "{premium} frente a {reference, select, mark {la marca} other {Pyth}}",
+      "watch": "{bought, plural, one {Una porción se compró} other {# porciones se compraron}} a un precio verificado. {waited, plural, =0 {Nada esperó.} one {Una esperó, con su motivo.} other {# esperaron, cada una con su motivo.}}"
+    },
+    "quote": {
+      "mark": "Marca de PreStocks",
+      "token": "Precio del token",
+      "inBand": "{premium} frente a la marca, dentro de la banda"
+    }
   },
   "notFound": {
     "title": "Esta página no existe.",
@@ -717,7 +738,6 @@
     "canonical": {
       "forkLabel": "Grabado en una bifurcación de mainnet con Surfpool",
       "mainnetLabel": "Mainnet de Solana",
-      "line": "Sueldo de {amount} → {invested} invertidos",
       "check": "{premium} vs {reference, select, mark {marca} other {Pyth}}",
       "verified": "Verificada"
     }

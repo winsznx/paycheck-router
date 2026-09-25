@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ContentPage } from "@/components/site/content-page.tsx";
-import { WaitlistForm } from "@/components/site/waitlist-form.tsx";
+import { Waitlist } from "@/components/site/waitlist.tsx";
 import { pageMetadata, pageTranslations, sectionsFrom } from "@/lib/site-page.ts";
 
 export async function generateMetadata({
@@ -23,7 +23,7 @@ export default async function PartnersPage({ params }: PageProps<"/[locale]/part
           {t("joinTitle")}
         </h2>
         <p className="pr-body pr-muted">{t("joinBody")}</p>
-        <WaitlistForm source="partners" />
+        <Waitlist source="partners" />
       </section>
     </ContentPage>
   );

@@ -6,7 +6,6 @@ import Script from "next/script";
 import { useLocale, useTranslations } from "next-intl";
 import { type FormEvent, useEffect, useId, useMemo, useRef, useState } from "react";
 import { ApiProblem } from "@/lib/api/problem.ts";
-import { countryOptions } from "@/lib/countries.ts";
 import { apiUrl, chainEnv, turnstileSiteKey } from "@/lib/env.ts";
 
 type TurnstileApi = {
@@ -39,10 +38,19 @@ type Status = "idle" | "sending" | "done" | "opening" | "error";
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Waitlist with Cloudflare Turnstile; the core API verifies the token (PRD 11.2, 18.1). */
-export function WaitlistForm({ source }: { source: string }) {
+/**
+ * Country names come from the server (see ./waitlist.tsx): Node and browsers ship different
+ * ICU data, so names computed here wouldn't match the server-rendered form.
+ */
+export function WaitlistForm({
+  source,
+  countries,
+}: {
+  source: string;
+  countries: readonly { code: string; name: string }[];
+}) {
   const t = useTranslations("site.waitlist");
   const locale = useLocale();
-  const options = useMemo(() => countryOptions(locale), [locale]);
   const widgetRef = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
   const [scriptReady, setScriptReady] = useState(false);
@@ -174,7 +182,7 @@ export function WaitlistForm({ source }: { source: string }) {
             defaultValue=""
           >
             <option value="">{t("countryOptional")}</option>
-            {options.map((option) => (
+            {countries.map((option) => (
               <option key={option.code} value={option.code}>
                 {option.name}
               </option>

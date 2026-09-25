@@ -80,7 +80,9 @@
     "campaign": {
       "paychecks": "Salários roteados",
       "executed": "Fatias executadas",
-      "verified": "Fatias verificadas"
+      "verified": "Fatias verificadas",
+      "inflow": "Salário gravado",
+      "waits": "Fatias que esperaram, com motivo"
     },
     "keys": "Nenhuma chave do Paycheck Router pode enviar seu dinheiro para outro lugar que não sejam ações na sua própria carteira, a um preço verificado e dentro dos seus próprios limites.",
     "openProof": "Abrir a prova",
@@ -113,7 +115,26 @@
         "a": "Pause com uma assinatura, ou revogue a autorização na sua carteira quando quiser. Não precisa de mais nada."
       }
     },
-    "forPayroll": "Para plataformas de folha"
+    "forPayroll": "Para plataformas de folha",
+    "logosTitle": "{count} ativos que um salário pode comprar",
+    "gapLead": "O pagamento em dólar já chega a pessoas longe de qualquer corretora. Transformá-lo em ações ainda é caro, manual ou feito no preço errado.",
+    "howLead": "Assine uma divisão uma vez e cada salário a compra. Escolha um passo para vê-lo na execução gravada.",
+    "howLeadNoRun": "Assine uma divisão uma vez e cada salário a compra.",
+    "ownLead": "Fundos de índice dos EUA, Big Tech e nomes pré-IPO, cada um comprado como um token que chega à sua própria carteira.",
+    "how": {
+      "pointLabel": "O salário chega",
+      "point": "O USDC de {payer} chegou à carteira do trabalhador às {time}. Nada no dia do pagamento mudou.",
+      "pickLabel": "Separado para investir",
+      "pick": "{count, plural, one {Uma fatia} other {# fatias}}, uma por ativo da divisão.",
+      "watchLabel": "O que cada fatia fez",
+      "fill": "{premium} vs {reference, select, mark {marca} other {Pyth}}",
+      "watch": "{bought, plural, one {Uma fatia comprada} other {# fatias compradas}} a um preço verificado. {waited, plural, =0 {Nada esperou.} one {Uma esperou, com seu motivo.} other {# esperaram, cada uma com seu motivo.}}"
+    },
+    "quote": {
+      "mark": "Marca da PreStocks",
+      "token": "Preço do token",
+      "inBand": "{premium} vs marca, dentro da faixa"
+    }
   },
   "notFound": {
     "title": "Esta página não existe.",
@@ -717,7 +738,6 @@
     "canonical": {
       "forkLabel": "Gravado em um fork da mainnet com Surfpool",
       "mainnetLabel": "Mainnet da Solana",
-      "line": "Salário de {amount} → {invested} investidos",
       "check": "{premium} vs {reference, select, mark {marcação} other {Pyth}}",
       "verified": "Verificada"
     }
