@@ -1,0 +1,172 @@
+/* PRD 14.1, 14.2, 14.4, 15.2. Values mirror src/tokens/*.ts; test/tokens-css.test.ts keeps them in sync. */
+
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0a0a0f;
+  --surface-1: #111118;
+  --surface-2: #17171f;
+  --surface-3: #1f1f29;
+  --line: #2e2e3b;
+  --control: #666679;
+  --text-1: #f2f2f5;
+  --text-2: #a3a3b2;
+  --text-3: #7a7a8c;
+  --accent: #00ff94;
+  --accent-text: #00ff94;
+  --accent-ink: #0a0a0f;
+  --info: #5aa9ff;
+  --warn: #fab219;
+  --danger: #ff5c7a;
+  --danger-ink: #0a0a0f;
+  --preipo: #b18cff;
+  --focus: #5aa9ff;
+
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-6: #008300;
+  --series-7: #9085e9;
+  --series-8: #e66767;
+
+  --shadow-hard-color: #f2f2f5;
+  --primary-border: #00ff94;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #fafaf7;
+  --surface-1: #ffffff;
+  --surface-2: #f3f3ef;
+  --surface-3: #e9e9e2;
+  --line: #e4e4dc;
+  --control: #8a8a99;
+  --text-1: #0a0a0f;
+  --text-2: #55556a;
+  --text-3: #6e6e80;
+  --accent: #00ff94;
+  --accent-text: #007a47;
+  --accent-ink: #0a0a0f;
+  --info: #1f5fbf;
+  --warn: #a15c00;
+  --danger: #c2183a;
+  --danger-ink: #ffffff;
+  --preipo: #5b3fc4;
+  --focus: #1f5fbf;
+
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  --series-5: #e87ba4;
+  --series-6: #008300;
+  --series-7: #4a3aa7;
+  --series-8: #e34948;
+
+  --shadow-hard-color: #0a0a0f;
+  --primary-border: #0a0a0f;
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] {
+    color-scheme: light;
+    --bg: #fafaf7;
+    --surface-1: #ffffff;
+    --surface-2: #f3f3ef;
+    --surface-3: #e9e9e2;
+    --line: #e4e4dc;
+    --control: #8a8a99;
+    --text-1: #0a0a0f;
+    --text-2: #55556a;
+    --text-3: #6e6e80;
+    --accent: #00ff94;
+    --accent-text: #007a47;
+    --accent-ink: #0a0a0f;
+    --info: #1f5fbf;
+    --warn: #a15c00;
+    --danger: #c2183a;
+    --danger-ink: #ffffff;
+    --preipo: #5b3fc4;
+    --focus: #1f5fbf;
+
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --series-3: #1baf7a;
+    --series-4: #eda100;
+    --series-5: #e87ba4;
+    --series-6: #008300;
+    --series-7: #4a3aa7;
+    --series-8: #e34948;
+
+    --shadow-hard-color: #0a0a0f;
+    --primary-border: #0a0a0f;
+  }
+}
+
+:root {
+  --font-display: var(--font-syne), "Syne Fallback", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono Fallback", ui-monospace, monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --gutter: 16px;
+  --content-max: 1200px;
+  --reading-max: 680px;
+  --target-min: 44px;
+
+  --shadow-rest: 4px 4px 0 0 var(--shadow-hard-color);
+  --shadow-hover: 6px 6px 0 0 var(--shadow-hard-color);
+  --shadow-accent-rest: 4px 4px 0 0 var(--accent);
+  --shadow-accent-hover: 6px 6px 0 0 var(--accent);
+
+  --dur-instant: 80ms;
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 360ms;
+  --dur-deliberate: 600ms;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --dist-press: 4px;
+  --dist-lift: 2px;
+  --dist-entrance: 16px;
+  --dist-rise: 8px;
+  --stagger: 40ms;
+  --shimmer: 1200ms;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 24px;
+  }
+}
+
+/* Reduced forms (PRD 15.1 rule 5): movement collapses to zero, fades stay. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dist-press: 0px;
+    --dist-lift: 0px;
+    --dist-entrance: 0px;
+    --dist-rise: 0px;
+    --stagger: 0ms;
+  }
+}
+
+:root[data-motion="reduced"] {
+  --dist-press: 0px;
+  --dist-lift: 0px;
+  --dist-entrance: 0px;
+  --dist-rise: 0px;
+  --stagger: 0ms;
+}
