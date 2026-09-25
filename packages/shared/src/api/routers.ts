@@ -61,3 +61,27 @@ export const CreateRouterTxRequest = z
     path: ["legs"],
   });
 export type CreateRouterTxRequest = z.infer<typeof CreateRouterTxRequest>;
+
+/** `GET /routers/:id/inflows`: recent inflows grouped by sender, for tagging payers. */
+export const RouterInflowsResponse = z.object({
+  senders: z.array(
+    z.object({
+      sender: AddressString.nullable(),
+      label: z.string().nullable(),
+      tagged: z.boolean(),
+      count: z.number().int(),
+      total: U64String,
+      lastAt: IsoDateTime,
+    }),
+  ),
+});
+export type RouterInflowsResponse = z.infer<typeof RouterInflowsResponse>;
+
+/** `PUT /routers/:id/payers`: who counts as a paycheck sender. */
+export const PutPayersRequest = z.object({
+  payerRule: z.enum(["any", "tagged"]),
+  tags: z
+    .array(z.object({ payerOwner: AddressString, label: z.string().max(64).nullable() }))
+    .max(50),
+});
+export type PutPayersRequest = z.infer<typeof PutPayersRequest>;

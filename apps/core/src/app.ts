@@ -15,8 +15,10 @@ import { paycheckRoutes } from "./routes/paychecks.ts";
 import { proofRoutes } from "./routes/proof.ts";
 import { publicRoutes } from "./routes/public.ts";
 import { realtimeRoutes } from "./routes/realtime.ts";
+import { routerSettingsRoutes } from "./routes/router-settings.ts";
 import { routerRoutes } from "./routes/routers.ts";
 import { txRoutes } from "./routes/tx.ts";
+import { webhookRoutes } from "./routes/webhooks.ts";
 
 export type ServicesFactory = (env: Env) => Services;
 
@@ -68,6 +70,8 @@ export function createApp(makeServices: ServicesFactory): Hono<AppEnv> {
   app.route("/", realtimeRoutes);
   app.route("/", marketRoutes);
   app.route("/", routerRoutes);
+  app.route("/", routerSettingsRoutes);
+  app.route("/", webhookRoutes);
   app.route("/", txRoutes);
   app.route("/", paycheckRoutes);
   app.route("/", proofRoutes);

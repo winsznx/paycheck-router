@@ -24,7 +24,10 @@ export default defineConfig({
           cloudflareTest(({ inject }) => ({
             wrangler: { configPath: "./wrangler.jsonc" },
             miniflare: {
-              bindings: { SESSION_SIGNING_KEY: testSessionKey() },
+              bindings: {
+                SESSION_SIGNING_KEY: testSessionKey(),
+                HELIUS_WEBHOOK_SECRET: "vitest-helius-secret",
+              },
               hyperdrives: { HYPERDRIVE: inject("databaseUrl") },
             },
           })),

@@ -102,3 +102,12 @@ export const ProofResponse = z.object({
   asOf: IsoDateTime,
 });
 export type ProofResponse = z.infer<typeof ProofResponse>;
+
+/** `POST /metrics`: one web-vitals beacon. */
+export const MetricBeacon = z.object({
+  name: z.enum(["LCP", "INP", "CLS", "FCP", "TTFB"]),
+  value: z.number().nonnegative(),
+  route: z.string().max(128),
+  deviceClass: z.enum(["mobile", "tablet", "desktop"]),
+});
+export type MetricBeacon = z.infer<typeof MetricBeacon>;
