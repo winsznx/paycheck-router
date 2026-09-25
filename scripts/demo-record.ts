@@ -35,7 +35,7 @@ const PAYCHECK_USDC = 1_850_000_000n;
 const TURNSTILE_SITE_KEY = "0x4AAAAAAFDQGy1MnmLBUS_3";
 
 /** The verifiable CI build of main; `PROGRAM_SO` overrides it. The program is never built here. */
-const RELEASE_SO = resolve(ROOT, "internal", "release", "eade508", "paycheck_router.so");
+const RELEASE_SO = resolve(ROOT, "internal", "release", "e53fbfe", "paycheck_router.so");
 
 process.env.PAYCHECK_ROUTER_KEYS_DIR = KEYS_DIR;
 if (!process.env.PROGRAM_SO && existsSync(RELEASE_SO)) process.env.PROGRAM_SO = RELEASE_SO;
