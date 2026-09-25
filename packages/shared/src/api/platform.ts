@@ -139,3 +139,11 @@ export const MetricBeacon = z.object({
   deviceClass: z.enum(["mobile", "tablet", "desktop"]),
 });
 export type MetricBeacon = z.infer<typeof MetricBeacon>;
+
+/** `POST /exports`: a CSV of every slice, behind a link that expires in 15 minutes. */
+export const ExportResponse = z.object({
+  url: z.url(),
+  rows: z.number().int(),
+  expiresAt: IsoDateTime,
+});
+export type ExportResponse = z.infer<typeof ExportResponse>;
