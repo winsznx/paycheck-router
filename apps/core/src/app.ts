@@ -10,6 +10,7 @@ import { ApiError, notFound, problemResponse } from "./http/problem.ts";
 import { log } from "./log.ts";
 import { adminRoutes } from "./routes/admin.ts";
 import { authRoutes } from "./routes/auth.ts";
+import { exportRoutes } from "./routes/exports.ts";
 import { marketRoutes } from "./routes/market.ts";
 import { meRoutes } from "./routes/me.ts";
 import { notificationRoutes } from "./routes/notifications.ts";
@@ -79,6 +80,7 @@ export function createApp(makeServices: ServicesFactory): Hono<AppEnv> {
   app.route("/", routerActionRoutes);
   app.route("/", webhookRoutes);
   app.route("/", notificationRoutes);
+  app.route("/", exportRoutes);
   app.route("/", partnerRoutes);
   app.route("/", txRoutes);
   app.route("/", paycheckRoutes);

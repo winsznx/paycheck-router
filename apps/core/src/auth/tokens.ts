@@ -93,3 +93,44 @@ export async function sha256Hex(value: string): Promise<string> {
 export function newNonce(): string {
   return toBase64Url(crypto.getRandomValues(new Uint8Array(18)));
 }
+
+const EXPORT_AUDIENCE = "paycheck-router-export";
+
+/** A short-lived link token for one CSV export, signed with the session key. */
+export async function signExportToken(
+  secret: string,
+  claims: { userId: string; key: string },
+  now: Date,
+  ttlSecs: number,
+): Promise<string> {
+  const { privateKey, kid } = await loadKeys(secret);
+  const issuedAt = Math.floor(now.getTime() / 1000);
+  return new SignJWT({ key: claims.key })
+    .setProtectedHeader({ alg: ALG, kid, typ: "JWT" })
+    .setIssuer(ISSUER)
+    .setAudience(EXPORT_AUDIENCE)
+    .setSubject(claims.userId)
+    .setIssuedAt(issuedAt)
+    .setExpirationTime(issuedAt + ttlSecs)
+    .sign(privateKey);
+}
+
+export async function verifyExportToken(
+  secret: string,
+  token: string,
+  now: Date,
+): Promise<{ userId: string; key: string } | null> {
+  const { publicKey } = await loadKeys(secret);
+  try {
+    const { payload } = await jwtVerify(token, publicKey, {
+      issuer: ISSUER,
+      audience: EXPORT_AUDIENCE,
+      algorithms: [ALG],
+      currentDate: now,
+    });
+    if (typeof payload.sub !== "string" || typeof payload.key !== "string") return null;
+    return { userId: payload.sub, key: payload.key };
+  } catch {
+    return null;
+  }
+}
