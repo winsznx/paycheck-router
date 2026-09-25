@@ -55,3 +55,6 @@ trident-tests/**/hfuzz_workspace/
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# demo:record logs
+.demo/
