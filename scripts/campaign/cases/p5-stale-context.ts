@@ -14,7 +14,7 @@ import { probe } from "../lib/manifest.ts";
 import { readScaledUiAmount, withPendingMultiplier } from "../lib/mint.ts";
 import { runPaycheck, setupRouter, snapshotAccount } from "../lib/paycheck.ts";
 import { caseRef, expectLegs, programErrorProbe } from "../lib/probes.ts";
-import { observedError, runTamperedLeg, withPrices } from "../lib/test-crank.ts";
+import { observedError, tamperedLeg } from "../lib/test-crank.ts";
 
 const USDC = 1_000_000n;
 /** Seconds past the 300 s attestation limit before the old attestation is used. */
@@ -123,14 +123,13 @@ export const p5StaleContext: CaseDefinition = {
         oldE12 = multiplierToE12(config.multiplier, "down");
         newE12 = multiplierToE12(newMultiplier, "down");
 
-        await withPrices(fork, pipeline, [anthropic], async (prices) => {
+        {
           const fresh = await attestMark(await fetchPreStocks(), mint, ctx.signers.attester);
-          const run = await runTamperedLeg(
+          const run = await tamperedLeg(
             fork,
             ctx.bundle,
             pipeline,
             anthropic,
-            prices,
             treasury,
             "anthropic-before-multiplier",
             { attestation: fresh.signed },
@@ -154,16 +153,15 @@ export const p5StaleContext: CaseDefinition = {
               },
             }),
           );
-        });
+        }
 
         await sleepUntil(signedAtMs + STALE_AFTER_SECS * 1000);
-        await withPrices(fork, pipeline, [kalshi], async (prices) => {
-          const run = await runTamperedLeg(
+        {
+          const run = await tamperedLeg(
             fork,
             ctx.bundle,
             pipeline,
             kalshi,
-            prices,
             treasury,
             "kalshi-stale-attestation",
             { attestation: stale },
@@ -180,7 +178,7 @@ export const p5StaleContext: CaseDefinition = {
             run,
             observedError(run),
           );
-        });
+        }
         await sleepUntil(Number(effective) * 1000 + 3_000);
       },
     });
