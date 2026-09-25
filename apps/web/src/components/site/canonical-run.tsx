@@ -1,5 +1,10 @@
 import type { api } from "@paycheck-router/shared";
-import { PriceCheckBadge, SplitBar, splitBarLabel } from "@paycheck-router/ui/components";
+import {
+  AssetTicker,
+  PriceCheckBadge,
+  SplitBar,
+  splitBarLabel,
+} from "@paycheck-router/ui/components";
 import {
   formatPercent,
   formatPremiumBps,
@@ -24,6 +29,7 @@ export async function CanonicalRun({ proof }: { proof: api.ProofResponse }) {
     const slot = index + 1;
     return {
       key: leg.signature,
+      asset: leg.mint,
       ticker: leg.symbol,
       weightBps: Number(leg.amountIn),
       colorSlot: isSeriesSlot(slot) ? slot : 1,
@@ -49,9 +55,7 @@ export async function CanonicalRun({ proof }: { proof: api.ProofResponse }) {
       <ul className="stack">
         {legs.map((leg) => (
           <li key={leg.signature} className="row">
-            <span className="pr-num" translate="no">
-              {leg.symbol}
-            </span>
+            <AssetTicker asset={leg.mint} ticker={leg.symbol} />
             {leg.premiumBps === null ? null : (
               <PriceCheckBadge
                 tone="in-band"

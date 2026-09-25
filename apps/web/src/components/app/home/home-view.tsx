@@ -4,6 +4,7 @@ import type { api } from "@paycheck-router/shared";
 import {
   AllowanceMeter,
   AssetChip,
+  AssetIcon,
   Banner,
   buttonClassName,
   EmptyState,
@@ -92,6 +93,7 @@ function RouterCard({ router, lastInflow }: { router: api.Router; lastInflow: st
           .map((leg) => (
             <li key={leg.mint}>
               <AssetChip
+                asset={leg.mint}
                 ticker={leg.symbol}
                 colorSlot={colorSlotFor(leg.mint, leg.idx, router.legs)}
                 name={formatPercent(leg.weightBps, locale)}
@@ -146,6 +148,7 @@ function Holdings({ portfolio }: { portfolio: api.PortfolioResponse }) {
           {top.map((holding, index) => (
             <li key={holding.mint} className="holding-row">
               <AssetChip
+                asset={holding.mint}
                 ticker={holding.symbol}
                 colorSlot={colorSlotFor(holding.mint, index, undefined)}
               />
@@ -204,10 +207,13 @@ function Activity({ paychecks }: { paychecks: readonly api.PaycheckSummary[] }) 
                 label={copy.statusLabel(leg)}
                 description={copy.statusDescription(leg)}
               />
-              <span className="pr-small">
-                {leg.status === "waiting"
-                  ? copy.reasonSentence(leg)
-                  : (copy.bought(leg) ?? leg.symbol)}
+              <span className="activity-row__what">
+                <AssetIcon asset={leg.mint} size="sm" decorative />
+                <span className="pr-small">
+                  {leg.status === "waiting"
+                    ? copy.reasonSentence(leg)
+                    : (copy.bought(leg) ?? leg.symbol)}
+                </span>
               </span>
               <time className="pr-small pr-muted" dateTime={at} title={formatTimestamp(at, locale)}>
                 {formatTime(at, locale)}

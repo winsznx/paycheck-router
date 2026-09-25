@@ -1,8 +1,11 @@
 import type { CSSProperties } from "react";
 import { type SeriesSlot, seriesVar } from "../tokens/series.ts";
+import { AssetIcon } from "./asset-icon.tsx";
 import { PreIpoBadge } from "./price-check-badge.tsx";
 
 export type AssetChipProps = {
+  /** Mint, or registry symbol, for the logo. */
+  asset: string;
   ticker: string;
   colorSlot: SeriesSlot;
   name?: string | undefined;
@@ -13,6 +16,7 @@ export type AssetChipProps = {
 };
 
 export function AssetChip({
+  asset,
   ticker,
   colorSlot,
   name,
@@ -27,6 +31,7 @@ export function AssetChip({
       style={{ "--swatch": seriesVar(colorSlot) } as CSSProperties}
     >
       <span className="pr-asset-chip__swatch" aria-hidden="true" />
+      <AssetIcon asset={asset} size="sm" decorative />
       <span translate="no">{ticker}</span>
       {name ? <span className="pr-asset-chip__name">{name}</span> : null}
       {preIpoLabel ? <PreIpoBadge label={preIpoLabel} /> : null}

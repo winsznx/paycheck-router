@@ -1,5 +1,5 @@
 import type { api } from "@paycheck-router/shared";
-import { StatusChip } from "@paycheck-router/ui/components";
+import { AssetIcon, StatusChip } from "@paycheck-router/ui/components";
 import {
   formatBps,
   formatPrice,
@@ -61,7 +61,8 @@ export async function ProofLegCard({
   return (
     <article className="pr-card stack">
       <div className="row" style={{ justifyContent: "space-between" }}>
-        <h3 className="pr-h3" translate="no">
+        <h3 className="pr-h3 pr-asset-ticker" translate="no">
+          <AssetIcon asset={leg.mint} size="lg" decorative />
           {leg.symbol}
         </h3>
         {v ? (
