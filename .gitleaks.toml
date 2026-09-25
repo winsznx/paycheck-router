@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+# Jupiter route plans name each pool by its account address under "ammKey". These are public
+# Solana addresses that appear in recorded upstream responses and evidence bundles.
+[[allowlists]]
+description = "Jupiter ammKey public addresses"
+regexTarget = "line"
+regexes = ['''"ammKey":\s*"[1-9A-HJ-NP-Za-km-z]{32,44}"''']
