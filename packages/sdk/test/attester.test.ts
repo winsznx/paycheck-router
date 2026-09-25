@@ -126,9 +126,25 @@ describe("fetchPreStocks", () => {
     expect(read.entries.some((e) => e.contract_address === OPENAI)).toBe(true);
   });
 
-  it("rejects entries missing a mark", async () => {
+  it("rejects a response with no valid entry", async () => {
     const broken = JSON.stringify([{ name: "x", symbol: "X", contract_address: OPENAI }]);
-    await expect(fetchPreStocks({ fetch: stubFetch(broken) })).rejects.toThrow();
+    await expect(fetchPreStocks({ fetch: stubFetch(broken) })).rejects.toThrow(/no valid entries/);
+  });
+
+  it("keeps every valid entry when one entry is malformed", async () => {
+    const entries = JSON.parse(recorded) as Record<string, unknown>[];
+    const bad = entries.find((e) => e.contract_address !== OPENAI);
+    if (!bad) throw new Error("fixture needs a second entry");
+    bad.markPrice = "not-a-number";
+    const read = await fetchPreStocks({ fetch: stubFetch(JSON.stringify(entries)) });
+    expect(read.entries.length).toBe(entries.length - 1);
+    expect(read.rejected).toHaveLength(1);
+    expect(read.rejected[0]?.contractAddress).toBe(bad.contract_address);
+    const attester = await generateKeyPairSigner();
+    await expect(attestMark(read, OPENAI, attester)).resolves.toBeDefined();
+    await expect(attestMark(read, address(String(bad.contract_address)), attester)).rejects.toThrow(
+      /failed validation/,
+    );
   });
 
   it("surfaces HTTP errors", async () => {
