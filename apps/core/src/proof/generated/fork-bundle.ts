@@ -1194,3 +1194,11 @@ export const FORK_REPORT: BundleReport = {
   ],
   "pass": true
 };
+
+/** From the Paycheck readbacks: when the paycheck was recorded and each slice executed. */
+export const FORK_TIMES: { recordedAt: string | null; executedAt: Record<number, string> } = {
+  "recordedAt": "2026-09-25T14:39:45.000Z",
+  "executedAt": {
+    "2": "2026-09-25T14:40:11.000Z"
+  }
+};
