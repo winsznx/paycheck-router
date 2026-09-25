@@ -1,6 +1,7 @@
-# Private planning, agent notes and keys
+# Private planning, agent notes, agent worktrees and keys
 internal/
 CLAUDE.md
+.claude/
 
 # Environment and secrets
 .env
