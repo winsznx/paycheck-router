@@ -45,6 +45,6 @@ until grep -q "Demo is up" "$LOG"; do
 done
 
 DEMO_RECORD_INPUT="$FIFO" \
-  E2E_BASE_URL="http://localhost:${DEMO_WEB_PORT:-3000}" \
+  E2E_BASE_URL="http://127.0.0.1:${DEMO_WEB_PORT:-3000}" \
   E2E_API_URL="http://127.0.0.1:${DEMO_CORE_PORT:-8787}" \
   pnpm --dir "$ROOT" e2e:live
