@@ -64,6 +64,41 @@ test.describe("signed-in app screens", () => {
   });
 });
 
+test.describe("activity and settings", () => {
+  test.beforeEach(async ({ page }) => {
+    await mockSignedInApi(page);
+  });
+
+  test("activity filters slices and passes axe", async ({ page }) => {
+    // #given
+    await page.goto("/app/activity");
+    await expect(page.getByRole("heading", { name: "Activity", level: 1 })).toBeVisible();
+    // #when
+    await page.getByLabel("Waiting").check();
+    // #then
+    await expect(page.locator(".activity-row")).toHaveCount(1);
+    await expectNoAxeViolations(page);
+  });
+
+  for (const section of ["wallet", "preferences", "security"] as const) {
+    test(`settings ${section} passes axe`, async ({ page }) => {
+      await page.goto(`/app/settings/${section}`);
+      await expect(page.getByRole("heading", { name: "Settings", level: 1 })).toBeVisible();
+      await expectNoAxeViolations(page);
+    });
+  }
+
+  test("theme preference switches to light and stays accessible", async ({ page }) => {
+    // #given
+    await page.goto("/app/settings/preferences");
+    // #when
+    await page.getByLabel("Theme").selectOption("light");
+    // #then
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+    await expectNoAxeViolations(page);
+  });
+});
+
 test.describe("onboarding", () => {
   test("welcome step passes axe and links to sign-in", async ({ page }) => {
     // #given a signed-out visitor
