@@ -2,6 +2,23 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: Findings from the campaign and the core Worker
+
+**Observed.**
+- `surfnet_timeTravel` only moves the clock forward, and Hermes can't serve prices from the future. After a jump, every Pyth price is older than the 30-second limit, so no slice can execute. P5 therefore used real waits (a 305-second-old attestation, then a fresh one) instead of time travel.
+- A route that swaps its source account for the owner's pay-in is refused by Jupiter's own program (error 6025) before the router's InputOverspent check runs. On a fork, that attack stops one layer earlier than planned; the program's check is covered by its invariant tests.
+- One PreStocks API entry with a non-number `markPrice` made the attester reject the whole response, blocking attestations for every pre-IPO mint.
+- A seven-leg pre-IPO router's setup transaction is 2,044 bytes, over the 1,232-byte limit.
+- The PreStocks 100 bps transfer fee alone puts pre-IPO slices above the $0.50-per-$100 cost target.
+- The manual-Jupiter step count in the campaign comes from a scripted flow, not from timed testers.
+- The Workers runtime used in tests supports compatibility dates up to 2026-08-22, JSON queue messages can't carry bigints, and the verification table needed nullable readback columns for partial readbacks. The Worker also needs secrets beyond the first list: the ops key, a session signing key, a Telegram webhook secret and the Pyth key.
+
+**Changed.**
+- The campaign reports P5 as run with real waits, P4's third attack as refused by Jupiter, and the cost claim as inconclusive rather than passed.
+- Setup transactions for routers with many pre-IPO legs are split into parts.
+- The Worker uses compatibility date 2026-08-22, v8 queue serialization and nullable readback columns, and its secret list includes the four additions.
+- Open fix: the attester must drop only the malformed PreStocks entry and keep attesting the rest.
+
 ## 2026-09-25: Pipeline details settled by fork runs
 
 **Observed.**
