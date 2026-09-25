@@ -4,12 +4,15 @@ import { resolve } from "node:path";
 import {
   buildExpireLegInstruction,
   buildMessage,
+  buildSetupInstructions,
   classifyInflow,
   decodeLegExecuted,
   executeInstructionBuilder,
   executePaycheckLegs,
   type FeedRejection,
   fetchConfig,
+  findAuthorityPda,
+  findRouterPda,
   getSkipInflowInstruction,
   HermesError,
   type InflowRules,
@@ -102,15 +105,31 @@ export async function setupRouter(
   const fork = requireFork(ctx);
   const owner = opts.owner ?? ctx.signers["demo-worker"];
   const minInflow = opts.minInflow ?? 1_000_000n;
-  const created = await createDemoRouter(fork.surfnet, ctx.signers, {
+  const setup = {
     owner,
     legs: opts.legs,
     investBps: opts.investBps,
     allowance: opts.allowance ?? 20_000_000_000n,
     minInflow,
     ...(opts.maxWaitSecs ? { maxWaitSecs: opts.maxWaitSecs } : {}),
-  });
-  await fork.transactions.add(`setup ${opts.name}: create_router and approves`, created.signature);
+  };
+  let created: { router: Address; authority: Address; payIn: Address; signatures: string[] };
+  try {
+    const one = await createDemoRouter(fork.surfnet, ctx.signers, setup);
+    created = { ...one, signatures: [one.signature] };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (!/too large/.test(message)) throw error;
+    ctx.notes.push(
+      `${opts.name}: the one-transaction setup was over the size limit (${message.slice(0, 160)}); sent in parts`,
+    );
+    created = await splitSetup(ctx, fork, setup);
+  }
+  for (const [i, signature] of created.signatures.entries()) {
+    const part =
+      created.signatures.length > 1 ? ` (part ${i + 1}/${created.signatures.length})` : "";
+    await fork.transactions.add(`setup ${opts.name}: create_router and approves${part}`, signature);
+  }
   ctx.log(`router ${created.router} for ${opts.name}`);
   return {
     name: opts.name,
@@ -768,4 +787,69 @@ async function recordWithRetry<T>(
       await new Promise((r) => setTimeout(r, RECORD_RETRY_MS));
     }
   }
+}
+
+/** Setup instructions per transaction after the first, which holds create_router itself. */
+const SETUP_PAIRS_PER_TRANSACTION = 2;
+
+/**
+ * The setup transaction's own instructions, from `buildSetupInstructions`, sent in parts: the
+ * owner's USDC account, create_router and the USDC approve first, then each pre-IPO leg's token
+ * account and convert approve two legs at a time. Used only when one transaction is too large.
+ */
+async function splitSetup(
+  ctx: CaseContext,
+  fork: ForkState,
+  setup: {
+    owner: KeyPairSigner;
+    legs: LegSpec[];
+    investBps: number;
+    allowance: bigint;
+    minInflow: bigint;
+    maxWaitSecs?: number;
+  },
+): Promise<{ router: Address; authority: Address; payIn: Address; signatures: string[] }> {
+  const instructions = await buildSetupInstructions({
+    owner: setup.owner,
+    payer: ctx.signers.sponsor,
+    params: {
+      recorder: ctx.signers.recorder.address,
+      investBps: setup.investBps,
+      minInflow: setup.minInflow,
+      dailyCap: 10_000_000_000n,
+      maxWaitSecs: setup.maxWaitSecs ?? 7 * 24 * 3600,
+      autoConvert: false,
+      legs: setup.legs.map((leg) => ({
+        mint: assetBySymbol(leg.symbol).mint,
+        weightBps: leg.weightBps,
+        bandBps: leg.bandBps,
+        enabled: true,
+      })),
+    },
+    allowance: setup.allowance,
+  });
+  const [head, rest] = [instructions.slice(0, 3), instructions.slice(3)];
+  const parts = [head];
+  for (let i = 0; i < rest.length; i += 2 * SETUP_PAIRS_PER_TRANSACTION) {
+    parts.push(rest.slice(i, i + 2 * SETUP_PAIRS_PER_TRANSACTION));
+  }
+  const signatures: string[] = [];
+  for (const part of parts) {
+    const outcome = await signSendConfirm(
+      fork.surfnet.rpc,
+      buildMessage(ctx.signers.sponsor, await latestLifetime(fork.surfnet.rpc), part),
+    );
+    signatures.push(outcome.signature);
+    if (outcome.status !== "confirmed") {
+      throw new Error(`setup part ${signatures.length} ${outcome.status}: ${outcome.signature}`);
+    }
+  }
+  const [router] = await findRouterPda({ owner: setup.owner.address });
+  const [authority] = await findAuthorityPda({ router });
+  const [payIn] = await findAssociatedTokenPda({
+    owner: setup.owner.address,
+    mint: USDC_MINT,
+    tokenProgram: TOKEN_PROGRAM_ID,
+  });
+  return { router, authority, payIn, signatures };
 }
