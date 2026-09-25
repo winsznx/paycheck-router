@@ -1,0 +1,58 @@
+name: release
+
+on:
+  push:
+    tags: ["stocklana-submission", "v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  SOLANA_VERIFY_VERSION: 0.5.2
+
+jobs:
+  verifiable-build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install solana-verify
+        run: |
+          base="https://github.com/Ellipsis-Labs/solana-verifiable-build/releases/download/v${SOLANA_VERIFY_VERSION}"
+          curl -sSfLO "${base}/solana-verify-${SOLANA_VERIFY_VERSION}-linux"
+          curl -sSfLO "${base}/solana-verify-${SOLANA_VERIFY_VERSION}-linux.sha256"
+          sha256sum -c "solana-verify-${SOLANA_VERIFY_VERSION}-linux.sha256"
+          install -m 0755 "solana-verify-${SOLANA_VERIFY_VERSION}-linux" /usr/local/bin/solana-verify
+
+      - name: Verifiable build
+        run: solana-verify build --library-name paycheck_router
+
+      - name: Executable hash
+        id: hash
+        run: |
+          hash=$(solana-verify get-executable-hash target/deploy/paycheck_router.so)
+          echo "hash=${hash}" >> "$GITHUB_OUTPUT"
+          printf '%s  paycheck_router.so\n' "${hash}" > target/deploy/paycheck_router.so.hash
+          echo "Executable hash: ${hash}" >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: paycheck_router
+          path: |
+            target/deploy/paycheck_router.so
+            target/deploy/paycheck_router.so.hash
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          notes="Program binary built with solana-verify ${SOLANA_VERIFY_VERSION}. Executable hash: ${{ steps.hash.outputs.hash }}"
+          if gh release view "${tag}" >/dev/null 2>&1; then
+            gh release upload "${tag}" target/deploy/paycheck_router.so target/deploy/paycheck_router.so.hash --clobber
+          else
+            gh release create "${tag}" target/deploy/paycheck_router.so target/deploy/paycheck_router.so.hash \
+              --title "${tag}" --notes "${notes}"
+          fi
