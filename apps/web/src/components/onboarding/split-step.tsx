@@ -303,15 +303,17 @@ export function SplitStep() {
                 </span>
                 <span className="pr-num">{formatUsd(usdc(leg.amountIn), locale)}</span>
                 <span className="pr-small pr-muted">
-                  {leg.wouldWait
-                    ? tr(`reasonShort.${leg.wouldWait}`, {
-                        premium:
-                          leg.premiumBps === null
-                            ? ""
-                            : formatPremiumBps(Math.abs(leg.premiumBps), locale).replace("+", ""),
-                        reference: isPreIpo(leg.mint) ? "mark" : "pyth",
-                      })
-                    : t("wouldBuy")}
+                  {leg.referenceError
+                    ? t("priceUnavailable")
+                    : leg.wouldWait
+                      ? tr(`reasonShort.${leg.wouldWait}`, {
+                          premium:
+                            leg.premiumBps === null
+                              ? ""
+                              : formatPremiumBps(Math.abs(leg.premiumBps), locale).replace("+", ""),
+                          reference: isPreIpo(leg.mint) ? "mark" : "pyth",
+                        })
+                      : t("wouldBuy")}
                 </span>
               </li>
             ))}
