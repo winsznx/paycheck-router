@@ -429,6 +429,11 @@ export class RouterActor extends DurableObject<Env> {
       type: "paycheck.recorded",
       data: { routerId: router.routerId, paycheck: this.paycheckView(paycheck, legs) },
     });
+    await this.notify("paycheck.recorded", {
+      inflow: paycheck.inflow,
+      investTotal: paycheck.investTotal,
+      sender: paycheck.sender,
+    });
   }
 
   private legsOf(seq: string): LegRow[] {
@@ -639,6 +644,14 @@ export class RouterActor extends DurableObject<Env> {
     };
     this.updateLeg(waiting);
     await this.mirror({ op: "leg", leg: waiting });
+    const firstWait = leg.status !== "waiting" || leg.waitReason !== waiting.waitReason;
+    if (firstWait) {
+      await this.notify(waiting.status === "expired" ? "slice.expired" : "slice.waiting", {
+        symbol: assetByMint(leg.mint)?.symbol ?? null,
+        amountIn: leg.amountIn,
+        reason: waiting.waitReason,
+      });
+    }
     await this.emitLeg(waiting.status === "expired" ? "leg.expired" : "leg.waiting", waiting);
     if (outcome.kind === "failed") {
       log.error("leg attempt failed", {
@@ -739,6 +752,7 @@ export class RouterActor extends DurableObject<Env> {
       if (!final) continue;
       this.ctx.storage.sql.exec("update paychecks set status = 'complete' where seq = ?", row.seq);
       await this.mirror({ op: "paycheck_status", paycheckId: row.id, status: "complete" });
+      await this.notify("paycheck.complete", { investTotal: row.invest_total });
     }
   }
 
@@ -817,6 +831,20 @@ export class RouterActor extends DurableObject<Env> {
       await this.emitLeg("leg.expired", expired);
     }
     if (due.length > 0) await this.completePaychecks();
+  }
+
+  /** Queues a milestone for the Notifier; channels and preferences are decided there. */
+  private async notify(
+    event: "paycheck.recorded" | "paycheck.complete" | "slice.waiting" | "slice.expired",
+    data: Record<string, string | null>,
+  ): Promise<void> {
+    const userId = this.meta()?.router.userId;
+    if (!userId) return;
+    try {
+      await this.env.NOTIFY.send({ userId, event, data }, { contentType: "v8" });
+    } catch (error) {
+      log.warn("notify enqueue failed", { event, error });
+    }
   }
 
   private async publish(event: PublishInput): Promise<void> {

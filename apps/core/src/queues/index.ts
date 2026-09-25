@@ -1,9 +1,11 @@
+import { createDb } from "../db/client.ts";
 import type { InflowMessage } from "../do/inflow-watcher.ts";
 import type { ExecutionMessage, VerifyMessage } from "../do/router-actor.ts";
 import { inflowWatcher, routerActorFor } from "../do/stubs.ts";
 import { createEngine } from "../engine/factory.ts";
 import type { Env } from "../env.ts";
 import { log } from "../log.ts";
+import { deliver, type NotifyMessage } from "../notify/notifier.ts";
 
 /** Queue names carry an environment prefix outside production (`staging-inflows`). */
 function baseName(queue: string): string {
@@ -56,7 +58,10 @@ export async function handleQueue(batch: MessageBatch, env: Env): Promise<void> 
           await handleVerify(env, message.body as VerifyMessage);
           break;
         case "notify":
-          log.info("notification queued without a configured provider", { body: message.body });
+          if (await deliver(env, createDb(env.HYPERDRIVE), message.body as NotifyMessage)) {
+            message.retry({ delaySeconds: Math.min(300, 30 * 2 ** message.attempts) });
+            continue;
+          }
           break;
         default:
           if (queue.endsWith("-dlq")) {

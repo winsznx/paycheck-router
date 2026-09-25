@@ -11,6 +11,7 @@ import { log } from "./log.ts";
 import { authRoutes } from "./routes/auth.ts";
 import { marketRoutes } from "./routes/market.ts";
 import { meRoutes } from "./routes/me.ts";
+import { notificationRoutes } from "./routes/notifications.ts";
 import { paycheckRoutes } from "./routes/paychecks.ts";
 import { proofRoutes } from "./routes/proof.ts";
 import { publicRoutes } from "./routes/public.ts";
@@ -72,6 +73,7 @@ export function createApp(makeServices: ServicesFactory): Hono<AppEnv> {
   app.route("/", routerRoutes);
   app.route("/", routerSettingsRoutes);
   app.route("/", webhookRoutes);
+  app.route("/", notificationRoutes);
   app.route("/", txRoutes);
   app.route("/", paycheckRoutes);
   app.route("/", proofRoutes);
