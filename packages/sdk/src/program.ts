@@ -33,7 +33,7 @@ export function legExecutedFromLogs(logs: readonly string[]): LegExecutedEvent[]
   const discriminator = LEG_EXECUTED_EVENT_DISCRIMINATOR;
   return programDataFromLogs(logs)
     .filter((data) => startsWith(data, discriminator))
-    .map((data) => getLegExecutedEventDecoder().decode(data.slice(discriminator.length)));
+    .map((data) => getLegExecutedEventDecoder().decode(data));
 }
 
 const PRICE_SOURCES = {
