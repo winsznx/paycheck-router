@@ -278,6 +278,22 @@ test("rehearsal: onboard, send a paycheck, watch it settle", async ({ page, base
     await page.goto("/proof");
     await expect(page.getByRole("heading", { name: "Proof", level: 1 })).toBeVisible();
     await shoot(page, run, "proof", true);
+
+    // The same run on a desktop viewport, for review.
+    await page.setViewportSize({ width: 1280, height: 800 });
+    for (const [name, path] of [
+      ["paycheck-detail-desktop", `/app/paychecks/${id}`],
+      ["home-desktop", "/app"],
+      ["portfolio-desktop", "/app/portfolio"],
+      ["activity-desktop", "/app/activity"],
+      ["landing-desktop", "/"],
+      ["proof-desktop", "/proof"],
+    ] as const) {
+      await page.goto(path);
+      await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
+      await page.waitForLoadState("load");
+      await shoot(page, run, name, true);
+    }
     const proof = await proofResponse.then((r) => r.json()).catch(() => null);
     const parsed = api.ProofResponse.safeParse(proof);
     if (parsed.success) {
