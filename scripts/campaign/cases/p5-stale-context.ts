@@ -37,6 +37,35 @@ async function mintData(fork: ForkState, mint: Address): Promise<Uint8Array> {
   return Uint8Array.from(getBase64Encoder().encode(result.value.data[0]));
 }
 
+/**
+ * The surfnet re-fetched the mint from mainnet after the cheatcode in the first runs, dropping the
+ * pending multiplier before the leg executed. The case reads the mint back and, if the change is
+ * gone, sets it again and records that it had to.
+ */
+async function keepPendingMultiplier(
+  ctx: CaseContext,
+  fork: ForkState,
+  mint: Address,
+  pending: Uint8Array,
+  label: string,
+): Promise<void> {
+  const current = readScaledUiAmount(await mintData(fork, mint));
+  const wanted = readScaledUiAmount(pending);
+  const kept =
+    current.newMultiplier === wanted.newMultiplier &&
+    current.newMultiplierEffectiveTimestamp === wanted.newMultiplierEffectiveTimestamp;
+  ctx.bundle.write(
+    `raw/cheatcodes/anthropic-multiplier-${label}.json`,
+    toJson({ read: current, wanted, kept, reapplied: !kept }),
+  );
+  if (!kept) {
+    ctx.notes.push(
+      `the surfnet dropped the pending multiplier (${label}); the cheatcode was re-applied`,
+    );
+    await fork.surfnet.cheat.setAccount(mint, { data: pending });
+  }
+}
+
 /** Which multiplier an event's minimum used, re-computed with the reference model. */
 function multiplierUsed(event: LegExecutedEvent, oldE12: bigint, newE12: bigint, decimals: number) {
   const recomputed = buyMinOut({
@@ -155,6 +184,8 @@ export const p5StaleContext: CaseDefinition = {
           );
         }
 
+        const pendingMint = withPendingMultiplier(original, newMultiplier, effective);
+        await keepPendingMultiplier(ctx, fork, mint, pendingMint, "after-simulation");
         await sleepUntil(signedAtMs + STALE_AFTER_SECS * 1000);
         {
           const run = await tamperedLeg(
@@ -180,6 +211,7 @@ export const p5StaleContext: CaseDefinition = {
           );
         }
         await sleepUntil(Number(effective) * 1000 + 3_000);
+        await keepPendingMultiplier(ctx, fork, mint, pendingMint, "before-execution");
       },
     });
 
