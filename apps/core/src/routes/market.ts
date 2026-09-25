@@ -3,8 +3,10 @@ import { api, LAUNCH_CONFIG } from "@paycheck-router/shared";
 import { and, asc, desc, eq, gt, inArray, sql } from "drizzle-orm";
 import { Hono } from "hono";
 import { mintTerms } from "../chain/mints.ts";
+import { ConfigError } from "../config.ts";
+import type { Db } from "../db/client.ts";
 import { priceSnapshots } from "../db/schema.ts";
-import type { AppEnv } from "../http/context.ts";
+import type { AppEnv, Services } from "../http/context.ts";
 import { ApiError, notFound, parseOrThrow } from "../http/problem.ts";
 import { rateLimit } from "../http/rate-limit.ts";
 import { requireSession } from "../http/session.ts";
@@ -13,6 +15,16 @@ import { premiumBps, priceBoard } from "../pricing/reference.ts";
 import { type AssetMeta, REGISTRY_ASSETS, registryAsset } from "../pricing/registry.ts";
 
 export const marketRoutes = new Hono<AppEnv>();
+
+/** The database when this deployment has one; the public site does not. */
+function databaseIfConfigured(services: Services): Db | null {
+  try {
+    return services.db;
+  } catch (error) {
+    if (error instanceof ConfigError) return null;
+    throw error;
+  }
+}
 
 marketRoutes.use("/assets", rateLimit("PUBLIC_LIMITER", "ip"));
 marketRoutes.use("/quote/*", requireSession, rateLimit("QUOTE_LIMITER", "user"));
@@ -55,8 +67,10 @@ function assetView(row: AssetRow, board: Board): api.Asset {
   };
 }
 
+// Prices and the registry need no database: never touch `services.db` in these public routes
+// unless a Hyperdrive binding exists (the public site has none).
 marketRoutes.get("/assets", async (c) => {
-  const { db, now } = c.var.services;
+  const { now } = c.var.services;
   const rows = REGISTRY_ASSETS;
   const board = await priceBoard(c.env, rows, now());
   const body: api.AssetsResponse = {
@@ -69,29 +83,33 @@ marketRoutes.get("/assets", async (c) => {
 marketRoutes.use("/assets/:mint", rateLimit("PUBLIC_LIMITER", "ip"));
 
 marketRoutes.get("/assets/:mint", async (c) => {
-  const { db, now } = c.var.services;
+  const { now } = c.var.services;
   const mint = parseOrThrow(api.AddressString, c.req.param("mint"));
   const row = registryAsset(mint);
   if (!row) throw notFound("Asset");
   const board = await priceBoard(c.env, [row], now());
   const since = new Date(now().getTime() - 30 * 24 * 60 * 60 * 1000);
-  const series = row.feedId
-    ? await db
-        .selectDistinctOn([sql`date_trunc('day', ${priceSnapshots.publishTime})`], {
-          day: sql<string>`to_char(date_trunc('day', ${priceSnapshots.publishTime}), 'YYYY-MM-DD')`,
-          price: priceSnapshots.price,
-          expo: priceSnapshots.expo,
-          publishTime: priceSnapshots.publishTime,
-        })
-        .from(priceSnapshots)
-        .where(and(eq(priceSnapshots.feedId, row.feedId), gt(priceSnapshots.publishTime, since)))
-        .orderBy(
-          sql`date_trunc('day', ${priceSnapshots.publishTime})`,
-          desc(priceSnapshots.publishTime),
-        )
-    : [];
+  const db = databaseIfConfigured(c.var.services);
+  const snapshotsStored = db !== null;
+  const series =
+    row.feedId && snapshotsStored
+      ? await db
+          .selectDistinctOn([sql`date_trunc('day', ${priceSnapshots.publishTime})`], {
+            day: sql<string>`to_char(date_trunc('day', ${priceSnapshots.publishTime}), 'YYYY-MM-DD')`,
+            price: priceSnapshots.price,
+            expo: priceSnapshots.expo,
+            publishTime: priceSnapshots.publishTime,
+          })
+          .from(priceSnapshots)
+          .where(and(eq(priceSnapshots.feedId, row.feedId), gt(priceSnapshots.publishTime, since)))
+          .orderBy(
+            sql`date_trunc('day', ${priceSnapshots.publishTime})`,
+            desc(priceSnapshots.publishTime),
+          )
+      : [];
   const body: api.AssetDetail = {
     ...assetView(row, board),
+    seriesError: snapshotsStored ? null : "not_configured",
     series: series.map((point) => ({
       day: point.day,
       closeE9: priceE9({
@@ -108,7 +126,7 @@ marketRoutes.get("/assets/:mint", async (c) => {
 });
 
 marketRoutes.get("/quote/preview", async (c) => {
-  const { db, chain, now } = c.var.services;
+  const { chain, now } = c.var.services;
   const query = parseOrThrow(api.QuotePreviewQuery, c.req.query());
   const weightSum = query.legs.reduce((sum, leg) => sum + leg.weightBps, 0);
   if (weightSum !== 10_000) {
