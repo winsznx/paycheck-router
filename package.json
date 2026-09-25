@@ -21,7 +21,8 @@
     "e2e": "pnpm --filter @paycheck-router/e2e e2e",
     "campaign": "tsx scripts/campaign/run.ts",
     "campaign:summary": "tsx scripts/campaign/summary.ts",
-    "verify:campaign": "tsx scripts/campaign/verify.ts"
+    "verify:campaign": "tsx scripts/campaign/verify.ts",
+    "verify:bundle": "node packages/verify/bin/paycheck-verify.js --bundle"
   },
   "devDependencies": {
     "@paycheck-router/verify": "workspace:*",
