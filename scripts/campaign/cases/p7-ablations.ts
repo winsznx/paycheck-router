@@ -78,7 +78,7 @@ export const p7Ablations: CaseDefinition = {
         observed:
           costs.gasUnitsMedian !== null && costs.points.every((p) => p.costUsdMicros !== null)
             ? "computed"
-            : `incomplete: ${costs.swapReceipts} swap receipts`,
+            : `incomplete: ${costs.receiptsRead} receipts read`,
         source: { kind: "computed", artifacts: [indexRef] },
       }),
     );

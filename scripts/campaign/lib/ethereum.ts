@@ -27,6 +27,7 @@ export const SWAP_TOPICS = new Set([
 const SLOT_SECS = 12;
 const LOG_SPAN_BLOCKS = 5_000;
 const MAX_RECEIPTS = 30;
+const MIN_SWAP_RECEIPTS = 3;
 export const CHAIN_INDEX = "raw/ethereum/index.json";
 
 export type ChainPoint = {
@@ -167,13 +168,21 @@ export function chainCosts(dir: string, artifacts: readonly ArtifactRef[], index
     return found;
   };
   const swapGas: number[] = [];
+  const movingGas: number[] = [];
   for (const path of index.receipts) {
     const receipt = readArtifactJson<Receipt>(dir, ref(path));
-    if (receipt.result.logs.some((l) => SWAP_TOPICS.has(l.topics[0] ?? ""))) {
-      swapGas.push(Number.parseInt(receipt.result.gasUsed, 16));
-    }
+    const gas = Number.parseInt(receipt.result.gasUsed, 16);
+    movingGas.push(gas);
+    if (receipt.result.logs.some((l) => SWAP_TOPICS.has(l.topics[0] ?? ""))) swapGas.push(gas);
   }
-  const gasUnits = median(swapGas);
+  // Recent NVDAx trades on Ethereum go through aggregator and bridge contracts whose events are
+  // not the standard AMM swap events. With fewer than three recognised swaps, the gas basis is
+  // every recent transaction that moved NVDAx on Ethereum, and the result says so.
+  const bySwaps = swapGas.length >= MIN_SWAP_RECEIPTS;
+  const gasUnits = median(bySwaps ? swapGas : movingGas);
+  const gasBasis = bySwaps
+    ? `median gasUsed of ${swapGas.length} NVDAx swap receipts (Uniswap, Balancer or Curve swap events)`
+    : `median gasUsed of all ${movingGas.length} recent transactions that moved NVDAx on Ethereum (${swapGas.length} carried a standard AMM swap event)`;
   const points = index.points.map((point) => {
     const fees = readArtifactJson<FeeHistory>(dir, ref(point.feeHistory));
     const base = BigInt(fees.result.baseFeePerGas[0] ?? "0x0");
@@ -207,6 +216,7 @@ export function chainCosts(dir: string, artifacts: readonly ArtifactRef[], index
     rpcUrl: index.rpcUrl,
     token: index.token,
     swapReceipts: swapGas.length,
+    gasBasis,
     receiptsRead: index.receipts.length,
     gasUnitsMedian: gasUnits,
     medianPer20Bps: median(per20),
