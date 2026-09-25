@@ -28,6 +28,8 @@ export default function config(phase: string): NextConfig {
   return withNextIntl({
     reactStrictMode: true,
     poweredByHeader: false,
+    // The dev-only "N" badge sits over the bottom tab bar in recordings.
+    devIndicators: false,
     transpilePackages: ["@paycheck-router/ui", "@paycheck-router/shared"],
     turbopack: { root: monorepoRoot },
     outputFileTracingRoot: monorepoRoot,
