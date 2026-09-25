@@ -59,6 +59,11 @@ export const AssetsResponse = z.object({ assets: z.array(Asset), asOf: IsoDateTi
 
 /** `GET /assets/:mint`: the asset plus its daily reference closes over 30 days. */
 export const AssetDetail = Asset.extend({
+  /**
+   * `not_configured` where the deployment stores no price snapshots (the public site has no
+   * database); the series is then empty rather than filled from anywhere else.
+   */
+  seriesError: z.enum(["not_configured"]).nullable().optional(),
   series: z.array(
     z.object({
       day: z.iso.date(),
