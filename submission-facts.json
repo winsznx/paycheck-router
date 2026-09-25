@@ -17,13 +17,13 @@
     "id": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
     "deployedOn": "fork",
     "mainnetDeployed": false,
-    "buildHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b",
+    "buildHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4",
     "releaseTag": "stocklana-submission",
-    "buildCommit": "eade508203a8709342dabd129fcd5cc0c6f3944d",
+    "buildCommit": "e53fbfe1728e50efd5cac8b9b9388c7f942549d2",
     "buildImage": "solanafoundation/solana-verifiable-build:4.3.0",
-    "buildRun": "https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
-    "binaryBytes": 616160,
-    "$comment": "buildHash is replaced by the stocklana-submission release build at the freeze."
+    "buildRun": "https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+    "binaryBytes": 629944,
+    "$comment": "The canonical fork run used this binary. No program source changed after e53fbfe, so the stocklana-submission release build must reproduce this hash; the freeze checks it."
   },
   "runs": [
     {
