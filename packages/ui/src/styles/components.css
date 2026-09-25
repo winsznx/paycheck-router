@@ -148,6 +148,26 @@ a {
   color: var(--text-2);
 }
 
+:where(.pr-display, .pr-h1, .pr-h2, .pr-h3) {
+  overflow-wrap: break-word;
+}
+
+/* Phone S (320–359 px): compact type so display words never overflow (PRD 16.1). */
+@media (max-width: 359px) {
+  .pr-display {
+    font-size: 32px;
+    line-height: 36px;
+  }
+  .pr-h1 {
+    font-size: 28px;
+    line-height: 34px;
+  }
+  .pr-num-xl {
+    font-size: 32px;
+    line-height: 36px;
+  }
+}
+
 @media (min-width: 1024px) {
   .pr-display {
     font-size: 64px;
@@ -580,6 +600,7 @@ a {
 
 /* Inputs (14.6) */
 .pr-field {
+  min-inline-size: 0;
   display: grid;
   gap: var(--space-2);
 }
@@ -587,6 +608,8 @@ a {
   font-weight: 600;
 }
 .pr-field__control {
+  min-inline-size: 0;
+  max-inline-size: 100%;
   display: flex;
   align-items: stretch;
   min-block-size: 48px;
