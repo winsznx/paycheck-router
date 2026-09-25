@@ -11,6 +11,9 @@ importers:
       '@biomejs/biome':
         specifier: 2.5.14
         version: 2.5.14
+      '@paycheck-router/verify':
+        specifier: workspace:*
+        version: link:packages/verify
       '@types/node':
         specifier: 22.20.4
         version: 22.20.4
@@ -262,6 +265,28 @@ importers:
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      vitest:
+        specifier: 5.0.1
+        version: 5.0.1(@types/node@22.20.4)(vite@8.3.0(@types/node@22.20.4)(esbuild@0.28.2)(terser@5.16.9)(tsx@4.23.15)(yaml@2.9.1))
+
+  packages/verify:
+    dependencies:
+      '@paycheck-router/sdk':
+        specifier: workspace:*
+        version: link:../sdk
+      '@paycheck-router/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@solana/kit':
+        specifier: 8.3.0
+        version: 8.3.0(typescript@5.9.3)
+      tsx:
+        specifier: 4.23.15
+        version: 4.23.15
+    devDependencies:
+      '@types/node':
+        specifier: 22.20.4
+        version: 22.20.4
       vitest:
         specifier: 5.0.1
         version: 5.0.1(@types/node@22.20.4)(vite@8.3.0(@types/node@22.20.4)(esbuild@0.28.2)(terser@5.16.9)(tsx@4.23.15)(yaml@2.9.1))

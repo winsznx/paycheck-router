@@ -1,0 +1,28 @@
+{
+  "name": "@paycheck-router/verify",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "paycheck-verify": "./bin/paycheck-verify.js"
+  },
+  "exports": {
+    ".": "./src/verify-bundle.ts"
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@paycheck-router/sdk": "workspace:*",
+    "@paycheck-router/shared": "workspace:*",
+    "@solana/kit": "8.3.0",
+    "tsx": "4.23.15"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.4",
+    "vitest": "5.0.1"
+  }
+}

@@ -19,6 +19,7 @@
     "e2e": "pnpm --filter @paycheck-router/e2e e2e"
   },
   "devDependencies": {
+    "@paycheck-router/verify": "workspace:*",
     "@biomejs/biome": "2.5.14",
     "@types/node": "22.20.4",
     "tsx": "4.23.15",
