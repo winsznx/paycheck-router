@@ -633,7 +633,7 @@
     "verified": "Vérifiée",
     "unverified": "Non vérifiée",
     "executed": "Achetée",
-    "paycheckLine": "Sur un salaire de {inflow}, {invested} investis",
+    "paycheckLine": "D'un salaire de {inflow} avec {invested} à investir",
     "openSlice": "Ouvrir la preuve de cette tranche",
     "sliceTitle": "Tranche {sig}",
     "back": "Toutes les preuves",

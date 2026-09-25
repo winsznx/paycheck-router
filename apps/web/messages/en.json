@@ -633,7 +633,7 @@
     "verified": "Verified",
     "unverified": "Unverified",
     "executed": "Bought",
-    "paycheckLine": "From a {inflow} paycheck, {invested} invested",
+    "paycheckLine": "From a {inflow} paycheck with {invested} to invest",
     "openSlice": "Open this slice's proof",
     "sliceTitle": "Slice {sig}",
     "back": "All proof",

@@ -1,0 +1,366 @@
+/*
+ * Showcase: the recorded paycheck in a phone, section headings, proof figures and the start
+ * panel. Shared by the public site and the /app launch page before the mainnet deploy.
+ */
+
+.landing-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-12);
+  padding-block: var(--space-12) var(--space-16);
+}
+
+.landing-hero__copy {
+  display: grid;
+  gap: var(--space-6);
+  align-content: center;
+}
+
+@media (min-width: 1024px) {
+  .landing-hero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    padding-block: var(--space-16) 104px;
+  }
+}
+
+.landing-audience {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-2);
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.landing-audience::before {
+  content: "";
+  inline-size: 10px;
+  block-size: 10px;
+  flex: none;
+  background: var(--accent);
+}
+
+.landing-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.8vw, 66px);
+  line-height: 0.98;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  overflow-wrap: break-word;
+}
+
+.landing-lead {
+  max-inline-size: 58ch;
+  color: var(--text-2);
+  font-size: 17px;
+  line-height: 28px;
+}
+
+/* Hero stage: a faint grid field, the phone, and two chips pinned over its edges. */
+.hero-stage {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--space-4) var(--space-6);
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px) 0 0 /
+    28px 28px,
+    linear-gradient(90deg, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px) 0
+    0 / 28px 28px,
+    var(--surface-1);
+}
+
+.phone {
+  inline-size: min(100%, 320px);
+  padding: 10px;
+  border-radius: 40px;
+  background: var(--surface-3);
+  box-shadow:
+    0 0 0 1px var(--line),
+    14px 14px 0 -2px color-mix(in srgb, var(--text-1) 14%, transparent);
+}
+
+.phone__screen {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-3) var(--space-5);
+  border-radius: 31px;
+  background: var(--bg);
+  color: var(--text-1);
+  overflow: hidden;
+}
+
+.phone__screen > * {
+  min-inline-size: 0;
+}
+
+.hero-phone__fork {
+  margin: calc(var(--space-8) * -1) calc(var(--space-3) * -1) 0;
+  padding: var(--space-3) var(--space-2) var(--space-2);
+  background: var(--warn);
+  color: #0a0a0f;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 14px;
+  text-align: center;
+}
+
+.hero-phone__title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.hero-phone__invest {
+  color: var(--accent-text);
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 700;
+}
+
+.hero-phone__slices {
+  display: grid;
+}
+
+.hero-phone__slices li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+  border-block-start: 1px solid var(--line);
+}
+
+.hero-phone__ticker {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.hero-phone__amount {
+  font-size: 13px;
+}
+
+.hero-chip {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-inline-size: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--text-1);
+  background: var(--surface-2);
+}
+
+.hero-chip--fair {
+  box-shadow: 6px 6px 0 0 var(--accent);
+}
+
+.hero-chip--waited {
+  box-shadow: 6px 6px 0 0 var(--warn);
+}
+
+.hero-chip__body {
+  display: grid;
+  gap: var(--space-1);
+  min-inline-size: 0;
+}
+
+.hero-chip__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.hero-stage__caption {
+  text-align: center;
+}
+
+/* Phones and tablets: the chips tuck under the phone's lower edge. */
+.hero-chip--fair {
+  justify-self: start;
+  margin-block-start: -36px;
+}
+
+.hero-chip--waited {
+  justify-self: end;
+}
+
+/* Desktop: the phone sits left in the stage and both chips break out over its right edge. */
+@media (min-width: 1024px) {
+  .hero-stage {
+    justify-items: start;
+    padding: var(--space-12) var(--space-6) var(--space-8);
+  }
+
+  .hero-stage .phone {
+    inline-size: 312px;
+  }
+
+  .hero-chip {
+    position: absolute;
+    inset-inline-start: calc(var(--space-6) + 312px - 26px);
+    max-inline-size: calc(100% - var(--space-6) - 312px + 18px);
+    margin: 0;
+    padding: var(--space-3);
+  }
+
+  .hero-chip--fair {
+    inset-block-start: 30%;
+  }
+
+  .hero-chip--waited {
+    inset-block-start: 58%;
+  }
+
+  .hero-stage__caption {
+    justify-self: stretch;
+    text-align: start;
+  }
+}
+
+/* The paycheck splits once, left to right, as the page opens. */
+@keyframes hero-seg-in {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.hero-phone .pr-split__seg {
+  transform-origin: left center;
+  animation: hero-seg-in var(--dur-deliberate) var(--ease-out) both;
+}
+
+.hero-phone .pr-split__seg:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.hero-phone .pr-split__seg:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.hero-phone .pr-split__seg:nth-child(4) {
+  animation-delay: 360ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-phone .pr-split__seg {
+    animation: none;
+  }
+}
+
+:root[data-motion="reduced"] .hero-phone .pr-split__seg {
+  animation: none;
+}
+
+/* Sections: heading left, lead right, on a 104 px rhythm from tablet up. */
+.landing-section {
+  display: grid;
+  gap: var(--space-10);
+  padding-block: var(--space-16);
+  border-block-start: 1px solid var(--line);
+}
+
+.split-heading {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.2vw, 56px);
+  line-height: 1.04;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+@media (min-width: 768px) {
+  .landing-section {
+    padding-block: 104px;
+    gap: var(--space-12);
+  }
+}
+
+@media (min-width: 1024px) {
+  .split-heading {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: end;
+    gap: var(--space-12);
+  }
+}
+
+/* Proof: the run's numbers, large, on a hairline grid. */
+.proof-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.proof-stats > div {
+  display: grid;
+  gap: var(--space-2);
+  align-content: space-between;
+  padding: var(--space-6);
+  background: var(--bg);
+}
+
+.proof-stats dt {
+  color: var(--text-2);
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.proof-stats dd {
+  font-family: var(--font-mono);
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.start-panel {
+  display: grid;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-6);
+  border: 2px solid var(--text-1);
+  background: var(--surface-1);
+  box-shadow: 8px 8px 0 0 var(--accent);
+}
+
+.start-panel > * {
+  min-inline-size: 0;
+}
+
+@media (min-width: 1024px) {
+  .start-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    padding: var(--space-12);
+    gap: var(--space-12);
+  }
+}
+
+.landing-hero > *,
+.landing-section > * {
+  min-inline-size: 0;
+}
+
+.start-panel > .stack {
+  align-content: start;
+}

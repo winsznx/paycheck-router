@@ -704,28 +704,44 @@ fieldset.stack {
 
 /* Public build before the mainnet deploy: every /app route (PRD 18.1). */
 .prelaunch__bar {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 40;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  padding: var(--space-4) max(var(--space-4), env(safe-area-inset-left));
+  min-block-size: 64px;
+  padding: var(--space-2) max(var(--gutter), env(safe-area-inset-left));
   border-block-end: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+}
+
+.prelaunch__bar a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
 }
 
 .prelaunch__brand {
-  display: inline-flex;
-  align-items: center;
   gap: var(--space-2);
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 800;
   color: inherit;
   text-decoration: none;
 }
 
-.prelaunch__main {
-  padding-block: var(--space-8) var(--space-12);
+.prelaunch__run {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  padding: var(--space-6);
+  border: 1px solid var(--line);
+  background: var(--surface-1);
 }
 
-.prelaunch .pr-display {
-  overflow-wrap: anywhere;
+.prelaunch__run .pr-code {
+  font-size: 18px;
 }

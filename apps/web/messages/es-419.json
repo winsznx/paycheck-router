@@ -633,7 +633,7 @@
     "verified": "Verificada",
     "unverified": "Sin verificar",
     "executed": "Comprada",
-    "paycheckLine": "De un sueldo de {inflow}, {invested} invertidos",
+    "paycheckLine": "De un sueldo de {inflow} con {invested} por invertir",
     "openSlice": "Abrir la prueba de esta porción",
     "sliceTitle": "Porción {sig}",
     "back": "Todas las pruebas",

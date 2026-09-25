@@ -4,8 +4,11 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ChainValue } from "@/components/chain-value.tsx";
 import { ProofLegCard } from "@/components/proof/proof-leg-card.tsx";
+import { CountUp } from "@/components/site/count-up.tsx";
+import { HeroPhone } from "@/components/site/hero-phone.tsx";
 import { CONTENT_ID } from "@/components/skip-link.tsx";
 import { fetchPublic } from "@/lib/api/public.ts";
+import { canonicalPaycheck } from "@/lib/canonical.ts";
 
 /** Proof numbers come from the live API; OpenNext's static cache can't revalidate them. */
 export const dynamic = "force-dynamic";
@@ -36,22 +39,29 @@ export default async function ProofPage({ params }: PageProps<"/[locale]/proof">
   setRequestLocale(locale);
   const t = await getTranslations("proof");
   const result = await fetchPublic("/proof", api.ProofResponse);
+  const canonical = result.ok ? canonicalPaycheck(result.data) : null;
 
   return (
-    <main id={CONTENT_ID} className="page stack-lg site-page">
-      <header className="stack reading">
-        <h1 className="pr-h1">{t("title")}</h1>
-        <p className="pr-body-l pr-muted">{t("lead")}</p>
-      </header>
+    <main id={CONTENT_ID} className="site-page">
+      <section className="page landing-hero" aria-labelledby="proof-title">
+        <div className="landing-hero__copy">
+          <h1 id="proof-title" className="landing-title">
+            {t("title")}
+          </h1>
+          <p className="landing-lead">{t("lead")}</p>
+          {result.ok && result.data.fork ? <Banner tone="info">{t("forkNotice")}</Banner> : null}
+        </div>
+        {canonical ? <HeroPhone paycheck={canonical} /> : null}
+      </section>
 
       {!result.ok ? (
-        <Banner tone="warn">{t("unavailable")}</Banner>
+        <div className="page">
+          <Banner tone="warn">{t("unavailable")}</Banner>
+        </div>
       ) : (
         <>
-          {result.data.fork ? <Banner tone="info">{t("forkNotice")}</Banner> : null}
-
-          <section className="stack" aria-labelledby="canonical-title">
-            <h2 id="canonical-title" className="pr-h2">
+          <section className="page landing-section" aria-labelledby="canonical-title">
+            <h2 id="canonical-title" className="section-title">
               {t("canonical")}
             </h2>
             {result.data.recentLegs[0] ? (
@@ -61,10 +71,30 @@ export default async function ProofPage({ params }: PageProps<"/[locale]/proof">
             )}
           </section>
 
-          <section className="stack" aria-labelledby="campaign-title">
-            <h2 id="campaign-title" className="pr-h2">
+          <section className="page landing-section" aria-labelledby="campaign-title">
+            <h2 id="campaign-title" className="section-title">
               {t("campaign")}
             </h2>
+            <dl className="proof-stats">
+              <div>
+                <dt>{t("paychecks")}</dt>
+                <dd>
+                  <CountUp value={result.data.campaign.paychecks} format="integer" />
+                </dd>
+              </div>
+              <div>
+                <dt>{t("slicesExecuted")}</dt>
+                <dd>
+                  <CountUp value={result.data.campaign.slicesExecuted} format="integer" />
+                </dd>
+              </div>
+              <div>
+                <dt>{t("slicesVerified")}</dt>
+                <dd>
+                  <CountUp value={result.data.campaign.slicesVerified} format="integer" />
+                </dd>
+              </div>
+            </dl>
             <Table
               caption={t("campaign")}
               columns={[
@@ -93,8 +123,8 @@ export default async function ProofPage({ params }: PageProps<"/[locale]/proof">
           </section>
 
           {result.data.recentLegs.length > 1 ? (
-            <section className="stack" aria-labelledby="recent-title">
-              <h2 id="recent-title" className="pr-h2">
+            <section className="page landing-section" aria-labelledby="recent-title">
+              <h2 id="recent-title" className="section-title">
                 {t("recent")}
               </h2>
               <ul className="card-list">
@@ -107,28 +137,30 @@ export default async function ProofPage({ params }: PageProps<"/[locale]/proof">
             </section>
           ) : null}
 
-          <section className="stack reading" aria-labelledby="verify-title">
-            <h2 id="verify-title" className="pr-h2">
+          <section className="page landing-section" aria-labelledby="verify-title">
+            <h2 id="verify-title" className="section-title">
               {t("verifyTitle")}
             </h2>
-            <p className="pr-body">{t("verifyBody")}</p>
-            <pre className="pr-code logs">npx @paycheck-router/verify &lt;signature&gt;</pre>
-            <pre className="pr-code logs">
-              npx @paycheck-router/verify --bundle evidence/stocklana-fork
-            </pre>
-            <p className="row pr-small">
-              <span className="pr-muted">{t("programId")}</span>
-              <ChainValue kind="own-program" value={result.data.programId} display="full" />
-            </p>
+            <div className="stack reading">
+              <p className="landing-lead">{t("verifyBody")}</p>
+              <pre className="pr-code logs">npx @paycheck-router/verify &lt;signature&gt;</pre>
+              <pre className="pr-code logs">
+                npx @paycheck-router/verify --bundle evidence/stocklana-fork
+              </pre>
+              <p className="row pr-small">
+                <span className="pr-muted">{t("programId")}</span>
+                <ChainValue kind="own-program" value={result.data.programId} display="full" />
+              </p>
+            </div>
           </section>
         </>
       )}
 
-      <section className="stack reading" aria-labelledby="mislead-title">
-        <h2 id="mislead-title" className="pr-h2">
+      <section className="page landing-section" aria-labelledby="mislead-title">
+        <h2 id="mislead-title" className="section-title">
           {t("misleadTitle")}
         </h2>
-        <ul className="stack bullet-list">
+        <ul className="stack bullet-list reading">
           <li className="pr-body">{t("mislead.sample")}</li>
           <li className="pr-body">{t("mislead.funding")}</li>
           <li className="pr-body">{t("mislead.market")}</li>

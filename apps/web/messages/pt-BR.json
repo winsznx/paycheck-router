@@ -633,7 +633,7 @@
     "verified": "Verificada",
     "unverified": "Não verificada",
     "executed": "Comprada",
-    "paycheckLine": "De um salário de {inflow}, {invested} investidos",
+    "paycheckLine": "De um salário de {inflow} com {invested} a investir",
     "openSlice": "Abrir a prova desta fatia",
     "sliceTitle": "Fatia {sig}",
     "back": "Todas as provas",
