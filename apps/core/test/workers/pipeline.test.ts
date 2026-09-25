@@ -103,6 +103,7 @@ class ScriptedEngine implements Engine {
           reason: "PREMIUM_TOO_HIGH",
           programErrorCode: 6022,
           attempts: [],
+          measured: { refPriceE9: 181_500_000_000n, premiumBps: 84 },
         });
         continue;
       }
@@ -201,6 +202,7 @@ describe("detection to verification", () => {
     const nvdax = paycheck?.legs.find((leg) => leg.mint === NVDAX);
     expect(nvdax?.status).toBe("waiting");
     expect(nvdax?.waitReason).toBe("PREMIUM_TOO_HIGH");
+    expect(nvdax).toMatchObject({ refPriceE9: "181500000000", premiumBps: 84 });
     expect(nvdax?.nextAttemptAt).not.toBeNull();
     const spyx = paycheck?.legs.find((leg) => leg.mint === SPYX);
     expect(spyx?.uiMultiplier).toBe("1.0009180758490996");
@@ -224,7 +226,12 @@ describe("detection to verification", () => {
     // Every transition reaches Supabase through the actor's outbox.
     const mirroredLegs = () =>
       db
-        .select({ mint: legs.assetMint, status: legs.status, waitReason: legs.waitReason })
+        .select({
+          mint: legs.assetMint,
+          status: legs.status,
+          waitReason: legs.waitReason,
+          premiumBps: legs.premiumBps,
+        })
         .from(legs)
         .innerJoin(paychecks, eq(paychecks.id, legs.paycheckId))
         .where(eq(paychecks.routerId, ref.routerId))
@@ -234,8 +241,8 @@ describe("detection to verification", () => {
       { timeout: 20_000, interval: 200 },
     );
     expect(await mirroredLegs()).toEqual([
-      { mint: SPYX, status: "verified", waitReason: null },
-      { mint: NVDAX, status: "waiting", waitReason: "PREMIUM_TOO_HIGH" },
+      { mint: SPYX, status: "verified", waitReason: null, premiumBps: 15 },
+      { mint: NVDAX, status: "waiting", waitReason: "PREMIUM_TOO_HIGH", premiumBps: 84 },
     ]);
     const [verification] = await db
       .select({ matches: verifications.matches })

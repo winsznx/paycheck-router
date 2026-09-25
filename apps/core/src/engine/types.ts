@@ -82,8 +82,13 @@ export type AttemptRecord = {
   cuUsed: number | null;
   priorityFeeLamports: bigint | null;
   quote: Record<string, unknown> | null;
+  /** The reference the attempt priced against and the premium its quote implied. */
+  reference: Record<string, unknown> | null;
   simLogs: readonly string[] | null;
 };
+
+/** What a waiting attempt measured: its quote against the reference it simulated with. */
+export type MeasuredPremium = { refPriceE9: bigint; premiumBps: number };
 
 export type ExecutedLeg = {
   signature: string;
@@ -107,6 +112,7 @@ export type LegOutcome =
       reason: WaitReason;
       programErrorCode: number | null;
       attempts: AttemptRecord[];
+      measured?: MeasuredPremium | null;
     }
   | { kind: "failed"; error: string; programErrorCode: number | null; attempts: AttemptRecord[] };
 

@@ -60,6 +60,7 @@ export type AttemptRow = {
   cuUsed: number | null;
   priorityFeeLamports: string | null;
   quote: Record<string, unknown> | null;
+  reference?: Record<string, unknown> | null;
 };
 
 export type VerificationRow = {
@@ -230,6 +231,7 @@ export async function applyMirror(db: Db, op: MirrorOp): Promise<void> {
             cuUsed: attempt.cuUsed,
             priorityFeeLamports: big(attempt.priorityFeeLamports),
             quote: attempt.quote,
+            reference: attempt.reference ?? null,
           })),
         )
         .onConflictDoNothing();

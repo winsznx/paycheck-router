@@ -121,6 +121,10 @@ export const ProofResponse = z.object({
           state: z.string(),
           waitReason: z.string().nullable(),
           verified: z.boolean(),
+          /** Executed: the fill's premium. Waiting: what the last attempt's quote implied. */
+          premiumBps: z.number().int().nullable().optional(),
+          refPriceE9: U64String.nullable().optional(),
+          premiumNote: z.string().nullable().optional(),
           findings: z.array(z.object({ name: z.string(), pass: z.boolean(), detail: z.string() })),
         }),
       ),

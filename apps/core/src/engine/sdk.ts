@@ -27,8 +27,10 @@ import {
   getRevokeInstruction,
 } from "@solana-program/token";
 import { routerPdaFor } from "../chain/accounts.ts";
+import { createChainClient } from "../chain/client.ts";
 import { hotSigner } from "../chain/keys.ts";
 import { LEG_STATUS } from "../chain/leg-status.ts";
+import { mintTerms } from "../chain/mints.ts";
 import { multiplierFromE12 } from "../chain/shares.ts";
 import { chainEndpoints } from "../config.ts";
 import { throughGate } from "../do/rate-gate.ts";
@@ -36,6 +38,7 @@ import { markBookFor } from "../do/stubs.ts";
 import type { Env } from "../env.ts";
 import { log } from "../log.ts";
 import { fromMarkState, toMarkState } from "./marks.ts";
+import { type AttemptPricing, type MeasuredQuote, measureQuote } from "./premium.ts";
 import type {
   AttemptRecord,
   BuiltTransaction,
@@ -78,7 +81,50 @@ function pendingLegOf(job: LegJob): sdk.PendingLeg {
   };
 }
 
-function attemptRecord(attempt: sdk.LegAttempt<Executed>, attemptNo: number): AttemptRecord {
+/** The quote and reference an attempt used, in the shape `measureQuote` reads. */
+function attemptPricing(attempt: sdk.LegAttempt<Executed>): AttemptPricing {
+  const quote = attempt.jupiter?.response;
+  return {
+    parsed: attempt.pricePosts?.hermes.response.parsed ?? [],
+    markPriceE9: attempt.attestation?.signed.attestation.markPriceE9 ?? null,
+    quotedIn: quote ? BigInt(quote.inAmount) : null,
+    quotedOut: quote ? BigInt(quote.outAmount) : null,
+  };
+}
+
+function measuredOf(
+  asset: sdk.PendingLeg["asset"],
+  attempt: sdk.LegAttempt<Executed>,
+  multiplierE12: bigint | null,
+): MeasuredQuote | null {
+  if (multiplierE12 === null) return null;
+  try {
+    return measureQuote(asset, attemptPricing(attempt), multiplierE12);
+  } catch (error) {
+    log.warn("could not measure the attempt's premium", { error });
+    return null;
+  }
+}
+
+function referenceRecord(measured: MeasuredQuote | null): Record<string, unknown> | null {
+  if (!measured) return null;
+  return {
+    source: measured.source,
+    refPriceE9: measured.refPriceE9.toString(),
+    usdcPriceE9: measured.usdcPriceE9.toString(),
+    quotedIn: measured.quotedIn.toString(),
+    quotedOut: measured.quotedOut.toString(),
+    multiplierE12: measured.multiplierE12.toString(),
+    premiumBps: measured.premiumBps,
+  };
+}
+
+function attemptRecord(
+  attempt: sdk.LegAttempt<Executed>,
+  attemptNo: number,
+  asset: sdk.PendingLeg["asset"],
+  multiplierE12: bigint | null,
+): AttemptRecord {
   const failure = attempt.failure;
   return {
     attemptNo,
@@ -99,6 +145,7 @@ function attemptRecord(attempt: sdk.LegAttempt<Executed>, attemptNo: number): At
           route: attempt.jupiter.response.routePlan.map((hop) => hop.swapInfo.label),
         }
       : null,
+    reference: referenceRecord(measuredOf(asset, attempt, multiplierE12)),
     simLogs: attempt.simulation?.logs ?? null,
   };
 }
@@ -114,8 +161,14 @@ function execPriceE9(event: Executed, decimals: number): bigint | null {
 }
 
 /** Maps one leg's run through the SDK pipeline to core's outcome. */
-function outcomeOf(job: LegJob, run: sdk.LegRun<Executed>): LegOutcome {
-  const records = run.attempts.map((attempt, i) => attemptRecord(attempt, job.attemptNo + i));
+function outcomeOf(
+  job: LegJob,
+  run: sdk.LegRun<Executed>,
+  multiplierE12: bigint | null,
+): LegOutcome {
+  const records = run.attempts.map((attempt, i) =>
+    attemptRecord(attempt, job.attemptNo + i, run.leg.asset, multiplierE12),
+  );
   const last = run.attempts.at(-1);
   if (last?.outcome === "executed" && last.event && last.signature) {
     const decimals = run.leg.asset.decimals;
@@ -143,7 +196,16 @@ function outcomeOf(job: LegJob, run: sdk.LegRun<Executed>): LegOutcome {
   }
   const programErrorCode = last?.failure?.kind === "program" ? last.failure.error.code : null;
   if (last?.outcome === "waiting" && last.waitReason) {
-    return { kind: "waiting", reason: last.waitReason, programErrorCode, attempts: records };
+    const measured = measuredOf(run.leg.asset, last, multiplierE12);
+    return {
+      kind: "waiting",
+      reason: last.waitReason,
+      programErrorCode,
+      attempts: records,
+      measured: measured
+        ? { refPriceE9: measured.refPriceE9, premiumBps: measured.premiumBps }
+        : null,
+    };
   }
   return {
     kind: "failed",
@@ -160,6 +222,7 @@ function outcomeOf(job: LegJob, run: sdk.LegRun<Executed>): LegOutcome {
 export function createSdkEngine(env: Env): Engine {
   const endpoints = chainEndpoints(env);
   const rpc = sdk.createRpc(endpoints.rpcUrl);
+  const chain = createChainClient(endpoints);
   const verifyRpc = sdk.createRpc(endpoints.verifyRpcUrl);
   const hermes: sdk.HermesOptions = {
     baseUrl: env.HERMES_URL,
@@ -378,7 +441,14 @@ export function createSdkEngine(env: Env): Engine {
               const job = byIndex.get(run.leg.legIndex);
               if (!job) return;
               reported.add(job.idx);
-              await hooks.outcome(job, outcomeOf(job, run));
+              const terms = await mintTerms(chain, [run.leg.asset.mint], new Date()).catch(
+                (error: unknown) => {
+                  log.warn("could not read the mint's multiplier", { error });
+                  return null;
+                },
+              );
+              const multiplierE12 = terms?.get(run.leg.asset.mint)?.multiplierE12 ?? null;
+              await hooks.outcome(job, outcomeOf(job, run, multiplierE12));
             },
           },
         );
@@ -401,6 +471,7 @@ export function createSdkEngine(env: Env): Engine {
                 cuUsed: null,
                 priorityFeeLamports: null,
                 quote: null,
+                reference: null,
                 simLogs: null,
               },
             ],
