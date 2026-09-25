@@ -86,6 +86,8 @@ export type ExecuteLegOwnerInstruction<
   TAccountJupiterProgram extends string | AccountMeta<string> = string,
   TAccountUsdcTokenProgram extends string | AccountMeta<string> = string,
   TAccountAssetTokenProgram extends string | AccountMeta<string> = string,
+  TAccountOwnerIntermediate extends string | AccountMeta<string> = string,
+  TAccountIntermediateMint extends string | AccountMeta<string> = string,
   TRemainingAccounts extends readonly AccountMeta<string>[] = [],
 > = Instruction<TProgram> &
   InstructionWithData<ReadonlyUint8Array> &
@@ -149,6 +151,12 @@ export type ExecuteLegOwnerInstruction<
       TAccountAssetTokenProgram extends string
         ? ReadonlyAccount<TAccountAssetTokenProgram>
         : TAccountAssetTokenProgram,
+      TAccountOwnerIntermediate extends string
+        ? WritableAccount<TAccountOwnerIntermediate>
+        : TAccountOwnerIntermediate,
+      TAccountIntermediateMint extends string
+        ? ReadonlyAccount<TAccountIntermediateMint>
+        : TAccountIntermediateMint,
       ...TRemainingAccounts,
     ]
   >;
@@ -224,6 +232,10 @@ export type ExecuteLegOwnerAsyncInput<
     InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput =
     InstructionAccountInput,
+  TAccountOwnerIntermediate extends InstructionAccountInput =
+    InstructionAccountInput,
+  TAccountIntermediateMint extends InstructionAccountInput =
+    InstructionAccountInput,
 > = {
   owner: TAccountOwner;
   config?: TAccountConfig;
@@ -244,6 +256,12 @@ export type ExecuteLegOwnerAsyncInput<
   jupiterProgram: TAccountJupiterProgram;
   usdcTokenProgram: TAccountUsdcTokenProgram;
   assetTokenProgram: TAccountAssetTokenProgram;
+  /**
+   * The owner's token account for the route's intermediate mint, when the
+   * route passes through one. Leftovers of that mint are swept here.
+   */
+  ownerIntermediate?: TAccountOwnerIntermediate;
+  intermediateMint?: TAccountIntermediateMint;
   legIndex: ExecuteLegOwnerInstructionDataArgs["legIndex"];
   bandBps: ExecuteLegOwnerInstructionDataArgs["bandBps"];
   swapData: ExecuteLegOwnerInstructionDataArgs["swapData"];
@@ -269,6 +287,8 @@ export async function getExecuteLegOwnerInstructionAsync<
   TAccountJupiterProgram extends InstructionAccountInput,
   TAccountUsdcTokenProgram extends InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput,
+  TAccountOwnerIntermediate extends InstructionAccountInput,
+  TAccountIntermediateMint extends InstructionAccountInput,
   TProgramAddress extends Address = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
 >(
   input: ExecuteLegOwnerAsyncInput<
@@ -290,7 +310,9 @@ export async function getExecuteLegOwnerInstructionAsync<
     TAccountUsdcPriceUpdate,
     TAccountJupiterProgram,
     TAccountUsdcTokenProgram,
-    TAccountAssetTokenProgram
+    TAccountAssetTokenProgram,
+    TAccountOwnerIntermediate,
+    TAccountIntermediateMint
   >,
   config?: { programAddress?: TProgramAddress },
 ): Promise<
@@ -371,6 +393,14 @@ export async function getExecuteLegOwnerInstructionAsync<
     ResolvedInstructionAccountMeta<
       TAccountAssetTokenProgram,
       InstructionAccountInputAddress<TAccountAssetTokenProgram>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountOwnerIntermediate,
+      InstructionAccountInputAddress<TAccountOwnerIntermediate>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountIntermediateMint,
+      InstructionAccountInputAddress<TAccountIntermediateMint>
     >
   >
 > {
@@ -458,6 +488,16 @@ export async function getExecuteLegOwnerInstructionAsync<
       isSigner: false,
       isWritable: false,
     },
+    ownerIntermediate: {
+      value: input.ownerIntermediate ?? null,
+      isSigner: false,
+      isWritable: true,
+    },
+    intermediateMint: {
+      value: input.intermediateMint ?? null,
+      isSigner: false,
+      isWritable: false,
+    },
   };
   const accounts = originalAccounts as Record<
     keyof typeof originalAccounts,
@@ -519,6 +559,8 @@ export async function getExecuteLegOwnerInstructionAsync<
       getAccountMeta("jupiterProgram", accounts.jupiterProgram),
       getAccountMeta("usdcTokenProgram", accounts.usdcTokenProgram),
       getAccountMeta("assetTokenProgram", accounts.assetTokenProgram),
+      getAccountMeta("ownerIntermediate", accounts.ownerIntermediate),
+      getAccountMeta("intermediateMint", accounts.intermediateMint),
     ],
     data: getExecuteLegOwnerInstructionDataEncoder().encode(
       args as ExecuteLegOwnerInstructionDataArgs,
@@ -601,6 +643,14 @@ export async function getExecuteLegOwnerInstructionAsync<
     ResolvedInstructionAccountMeta<
       TAccountAssetTokenProgram,
       InstructionAccountInputAddress<TAccountAssetTokenProgram>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountOwnerIntermediate,
+      InstructionAccountInputAddress<TAccountOwnerIntermediate>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountIntermediateMint,
+      InstructionAccountInputAddress<TAccountIntermediateMint>
     >
   >);
 }
@@ -632,6 +682,10 @@ export type ExecuteLegOwnerInput<
     InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput =
     InstructionAccountInput,
+  TAccountOwnerIntermediate extends InstructionAccountInput =
+    InstructionAccountInput,
+  TAccountIntermediateMint extends InstructionAccountInput =
+    InstructionAccountInput,
 > = {
   owner: TAccountOwner;
   config: TAccountConfig;
@@ -652,6 +706,12 @@ export type ExecuteLegOwnerInput<
   jupiterProgram: TAccountJupiterProgram;
   usdcTokenProgram: TAccountUsdcTokenProgram;
   assetTokenProgram: TAccountAssetTokenProgram;
+  /**
+   * The owner's token account for the route's intermediate mint, when the
+   * route passes through one. Leftovers of that mint are swept here.
+   */
+  ownerIntermediate?: TAccountOwnerIntermediate;
+  intermediateMint?: TAccountIntermediateMint;
   legIndex: ExecuteLegOwnerInstructionDataArgs["legIndex"];
   bandBps: ExecuteLegOwnerInstructionDataArgs["bandBps"];
   swapData: ExecuteLegOwnerInstructionDataArgs["swapData"];
@@ -677,6 +737,8 @@ export function getExecuteLegOwnerInstruction<
   TAccountJupiterProgram extends InstructionAccountInput,
   TAccountUsdcTokenProgram extends InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput,
+  TAccountOwnerIntermediate extends InstructionAccountInput,
+  TAccountIntermediateMint extends InstructionAccountInput,
   TProgramAddress extends Address = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
 >(
   input: ExecuteLegOwnerInput<
@@ -698,7 +760,9 @@ export function getExecuteLegOwnerInstruction<
     TAccountUsdcPriceUpdate,
     TAccountJupiterProgram,
     TAccountUsdcTokenProgram,
-    TAccountAssetTokenProgram
+    TAccountAssetTokenProgram,
+    TAccountOwnerIntermediate,
+    TAccountIntermediateMint
   >,
   config?: { programAddress?: TProgramAddress },
 ): ExecuteLegOwnerInstruction<
@@ -778,6 +842,14 @@ export function getExecuteLegOwnerInstruction<
   ResolvedInstructionAccountMeta<
     TAccountAssetTokenProgram,
     InstructionAccountInputAddress<TAccountAssetTokenProgram>
+  >,
+  ResolvedInstructionAccountMeta<
+    TAccountOwnerIntermediate,
+    InstructionAccountInputAddress<TAccountOwnerIntermediate>
+  >,
+  ResolvedInstructionAccountMeta<
+    TAccountIntermediateMint,
+    InstructionAccountInputAddress<TAccountIntermediateMint>
   >
 > {
   // Program address.
@@ -864,6 +936,16 @@ export function getExecuteLegOwnerInstruction<
       isSigner: false,
       isWritable: false,
     },
+    ownerIntermediate: {
+      value: input.ownerIntermediate ?? null,
+      isSigner: false,
+      isWritable: true,
+    },
+    intermediateMint: {
+      value: input.intermediateMint ?? null,
+      isSigner: false,
+      isWritable: false,
+    },
   };
   const accounts = originalAccounts as Record<
     keyof typeof originalAccounts,
@@ -900,6 +982,8 @@ export function getExecuteLegOwnerInstruction<
       getAccountMeta("jupiterProgram", accounts.jupiterProgram),
       getAccountMeta("usdcTokenProgram", accounts.usdcTokenProgram),
       getAccountMeta("assetTokenProgram", accounts.assetTokenProgram),
+      getAccountMeta("ownerIntermediate", accounts.ownerIntermediate),
+      getAccountMeta("intermediateMint", accounts.intermediateMint),
     ],
     data: getExecuteLegOwnerInstructionDataEncoder().encode(
       args as ExecuteLegOwnerInstructionDataArgs,
@@ -982,6 +1066,14 @@ export function getExecuteLegOwnerInstruction<
     ResolvedInstructionAccountMeta<
       TAccountAssetTokenProgram,
       InstructionAccountInputAddress<TAccountAssetTokenProgram>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountOwnerIntermediate,
+      InstructionAccountInputAddress<TAccountOwnerIntermediate>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountIntermediateMint,
+      InstructionAccountInputAddress<TAccountIntermediateMint>
     >
   >);
 }
@@ -1011,6 +1103,12 @@ export type ParsedExecuteLegOwnerInstruction<
     jupiterProgram: TAccountMetas[16];
     usdcTokenProgram: TAccountMetas[17];
     assetTokenProgram: TAccountMetas[18];
+    /**
+     * The owner's token account for the route's intermediate mint, when the
+     * route passes through one. Leftovers of that mint are swept here.
+     */
+    ownerIntermediate?: TAccountMetas[19] | undefined;
+    intermediateMint?: TAccountMetas[20] | undefined;
   };
   data: ExecuteLegOwnerInstructionData;
 };
@@ -1023,12 +1121,12 @@ export function parseExecuteLegOwnerInstruction<
     InstructionWithAccounts<TAccountMetas> &
     InstructionWithData<ReadonlyUint8Array>,
 ): ParsedExecuteLegOwnerInstruction<TProgram, TAccountMetas> {
-  if (instruction.accounts.length < 19) {
+  if (instruction.accounts.length < 21) {
     throw new SolanaError(
       SOLANA_ERROR__PROGRAM_CLIENTS__INSUFFICIENT_ACCOUNT_METAS,
       {
         actualAccountMetas: instruction.accounts.length,
-        expectedAccountMetas: 19,
+        expectedAccountMetas: 21,
       },
     );
   }
@@ -1066,6 +1164,8 @@ export function parseExecuteLegOwnerInstruction<
       jupiterProgram: getNextAccount(),
       usdcTokenProgram: getNextAccount(),
       assetTokenProgram: getNextAccount(),
+      ownerIntermediate: getNextOptionalAccount(),
+      intermediateMint: getNextOptionalAccount(),
     },
     data: getExecuteLegOwnerInstructionDataDecoder().decode(instruction.data),
   };

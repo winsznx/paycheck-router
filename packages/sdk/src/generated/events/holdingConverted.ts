@@ -43,6 +43,7 @@ export type HoldingConvertedEvent = {
   targetMint: Address;
   amountIn: bigint;
   outAmount: bigint;
+  issuerFee: bigint;
   minOut: bigint;
   ratioNum: bigint;
   ratioDen: bigint;
@@ -55,6 +56,7 @@ export type HoldingConvertedEventArgs = {
   targetMint: Address;
   amountIn: number | bigint;
   outAmount: number | bigint;
+  issuerFee: number | bigint;
   minOut: number | bigint;
   ratioNum: number | bigint;
   ratioDen: number | bigint;
@@ -70,6 +72,7 @@ export function getHoldingConvertedEventEncoder(): FixedSizeEncoder<HoldingConve
       ["targetMint", getAddressEncoder()],
       ["amountIn", getU64Encoder()],
       ["outAmount", getU64Encoder()],
+      ["issuerFee", getU64Encoder()],
       ["minOut", getU64Encoder()],
       ["ratioNum", getU64Encoder()],
       ["ratioDen", getU64Encoder()],
@@ -88,6 +91,7 @@ export function getHoldingConvertedEventDecoder(): FixedSizeDecoder<HoldingConve
       ["targetMint", getAddressDecoder()],
       ["amountIn", getU64Decoder()],
       ["outAmount", getU64Decoder()],
+      ["issuerFee", getU64Decoder()],
       ["minOut", getU64Decoder()],
       ["ratioNum", getU64Decoder()],
       ["ratioDen", getU64Decoder()],

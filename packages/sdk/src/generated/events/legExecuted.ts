@@ -68,8 +68,13 @@ export type LegExecutedEvent = {
   destination: Address;
   amountIn: bigint;
   fee: bigint;
+  /** USDC handed to the route: amount_in less the fee. */
   swappedIn: bigint;
+  /** USDC the route actually spent: swapped_in less dust_returned. */
+  usdcConsumed: bigint;
   dustReturned: bigint;
+  /** Intermediate-mint leftovers swept to the owner's intermediate account. */
+  intermediateReturned: bigint;
   outAmount: bigint;
   issuerFee: bigint;
   minOut: bigint;
@@ -93,8 +98,13 @@ export type LegExecutedEventArgs = {
   destination: Address;
   amountIn: number | bigint;
   fee: number | bigint;
+  /** USDC handed to the route: amount_in less the fee. */
   swappedIn: number | bigint;
+  /** USDC the route actually spent: swapped_in less dust_returned. */
+  usdcConsumed: number | bigint;
   dustReturned: number | bigint;
+  /** Intermediate-mint leftovers swept to the owner's intermediate account. */
+  intermediateReturned: number | bigint;
   outAmount: number | bigint;
   issuerFee: number | bigint;
   minOut: number | bigint;
@@ -122,7 +132,9 @@ export function getLegExecutedEventEncoder(): Encoder<LegExecutedEventArgs> {
       ["amountIn", getU64Encoder()],
       ["fee", getU64Encoder()],
       ["swappedIn", getU64Encoder()],
+      ["usdcConsumed", getU64Encoder()],
       ["dustReturned", getU64Encoder()],
+      ["intermediateReturned", getU64Encoder()],
       ["outAmount", getU64Encoder()],
       ["issuerFee", getU64Encoder()],
       ["minOut", getU64Encoder()],
@@ -153,7 +165,9 @@ export function getLegExecutedEventDecoder(): Decoder<LegExecutedEvent> {
       ["amountIn", getU64Decoder()],
       ["fee", getU64Decoder()],
       ["swappedIn", getU64Decoder()],
+      ["usdcConsumed", getU64Decoder()],
       ["dustReturned", getU64Decoder()],
+      ["intermediateReturned", getU64Decoder()],
       ["outAmount", getU64Decoder()],
       ["issuerFee", getU64Decoder()],
       ["minOut", getU64Decoder()],

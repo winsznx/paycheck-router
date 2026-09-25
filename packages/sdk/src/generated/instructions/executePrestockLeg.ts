@@ -74,6 +74,8 @@ export type ExecutePrestockLegInstruction<
   TAccountJupiterProgram extends string | AccountMeta<string> = string,
   TAccountUsdcTokenProgram extends string | AccountMeta<string> = string,
   TAccountAssetTokenProgram extends string | AccountMeta<string> = string,
+  TAccountOwnerIntermediate extends string | AccountMeta<string> = string,
+  TAccountIntermediateMint extends string | AccountMeta<string> = string,
   TRemainingAccounts extends readonly AccountMeta<string>[] = [],
 > = Instruction<TProgram> &
   InstructionWithData<ReadonlyUint8Array> &
@@ -127,6 +129,12 @@ export type ExecutePrestockLegInstruction<
       TAccountAssetTokenProgram extends string
         ? ReadonlyAccount<TAccountAssetTokenProgram>
         : TAccountAssetTokenProgram,
+      TAccountOwnerIntermediate extends string
+        ? WritableAccount<TAccountOwnerIntermediate>
+        : TAccountOwnerIntermediate,
+      TAccountIntermediateMint extends string
+        ? ReadonlyAccount<TAccountIntermediateMint>
+        : TAccountIntermediateMint,
       ...TRemainingAccounts,
     ]
   >;
@@ -197,6 +205,10 @@ export type ExecutePrestockLegAsyncInput<
     InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput =
     InstructionAccountInput,
+  TAccountOwnerIntermediate extends InstructionAccountInput =
+    InstructionAccountInput,
+  TAccountIntermediateMint extends InstructionAccountInput =
+    InstructionAccountInput,
 > = {
   config?: TAccountConfig;
   router: TAccountRouter;
@@ -214,6 +226,12 @@ export type ExecutePrestockLegAsyncInput<
   jupiterProgram: TAccountJupiterProgram;
   usdcTokenProgram: TAccountUsdcTokenProgram;
   assetTokenProgram: TAccountAssetTokenProgram;
+  /**
+   * The owner's token account for the route's intermediate mint, when the
+   * route passes through one. Leftovers of that mint are swept here.
+   */
+  ownerIntermediate?: TAccountOwnerIntermediate;
+  intermediateMint?: TAccountIntermediateMint;
   legIndex: ExecutePrestockLegInstructionDataArgs["legIndex"];
   swapData: ExecutePrestockLegInstructionDataArgs["swapData"];
 };
@@ -235,6 +253,8 @@ export async function getExecutePrestockLegInstructionAsync<
   TAccountJupiterProgram extends InstructionAccountInput,
   TAccountUsdcTokenProgram extends InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput,
+  TAccountOwnerIntermediate extends InstructionAccountInput,
+  TAccountIntermediateMint extends InstructionAccountInput,
   TProgramAddress extends Address = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
 >(
   input: ExecutePrestockLegAsyncInput<
@@ -253,7 +273,9 @@ export async function getExecutePrestockLegInstructionAsync<
     TAccountUsdcPriceUpdate,
     TAccountJupiterProgram,
     TAccountUsdcTokenProgram,
-    TAccountAssetTokenProgram
+    TAccountAssetTokenProgram,
+    TAccountOwnerIntermediate,
+    TAccountIntermediateMint
   >,
   config?: { programAddress?: TProgramAddress },
 ): Promise<
@@ -322,6 +344,14 @@ export async function getExecutePrestockLegInstructionAsync<
     ResolvedInstructionAccountMeta<
       TAccountAssetTokenProgram,
       InstructionAccountInputAddress<TAccountAssetTokenProgram>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountOwnerIntermediate,
+      InstructionAccountInputAddress<TAccountOwnerIntermediate>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountIntermediateMint,
+      InstructionAccountInputAddress<TAccountIntermediateMint>
     >
   >
 > {
@@ -398,6 +428,16 @@ export async function getExecutePrestockLegInstructionAsync<
       isSigner: false,
       isWritable: false,
     },
+    ownerIntermediate: {
+      value: input.ownerIntermediate ?? null,
+      isSigner: false,
+      isWritable: true,
+    },
+    intermediateMint: {
+      value: input.intermediateMint ?? null,
+      isSigner: false,
+      isWritable: false,
+    },
   };
   const accounts = originalAccounts as Record<
     keyof typeof originalAccounts,
@@ -445,6 +485,8 @@ export async function getExecutePrestockLegInstructionAsync<
       getAccountMeta("jupiterProgram", accounts.jupiterProgram),
       getAccountMeta("usdcTokenProgram", accounts.usdcTokenProgram),
       getAccountMeta("assetTokenProgram", accounts.assetTokenProgram),
+      getAccountMeta("ownerIntermediate", accounts.ownerIntermediate),
+      getAccountMeta("intermediateMint", accounts.intermediateMint),
     ],
     data: getExecutePrestockLegInstructionDataEncoder().encode(
       args as ExecutePrestockLegInstructionDataArgs,
@@ -515,6 +557,14 @@ export async function getExecutePrestockLegInstructionAsync<
     ResolvedInstructionAccountMeta<
       TAccountAssetTokenProgram,
       InstructionAccountInputAddress<TAccountAssetTokenProgram>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountOwnerIntermediate,
+      InstructionAccountInputAddress<TAccountOwnerIntermediate>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountIntermediateMint,
+      InstructionAccountInputAddress<TAccountIntermediateMint>
     >
   >);
 }
@@ -542,6 +592,10 @@ export type ExecutePrestockLegInput<
     InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput =
     InstructionAccountInput,
+  TAccountOwnerIntermediate extends InstructionAccountInput =
+    InstructionAccountInput,
+  TAccountIntermediateMint extends InstructionAccountInput =
+    InstructionAccountInput,
 > = {
   config: TAccountConfig;
   router: TAccountRouter;
@@ -559,6 +613,12 @@ export type ExecutePrestockLegInput<
   jupiterProgram: TAccountJupiterProgram;
   usdcTokenProgram: TAccountUsdcTokenProgram;
   assetTokenProgram: TAccountAssetTokenProgram;
+  /**
+   * The owner's token account for the route's intermediate mint, when the
+   * route passes through one. Leftovers of that mint are swept here.
+   */
+  ownerIntermediate?: TAccountOwnerIntermediate;
+  intermediateMint?: TAccountIntermediateMint;
   legIndex: ExecutePrestockLegInstructionDataArgs["legIndex"];
   swapData: ExecutePrestockLegInstructionDataArgs["swapData"];
 };
@@ -580,6 +640,8 @@ export function getExecutePrestockLegInstruction<
   TAccountJupiterProgram extends InstructionAccountInput,
   TAccountUsdcTokenProgram extends InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput,
+  TAccountOwnerIntermediate extends InstructionAccountInput,
+  TAccountIntermediateMint extends InstructionAccountInput,
   TProgramAddress extends Address = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
 >(
   input: ExecutePrestockLegInput<
@@ -598,7 +660,9 @@ export function getExecutePrestockLegInstruction<
     TAccountUsdcPriceUpdate,
     TAccountJupiterProgram,
     TAccountUsdcTokenProgram,
-    TAccountAssetTokenProgram
+    TAccountAssetTokenProgram,
+    TAccountOwnerIntermediate,
+    TAccountIntermediateMint
   >,
   config?: { programAddress?: TProgramAddress },
 ): ExecutePrestockLegInstruction<
@@ -666,6 +730,14 @@ export function getExecutePrestockLegInstruction<
   ResolvedInstructionAccountMeta<
     TAccountAssetTokenProgram,
     InstructionAccountInputAddress<TAccountAssetTokenProgram>
+  >,
+  ResolvedInstructionAccountMeta<
+    TAccountOwnerIntermediate,
+    InstructionAccountInputAddress<TAccountOwnerIntermediate>
+  >,
+  ResolvedInstructionAccountMeta<
+    TAccountIntermediateMint,
+    InstructionAccountInputAddress<TAccountIntermediateMint>
   >
 > {
   // Program address.
@@ -741,6 +813,16 @@ export function getExecutePrestockLegInstruction<
       isSigner: false,
       isWritable: false,
     },
+    ownerIntermediate: {
+      value: input.ownerIntermediate ?? null,
+      isSigner: false,
+      isWritable: true,
+    },
+    intermediateMint: {
+      value: input.intermediateMint ?? null,
+      isSigner: false,
+      isWritable: false,
+    },
   };
   const accounts = originalAccounts as Record<
     keyof typeof originalAccounts,
@@ -774,6 +856,8 @@ export function getExecutePrestockLegInstruction<
       getAccountMeta("jupiterProgram", accounts.jupiterProgram),
       getAccountMeta("usdcTokenProgram", accounts.usdcTokenProgram),
       getAccountMeta("assetTokenProgram", accounts.assetTokenProgram),
+      getAccountMeta("ownerIntermediate", accounts.ownerIntermediate),
+      getAccountMeta("intermediateMint", accounts.intermediateMint),
     ],
     data: getExecutePrestockLegInstructionDataEncoder().encode(
       args as ExecutePrestockLegInstructionDataArgs,
@@ -844,6 +928,14 @@ export function getExecutePrestockLegInstruction<
     ResolvedInstructionAccountMeta<
       TAccountAssetTokenProgram,
       InstructionAccountInputAddress<TAccountAssetTokenProgram>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountOwnerIntermediate,
+      InstructionAccountInputAddress<TAccountOwnerIntermediate>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountIntermediateMint,
+      InstructionAccountInputAddress<TAccountIntermediateMint>
     >
   >);
 }
@@ -870,6 +962,12 @@ export type ParsedExecutePrestockLegInstruction<
     jupiterProgram: TAccountMetas[13];
     usdcTokenProgram: TAccountMetas[14];
     assetTokenProgram: TAccountMetas[15];
+    /**
+     * The owner's token account for the route's intermediate mint, when the
+     * route passes through one. Leftovers of that mint are swept here.
+     */
+    ownerIntermediate?: TAccountMetas[16] | undefined;
+    intermediateMint?: TAccountMetas[17] | undefined;
   };
   data: ExecutePrestockLegInstructionData;
 };
@@ -882,12 +980,12 @@ export function parseExecutePrestockLegInstruction<
     InstructionWithAccounts<TAccountMetas> &
     InstructionWithData<ReadonlyUint8Array>,
 ): ParsedExecutePrestockLegInstruction<TProgram, TAccountMetas> {
-  if (instruction.accounts.length < 16) {
+  if (instruction.accounts.length < 18) {
     throw new SolanaError(
       SOLANA_ERROR__PROGRAM_CLIENTS__INSUFFICIENT_ACCOUNT_METAS,
       {
         actualAccountMetas: instruction.accounts.length,
-        expectedAccountMetas: 16,
+        expectedAccountMetas: 18,
       },
     );
   }
@@ -896,6 +994,12 @@ export function parseExecutePrestockLegInstruction<
     const accountMeta = (instruction.accounts as TAccountMetas)[accountIndex]!;
     accountIndex += 1;
     return accountMeta;
+  };
+  const getNextOptionalAccount = () => {
+    const accountMeta = getNextAccount();
+    return accountMeta.address === PAYCHECK_ROUTER_PROGRAM_ADDRESS
+      ? undefined
+      : accountMeta;
   };
   return {
     programAddress: instruction.programAddress,
@@ -916,6 +1020,8 @@ export function parseExecutePrestockLegInstruction<
       jupiterProgram: getNextAccount(),
       usdcTokenProgram: getNextAccount(),
       assetTokenProgram: getNextAccount(),
+      ownerIntermediate: getNextOptionalAccount(),
+      intermediateMint: getNextOptionalAccount(),
     },
     data: getExecutePrestockLegInstructionDataDecoder().decode(
       instruction.data,

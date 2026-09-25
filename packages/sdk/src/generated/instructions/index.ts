@@ -9,6 +9,7 @@
 export * from "./cancelLeg.ts";
 export * from "./closePaycheck.ts";
 export * from "./closeRouter.ts";
+export * from "./convertHolding.ts";
 export * from "./createRouter.ts";
 export * from "./emergencyPause.ts";
 export * from "./executeLeg.ts";
@@ -21,6 +22,7 @@ export * from "./setAssetStatus.ts";
 export * from "./setGlobalPause.ts";
 export * from "./setRouterPaused.ts";
 export * from "./skipInflow.ts";
+export * from "./swapGuarded.ts";
 export * from "./syncWatermark.ts";
 export * from "./updateConfig.ts";
 export * from "./updateRouter.ts";

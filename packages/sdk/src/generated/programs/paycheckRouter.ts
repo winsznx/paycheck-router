@@ -52,6 +52,7 @@ import {
   getCancelLegInstructionAsync,
   getClosePaycheckInstruction,
   getCloseRouterInstructionAsync,
+  getConvertHoldingInstructionAsync,
   getCreateRouterInstructionAsync,
   getEmergencyPauseInstructionAsync,
   getExecuteLegInstructionAsync,
@@ -64,6 +65,7 @@ import {
   getSetGlobalPauseInstructionAsync,
   getSetRouterPausedInstructionAsync,
   getSkipInflowInstruction,
+  getSwapGuardedInstructionAsync,
   getSyncWatermarkInstruction,
   getUpdateConfigInstructionAsync,
   getUpdateRouterInstructionAsync,
@@ -71,6 +73,7 @@ import {
   parseCancelLegInstruction,
   parseClosePaycheckInstruction,
   parseCloseRouterInstruction,
+  parseConvertHoldingInstruction,
   parseCreateRouterInstruction,
   parseEmergencyPauseInstruction,
   parseExecuteLegInstruction,
@@ -83,6 +86,7 @@ import {
   parseSetGlobalPauseInstruction,
   parseSetRouterPausedInstruction,
   parseSkipInflowInstruction,
+  parseSwapGuardedInstruction,
   parseSyncWatermarkInstruction,
   parseUpdateConfigInstruction,
   parseUpdateRouterInstruction,
@@ -90,6 +94,7 @@ import {
   type CancelLegAsyncInput,
   type ClosePaycheckInput,
   type CloseRouterAsyncInput,
+  type ConvertHoldingAsyncInput,
   type CreateRouterAsyncInput,
   type EmergencyPauseAsyncInput,
   type ExecuteLegAsyncInput,
@@ -100,6 +105,7 @@ import {
   type ParsedCancelLegInstruction,
   type ParsedClosePaycheckInstruction,
   type ParsedCloseRouterInstruction,
+  type ParsedConvertHoldingInstruction,
   type ParsedCreateRouterInstruction,
   type ParsedEmergencyPauseInstruction,
   type ParsedExecuteLegInstruction,
@@ -112,6 +118,7 @@ import {
   type ParsedSetGlobalPauseInstruction,
   type ParsedSetRouterPausedInstruction,
   type ParsedSkipInflowInstruction,
+  type ParsedSwapGuardedInstruction,
   type ParsedSyncWatermarkInstruction,
   type ParsedUpdateConfigInstruction,
   type ParsedUpdateRouterInstruction,
@@ -121,6 +128,7 @@ import {
   type SetGlobalPauseAsyncInput,
   type SetRouterPausedAsyncInput,
   type SkipInflowInput,
+  type SwapGuardedAsyncInput,
   type SyncWatermarkInput,
   type UpdateConfigAsyncInput,
   type UpdateRouterAsyncInput,
@@ -393,6 +401,7 @@ export enum PaycheckRouterInstruction {
   CancelLeg,
   ClosePaycheck,
   CloseRouter,
+  ConvertHolding,
   CreateRouter,
   EmergencyPause,
   ExecuteLeg,
@@ -405,6 +414,7 @@ export enum PaycheckRouterInstruction {
   SetGlobalPause,
   SetRouterPaused,
   SkipInflow,
+  SwapGuarded,
   SyncWatermark,
   UpdateConfig,
   UpdateRouter,
@@ -447,6 +457,17 @@ export function identifyPaycheckRouterInstruction(
     )
   ) {
     return PaycheckRouterInstruction.CloseRouter;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([154, 91, 19, 202, 37, 130, 76, 188]),
+      ),
+      0,
+    )
+  ) {
+    return PaycheckRouterInstruction.ConvertHolding;
   }
   if (
     containsBytes(
@@ -584,6 +605,17 @@ export function identifyPaycheckRouterInstruction(
     containsBytes(
       data,
       fixEncoderSize(getBytesEncoder(), 8).encode(
+        new Uint8Array([238, 241, 44, 95, 219, 31, 2, 212]),
+      ),
+      0,
+    )
+  ) {
+    return PaycheckRouterInstruction.SwapGuarded;
+  }
+  if (
+    containsBytes(
+      data,
+      fixEncoderSize(getBytesEncoder(), 8).encode(
         new Uint8Array([245, 200, 201, 29, 54, 238, 98, 158]),
       ),
       0,
@@ -643,6 +675,9 @@ export type ParsedPaycheckRouterInstruction<
       instructionType: PaycheckRouterInstruction.CloseRouter;
     } & ParsedCloseRouterInstruction<TProgram>)
   | ({
+      instructionType: PaycheckRouterInstruction.ConvertHolding;
+    } & ParsedConvertHoldingInstruction<TProgram>)
+  | ({
       instructionType: PaycheckRouterInstruction.CreateRouter;
     } & ParsedCreateRouterInstruction<TProgram>)
   | ({
@@ -678,6 +713,9 @@ export type ParsedPaycheckRouterInstruction<
   | ({
       instructionType: PaycheckRouterInstruction.SkipInflow;
     } & ParsedSkipInflowInstruction<TProgram>)
+  | ({
+      instructionType: PaycheckRouterInstruction.SwapGuarded;
+    } & ParsedSwapGuardedInstruction<TProgram>)
   | ({
       instructionType: PaycheckRouterInstruction.SyncWatermark;
     } & ParsedSyncWatermarkInstruction<TProgram>)
@@ -715,6 +753,13 @@ export function parsePaycheckRouterInstruction<TProgram extends string>(
       return {
         instructionType: PaycheckRouterInstruction.CloseRouter,
         ...parseCloseRouterInstruction(instruction),
+      };
+    }
+    case PaycheckRouterInstruction.ConvertHolding: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: PaycheckRouterInstruction.ConvertHolding,
+        ...parseConvertHoldingInstruction(instruction),
       };
     }
     case PaycheckRouterInstruction.CreateRouter: {
@@ -801,6 +846,13 @@ export function parsePaycheckRouterInstruction<TProgram extends string>(
         ...parseSkipInflowInstruction(instruction),
       };
     }
+    case PaycheckRouterInstruction.SwapGuarded: {
+      assertIsInstructionWithAccounts(instruction);
+      return {
+        instructionType: PaycheckRouterInstruction.SwapGuarded,
+        ...parseSwapGuardedInstruction(instruction),
+      };
+    }
     case PaycheckRouterInstruction.SyncWatermark: {
       assertIsInstructionWithAccounts(instruction);
       return {
@@ -873,6 +925,10 @@ export type PaycheckRouterPluginInstructions = {
     input: CloseRouterAsyncInput,
   ) => ReturnType<typeof getCloseRouterInstructionAsync> &
     SelfPlanAndSendFunctions;
+  convertHolding: (
+    input: ConvertHoldingAsyncInput,
+  ) => ReturnType<typeof getConvertHoldingInstructionAsync> &
+    SelfPlanAndSendFunctions;
   createRouter: (
     input: MakeOptional<CreateRouterAsyncInput, "payer">,
   ) => ReturnType<typeof getCreateRouterInstructionAsync> &
@@ -919,6 +975,10 @@ export type PaycheckRouterPluginInstructions = {
   skipInflow: (
     input: SkipInflowInput,
   ) => ReturnType<typeof getSkipInflowInstruction> & SelfPlanAndSendFunctions;
+  swapGuarded: (
+    input: SwapGuardedAsyncInput,
+  ) => ReturnType<typeof getSwapGuardedInstructionAsync> &
+    SelfPlanAndSendFunctions;
   syncWatermark: (
     input: SyncWatermarkInput,
   ) => ReturnType<typeof getSyncWatermarkInstruction> &
@@ -978,6 +1038,11 @@ export function paycheckRouterProgram() {
             addSelfPlanAndSendFunctions(
               client,
               getCloseRouterInstructionAsync(input),
+            ),
+          convertHolding: (input) =>
+            addSelfPlanAndSendFunctions(
+              client,
+              getConvertHoldingInstructionAsync(input),
             ),
           createRouter: (input) =>
             addSelfPlanAndSendFunctions(
@@ -1041,6 +1106,11 @@ export function paycheckRouterProgram() {
             addSelfPlanAndSendFunctions(
               client,
               getSkipInflowInstruction(input),
+            ),
+          swapGuarded: (input) =>
+            addSelfPlanAndSendFunctions(
+              client,
+              getSwapGuardedInstructionAsync(input),
             ),
           syncWatermark: (input) =>
             addSelfPlanAndSendFunctions(

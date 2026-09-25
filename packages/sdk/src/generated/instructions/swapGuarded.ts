@@ -16,14 +16,17 @@ import {
   getBytesEncoder,
   getStructDecoder,
   getStructEncoder,
+  getU16Decoder,
+  getU16Encoder,
   getU32Decoder,
   getU32Encoder,
-  getU8Decoder,
-  getU8Encoder,
+  getU64Decoder,
+  getU64Encoder,
   SOLANA_ERROR__PROGRAM_CLIENTS__INSUFFICIENT_ACCOUNT_METAS,
   SolanaError,
   transformEncoder,
   type AccountMeta,
+  type AccountSignerMeta,
   type Address,
   type Codec,
   type Decoder,
@@ -32,6 +35,7 @@ import {
   type InstructionWithAccounts,
   type InstructionWithData,
   type ReadonlyAccount,
+  type ReadonlySignerAccount,
   type ReadonlyUint8Array,
   type WritableAccount,
 } from "@solana/kit";
@@ -40,35 +44,51 @@ import {
   getAddressFromResolvedInstructionAccount,
   type InstructionAccountInput,
   type InstructionAccountInputAddress,
+  type InstructionSignerInput,
   type ResolvedInstructionAccount,
   type ResolvedInstructionAccountMeta,
 } from "@solana/kit/program-client-core";
-import { findAuthorityPda, findConfigPda } from "../pdas/index.ts";
+import {
+  findAuthorityPda,
+  findConfigPda,
+  findRouterPda,
+} from "../pdas/index.ts";
 import { PAYCHECK_ROUTER_PROGRAM_ADDRESS } from "../programs/index.ts";
+import {
+  getSwapSideDecoder,
+  getSwapSideEncoder,
+  type SwapSide,
+  type SwapSideArgs,
+} from "../types/index.ts";
 
-export const EXECUTE_LEG_DISCRIMINATOR: ReadonlyUint8Array = new Uint8Array([
-  157, 202, 139, 249, 134, 122, 161, 102,
+export const SWAP_GUARDED_DISCRIMINATOR: ReadonlyUint8Array = new Uint8Array([
+  238, 241, 44, 95, 219, 31, 2, 212,
 ]);
 
-export function getExecuteLegDiscriminatorBytes(): ReadonlyUint8Array {
-  return fixEncoderSize(getBytesEncoder(), 8).encode(EXECUTE_LEG_DISCRIMINATOR);
+export function getSwapGuardedDiscriminatorBytes(): ReadonlyUint8Array {
+  return fixEncoderSize(getBytesEncoder(), 8).encode(
+    SWAP_GUARDED_DISCRIMINATOR,
+  );
 }
 
-export type ExecuteLegInstruction<
+export type SwapGuardedInstruction<
   TProgram extends string = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
+  TAccountOwner extends string | AccountMeta<string> = string,
   TAccountConfig extends string | AccountMeta<string> = string,
   TAccountRouter extends string | AccountMeta<string> = string,
-  TAccountPaycheck extends string | AccountMeta<string> = string,
   TAccountAsset extends string | AccountMeta<string> = string,
   TAccountAuthority extends string | AccountMeta<string> = string,
   TAccountPayIn extends string | AccountMeta<string> = string,
   TAccountAuthorityUsdc extends string | AccountMeta<string> = string,
+  TAccountOwnerAsset extends string | AccountMeta<string> = string,
+  TAccountAuthorityAsset extends string | AccountMeta<string> = string,
   TAccountTreasury extends string | AccountMeta<string> = string,
   TAccountUsdcMint extends string | AccountMeta<string> = string,
-  TAccountDestination extends string | AccountMeta<string> = string,
   TAccountAssetMint extends string | AccountMeta<string> = string,
   TAccountPriceUpdate extends string | AccountMeta<string> = string,
   TAccountPriceUpdate247 extends string | AccountMeta<string> = string,
+  TAccountInstructionsSysvar extends string | AccountMeta<string> =
+    "Sysvar1nstructions1111111111111111111111111",
   TAccountUsdcPriceUpdate extends string | AccountMeta<string> = string,
   TAccountJupiterProgram extends string | AccountMeta<string> = string,
   TAccountUsdcTokenProgram extends string | AccountMeta<string> = string,
@@ -80,15 +100,16 @@ export type ExecuteLegInstruction<
   InstructionWithData<ReadonlyUint8Array> &
   InstructionWithAccounts<
     [
+      TAccountOwner extends string
+        ? ReadonlySignerAccount<TAccountOwner> &
+            AccountSignerMeta<TAccountOwner>
+        : TAccountOwner,
       TAccountConfig extends string
         ? ReadonlyAccount<TAccountConfig>
         : TAccountConfig,
       TAccountRouter extends string
         ? WritableAccount<TAccountRouter>
         : TAccountRouter,
-      TAccountPaycheck extends string
-        ? WritableAccount<TAccountPaycheck>
-        : TAccountPaycheck,
       TAccountAsset extends string
         ? ReadonlyAccount<TAccountAsset>
         : TAccountAsset,
@@ -101,15 +122,18 @@ export type ExecuteLegInstruction<
       TAccountAuthorityUsdc extends string
         ? WritableAccount<TAccountAuthorityUsdc>
         : TAccountAuthorityUsdc,
+      TAccountOwnerAsset extends string
+        ? WritableAccount<TAccountOwnerAsset>
+        : TAccountOwnerAsset,
+      TAccountAuthorityAsset extends string
+        ? WritableAccount<TAccountAuthorityAsset>
+        : TAccountAuthorityAsset,
       TAccountTreasury extends string
         ? WritableAccount<TAccountTreasury>
         : TAccountTreasury,
       TAccountUsdcMint extends string
         ? ReadonlyAccount<TAccountUsdcMint>
         : TAccountUsdcMint,
-      TAccountDestination extends string
-        ? WritableAccount<TAccountDestination>
-        : TAccountDestination,
       TAccountAssetMint extends string
         ? ReadonlyAccount<TAccountAssetMint>
         : TAccountAssetMint,
@@ -119,6 +143,9 @@ export type ExecuteLegInstruction<
       TAccountPriceUpdate247 extends string
         ? ReadonlyAccount<TAccountPriceUpdate247>
         : TAccountPriceUpdate247,
+      TAccountInstructionsSysvar extends string
+        ? ReadonlyAccount<TAccountInstructionsSysvar>
+        : TAccountInstructionsSysvar,
       TAccountUsdcPriceUpdate extends string
         ? ReadonlyAccount<TAccountUsdcPriceUpdate>
         : TAccountUsdcPriceUpdate,
@@ -141,61 +168,75 @@ export type ExecuteLegInstruction<
     ]
   >;
 
-export type ExecuteLegInstructionData = {
+export type SwapGuardedInstructionData = {
   discriminator: ReadonlyUint8Array;
-  legIndex: number;
+  side: SwapSide;
+  /** USDC base units for a buy, raw asset units for a sell. */
+  amountIn: bigint;
+  bandBps: number;
   swapData: ReadonlyUint8Array;
 };
 
-export type ExecuteLegInstructionDataArgs = {
-  legIndex: number;
+export type SwapGuardedInstructionDataArgs = {
+  side: SwapSideArgs;
+  /** USDC base units for a buy, raw asset units for a sell. */
+  amountIn: number | bigint;
+  bandBps: number;
   swapData: ReadonlyUint8Array;
 };
 
-export function getExecuteLegInstructionDataEncoder(): Encoder<ExecuteLegInstructionDataArgs> {
+export function getSwapGuardedInstructionDataEncoder(): Encoder<SwapGuardedInstructionDataArgs> {
   return transformEncoder(
     getStructEncoder([
       ["discriminator", fixEncoderSize(getBytesEncoder(), 8)],
-      ["legIndex", getU8Encoder()],
+      ["side", getSwapSideEncoder()],
+      ["amountIn", getU64Encoder()],
+      ["bandBps", getU16Encoder()],
       ["swapData", addEncoderSizePrefix(getBytesEncoder(), getU32Encoder())],
     ]),
-    (value) => ({ ...value, discriminator: EXECUTE_LEG_DISCRIMINATOR }),
+    (value) => ({ ...value, discriminator: SWAP_GUARDED_DISCRIMINATOR }),
   );
 }
 
-export function getExecuteLegInstructionDataDecoder(): Decoder<ExecuteLegInstructionData> {
+export function getSwapGuardedInstructionDataDecoder(): Decoder<SwapGuardedInstructionData> {
   return getStructDecoder([
     ["discriminator", fixDecoderSize(getBytesDecoder(), 8)],
-    ["legIndex", getU8Decoder()],
+    ["side", getSwapSideDecoder()],
+    ["amountIn", getU64Decoder()],
+    ["bandBps", getU16Decoder()],
     ["swapData", addDecoderSizePrefix(getBytesDecoder(), getU32Decoder())],
   ]);
 }
 
-export function getExecuteLegInstructionDataCodec(): Codec<
-  ExecuteLegInstructionDataArgs,
-  ExecuteLegInstructionData
+export function getSwapGuardedInstructionDataCodec(): Codec<
+  SwapGuardedInstructionDataArgs,
+  SwapGuardedInstructionData
 > {
   return combineCodec(
-    getExecuteLegInstructionDataEncoder(),
-    getExecuteLegInstructionDataDecoder(),
+    getSwapGuardedInstructionDataEncoder(),
+    getSwapGuardedInstructionDataDecoder(),
   );
 }
 
-export type ExecuteLegAsyncInput<
+export type SwapGuardedAsyncInput<
+  TAccountOwner extends InstructionSignerInput = InstructionSignerInput,
   TAccountConfig extends InstructionAccountInput = InstructionAccountInput,
   TAccountRouter extends InstructionAccountInput = InstructionAccountInput,
-  TAccountPaycheck extends InstructionAccountInput = InstructionAccountInput,
   TAccountAsset extends InstructionAccountInput = InstructionAccountInput,
   TAccountAuthority extends InstructionAccountInput = InstructionAccountInput,
   TAccountPayIn extends InstructionAccountInput = InstructionAccountInput,
   TAccountAuthorityUsdc extends InstructionAccountInput =
     InstructionAccountInput,
+  TAccountOwnerAsset extends InstructionAccountInput = InstructionAccountInput,
+  TAccountAuthorityAsset extends InstructionAccountInput =
+    InstructionAccountInput,
   TAccountTreasury extends InstructionAccountInput = InstructionAccountInput,
   TAccountUsdcMint extends InstructionAccountInput = InstructionAccountInput,
-  TAccountDestination extends InstructionAccountInput = InstructionAccountInput,
   TAccountAssetMint extends InstructionAccountInput = InstructionAccountInput,
   TAccountPriceUpdate extends InstructionAccountInput = InstructionAccountInput,
   TAccountPriceUpdate247 extends InstructionAccountInput =
+    InstructionAccountInput,
+  TAccountInstructionsSysvar extends InstructionAccountInput =
     InstructionAccountInput,
   TAccountUsdcPriceUpdate extends InstructionAccountInput =
     InstructionAccountInput,
@@ -210,20 +251,22 @@ export type ExecuteLegAsyncInput<
   TAccountIntermediateMint extends InstructionAccountInput =
     InstructionAccountInput,
 > = {
+  owner: TAccountOwner;
   config?: TAccountConfig;
-  router: TAccountRouter;
-  paycheck: TAccountPaycheck;
+  router?: TAccountRouter;
   asset: TAccountAsset;
   authority?: TAccountAuthority;
   payIn: TAccountPayIn;
   authorityUsdc: TAccountAuthorityUsdc;
+  /** The owner's account for the asset: destination on a buy, source on a sell. */
+  ownerAsset: TAccountOwnerAsset;
+  authorityAsset: TAccountAuthorityAsset;
   treasury: TAccountTreasury;
   usdcMint: TAccountUsdcMint;
-  destination: TAccountDestination;
   assetMint: TAccountAssetMint;
-  /** verification level, feed and age are checked in the handler. */
-  priceUpdate: TAccountPriceUpdate;
+  priceUpdate?: TAccountPriceUpdate;
   priceUpdate247?: TAccountPriceUpdate247;
+  instructionsSysvar?: TAccountInstructionsSysvar;
   usdcPriceUpdate: TAccountUsdcPriceUpdate;
   jupiterProgram: TAccountJupiterProgram;
   usdcTokenProgram: TAccountUsdcTokenProgram;
@@ -234,24 +277,28 @@ export type ExecuteLegAsyncInput<
    */
   ownerIntermediate?: TAccountOwnerIntermediate;
   intermediateMint?: TAccountIntermediateMint;
-  legIndex: ExecuteLegInstructionDataArgs["legIndex"];
-  swapData: ExecuteLegInstructionDataArgs["swapData"];
+  side: SwapGuardedInstructionDataArgs["side"];
+  amountIn: SwapGuardedInstructionDataArgs["amountIn"];
+  bandBps: SwapGuardedInstructionDataArgs["bandBps"];
+  swapData: SwapGuardedInstructionDataArgs["swapData"];
 };
 
-export async function getExecuteLegInstructionAsync<
+export async function getSwapGuardedInstructionAsync<
+  TAccountOwner extends InstructionSignerInput,
   TAccountConfig extends InstructionAccountInput,
   TAccountRouter extends InstructionAccountInput,
-  TAccountPaycheck extends InstructionAccountInput,
   TAccountAsset extends InstructionAccountInput,
   TAccountAuthority extends InstructionAccountInput,
   TAccountPayIn extends InstructionAccountInput,
   TAccountAuthorityUsdc extends InstructionAccountInput,
+  TAccountOwnerAsset extends InstructionAccountInput,
+  TAccountAuthorityAsset extends InstructionAccountInput,
   TAccountTreasury extends InstructionAccountInput,
   TAccountUsdcMint extends InstructionAccountInput,
-  TAccountDestination extends InstructionAccountInput,
   TAccountAssetMint extends InstructionAccountInput,
   TAccountPriceUpdate extends InstructionAccountInput,
   TAccountPriceUpdate247 extends InstructionAccountInput,
+  TAccountInstructionsSysvar extends InstructionAccountInput,
   TAccountUsdcPriceUpdate extends InstructionAccountInput,
   TAccountJupiterProgram extends InstructionAccountInput,
   TAccountUsdcTokenProgram extends InstructionAccountInput,
@@ -260,20 +307,22 @@ export async function getExecuteLegInstructionAsync<
   TAccountIntermediateMint extends InstructionAccountInput,
   TProgramAddress extends Address = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
 >(
-  input: ExecuteLegAsyncInput<
+  input: SwapGuardedAsyncInput<
+    TAccountOwner,
     TAccountConfig,
     TAccountRouter,
-    TAccountPaycheck,
     TAccountAsset,
     TAccountAuthority,
     TAccountPayIn,
     TAccountAuthorityUsdc,
+    TAccountOwnerAsset,
+    TAccountAuthorityAsset,
     TAccountTreasury,
     TAccountUsdcMint,
-    TAccountDestination,
     TAccountAssetMint,
     TAccountPriceUpdate,
     TAccountPriceUpdate247,
+    TAccountInstructionsSysvar,
     TAccountUsdcPriceUpdate,
     TAccountJupiterProgram,
     TAccountUsdcTokenProgram,
@@ -283,8 +332,12 @@ export async function getExecuteLegInstructionAsync<
   >,
   config?: { programAddress?: TProgramAddress },
 ): Promise<
-  ExecuteLegInstruction<
+  SwapGuardedInstruction<
     TProgramAddress,
+    ResolvedInstructionAccountMeta<
+      TAccountOwner,
+      InstructionAccountInputAddress<TAccountOwner>
+    >,
     ResolvedInstructionAccountMeta<
       TAccountConfig,
       InstructionAccountInputAddress<TAccountConfig>
@@ -292,10 +345,6 @@ export async function getExecuteLegInstructionAsync<
     ResolvedInstructionAccountMeta<
       TAccountRouter,
       InstructionAccountInputAddress<TAccountRouter>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountPaycheck,
-      InstructionAccountInputAddress<TAccountPaycheck>
     >,
     ResolvedInstructionAccountMeta<
       TAccountAsset,
@@ -314,16 +363,20 @@ export async function getExecuteLegInstructionAsync<
       InstructionAccountInputAddress<TAccountAuthorityUsdc>
     >,
     ResolvedInstructionAccountMeta<
+      TAccountOwnerAsset,
+      InstructionAccountInputAddress<TAccountOwnerAsset>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountAuthorityAsset,
+      InstructionAccountInputAddress<TAccountAuthorityAsset>
+    >,
+    ResolvedInstructionAccountMeta<
       TAccountTreasury,
       InstructionAccountInputAddress<TAccountTreasury>
     >,
     ResolvedInstructionAccountMeta<
       TAccountUsdcMint,
       InstructionAccountInputAddress<TAccountUsdcMint>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountDestination,
-      InstructionAccountInputAddress<TAccountDestination>
     >,
     ResolvedInstructionAccountMeta<
       TAccountAssetMint,
@@ -336,6 +389,10 @@ export async function getExecuteLegInstructionAsync<
     ResolvedInstructionAccountMeta<
       TAccountPriceUpdate247,
       InstructionAccountInputAddress<TAccountPriceUpdate247>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountInstructionsSysvar,
+      InstructionAccountInputAddress<TAccountInstructionsSysvar>
     >,
     ResolvedInstructionAccountMeta<
       TAccountUsdcPriceUpdate,
@@ -372,13 +429,9 @@ export async function getExecuteLegInstructionAsync<
 
   // Original accounts.
   const originalAccounts = {
+    owner: { value: input.owner ?? null, isSigner: true, isWritable: false },
     config: { value: input.config ?? null, isSigner: false, isWritable: false },
     router: { value: input.router ?? null, isSigner: false, isWritable: true },
-    paycheck: {
-      value: input.paycheck ?? null,
-      isSigner: false,
-      isWritable: true,
-    },
     asset: { value: input.asset ?? null, isSigner: false, isWritable: false },
     authority: {
       value: input.authority ?? null,
@@ -388,6 +441,16 @@ export async function getExecuteLegInstructionAsync<
     payIn: { value: input.payIn ?? null, isSigner: false, isWritable: true },
     authorityUsdc: {
       value: input.authorityUsdc ?? null,
+      isSigner: false,
+      isWritable: true,
+    },
+    ownerAsset: {
+      value: input.ownerAsset ?? null,
+      isSigner: false,
+      isWritable: true,
+    },
+    authorityAsset: {
+      value: input.authorityAsset ?? null,
       isSigner: false,
       isWritable: true,
     },
@@ -401,11 +464,6 @@ export async function getExecuteLegInstructionAsync<
       isSigner: false,
       isWritable: false,
     },
-    destination: {
-      value: input.destination ?? null,
-      isSigner: false,
-      isWritable: true,
-    },
     assetMint: {
       value: input.assetMint ?? null,
       isSigner: false,
@@ -418,6 +476,11 @@ export async function getExecuteLegInstructionAsync<
     },
     priceUpdate247: {
       value: input.priceUpdate247 ?? null,
+      isSigner: false,
+      isWritable: false,
+    },
+    instructionsSysvar: {
+      value: input.instructionsSysvar ?? null,
       isSigner: false,
       isWritable: false,
     },
@@ -464,6 +527,17 @@ export async function getExecuteLegInstructionAsync<
   if (!accounts.config.value) {
     accounts.config.value = await findConfigPda({ programAddress });
   }
+  if (!accounts.router.value) {
+    accounts.router.value = await findRouterPda(
+      {
+        owner: getAddressFromResolvedInstructionAccount(
+          "owner",
+          accounts.owner.value,
+        ),
+      },
+      { programAddress },
+    );
+  }
   if (!accounts.authority.value) {
     accounts.authority.value = await findAuthorityPda(
       {
@@ -475,22 +549,28 @@ export async function getExecuteLegInstructionAsync<
       { programAddress },
     );
   }
+  if (!accounts.instructionsSysvar.value) {
+    accounts.instructionsSysvar.value =
+      "Sysvar1nstructions1111111111111111111111111" as Address<"Sysvar1nstructions1111111111111111111111111">;
+  }
 
   return Object.freeze({
     accounts: [
+      getAccountMeta("owner", accounts.owner),
       getAccountMeta("config", accounts.config),
       getAccountMeta("router", accounts.router),
-      getAccountMeta("paycheck", accounts.paycheck),
       getAccountMeta("asset", accounts.asset),
       getAccountMeta("authority", accounts.authority),
       getAccountMeta("payIn", accounts.payIn),
       getAccountMeta("authorityUsdc", accounts.authorityUsdc),
+      getAccountMeta("ownerAsset", accounts.ownerAsset),
+      getAccountMeta("authorityAsset", accounts.authorityAsset),
       getAccountMeta("treasury", accounts.treasury),
       getAccountMeta("usdcMint", accounts.usdcMint),
-      getAccountMeta("destination", accounts.destination),
       getAccountMeta("assetMint", accounts.assetMint),
       getAccountMeta("priceUpdate", accounts.priceUpdate),
       getAccountMeta("priceUpdate247", accounts.priceUpdate247),
+      getAccountMeta("instructionsSysvar", accounts.instructionsSysvar),
       getAccountMeta("usdcPriceUpdate", accounts.usdcPriceUpdate),
       getAccountMeta("jupiterProgram", accounts.jupiterProgram),
       getAccountMeta("usdcTokenProgram", accounts.usdcTokenProgram),
@@ -498,12 +578,16 @@ export async function getExecuteLegInstructionAsync<
       getAccountMeta("ownerIntermediate", accounts.ownerIntermediate),
       getAccountMeta("intermediateMint", accounts.intermediateMint),
     ],
-    data: getExecuteLegInstructionDataEncoder().encode(
-      args as ExecuteLegInstructionDataArgs,
+    data: getSwapGuardedInstructionDataEncoder().encode(
+      args as SwapGuardedInstructionDataArgs,
     ),
     programAddress,
-  } as ExecuteLegInstruction<
+  } as SwapGuardedInstruction<
     TProgramAddress,
+    ResolvedInstructionAccountMeta<
+      TAccountOwner,
+      InstructionAccountInputAddress<TAccountOwner>
+    >,
     ResolvedInstructionAccountMeta<
       TAccountConfig,
       InstructionAccountInputAddress<TAccountConfig>
@@ -511,10 +595,6 @@ export async function getExecuteLegInstructionAsync<
     ResolvedInstructionAccountMeta<
       TAccountRouter,
       InstructionAccountInputAddress<TAccountRouter>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountPaycheck,
-      InstructionAccountInputAddress<TAccountPaycheck>
     >,
     ResolvedInstructionAccountMeta<
       TAccountAsset,
@@ -533,16 +613,20 @@ export async function getExecuteLegInstructionAsync<
       InstructionAccountInputAddress<TAccountAuthorityUsdc>
     >,
     ResolvedInstructionAccountMeta<
+      TAccountOwnerAsset,
+      InstructionAccountInputAddress<TAccountOwnerAsset>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountAuthorityAsset,
+      InstructionAccountInputAddress<TAccountAuthorityAsset>
+    >,
+    ResolvedInstructionAccountMeta<
       TAccountTreasury,
       InstructionAccountInputAddress<TAccountTreasury>
     >,
     ResolvedInstructionAccountMeta<
       TAccountUsdcMint,
       InstructionAccountInputAddress<TAccountUsdcMint>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountDestination,
-      InstructionAccountInputAddress<TAccountDestination>
     >,
     ResolvedInstructionAccountMeta<
       TAccountAssetMint,
@@ -555,6 +639,10 @@ export async function getExecuteLegInstructionAsync<
     ResolvedInstructionAccountMeta<
       TAccountPriceUpdate247,
       InstructionAccountInputAddress<TAccountPriceUpdate247>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountInstructionsSysvar,
+      InstructionAccountInputAddress<TAccountInstructionsSysvar>
     >,
     ResolvedInstructionAccountMeta<
       TAccountUsdcPriceUpdate,
@@ -583,21 +671,25 @@ export async function getExecuteLegInstructionAsync<
   >);
 }
 
-export type ExecuteLegInput<
+export type SwapGuardedInput<
+  TAccountOwner extends InstructionSignerInput = InstructionSignerInput,
   TAccountConfig extends InstructionAccountInput = InstructionAccountInput,
   TAccountRouter extends InstructionAccountInput = InstructionAccountInput,
-  TAccountPaycheck extends InstructionAccountInput = InstructionAccountInput,
   TAccountAsset extends InstructionAccountInput = InstructionAccountInput,
   TAccountAuthority extends InstructionAccountInput = InstructionAccountInput,
   TAccountPayIn extends InstructionAccountInput = InstructionAccountInput,
   TAccountAuthorityUsdc extends InstructionAccountInput =
     InstructionAccountInput,
+  TAccountOwnerAsset extends InstructionAccountInput = InstructionAccountInput,
+  TAccountAuthorityAsset extends InstructionAccountInput =
+    InstructionAccountInput,
   TAccountTreasury extends InstructionAccountInput = InstructionAccountInput,
   TAccountUsdcMint extends InstructionAccountInput = InstructionAccountInput,
-  TAccountDestination extends InstructionAccountInput = InstructionAccountInput,
   TAccountAssetMint extends InstructionAccountInput = InstructionAccountInput,
   TAccountPriceUpdate extends InstructionAccountInput = InstructionAccountInput,
   TAccountPriceUpdate247 extends InstructionAccountInput =
+    InstructionAccountInput,
+  TAccountInstructionsSysvar extends InstructionAccountInput =
     InstructionAccountInput,
   TAccountUsdcPriceUpdate extends InstructionAccountInput =
     InstructionAccountInput,
@@ -612,20 +704,22 @@ export type ExecuteLegInput<
   TAccountIntermediateMint extends InstructionAccountInput =
     InstructionAccountInput,
 > = {
+  owner: TAccountOwner;
   config: TAccountConfig;
   router: TAccountRouter;
-  paycheck: TAccountPaycheck;
   asset: TAccountAsset;
   authority: TAccountAuthority;
   payIn: TAccountPayIn;
   authorityUsdc: TAccountAuthorityUsdc;
+  /** The owner's account for the asset: destination on a buy, source on a sell. */
+  ownerAsset: TAccountOwnerAsset;
+  authorityAsset: TAccountAuthorityAsset;
   treasury: TAccountTreasury;
   usdcMint: TAccountUsdcMint;
-  destination: TAccountDestination;
   assetMint: TAccountAssetMint;
-  /** verification level, feed and age are checked in the handler. */
-  priceUpdate: TAccountPriceUpdate;
+  priceUpdate?: TAccountPriceUpdate;
   priceUpdate247?: TAccountPriceUpdate247;
+  instructionsSysvar?: TAccountInstructionsSysvar;
   usdcPriceUpdate: TAccountUsdcPriceUpdate;
   jupiterProgram: TAccountJupiterProgram;
   usdcTokenProgram: TAccountUsdcTokenProgram;
@@ -636,24 +730,28 @@ export type ExecuteLegInput<
    */
   ownerIntermediate?: TAccountOwnerIntermediate;
   intermediateMint?: TAccountIntermediateMint;
-  legIndex: ExecuteLegInstructionDataArgs["legIndex"];
-  swapData: ExecuteLegInstructionDataArgs["swapData"];
+  side: SwapGuardedInstructionDataArgs["side"];
+  amountIn: SwapGuardedInstructionDataArgs["amountIn"];
+  bandBps: SwapGuardedInstructionDataArgs["bandBps"];
+  swapData: SwapGuardedInstructionDataArgs["swapData"];
 };
 
-export function getExecuteLegInstruction<
+export function getSwapGuardedInstruction<
+  TAccountOwner extends InstructionSignerInput,
   TAccountConfig extends InstructionAccountInput,
   TAccountRouter extends InstructionAccountInput,
-  TAccountPaycheck extends InstructionAccountInput,
   TAccountAsset extends InstructionAccountInput,
   TAccountAuthority extends InstructionAccountInput,
   TAccountPayIn extends InstructionAccountInput,
   TAccountAuthorityUsdc extends InstructionAccountInput,
+  TAccountOwnerAsset extends InstructionAccountInput,
+  TAccountAuthorityAsset extends InstructionAccountInput,
   TAccountTreasury extends InstructionAccountInput,
   TAccountUsdcMint extends InstructionAccountInput,
-  TAccountDestination extends InstructionAccountInput,
   TAccountAssetMint extends InstructionAccountInput,
   TAccountPriceUpdate extends InstructionAccountInput,
   TAccountPriceUpdate247 extends InstructionAccountInput,
+  TAccountInstructionsSysvar extends InstructionAccountInput,
   TAccountUsdcPriceUpdate extends InstructionAccountInput,
   TAccountJupiterProgram extends InstructionAccountInput,
   TAccountUsdcTokenProgram extends InstructionAccountInput,
@@ -662,20 +760,22 @@ export function getExecuteLegInstruction<
   TAccountIntermediateMint extends InstructionAccountInput,
   TProgramAddress extends Address = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
 >(
-  input: ExecuteLegInput<
+  input: SwapGuardedInput<
+    TAccountOwner,
     TAccountConfig,
     TAccountRouter,
-    TAccountPaycheck,
     TAccountAsset,
     TAccountAuthority,
     TAccountPayIn,
     TAccountAuthorityUsdc,
+    TAccountOwnerAsset,
+    TAccountAuthorityAsset,
     TAccountTreasury,
     TAccountUsdcMint,
-    TAccountDestination,
     TAccountAssetMint,
     TAccountPriceUpdate,
     TAccountPriceUpdate247,
+    TAccountInstructionsSysvar,
     TAccountUsdcPriceUpdate,
     TAccountJupiterProgram,
     TAccountUsdcTokenProgram,
@@ -684,8 +784,12 @@ export function getExecuteLegInstruction<
     TAccountIntermediateMint
   >,
   config?: { programAddress?: TProgramAddress },
-): ExecuteLegInstruction<
+): SwapGuardedInstruction<
   TProgramAddress,
+  ResolvedInstructionAccountMeta<
+    TAccountOwner,
+    InstructionAccountInputAddress<TAccountOwner>
+  >,
   ResolvedInstructionAccountMeta<
     TAccountConfig,
     InstructionAccountInputAddress<TAccountConfig>
@@ -693,10 +797,6 @@ export function getExecuteLegInstruction<
   ResolvedInstructionAccountMeta<
     TAccountRouter,
     InstructionAccountInputAddress<TAccountRouter>
-  >,
-  ResolvedInstructionAccountMeta<
-    TAccountPaycheck,
-    InstructionAccountInputAddress<TAccountPaycheck>
   >,
   ResolvedInstructionAccountMeta<
     TAccountAsset,
@@ -715,16 +815,20 @@ export function getExecuteLegInstruction<
     InstructionAccountInputAddress<TAccountAuthorityUsdc>
   >,
   ResolvedInstructionAccountMeta<
+    TAccountOwnerAsset,
+    InstructionAccountInputAddress<TAccountOwnerAsset>
+  >,
+  ResolvedInstructionAccountMeta<
+    TAccountAuthorityAsset,
+    InstructionAccountInputAddress<TAccountAuthorityAsset>
+  >,
+  ResolvedInstructionAccountMeta<
     TAccountTreasury,
     InstructionAccountInputAddress<TAccountTreasury>
   >,
   ResolvedInstructionAccountMeta<
     TAccountUsdcMint,
     InstructionAccountInputAddress<TAccountUsdcMint>
-  >,
-  ResolvedInstructionAccountMeta<
-    TAccountDestination,
-    InstructionAccountInputAddress<TAccountDestination>
   >,
   ResolvedInstructionAccountMeta<
     TAccountAssetMint,
@@ -737,6 +841,10 @@ export function getExecuteLegInstruction<
   ResolvedInstructionAccountMeta<
     TAccountPriceUpdate247,
     InstructionAccountInputAddress<TAccountPriceUpdate247>
+  >,
+  ResolvedInstructionAccountMeta<
+    TAccountInstructionsSysvar,
+    InstructionAccountInputAddress<TAccountInstructionsSysvar>
   >,
   ResolvedInstructionAccountMeta<
     TAccountUsdcPriceUpdate,
@@ -772,13 +880,9 @@ export function getExecuteLegInstruction<
 
   // Original accounts.
   const originalAccounts = {
+    owner: { value: input.owner ?? null, isSigner: true, isWritable: false },
     config: { value: input.config ?? null, isSigner: false, isWritable: false },
     router: { value: input.router ?? null, isSigner: false, isWritable: true },
-    paycheck: {
-      value: input.paycheck ?? null,
-      isSigner: false,
-      isWritable: true,
-    },
     asset: { value: input.asset ?? null, isSigner: false, isWritable: false },
     authority: {
       value: input.authority ?? null,
@@ -788,6 +892,16 @@ export function getExecuteLegInstruction<
     payIn: { value: input.payIn ?? null, isSigner: false, isWritable: true },
     authorityUsdc: {
       value: input.authorityUsdc ?? null,
+      isSigner: false,
+      isWritable: true,
+    },
+    ownerAsset: {
+      value: input.ownerAsset ?? null,
+      isSigner: false,
+      isWritable: true,
+    },
+    authorityAsset: {
+      value: input.authorityAsset ?? null,
       isSigner: false,
       isWritable: true,
     },
@@ -801,11 +915,6 @@ export function getExecuteLegInstruction<
       isSigner: false,
       isWritable: false,
     },
-    destination: {
-      value: input.destination ?? null,
-      isSigner: false,
-      isWritable: true,
-    },
     assetMint: {
       value: input.assetMint ?? null,
       isSigner: false,
@@ -818,6 +927,11 @@ export function getExecuteLegInstruction<
     },
     priceUpdate247: {
       value: input.priceUpdate247 ?? null,
+      isSigner: false,
+      isWritable: false,
+    },
+    instructionsSysvar: {
+      value: input.instructionsSysvar ?? null,
       isSigner: false,
       isWritable: false,
     },
@@ -860,21 +974,29 @@ export function getExecuteLegInstruction<
   // Original args.
   const args = { ...input };
 
+  // Resolve default values.
+  if (!accounts.instructionsSysvar.value) {
+    accounts.instructionsSysvar.value =
+      "Sysvar1nstructions1111111111111111111111111" as Address<"Sysvar1nstructions1111111111111111111111111">;
+  }
+
   return Object.freeze({
     accounts: [
+      getAccountMeta("owner", accounts.owner),
       getAccountMeta("config", accounts.config),
       getAccountMeta("router", accounts.router),
-      getAccountMeta("paycheck", accounts.paycheck),
       getAccountMeta("asset", accounts.asset),
       getAccountMeta("authority", accounts.authority),
       getAccountMeta("payIn", accounts.payIn),
       getAccountMeta("authorityUsdc", accounts.authorityUsdc),
+      getAccountMeta("ownerAsset", accounts.ownerAsset),
+      getAccountMeta("authorityAsset", accounts.authorityAsset),
       getAccountMeta("treasury", accounts.treasury),
       getAccountMeta("usdcMint", accounts.usdcMint),
-      getAccountMeta("destination", accounts.destination),
       getAccountMeta("assetMint", accounts.assetMint),
       getAccountMeta("priceUpdate", accounts.priceUpdate),
       getAccountMeta("priceUpdate247", accounts.priceUpdate247),
+      getAccountMeta("instructionsSysvar", accounts.instructionsSysvar),
       getAccountMeta("usdcPriceUpdate", accounts.usdcPriceUpdate),
       getAccountMeta("jupiterProgram", accounts.jupiterProgram),
       getAccountMeta("usdcTokenProgram", accounts.usdcTokenProgram),
@@ -882,12 +1004,16 @@ export function getExecuteLegInstruction<
       getAccountMeta("ownerIntermediate", accounts.ownerIntermediate),
       getAccountMeta("intermediateMint", accounts.intermediateMint),
     ],
-    data: getExecuteLegInstructionDataEncoder().encode(
-      args as ExecuteLegInstructionDataArgs,
+    data: getSwapGuardedInstructionDataEncoder().encode(
+      args as SwapGuardedInstructionDataArgs,
     ),
     programAddress,
-  } as ExecuteLegInstruction<
+  } as SwapGuardedInstruction<
     TProgramAddress,
+    ResolvedInstructionAccountMeta<
+      TAccountOwner,
+      InstructionAccountInputAddress<TAccountOwner>
+    >,
     ResolvedInstructionAccountMeta<
       TAccountConfig,
       InstructionAccountInputAddress<TAccountConfig>
@@ -895,10 +1021,6 @@ export function getExecuteLegInstruction<
     ResolvedInstructionAccountMeta<
       TAccountRouter,
       InstructionAccountInputAddress<TAccountRouter>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountPaycheck,
-      InstructionAccountInputAddress<TAccountPaycheck>
     >,
     ResolvedInstructionAccountMeta<
       TAccountAsset,
@@ -917,16 +1039,20 @@ export function getExecuteLegInstruction<
       InstructionAccountInputAddress<TAccountAuthorityUsdc>
     >,
     ResolvedInstructionAccountMeta<
+      TAccountOwnerAsset,
+      InstructionAccountInputAddress<TAccountOwnerAsset>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountAuthorityAsset,
+      InstructionAccountInputAddress<TAccountAuthorityAsset>
+    >,
+    ResolvedInstructionAccountMeta<
       TAccountTreasury,
       InstructionAccountInputAddress<TAccountTreasury>
     >,
     ResolvedInstructionAccountMeta<
       TAccountUsdcMint,
       InstructionAccountInputAddress<TAccountUsdcMint>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountDestination,
-      InstructionAccountInputAddress<TAccountDestination>
     >,
     ResolvedInstructionAccountMeta<
       TAccountAssetMint,
@@ -939,6 +1065,10 @@ export function getExecuteLegInstruction<
     ResolvedInstructionAccountMeta<
       TAccountPriceUpdate247,
       InstructionAccountInputAddress<TAccountPriceUpdate247>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountInstructionsSysvar,
+      InstructionAccountInputAddress<TAccountInstructionsSysvar>
     >,
     ResolvedInstructionAccountMeta<
       TAccountUsdcPriceUpdate,
@@ -967,54 +1097,56 @@ export function getExecuteLegInstruction<
   >);
 }
 
-export type ParsedExecuteLegInstruction<
+export type ParsedSwapGuardedInstruction<
   TProgram extends string = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
   TAccountMetas extends readonly AccountMeta[] = readonly AccountMeta[],
 > = {
   programAddress: Address<TProgram>;
   accounts: {
-    config: TAccountMetas[0];
-    router: TAccountMetas[1];
-    paycheck: TAccountMetas[2];
+    owner: TAccountMetas[0];
+    config: TAccountMetas[1];
+    router: TAccountMetas[2];
     asset: TAccountMetas[3];
     authority: TAccountMetas[4];
     payIn: TAccountMetas[5];
     authorityUsdc: TAccountMetas[6];
-    treasury: TAccountMetas[7];
-    usdcMint: TAccountMetas[8];
-    destination: TAccountMetas[9];
-    assetMint: TAccountMetas[10];
-    /** verification level, feed and age are checked in the handler. */
-    priceUpdate: TAccountMetas[11];
-    priceUpdate247?: TAccountMetas[12] | undefined;
-    usdcPriceUpdate: TAccountMetas[13];
-    jupiterProgram: TAccountMetas[14];
-    usdcTokenProgram: TAccountMetas[15];
-    assetTokenProgram: TAccountMetas[16];
+    /** The owner's account for the asset: destination on a buy, source on a sell. */
+    ownerAsset: TAccountMetas[7];
+    authorityAsset: TAccountMetas[8];
+    treasury: TAccountMetas[9];
+    usdcMint: TAccountMetas[10];
+    assetMint: TAccountMetas[11];
+    priceUpdate?: TAccountMetas[12] | undefined;
+    priceUpdate247?: TAccountMetas[13] | undefined;
+    instructionsSysvar?: TAccountMetas[14] | undefined;
+    usdcPriceUpdate: TAccountMetas[15];
+    jupiterProgram: TAccountMetas[16];
+    usdcTokenProgram: TAccountMetas[17];
+    assetTokenProgram: TAccountMetas[18];
     /**
      * The owner's token account for the route's intermediate mint, when the
      * route passes through one. Leftovers of that mint are swept here.
      */
-    ownerIntermediate?: TAccountMetas[17] | undefined;
-    intermediateMint?: TAccountMetas[18] | undefined;
+    ownerIntermediate?: TAccountMetas[19] | undefined;
+    intermediateMint?: TAccountMetas[20] | undefined;
   };
-  data: ExecuteLegInstructionData;
+  data: SwapGuardedInstructionData;
 };
 
-export function parseExecuteLegInstruction<
+export function parseSwapGuardedInstruction<
   TProgram extends string,
   TAccountMetas extends readonly AccountMeta[],
 >(
   instruction: Instruction<TProgram> &
     InstructionWithAccounts<TAccountMetas> &
     InstructionWithData<ReadonlyUint8Array>,
-): ParsedExecuteLegInstruction<TProgram, TAccountMetas> {
-  if (instruction.accounts.length < 19) {
+): ParsedSwapGuardedInstruction<TProgram, TAccountMetas> {
+  if (instruction.accounts.length < 21) {
     throw new SolanaError(
       SOLANA_ERROR__PROGRAM_CLIENTS__INSUFFICIENT_ACCOUNT_METAS,
       {
         actualAccountMetas: instruction.accounts.length,
-        expectedAccountMetas: 19,
+        expectedAccountMetas: 21,
       },
     );
   }
@@ -1033,19 +1165,21 @@ export function parseExecuteLegInstruction<
   return {
     programAddress: instruction.programAddress,
     accounts: {
+      owner: getNextAccount(),
       config: getNextAccount(),
       router: getNextAccount(),
-      paycheck: getNextAccount(),
       asset: getNextAccount(),
       authority: getNextAccount(),
       payIn: getNextAccount(),
       authorityUsdc: getNextAccount(),
+      ownerAsset: getNextAccount(),
+      authorityAsset: getNextAccount(),
       treasury: getNextAccount(),
       usdcMint: getNextAccount(),
-      destination: getNextAccount(),
       assetMint: getNextAccount(),
-      priceUpdate: getNextAccount(),
+      priceUpdate: getNextOptionalAccount(),
       priceUpdate247: getNextOptionalAccount(),
+      instructionsSysvar: getNextOptionalAccount(),
       usdcPriceUpdate: getNextAccount(),
       jupiterProgram: getNextAccount(),
       usdcTokenProgram: getNextAccount(),
@@ -1053,6 +1187,6 @@ export function parseExecuteLegInstruction<
       ownerIntermediate: getNextOptionalAccount(),
       intermediateMint: getNextOptionalAccount(),
     },
-    data: getExecuteLegInstructionDataDecoder().decode(instruction.data),
+    data: getSwapGuardedInstructionDataDecoder().decode(instruction.data),
   };
 }
