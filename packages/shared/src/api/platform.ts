@@ -27,6 +27,8 @@ export type SubmitTxKind = z.infer<typeof SubmitTxKind>;
 export const SubmitTxRequest = z.object({
   tx: z.base64(),
   kind: SubmitTxKind,
+  /** The leg a `leg.buy_now` or `leg.cancel` transaction acts on. */
+  legId: z.uuid().optional(),
 });
 export type SubmitTxRequest = z.infer<typeof SubmitTxRequest>;
 

@@ -6,6 +6,7 @@ import {
   IsoDateTime,
   LegStatus,
   SignatureString,
+  SignedIntegerString,
   U64String,
   Uuid,
   WaitReasonSchema,
@@ -27,8 +28,9 @@ export type Attempt = z.infer<typeof Attempt>;
 export const Verification = z.object({
   rpcProvider: z.string(),
   finalizedSlot: U64String.nullable(),
-  ownerDeltaRaw: U64String.nullable(),
-  ownerUsdcDelta: U64String.nullable(),
+  /** Signed changes: shares received (positive) and USDC spent (negative), in base units. */
+  ownerDeltaRaw: SignedIntegerString.nullable(),
+  ownerUsdcDelta: SignedIntegerString.nullable(),
   recomputedMinOut: U64String.nullable(),
   recomputedPremiumBps: z.number().int().nullable(),
   matches: z.boolean(),
@@ -110,10 +112,7 @@ export const Holding = z.object({
   valueUsdc: U64String.nullable(),
   /** USDC spent on this asset through executed legs, in USDC base units. */
   costBasisUsdc: U64String,
-  pnlUsdc: z
-    .string()
-    .regex(/^-?\d+$/)
-    .nullable(),
+  pnlUsdc: SignedIntegerString.nullable(),
   targetWeightBps: Bps,
   actualWeightBps: Bps.nullable(),
 });
@@ -125,10 +124,7 @@ export const PortfolioResponse = z.object({
   totals: z.object({
     valueUsdc: U64String.nullable(),
     costBasisUsdc: U64String,
-    pnlUsdc: z
-      .string()
-      .regex(/^-?\d+$/)
-      .nullable(),
+    pnlUsdc: SignedIntegerString.nullable(),
     investedUsdc: U64String,
     feesUsdc: U64String,
   }),
