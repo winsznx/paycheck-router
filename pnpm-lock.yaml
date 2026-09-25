@@ -29,6 +29,9 @@ importers:
       '@paycheck-router/guard-math':
         specifier: workspace:*
         version: link:../../packages/guard-math
+      '@paycheck-router/sdk':
+        specifier: workspace:*
+        version: link:../../packages/sdk
       '@paycheck-router/shared':
         specifier: workspace:*
         version: link:../../packages/shared
