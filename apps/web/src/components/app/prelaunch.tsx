@@ -3,7 +3,7 @@ import { buttonClassName } from "@paycheck-router/ui/components";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { ProofLegCard } from "@/components/proof/proof-leg-card.tsx";
-import { WaitlistForm } from "@/components/site/waitlist-form.tsx";
+import { Waitlist } from "@/components/site/waitlist.tsx";
 import { CONTENT_ID } from "@/components/skip-link.tsx";
 import { fetchPublic } from "@/lib/api/public.ts";
 import { chainEnv } from "@/lib/env.ts";
@@ -79,7 +79,7 @@ export async function Prelaunch() {
             {t("waitlistTitle")}
           </h2>
           <p className="pr-body pr-muted">{t("waitlistBody")}</p>
-          <WaitlistForm source="app-prelaunch" />
+          <Waitlist source="app-prelaunch" />
         </section>
       </main>
     </div>

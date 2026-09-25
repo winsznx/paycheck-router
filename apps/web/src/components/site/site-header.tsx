@@ -1,8 +1,8 @@
 import { buttonClassName } from "@paycheck-router/ui/components";
-import { Menu } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation.ts";
 import { appOpen, mainnetDeployed } from "@/lib/env.ts";
+import { SiteMenu } from "./site-menu.tsx";
 
 const NAV = [
   ["/how-it-works", "howItWorks"],
@@ -49,25 +49,14 @@ export async function SiteHeader() {
           <a href={START_HREF} className={buttonClassName({ size: "s" })}>
             {t("start")}
           </a>
-          <details className="site-menu">
-            <summary className="pr-icon-btn" aria-label={t("menu")}>
-              <Menu size={24} strokeWidth={1.75} aria-hidden="true" />
-            </summary>
-            <nav aria-label={t("menuLabel")} className="site-menu__panel">
-              <ul>
-                {NAV.map(([href, key]) => (
-                  <li key={href}>
-                    <Link href={href}>{t(key)}</Link>
-                  </li>
-                ))}
-                {appOpen ? (
-                  <li>
-                    <a href="/app">{t("signIn")}</a>
-                  </li>
-                ) : null}
-              </ul>
-            </nav>
-          </details>
+          <SiteMenu
+            buttonLabel={t("menu")}
+            navLabel={t("menuLabel")}
+            items={[
+              ...NAV.map(([href, key]) => ({ href, label: t(key) })),
+              ...(appOpen ? [{ href: "/app", label: t("signIn"), external: true }] : []),
+            ]}
+          />
         </div>
       </div>
     </header>
