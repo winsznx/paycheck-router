@@ -1,5 +1,6 @@
 import { readdir, readFile } from "node:fs/promises";
 import { PGlite } from "@electric-sql/pglite";
+import { TOKEN_2022_PROGRAM_ID } from "@paycheck-router/shared";
 import { getTableName, is } from "drizzle-orm";
 import { getTableConfig, PgTable } from "drizzle-orm/pg-core";
 import { drizzle, type PgliteDatabase } from "drizzle-orm/pglite";
@@ -10,7 +11,7 @@ const supabaseDir = new URL("../../../../../supabase/", import.meta.url);
 const migrationsDir = new URL("migrations/", supabaseDir);
 const seedFile = new URL("seed.sql", supabaseDir);
 
-const TOKEN_2022 = "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb";
+const TOKEN_2022: string = TOKEN_2022_PROGRAM_ID;
 const UNIQUE_VIOLATION = "23505";
 
 const schemaExports: unknown[] = Object.values(schema);
