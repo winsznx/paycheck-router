@@ -48,6 +48,25 @@ export function readArtifactJson<T = unknown>(dir: string, ref: ArtifactRef): T 
   return JSON.parse(readArtifact(dir, ref)) as T;
 }
 
+type RawManifest = { legs?: { attempts?: Record<string, unknown>[] }[] };
+
+/**
+ * Paycheck manifests written before the shared schema gained a field still parse: fields added
+ * since (the re-quote list and notes on each attempt, Hermes refusals) read as empty. The bytes on
+ * disk, and so their hashes, are untouched.
+ */
+export function withLaterFields(raw: unknown): unknown {
+  const manifest = raw as RawManifest;
+  for (const leg of manifest.legs ?? []) {
+    for (const attempt of leg.attempts ?? []) {
+      attempt.jupiterBuilds ??= [];
+      attempt.notes ??= [];
+      attempt.priceRejections ??= [];
+    }
+  }
+  return manifest;
+}
+
 export type CaseRun = {
   dir: string;
   manifest: CaseManifest;
@@ -74,7 +93,7 @@ export function loadCampaign(root: string): CaseRun[] {
         return {
           entryIndex,
           dir: sub,
-          manifest: RunManifest.parse(JSON.parse(readArtifact(dir, entry.bundle))),
+          manifest: RunManifest.parse(withLaterFields(JSON.parse(readArtifact(dir, entry.bundle)))),
         };
       });
       runs.push({ dir, manifest, paychecks });
@@ -145,8 +164,9 @@ function firstAttemptOf(
   const first = leg.attempts[0];
   if (!first) return null;
   const asset = assetBySymbol(leg.symbol);
+  const current = currentOf(pc.manifest.artifacts);
   let quote: { inAmount: bigint; outAmount: bigint } | null = null;
-  if (first.jupiterBuild) {
+  if (first.jupiterBuild && current(first.jupiterBuild)) {
     const build = readArtifactJson<{ inAmount: string; outAmount: string }>(
       pc.dir,
       first.jupiterBuild,
@@ -161,11 +181,14 @@ function firstAttemptOf(
     : 0;
   const at = Math.floor(Date.parse(first.startedAt) / 1000);
   let reference: Reference | null = null;
-  const hermes = first.hermesUpdate ? readArtifactJson(pc.dir, first.hermesUpdate) : null;
+  const hermes =
+    first.hermesUpdate && current(first.hermesUpdate)
+      ? readArtifactJson(pc.dir, first.hermesUpdate)
+      : null;
   const usdc = hermes ? hermesPriceE9(hermes, USDC_FEED_ID) : null;
   if (mint && usdc) {
     const multiplierE12 = buyMultiplierE12(mint, at);
-    if (leg.kind === "pre_ipo" && first.attestation) {
+    if (leg.kind === "pre_ipo" && first.attestation && current(first.attestation.apiResponse)) {
       const rows = readArtifactJson<PreStocksRow[]>(pc.dir, first.attestation.apiResponse);
       const row = rows.find((r) => r.contract_address === leg.mint);
       if (row) {
@@ -239,6 +262,15 @@ function executedOf(
  */
 export const INFRASTRUCTURE_FAILURE =
   /Failed to fetch accounts from remote|error sending request|Cannot destructure property|fetch failed|ECONNRESET|ETIMEDOUT|socket hang up|Too Many Requests|\b429\b|Internal error/i;
+
+/**
+ * Whether a reference is the last one recorded for its path. A runner that wrote one path twice
+ * left only the second write, so an earlier reference to that path has no surviving bytes.
+ */
+export function currentOf(artifacts: readonly ArtifactRef[]): (ref: ArtifactRef) => boolean {
+  const latest = new Map(artifacts.map((ref) => [ref.path, ref.sha256]));
+  return (ref) => latest.get(ref.path) === ref.sha256;
+}
 
 /** Why a slice that neither executed, waited nor expired stopped. */
 function failureOf(leg: RunManifest["legs"][number]): string | null {

@@ -6,6 +6,7 @@
  * layout from the generated client.
  */
 import { existsSync, readFileSync } from "node:fs";
+import { relative } from "node:path";
 import { buyMinOut } from "@paycheck-router/guard-math";
 import { legExecutedFromLogs } from "@paycheck-router/sdk";
 import {
@@ -216,6 +217,31 @@ function deriveProbe(run: CaseRun, p: Probe, latest: ReadonlyMap<string, Artifac
   }
 }
 
+/** Every case-level artifact a probe's source names. */
+function sourceRefs(p: Probe): ArtifactRef[] {
+  const src = p.source;
+  switch (src.kind) {
+    case "program_error":
+      return [src.logs];
+    case "rpc_refusal":
+    case "http_refusal":
+      return [src.response];
+    case "account_absent":
+      return [src.read];
+    case "balances":
+      return [src.before, src.after];
+    case "classification":
+    case "delivery":
+      return [src.transaction];
+    case "min_out_multiplier":
+      return [src.transaction, src.mintAfter];
+    case "computed":
+      return src.artifacts;
+    case "leg":
+      return [];
+  }
+}
+
 function deriveLeg(run: CaseRun, bundle: string, legIndex: number): string[] {
   const entryIndex = run.manifest.paychecks.findIndex((e) => e.bundle.path === bundle);
   const pc = run.paychecks.find((p) => p.entryIndex === entryIndex);
@@ -314,12 +340,29 @@ export function verifyCampaign(root: string): VerifyReport {
     checked.runs++;
     const label = `${run.manifest.module}/${run.manifest.runId}`;
     checked.artifacts += checkArtifacts(run.dir, run.manifest.artifacts, errors, notes);
-    const latest = latestByPath(run.manifest.artifacts);
+    // Probe sources name paycheck-bundle artifacts by case-relative path.
+    const latest = latestByPath([
+      ...run.manifest.artifacts,
+      ...run.paychecks.flatMap((pc) =>
+        pc.manifest.artifacts.map((ref) => ({
+          path: `${relative(run.dir, pc.dir)}/${ref.path}`,
+          sha256: ref.sha256,
+        })),
+      ),
+    ]);
     for (const pc of run.paychecks)
       checked.artifacts += checkArtifacts(pc.dir, pc.manifest.artifacts, errors, notes);
     for (const p of run.manifest.probes) {
       checked.probes++;
       try {
+        const superseded = sourceRefs(p).filter(
+          (ref) => (latest.get(ref.path)?.sha256 ?? ref.sha256) !== ref.sha256,
+        );
+        if (superseded.length > 0) {
+          notes.push(
+            `${label}: probe "${p.name}" reads ${superseded.map((r) => r.path).join(", ")}, overwritten by a later write of the same path; derived from the surviving bytes`,
+          );
+        }
         const forms = deriveProbe(run, p, latest);
         if (!forms.includes(p.observed)) {
           errors.push(
