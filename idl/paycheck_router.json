@@ -259,6 +259,19 @@
         },
         {
           "name": "target_token_program"
+        },
+        {
+          "name": "owner_intermediate",
+          "docs": [
+            "The owner's token account for the route's intermediate mint, when the",
+            "route passes through one. Leftovers of that mint are swept here."
+          ],
+          "writable": true,
+          "optional": true
+        },
+        {
+          "name": "intermediate_mint",
+          "optional": true
         }
       ],
       "args": [
@@ -558,6 +571,19 @@
         },
         {
           "name": "asset_token_program"
+        },
+        {
+          "name": "owner_intermediate",
+          "docs": [
+            "The owner's token account for the route's intermediate mint, when the",
+            "route passes through one. Leftovers of that mint are swept here."
+          ],
+          "writable": true,
+          "optional": true
+        },
+        {
+          "name": "intermediate_mint",
+          "optional": true
         }
       ],
       "args": [
@@ -707,6 +733,19 @@
         },
         {
           "name": "asset_token_program"
+        },
+        {
+          "name": "owner_intermediate",
+          "docs": [
+            "The owner's token account for the route's intermediate mint, when the",
+            "route passes through one. Leftovers of that mint are swept here."
+          ],
+          "writable": true,
+          "optional": true
+        },
+        {
+          "name": "intermediate_mint",
+          "optional": true
         }
       ],
       "args": [
@@ -847,6 +886,19 @@
         },
         {
           "name": "asset_token_program"
+        },
+        {
+          "name": "owner_intermediate",
+          "docs": [
+            "The owner's token account for the route's intermediate mint, when the",
+            "route passes through one. Leftovers of that mint are swept here."
+          ],
+          "writable": true,
+          "optional": true
+        },
+        {
+          "name": "intermediate_mint",
+          "optional": true
         }
       ],
       "args": [
@@ -1304,6 +1356,19 @@
         },
         {
           "name": "asset_token_program"
+        },
+        {
+          "name": "owner_intermediate",
+          "docs": [
+            "The owner's token account for the route's intermediate mint, when the",
+            "route passes through one. Leftovers of that mint are swept here."
+          ],
+          "writable": true,
+          "optional": true
+        },
+        {
+          "name": "intermediate_mint",
+          "optional": true
         }
       ],
       "args": [
@@ -2471,10 +2536,21 @@
           },
           {
             "name": "swapped_in",
+            "docs": ["USDC handed to the route: amount_in less the fee."],
+            "type": "u64"
+          },
+          {
+            "name": "usdc_consumed",
+            "docs": ["USDC the route actually spent: swapped_in less dust_returned."],
             "type": "u64"
           },
           {
             "name": "dust_returned",
+            "type": "u64"
+          },
+          {
+            "name": "intermediate_returned",
+            "docs": ["Intermediate-mint leftovers swept to the owner's intermediate account."],
             "type": "u64"
           },
           {
@@ -2613,6 +2689,14 @@
             "docs": [
               "Issuer transfer fee withheld in the destination (Token-2022",
               "TransferFeeConfig mints such as PreStocks); zero otherwise."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "dust_returned",
+            "docs": [
+              "USDC the route left unspent, returned to the owner; the owner's net",
+              "USDC change is amount_in minus this."
             ],
             "type": "u64"
           }
