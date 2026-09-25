@@ -1,0 +1,56 @@
+# Private planning, agent notes and keys
+internal/
+CLAUDE.md
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+
+# Keypairs: only public keys are committed; private keypairs live in internal/keys/
+*-keypair.json
+*.keypair.json
+keypair*.json
+id.json
+programs/**/target/deploy/*.json
+deploy-keys/
+
+# Dependencies and build output
+node_modules/
+target/
+.next/
+.open-next/
+.wrangler/
+.turbo/
+dist/
+out/
+coverage/
+*.tsbuildinfo
+.anchor/
+
+# Surfpool and local validator data
+.surfpool/
+surfpool-data/
+test-ledger/
+.surfnet/
+
+# Local Supabase state
+supabase/.branches/
+supabase/.temp/
+
+# Test and tool output
+playwright-report/
+test-results/
+.lighthouseci/
+trident-tests/**/hfuzz_target/
+trident-tests/**/hfuzz_workspace/
+
+# OS and editor
+.DS_Store
+*.log
+.idea/
+.vscode/*
+!.vscode/extensions.json

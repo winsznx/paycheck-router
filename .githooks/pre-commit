@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+
+blocked=$(printf '%s\n' "$staged" | grep -E '^internal/' || true)
+if [ -n "$blocked" ]; then
+  echo "pre-commit: refusing to commit files under internal/:" >&2
+  printf '  %s\n' $blocked >&2
+  exit 1
+fi
+
+keypairs=""
+while IFS= read -r path; do
+  [ -z "$path" ] && continue
+  case "$path" in *.json) ;; *) continue ;; esac
+  if git show ":$path" | tr -d ' \n\t\r' | grep -Eq '^\[([0-9]{1,3},){63}[0-9]{1,3}\]$'; then
+    keypairs="$keypairs $path"
+  fi
+done <<< "$staged"
+if [ -n "$keypairs" ]; then
+  echo "pre-commit: refusing to commit Solana keypair JSON:$keypairs" >&2
+  exit 1
+fi
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "pre-commit: gitleaks is required (brew install gitleaks)" >&2
+  exit 1
+fi
+gitleaks git --staged --redact --no-banner --exit-code 1
