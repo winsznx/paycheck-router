@@ -26,11 +26,12 @@ const ROOT = resolve(import.meta.dirname, "..");
 const KEYS_DIR = process.env.PAYCHECK_ROUTER_KEYS_DIR ?? resolve(ROOT, "internal", "keys");
 const SECRETS_DIR = process.env.PAYCHECK_ROUTER_SECRETS_DIR ?? resolve(ROOT, "internal", "secrets");
 /** Ports can move so a second copy can run beside the recording; the defaults are the recording's. */
-const RPC_PORT = Number(process.env.DEMO_RPC_PORT ?? 8899);
+const RPC_PORT = Number(process.env.DEMO_SURFNET_PORT ?? 8899);
 const CORE_PORT = Number(process.env.DEMO_CORE_PORT ?? 8787);
 const DB_PORT = Number(process.env.DEMO_DB_PORT ?? 54322);
+const WEB_PORT = Number(process.env.DEMO_WEB_PORT ?? 3000);
 const WITH_WEB = !process.argv.includes("--no-web");
-const WEB_URL = "http://127.0.0.1:3000";
+const WEB_URL = `http://127.0.0.1:${WEB_PORT}`;
 const PAYCHECK_USDC = 1_850_000_000n;
 const TURNSTILE_SITE_KEY = "0x4AAAAAAFDQGy1MnmLBUS_3";
 
@@ -128,21 +129,19 @@ function portFree(port: number): Promise<boolean> {
 
 /** The recording's ports are fixed; a busy one stops the run instead of moving it silently. */
 async function assertPortsFree(): Promise<void> {
-  const wanted: [string, number][] = [
-    ["surfnet RPC", RPC_PORT],
-    ["surfnet WebSocket", RPC_PORT + 1],
-    ["core", CORE_PORT],
-    ["database", DB_PORT],
+  const wanted: [string, number, string][] = [
+    ["surfnet RPC", RPC_PORT, "DEMO_SURFNET_PORT"],
+    ["surfnet WebSocket", RPC_PORT + 1, "DEMO_SURFNET_PORT (WebSocket is the port + 1)"],
+    ["core", CORE_PORT, "DEMO_CORE_PORT"],
+    ["database", DB_PORT, "DEMO_DB_PORT"],
   ];
-  if (WITH_WEB) wanted.push(["web", 3000]);
+  if (WITH_WEB) wanted.push(["web", WEB_PORT, "DEMO_WEB_PORT"]);
   const busy: string[] = [];
-  for (const [label, port] of wanted) {
-    if (!(await portFree(port))) busy.push(`${label} ${port}`);
+  for (const [label, port, variable] of wanted) {
+    if (!(await portFree(port))) busy.push(`${label} ${port} (set ${variable} to move it)`);
   }
   if (busy.length > 0) {
-    throw new Error(
-      `ports in use: ${busy.join(", ")}. Stop whatever holds them (another demo:record or demo:fork) and run again.`,
-    );
+    throw new Error(`ports in use: ${busy.join("; ")}`);
   }
 }
 
@@ -185,7 +184,13 @@ async function main(): Promise<void> {
     secretsDir: SECRETS_DIR,
     outPath: resolve(ROOT, "apps", "core", ".dev.vars"),
     surfnetRpcUrl: surfnet.rpcUrl,
-    extra: { CONFIG_PDA: protocol.config, PROTOCOL_ALT: protocol.lookupTable.address },
+    extra: {
+      CONFIG_PDA: protocol.config,
+      PROTOCOL_ALT: protocol.lookupTable.address,
+      APP_ORIGIN: `http://localhost:${WEB_PORT}`,
+      CORS_ORIGINS: WEB_URL,
+      SIWS_DOMAIN: `localhost:${WEB_PORT},127.0.0.1:${WEB_PORT}`,
+    },
     requirePyth: true,
   });
   const demoWorker = Uint8Array.from(
@@ -238,11 +243,26 @@ async function main(): Promise<void> {
 
   if (WITH_WEB) {
     step("Starting web (next dev)");
-    await launch("web", "pnpm", ["--filter", "@paycheck-router/web", "dev"], {
-      cwd: ROOT,
-      ready: /Ready in|Local:/,
-      timeoutMs: 180_000,
-    });
+    await launch(
+      "web",
+      "pnpm",
+      [
+        "--filter",
+        "@paycheck-router/web",
+        "exec",
+        "next",
+        "dev",
+        "--hostname",
+        "127.0.0.1",
+        "--port",
+        String(WEB_PORT),
+      ],
+      {
+        cwd: ROOT,
+        ready: /Ready in|Local:/,
+        timeoutMs: 180_000,
+      },
+    );
   }
 
   const employer = signers["employer-1"];
