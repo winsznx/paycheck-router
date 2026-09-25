@@ -5,7 +5,7 @@ import { formatPercent, formatPrice, formatShares, formatUsd } from "@paycheck-r
 import { isSeriesSlot } from "@paycheck-router/ui/tokens";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import { PRESETS, presetLegs } from "@/lib/onboarding.ts";
+import type { DraftLeg } from "@/lib/presets.ts";
 
 export type CalculatorAsset = { mint: string; symbol: string; price: number | null };
 
@@ -14,7 +14,13 @@ const FEE_BPS = 20;
 const DEFAULT_PAYCHECK = "2000";
 
 /** PRD 18.1 §3: paycheck amount, invest %, preset, live reference prices, the resulting split. */
-export function Calculator({ assets }: { assets: readonly CalculatorAsset[] }) {
+export function Calculator({
+  assets,
+  presets,
+}: {
+  assets: readonly CalculatorAsset[];
+  presets: Readonly<Record<string, readonly DraftLeg[]>>;
+}) {
   const t = useTranslations("site.calculator");
   const locale = useLocale();
   const [amount, setAmount] = useState(DEFAULT_PAYCHECK);
@@ -24,7 +30,7 @@ export function Calculator({ assets }: { assets: readonly CalculatorAsset[] }) {
   const paycheck = Number(amount.replace(",", "."));
   const valid = Number.isFinite(paycheck) && paycheck > 0;
   const invested = valid ? (paycheck * investPercent) / 100 : 0;
-  const legs = presetLegs(preset);
+  const legs = presets[preset] ?? [];
   const rows = legs.map((leg, index) => {
     const slice = (invested * leg.weightBps) / 10_000;
     const price = assets.find((a) => a.mint === leg.mint)?.price ?? null;
@@ -70,7 +76,7 @@ export function Calculator({ assets }: { assets: readonly CalculatorAsset[] }) {
               value={preset}
               onChange={(event) => setPreset(event.target.value)}
             >
-              {Object.keys(PRESETS).map((name) => (
+              {Object.keys(presets).map((name) => (
                 <option key={name} value={name}>
                   {t(`presets.${name}`)}
                 </option>

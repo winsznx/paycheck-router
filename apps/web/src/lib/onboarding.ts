@@ -1,9 +1,10 @@
 "use client";
 
-import { assetBySymbol } from "@paycheck-router/shared";
 import { useSyncExternalStore } from "react";
 
-export type DraftLeg = { mint: string; symbol: string; weightBps: number; bandBps: number };
+import type { DraftLeg } from "./presets.ts";
+
+export type { DraftLeg };
 
 /** Every answer is kept as a draft so leaving mid-way resumes at the same step (3.3.7). */
 export type Draft = {
@@ -23,41 +24,6 @@ export const TERMS_VERSION = "2026-09-25";
 export const RISK_VERSION = "2026-09-25";
 export const DEFAULT_MIN_INFLOW_USDC = "20";
 export const DEFAULT_MAX_WAIT_SECS = 72 * 60 * 60;
-
-type PresetSeed = readonly (readonly [symbol: string, weightPercent: number])[];
-
-/** PRD 13.4 split editor presets. */
-export const PRESETS: Readonly<Record<string, PresetSeed>> = {
-  core: [["SPYx", 100]],
-  coreTech: [
-    ["SPYx", 70],
-    ["QQQx", 30],
-  ],
-  techTilt: [
-    ["QQQx", 40],
-    ["NVDAx", 20],
-    ["MSFTx", 20],
-    ["GOOGLx", 20],
-  ],
-  preIpoSpice: [
-    ["SPYx", 60],
-    ["NVDAx", 20],
-    ["Anthropic", 10],
-    ["OpenAI", 10],
-  ],
-};
-
-export function presetLegs(name: string): DraftLeg[] {
-  return (PRESETS[name] ?? []).map(([symbol, percent]) => {
-    const asset = assetBySymbol(symbol);
-    return {
-      mint: asset.mint,
-      symbol: asset.symbol,
-      weightBps: percent * 100,
-      bandBps: asset.defaultBandBps,
-    };
-  });
-}
 
 const STORAGE_KEY = "pr_onboarding_draft";
 

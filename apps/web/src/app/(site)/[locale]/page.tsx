@@ -15,6 +15,7 @@ import { Link } from "@/i18n/navigation.ts";
 import { fetchPublic } from "@/lib/api/public.ts";
 import { mainnetDeployed } from "@/lib/env.ts";
 import { priceE9 } from "@/lib/money.ts";
+import { allPresetLegs } from "@/lib/presets.ts";
 import { fetchPreStocks } from "@/lib/prestocks.ts";
 
 /** Live Pyth prices, PreStocks marks and proof numbers are read on every request. */
@@ -166,7 +167,7 @@ export default async function LandingPage({ params }: PageProps<"/[locale]">) {
           <h3 id="calc-title" className="pr-h2">
             {t("calculatorTitle")}
           </h3>
-          <Calculator assets={calculatorAssets} />
+          <Calculator assets={calculatorAssets} presets={allPresetLegs()} />
         </section>
       </section>
 

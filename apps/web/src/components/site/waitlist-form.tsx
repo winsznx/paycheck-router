@@ -1,6 +1,6 @@
 "use client";
 
-import { api } from "@paycheck-router/shared";
+import type { api } from "@paycheck-router/shared";
 import { Banner, Button } from "@paycheck-router/ui/components";
 import Script from "next/script";
 import { useLocale, useTranslations } from "next-intl";
@@ -31,6 +31,9 @@ declare global {
 }
 
 type Status = "idle" | "sending" | "done" | "error";
+
+/** The API validates fully; this only catches typos before spending a Turnstile token. */
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Waitlist with Cloudflare Turnstile; the core API verifies the token (PRD 11.2, 18.1). */
 export function WaitlistForm({ source }: { source: string }) {
@@ -73,23 +76,24 @@ export function WaitlistForm({ source }: { source: string }) {
       return;
     }
     const country = String(form.get("country") ?? "");
-    const body = api.WaitlistRequest.safeParse({
-      email: String(form.get("email") ?? ""),
-      ...(country ? { country } : {}),
-      source,
-      turnstileToken: token,
-    });
-    if (!body.success) {
+    const email = String(form.get("email") ?? "").trim();
+    if (!EMAIL.test(email)) {
       setError(t("invalidEmail"));
       return;
     }
+    const body: api.WaitlistRequest = {
+      email,
+      ...(country ? { country } : {}),
+      source,
+      turnstileToken: token,
+    };
     setStatus("sending");
     setError(null);
     try {
       const response = await fetch(`${apiUrl}/waitlist`, {
         method: "POST",
         headers: { "content-type": "application/json", "idempotency-key": crypto.randomUUID() },
-        body: JSON.stringify(body.data),
+        body: JSON.stringify(body),
       });
       if (!response.ok) throw new Error(String(response.status));
       setStatus("done");
