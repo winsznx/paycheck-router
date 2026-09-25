@@ -183,6 +183,8 @@
       "label": "Paycheck {seq}",
       "from": "{amount} from {payer}",
       "invested": "{amount} invested",
+      "toInvest": "{amount} to invest",
+      "toInvestBought": "{total} to invest · {bought} bought",
       "phase": {
         "recording": "Recording",
         "executing": "Buying",

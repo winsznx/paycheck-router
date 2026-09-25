@@ -19,10 +19,12 @@ import {
   buyNowAvailableAt,
   colorSlotFor,
   isForkEmployer,
+  paycheckNumber,
   paycheckPhase,
   toSegments,
 } from "@/lib/paycheck-view.ts";
 import { useQuery } from "@/lib/query.ts";
+import { useInvestText } from "@/lib/use-invest-text.ts";
 import { useLegCopy } from "@/lib/use-leg-copy.ts";
 import { SliceItem } from "./slice-item.tsx";
 
@@ -48,6 +50,7 @@ export function PaycheckDetailView({ id }: { id: string }) {
   const t = useTranslations("app.paycheck");
   const locale = useLocale();
   const copy = useLegCopy();
+  const investText = useInvestText();
   const now = useMinuteClock();
   const detail = useQuery(keys.paycheck(id), () => fetchers.paycheck(id));
   const routers = useQuery(keys.routers, fetchers.routers);
@@ -93,16 +96,14 @@ export function PaycheckDetailView({ id }: { id: string }) {
   return (
     <article className="stack-lg paycheck-detail">
       <header className="stack" style={{ viewTransitionName: `paycheck-${paycheck.id}` }}>
-        <p className="pr-label pr-muted">{t("label", { seq: paycheck.seq })}</p>
+        <p className="pr-label pr-muted">{t("label", { seq: paycheckNumber(paycheck.seq) })}</p>
         <h1 className="pr-h2 paycheck-detail__title">
           <span>{t("from", { amount: formatUsd(usdc(paycheck.inflow), locale), payer })}</span>{" "}
           <span className="paycheck-detail__arrow" aria-hidden="true">
             →
           </span>
           <span className="pr-sr-only">, </span>
-          <span className="paycheck-detail__invested">
-            {t("invested", { amount: formatUsd(usdc(paycheck.investTotal), locale) })}
-          </span>
+          <span className="paycheck-detail__invested">{investText(paycheck.legs)}</span>
         </h1>
         <div className="row">
           <StatusChip

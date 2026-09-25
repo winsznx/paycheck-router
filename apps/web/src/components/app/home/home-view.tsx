@@ -30,6 +30,7 @@ import { fetchers, keys } from "@/lib/data.ts";
 import { usdc, usdcNumber, walletShares } from "@/lib/money.ts";
 import { colorSlotFor, toSegments } from "@/lib/paycheck-view.ts";
 import { useQuery } from "@/lib/query.ts";
+import { useInvestText } from "@/lib/use-invest-text.ts";
 import { useLegCopy } from "@/lib/use-leg-copy.ts";
 import { PaycheckCardLink } from "../paycheck/paycheck-card-link.tsx";
 import { routerHealth } from "../router-status.tsx";
@@ -349,6 +350,7 @@ function LatestPaycheck({
   const t = useTranslations("app.paycheck");
   const locale = useLocale();
   const copy = useLegCopy();
+  const investText = useInvestText();
   const justLanded = Date.now() - Date.parse(paycheck.recordedAt) < JUST_LANDED_MS;
   if (!justLanded) return <PaycheckCardLink paycheck={paycheck} routerLegs={routerLegs} />;
   const total = Number(paycheck.investTotal) || 1;
@@ -362,7 +364,7 @@ function LatestPaycheck({
     <Link href={`/app/paychecks/${paycheck.id}`} className="pr-card pr-card--interactive stack">
       <SplitSequence
         inflowText={`${formatUsd(usdc(paycheck.inflow), locale)} USDC`}
-        investedText={t("invested", { amount: formatUsd(usdc(paycheck.investTotal), locale) })}
+        investedText={investText(paycheck.legs)}
         investBps={investBps}
         segments={segments}
         label={splitBarLabel(segments)}

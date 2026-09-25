@@ -25,7 +25,10 @@ test.describe("signed-in app screens", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "$1,850.00 from Employer (demo)",
     );
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("$370.00 invested");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      "$370.00 to invest · $333.00 bought",
+    );
+    await expect(page.getByText("Paycheck 2", { exact: true })).toBeVisible();
     await expect(page.getByText("Waiting: 30.40% over mark")).toBeAttached();
     await expect(
       page.getByText(/OpenAI PreStocks is trading 30\.40% above its mark/),

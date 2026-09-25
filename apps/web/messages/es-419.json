@@ -183,6 +183,8 @@
       "label": "Sueldo {seq}",
       "from": "{amount} de {payer}",
       "invested": "{amount} invertidos",
+      "toInvest": "{amount} por invertir",
+      "toInvestBought": "{total} por invertir · {bought} comprado",
       "phase": {
         "recording": "Registrando",
         "executing": "Comprando",

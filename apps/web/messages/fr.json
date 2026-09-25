@@ -183,6 +183,8 @@
       "label": "Salaire {seq}",
       "from": "{amount} de {payer}",
       "invested": "{amount} investis",
+      "toInvest": "{amount} à investir",
+      "toInvestBought": "{total} à investir · {bought} acheté",
       "phase": {
         "recording": "Enregistrement",
         "executing": "Achat en cours",

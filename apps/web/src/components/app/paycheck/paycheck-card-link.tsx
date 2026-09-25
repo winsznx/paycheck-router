@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { usdc } from "@/lib/money.ts";
 import { isForkEmployer, paycheckPhase, toSegments } from "@/lib/paycheck-view.ts";
+import { useInvestText } from "@/lib/use-invest-text.ts";
 import { useLegCopy } from "@/lib/use-leg-copy.ts";
 
 const PHASE_CHIP = {
@@ -27,6 +28,7 @@ export function PaycheckCardLink({
   const t = useTranslations("app.paycheck");
   const locale = useLocale();
   const copy = useLegCopy();
+  const investText = useInvestText();
   const phase = paycheckPhase(paycheck.legs);
   const total = Number(paycheck.investTotal) || 1;
   const segments = toSegments(
@@ -55,7 +57,7 @@ export function PaycheckCardLink({
         amount={formatUsd(usdc(paycheck.inflow), locale)}
         payer={payer}
         time={formatTime(paycheck.recordedAt, locale)}
-        invested={t("invested", { amount: formatUsd(usdc(paycheck.investTotal), locale) })}
+        invested={investText(paycheck.legs)}
         segments={segments}
         splitLabel={splitBarLabel(segments)}
         summary={t("progress", { done, total: paycheck.legs.length, waiting })}
