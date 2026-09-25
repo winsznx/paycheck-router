@@ -8,6 +8,10 @@ import { summaryDiff, verifyCampaign } from "../lib/verify.ts";
 import { writeFixtureCampaign } from "./fixture.ts";
 
 const REPO_ROOT = resolve(import.meta.dirname, "..", "..", "..");
+/** The workspace's tsx, run directly: `pnpm exec` re-checks the install and can stall a runner. */
+const TSX = resolve(REPO_ROOT, "node_modules", ".bin", "tsx");
+/** Two CLI processes, each loading the SDK through tsx. */
+const CLI_TIMEOUT_MS = 60_000;
 
 function copyOf(root: string): string {
   const copy = mkdtempSync(resolve(tmpdir(), "campaign-copy-"));
@@ -76,34 +80,35 @@ describe("verify:campaign", () => {
     expect(report.errors.join("\n")).toContain("summary.population.slices");
   });
 
-  it("exits non-zero from the CLI after a one-byte flip", () => {
-    const copy = copyOf(root);
-    flipOneByte(
-      resolve(
-        copy,
-        "p2-control",
-        "2026-09-25T13-00-00-000Z",
-        "raw",
-        "accounts",
-        "untagged-sender-paycheck.json",
-      ),
-    );
-    const clean = spawnSync("pnpm", ["exec", "tsx", "scripts/campaign/verify.ts", "--root", root], {
-      cwd: REPO_ROOT,
-      encoding: "utf8",
-    });
-    const tampered = spawnSync(
-      "pnpm",
-      ["exec", "tsx", "scripts/campaign/verify.ts", "--root", copy],
-      {
-        cwd: REPO_ROOT,
-        encoding: "utf8",
-      },
-    );
-    expect(clean.status).toBe(0);
-    expect(tampered.status).toBe(1);
-    expect(tampered.stderr).toContain("MISMATCH");
-  });
+  it(
+    "exits non-zero from the CLI after a one-byte flip",
+    () => {
+      const copy = copyOf(root);
+      flipOneByte(
+        resolve(
+          copy,
+          "p2-control",
+          "2026-09-25T13-00-00-000Z",
+          "raw",
+          "accounts",
+          "untagged-sender-paycheck.json",
+        ),
+      );
+      const cli = (target: string) =>
+        spawnSync(TSX, ["scripts/campaign/verify.ts", "--root", target], {
+          cwd: REPO_ROOT,
+          encoding: "utf8",
+        });
+      const clean = cli(root);
+      const tampered = cli(copy);
+      expect([clean.status, tampered.status, tampered.stderr.includes("MISMATCH")]).toEqual([
+        0,
+        1,
+        true,
+      ]);
+    },
+    CLI_TIMEOUT_MS,
+  );
 
   it("keeps the fixture's run directory intact for the other tests", () => {
     expect(readFileSync(resolve(run, "manifest.json"), "utf8")).toContain("p2-control");
