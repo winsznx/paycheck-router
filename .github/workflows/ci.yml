@@ -46,7 +46,7 @@ jobs:
         run: npm install -g @anchor-lang/cli@1.0.2
       - name: Build
         run: |
-          anchor build
+          anchor build --ignore-keys
           cargo build-sbf --tools-version "${SBF_TOOLS_VERSION}" \
             --manifest-path programs/paycheck_router/test-programs/test_swap/Cargo.toml \
             --sbf-out-dir target/deploy
