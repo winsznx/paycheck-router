@@ -25,7 +25,12 @@
   "headline": {
     "paychecksRouted": { "value": null, "status": "target", "environment": "fork" },
     "slicesBought": { "value": null, "status": "target", "environment": "fork" },
-    "verifiedRate": { "value": null, "denominator": null, "status": "target", "environment": "fork" },
+    "verifiedRate": {
+      "value": null,
+      "denominator": null,
+      "status": "target",
+      "environment": "fork"
+    },
     "openAiWaitPremiumPct": { "value": null, "status": "target", "environment": "fork" },
     "medianTimeToSharesSecs": {
       "value": null,
