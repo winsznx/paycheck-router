@@ -1,11 +1,11 @@
 "use client";
 
-import { AddressField, buttonClassName, QrCode } from "@paycheck-router/ui/components";
+import { buttonClassName, QrCode } from "@paycheck-router/ui/components";
 import { formatUsdWhole } from "@paycheck-router/ui/format";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect } from "react";
-import { explorerUrl } from "@/lib/env.ts";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { usdc } from "@/lib/money.ts";
 import { clearDraft, toBaseUnits, useDraft } from "@/lib/onboarding.ts";
 import { useSession } from "@/lib/session.ts";
@@ -46,14 +46,7 @@ export function DoneStep() {
         <p className="pr-body">{t("test")}</p>
         {address ? (
           <>
-            <AddressField
-              address={address}
-              label={t("address")}
-              copyLabel={t("copy")}
-              copiedLabel={t("copied")}
-              explorerHref={explorerUrl("address", address)}
-              explorerLabel={t("explorer")}
-            />
+            <ChainValue kind="account" value={address} name={t("address")} display="full" />
             <QrCode value={address} label={t("qr")} />
           </>
         ) : null}

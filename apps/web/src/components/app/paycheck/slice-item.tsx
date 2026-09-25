@@ -20,13 +20,12 @@ import {
   formatTime,
   formatUsd,
   formatUsdcAmount,
-  truncateMiddle,
 } from "@paycheck-router/ui/format";
 import type { SeriesSlot } from "@paycheck-router/ui/tokens";
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { apiRequest } from "@/lib/api/client.ts";
-import { explorerUrl } from "@/lib/env.ts";
 import { isPreIpo, priceE9, shares, usdc, walletShares } from "@/lib/money.ts";
 import { useSession } from "@/lib/session.ts";
 import { useLegCopy } from "@/lib/use-leg-copy.ts";
@@ -49,7 +48,7 @@ function ProofDetails({ leg }: { leg: DetailLeg }) {
   const locale = useLocale();
   const v = leg.verification;
   const walletAmount = walletShares(leg, leg.outAmount);
-  const rows: Array<[string, string]> = [
+  const rows: Array<[string, ReactNode]> = [
     [t("reference"), isPreIpo(leg.mint) ? t("referenceMark") : t("referencePyth")],
     [
       t("referencePrice"),
@@ -73,6 +72,11 @@ function ProofDetails({ leg }: { leg: DetailLeg }) {
       walletAmount === null ? "—" : `${formatShares(walletAmount, locale, "full")} ${leg.symbol}`,
     ],
     [t("multiplier"), leg.uiMultiplier ?? "—"],
+    [
+      t("transaction"),
+      leg.executedSig ? <ChainValue key="tx" kind="tx" value={leg.executedSig} /> : "—",
+    ],
+    [t("mint"), <ChainValue key="mint" kind="mint" value={leg.mint} />],
     [t("finalizedSlot"), v?.finalizedSlot ?? "—"],
     [t("readback"), v ? v.rpcProvider : "—"],
     [t("result"), v ? (v.matches ? t("matches") : t("mismatch")) : t("pending")],
@@ -83,7 +87,7 @@ function ProofDetails({ leg }: { leg: DetailLeg }) {
         {rows.map(([term, value]) => (
           <div key={term}>
             <dt className="pr-small pr-muted">{term}</dt>
-            <dd className="pr-code">{value}</dd>
+            <dd className="pr-code proof-list__value">{value}</dd>
           </div>
         ))}
       </dl>
@@ -171,18 +175,7 @@ export function SliceItem({ leg, colorSlot, bandBps, buyNowAt, now }: SliceItemP
     {
       key: "tx",
       term: t("facts.transaction"),
-      value: leg.executedSig ? (
-        <a
-          href={explorerUrl("tx", leg.executedSig)}
-          target="_blank"
-          rel="noreferrer"
-          translate="no"
-        >
-          {truncateMiddle(leg.executedSig, 4, 3)}
-        </a>
-      ) : (
-        "—"
-      ),
+      value: leg.executedSig ? <ChainValue kind="tx" value={leg.executedSig} /> : "—",
     },
   ];
 

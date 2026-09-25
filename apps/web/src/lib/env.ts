@@ -1,3 +1,5 @@
+import type { ChainEnv } from "@paycheck-router/ui/chain";
+
 /**
  * Public build-time configuration. Every `process.env.NEXT_PUBLIC_*` reference is written out
  * literally so Next inlines it and dead-code-eliminates demo-only branches in other builds.
@@ -47,10 +49,10 @@ export function showForkBanner(surface: "app" | "site"): boolean {
   return surface === "site" && !mainnetDeployed;
 }
 
-/** Explorer link for a signature or address: fork runs open the surfnet via cluster=custom. */
-export function explorerUrl(kind: "tx" | "address", value: string): string {
-  const base = `https://explorer.solana.com/${kind}/${value}`;
-  if (!isForkEnvironment) return base;
-  const params = new URLSearchParams({ cluster: "custom", customUrl: surfnetRpcUrl });
-  return `${base}?${params.toString()}`;
-}
+/** Where chain values link (packages/ui ChainRef): live surfnet, recorded fork bundle or mainnet. */
+export const chainEnv: ChainEnv = {
+  mode: isForkEnvironment ? "fork-live" : mainnetDeployed ? "mainnet" : "fork-recorded",
+  surfnetRpcUrl,
+  repoUrl: "https://github.com/winsznx/paycheck-router",
+  evidencePath: "evidence/stocklana-fork",
+};

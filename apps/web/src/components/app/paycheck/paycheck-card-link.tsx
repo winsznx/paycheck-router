@@ -2,7 +2,7 @@
 
 import type { api } from "@paycheck-router/shared";
 import { PaycheckCard, StatusChip, splitBarLabel } from "@paycheck-router/ui/components";
-import { formatPercent, formatTime, formatUsd, truncateMiddle } from "@paycheck-router/ui/format";
+import { formatPercent, formatTime, formatUsd } from "@paycheck-router/ui/format";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { usdc } from "@/lib/money.ts";
@@ -42,7 +42,7 @@ export function PaycheckCardLink({
   const payer = isForkEmployer(paycheck.sender)
     ? t("forkEmployer")
     : paycheck.sender
-      ? truncateMiddle(paycheck.sender)
+      ? t("payer")
       : t("unknownPayer");
   return (
     <Link

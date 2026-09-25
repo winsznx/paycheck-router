@@ -168,7 +168,6 @@
       "payInAddress": "Dirección de cobro",
       "copy": "Copiar",
       "copied": "Copiado",
-      "explorer": "Explorador",
       "payInQr": "Código QR de tu dirección de cobro",
       "holdings": "Posiciones",
       "seeAll": "Ver todo",
@@ -197,9 +196,12 @@
       "progress": "{done} de {total} compradas{waiting, plural, =0 {} other {, # en espera}}",
       "slices": "Porciones",
       "onchain": "Onchain",
-      "inflowTx": "Transferencia del sueldo {sig}",
-      "recordTx": "Registro del sueldo {sig}",
-      "arrived": "Llegaron {amount}. Comprando {invested} en acciones."
+      "inflowTx": "Transferencia del sueldo",
+      "recordTx": "Registro del sueldo",
+      "arrived": "Llegaron {amount}. Comprando {invested} en acciones.",
+      "payer": "tu pagador",
+      "payerAddress": "Pagador",
+      "paycheckAccount": "Cuenta del sueldo"
     },
     "paychecks": {
       "title": "Sueldos",
@@ -319,7 +321,9 @@
       "pending": "Esperando la finalidad",
       "publicProof": "Abrir la página pública de prueba",
       "walletShares": "Acciones en tu billetera",
-      "multiplier": "Multiplicador Scaled UI"
+      "multiplier": "Multiplicador Scaled UI",
+      "transaction": "Transacción",
+      "mint": "Mint del token"
     },
     "activity": {
       "title": "Actividad",
@@ -370,7 +374,6 @@
         "address": "Dirección de la billetera",
         "copy": "Copiar",
         "copied": "Copiado",
-        "explorer": "Explorador",
         "qr": "Código QR de la dirección de tu billetera",
         "allowance": "Autorización",
         "allowanceValue": "Quedan {amount} por gastar",
@@ -385,7 +388,7 @@
       },
       "security": {
         "title": "Seguridad",
-        "signedInAs": "Sesión iniciada con la billetera {wallet}",
+        "signedInAs": "Sesión iniciada con la billetera",
         "signedOut": "No has iniciado sesión.",
         "via": "Firmado con {wallet}",
         "signOut": "Cerrar sesión",
@@ -447,7 +450,6 @@
       "address": "Dirección de la billetera",
       "copy": "Copiar",
       "copied": "Copiado",
-      "explorer": "Explorador",
       "qr": "Código QR de la dirección de tu billetera",
       "balance": "{amount} USDC en esta billetera ahora",
       "payoutGuide": "En Deel, Rise, Toku o Bitwage, elige USDC en Solana como forma de pago y pega esta dirección.",
@@ -549,7 +551,6 @@
       "address": "Dirección de la billetera",
       "copy": "Copiar",
       "copied": "Copiado",
-      "explorer": "Explorador",
       "qr": "Código QR de la dirección de tu billetera"
     }
   },
@@ -558,7 +559,7 @@
     "lead": "No confíes en nosotros. Revisa la cadena.",
     "ogTitle": "Cada porción, verificada contra la cadena",
     "unavailable": "No se pudieron cargar los datos de prueba. Inténtalo en un minuto.",
-    "forkNotice": "Estas ejecuciones ocurrieron en una bifurcación de mainnet con Surfpool y el programa {program}. Nada de esto aparece en un explorador público y no se movieron fondos reales.",
+    "forkNotice": "Estas ejecuciones ocurrieron en una bifurcación de mainnet con Surfpool. Nada de esto aparece en un explorador público y no se movieron fondos reales.",
     "canonical": "Ejecución canónica",
     "noRuns": "Aún no hay porciones ejecutadas.",
     "campaign": "Campaña",
@@ -572,7 +573,7 @@
     "recent": "Porciones recientes",
     "verifyTitle": "Verifícalo tú mismo",
     "verifyBody": "El verificador recalcula cada porción a partir de datos de la cadena y el historial de Pyth, e imprime PASS o FAIL.",
-    "programId": "Programa {program}",
+    "programId": "Programa",
     "misleadTitle": "¿Cómo podría esto ser engañoso?",
     "mislead": {
       "sample": "La muestra es pequeña: unos pocos sueldos, no meses de uso.",
@@ -594,12 +595,16 @@
     "unverified": "Sin verificar",
     "executed": "Comprada",
     "paycheckLine": "De un sueldo de {inflow}, {invested} invertidos",
-    "openSlice": "Abrir porción {sig}",
+    "openSlice": "Abrir la prueba de esta porción",
     "sliceTitle": "Porción {sig}",
     "back": "Todas las pruebas",
     "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {marca} other {Pyth}}",
     "walletShares": "Acciones en la billetera",
-    "multiplier": "Multiplicador Scaled UI"
+    "multiplier": "Multiplicador Scaled UI",
+    "transaction": "Transacción",
+    "mint": "Mint del token",
+    "recordTx": "Registro del sueldo",
+    "sliceHeading": "Prueba de la porción"
   },
   "site": {
     "header": {
@@ -1122,6 +1127,19 @@
         "issuerPreStocks": "Emisor: PreStocks"
       },
       "priceUnavailable": "Precio no disponible"
+    }
+  },
+  "chain": {
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "recorded": "Grabado en una bifurcación de mainnet",
+    "names": {
+      "tx": "Transacción",
+      "account": "Cuenta",
+      "mint": "Mint del token",
+      "program": "Programa",
+      "own-program": "Programa de Paycheck Router",
+      "feed": "Feed de precios de Pyth"
     }
   }
 }

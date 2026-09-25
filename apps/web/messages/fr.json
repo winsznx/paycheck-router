@@ -168,7 +168,6 @@
       "payInAddress": "Adresse de réception",
       "copy": "Copier",
       "copied": "Copié",
-      "explorer": "Explorateur",
       "payInQr": "QR code de votre adresse de réception",
       "holdings": "Positions",
       "seeAll": "Tout voir",
@@ -197,9 +196,12 @@
       "progress": "{done} sur {total} achetées{waiting, plural, =0 {} other {, # en attente}}",
       "slices": "Tranches",
       "onchain": "Onchain",
-      "inflowTx": "Virement du salaire {sig}",
-      "recordTx": "Enregistrement du salaire {sig}",
-      "arrived": "{amount} reçus. Achat de {invested} d'actions."
+      "inflowTx": "Virement du salaire",
+      "recordTx": "Enregistrement du salaire",
+      "arrived": "{amount} reçus. Achat de {invested} d'actions.",
+      "payer": "votre payeur",
+      "payerAddress": "Payeur",
+      "paycheckAccount": "Compte du salaire"
     },
     "paychecks": {
       "title": "Salaires",
@@ -319,7 +321,9 @@
       "pending": "En attente de finalité",
       "publicProof": "Ouvrir la page de preuve publique",
       "walletShares": "Actions dans votre wallet",
-      "multiplier": "Multiplicateur Scaled UI"
+      "multiplier": "Multiplicateur Scaled UI",
+      "transaction": "Transaction",
+      "mint": "Mint du token"
     },
     "activity": {
       "title": "Activité",
@@ -370,7 +374,6 @@
         "address": "Adresse du wallet",
         "copy": "Copier",
         "copied": "Copié",
-        "explorer": "Explorateur",
         "qr": "QR code de l'adresse de votre wallet",
         "allowance": "Autorisation",
         "allowanceValue": "{amount} restants à dépenser",
@@ -385,7 +388,7 @@
       },
       "security": {
         "title": "Sécurité",
-        "signedInAs": "Connecté avec le wallet {wallet}",
+        "signedInAs": "Connecté avec le wallet",
         "signedOut": "Vous êtes déconnecté.",
         "via": "Signé avec {wallet}",
         "signOut": "Se déconnecter",
@@ -447,7 +450,6 @@
       "address": "Adresse du wallet",
       "copy": "Copier",
       "copied": "Copié",
-      "explorer": "Explorateur",
       "qr": "QR code de l'adresse de votre wallet",
       "balance": "{amount} USDC dans ce wallet actuellement",
       "payoutGuide": "Dans Deel, Rise, Toku ou Bitwage, choisissez USDC sur Solana comme mode de paiement et collez cette adresse.",
@@ -549,7 +551,6 @@
       "address": "Adresse du wallet",
       "copy": "Copier",
       "copied": "Copié",
-      "explorer": "Explorateur",
       "qr": "QR code de l'adresse de votre wallet"
     }
   },
@@ -558,7 +559,7 @@
     "lead": "Ne nous croyez pas sur parole. Vérifiez la chaîne.",
     "ogTitle": "Chaque tranche, vérifiée sur la chaîne",
     "unavailable": "Les données de preuve n'ont pas pu être chargées. Réessayez dans une minute.",
-    "forkNotice": "Ces exécutions ont eu lieu sur un fork du mainnet avec Surfpool et le programme {program}. Rien n'apparaît sur un explorateur public et aucun fonds réel n'a bougé.",
+    "forkNotice": "Ces exécutions ont eu lieu sur un fork du mainnet avec Surfpool. Rien n'apparaît sur un explorateur public et aucun fonds réel n'a bougé.",
     "canonical": "Exécution de référence",
     "noRuns": "Aucune tranche exécutée pour l'instant.",
     "campaign": "Campagne",
@@ -572,7 +573,7 @@
     "recent": "Tranches récentes",
     "verifyTitle": "Vérifiez vous-même",
     "verifyBody": "Le vérificateur recalcule chaque tranche à partir des données de la chaîne et de l'historique Pyth, puis affiche PASS ou FAIL.",
-    "programId": "Programme {program}",
+    "programId": "Programme",
     "misleadTitle": "En quoi cela pourrait-il induire en erreur ?",
     "mislead": {
       "sample": "L'échantillon est petit : quelques salaires, pas des mois d'utilisation.",
@@ -594,12 +595,16 @@
     "unverified": "Non vérifiée",
     "executed": "Achetée",
     "paycheckLine": "Sur un salaire de {inflow}, {invested} investis",
-    "openSlice": "Ouvrir la tranche {sig}",
+    "openSlice": "Ouvrir la preuve de cette tranche",
     "sliceTitle": "Tranche {sig}",
     "back": "Toutes les preuves",
     "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {mark} other {Pyth}}",
     "walletShares": "Actions dans le wallet",
-    "multiplier": "Multiplicateur Scaled UI"
+    "multiplier": "Multiplicateur Scaled UI",
+    "transaction": "Transaction",
+    "mint": "Mint du token",
+    "recordTx": "Enregistrement du salaire",
+    "sliceHeading": "Preuve de la tranche"
   },
   "site": {
     "header": {
@@ -1122,6 +1127,19 @@
         "issuerPreStocks": "Émetteur : PreStocks"
       },
       "priceUnavailable": "Prix indisponible"
+    }
+  },
+  "chain": {
+    "copy": "Copier",
+    "copied": "Copié",
+    "recorded": "Enregistré sur un fork du mainnet",
+    "names": {
+      "tx": "Transaction",
+      "account": "Compte",
+      "mint": "Mint du token",
+      "program": "Programme",
+      "own-program": "Programme Paycheck Router",
+      "feed": "Flux de prix Pyth"
     }
   }
 }

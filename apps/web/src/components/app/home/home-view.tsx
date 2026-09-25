@@ -2,7 +2,6 @@
 
 import type { api } from "@paycheck-router/shared";
 import {
-  AddressField,
   AllowanceMeter,
   AssetChip,
   Banner,
@@ -25,8 +24,8 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useSyncExternalStore } from "react";
+import { ChainValue } from "@/components/chain-value.tsx";
 import { fetchers, keys } from "@/lib/data.ts";
-import { explorerUrl } from "@/lib/env.ts";
 import { usdc, usdcNumber, walletShares } from "@/lib/money.ts";
 import { colorSlotFor, toSegments } from "@/lib/paycheck-view.ts";
 import { useQuery } from "@/lib/query.ts";
@@ -315,13 +314,11 @@ export function HomeView() {
         ) : (
           <div className="pr-card stack">
             <EmptyState>{t("sendTest")}</EmptyState>
-            <AddressField
-              address={router.owner}
-              label={t("payInAddress")}
-              copyLabel={t("copy")}
-              copiedLabel={t("copied")}
-              explorerHref={explorerUrl("address", router.owner)}
-              explorerLabel={t("explorer")}
+            <ChainValue
+              kind="account"
+              value={router.owner}
+              name={t("payInAddress")}
+              display="full"
             />
             <QrCode value={router.owner} label={t("payInQr")} />
           </div>

@@ -168,7 +168,6 @@
       "payInAddress": "Pay-in address",
       "copy": "Copy",
       "copied": "Copied",
-      "explorer": "Explorer",
       "payInQr": "QR code for your pay-in address",
       "holdings": "Holdings",
       "seeAll": "See all",
@@ -197,9 +196,12 @@
       "progress": "{done} of {total} bought{waiting, plural, =0 {} other {, # waiting}}",
       "slices": "Slices",
       "onchain": "Onchain",
-      "inflowTx": "Paycheck transfer {sig}",
-      "recordTx": "Paycheck record {sig}",
-      "arrived": "{amount} arrived. Buying {invested} of stocks."
+      "inflowTx": "Paycheck transfer",
+      "recordTx": "Paycheck record",
+      "arrived": "{amount} arrived. Buying {invested} of stocks.",
+      "payer": "your payer",
+      "payerAddress": "Payer",
+      "paycheckAccount": "Paycheck account"
     },
     "paychecks": {
       "title": "Paychecks",
@@ -319,7 +321,9 @@
       "pending": "Waiting for finality",
       "publicProof": "Open the public proof page",
       "walletShares": "Shares in your wallet",
-      "multiplier": "Scaled UI multiplier"
+      "multiplier": "Scaled UI multiplier",
+      "transaction": "Transaction",
+      "mint": "Token mint"
     },
     "activity": {
       "title": "Activity",
@@ -370,7 +374,6 @@
         "address": "Wallet address",
         "copy": "Copy",
         "copied": "Copied",
-        "explorer": "Explorer",
         "qr": "QR code for your wallet address",
         "allowance": "Allowance",
         "allowanceValue": "{amount} left to spend",
@@ -385,7 +388,7 @@
       },
       "security": {
         "title": "Security",
-        "signedInAs": "Signed in with wallet {wallet}",
+        "signedInAs": "Signed in with wallet",
         "signedOut": "You're signed out.",
         "via": "Signed with {wallet}",
         "signOut": "Sign out",
@@ -447,7 +450,6 @@
       "address": "Wallet address",
       "copy": "Copy",
       "copied": "Copied",
-      "explorer": "Explorer",
       "qr": "QR code for your wallet address",
       "balance": "{amount} USDC in this wallet now",
       "payoutGuide": "In Deel, Rise, Toku or Bitwage, pick USDC on Solana as your payout and paste this address.",
@@ -549,7 +551,6 @@
       "address": "Wallet address",
       "copy": "Copy",
       "copied": "Copied",
-      "explorer": "Explorer",
       "qr": "QR code for your wallet address"
     }
   },
@@ -558,7 +559,7 @@
     "lead": "Don't trust us. Check the chain.",
     "ogTitle": "Every slice, checked against the chain",
     "unavailable": "Proof data couldn't be loaded right now. Try again in a minute.",
-    "forkNotice": "These runs executed on a Surfpool fork of mainnet with program {program}. Nothing here is on a public explorer, and no real funds moved.",
+    "forkNotice": "These runs executed on a Surfpool fork of mainnet. Nothing here is on a public explorer, and no real funds moved.",
     "canonical": "Canonical run",
     "noRuns": "No executed slices yet.",
     "campaign": "Campaign",
@@ -572,7 +573,7 @@
     "recent": "Recent slices",
     "verifyTitle": "Verify it yourself",
     "verifyBody": "The verifier recomputes each slice from chain data and Pyth history and prints PASS or FAIL.",
-    "programId": "Program {program}",
+    "programId": "Program",
     "misleadTitle": "How could this be misleading?",
     "mislead": {
       "sample": "The sample is small: a handful of paychecks, not months of use.",
@@ -594,12 +595,16 @@
     "unverified": "Unverified",
     "executed": "Bought",
     "paycheckLine": "From a {inflow} paycheck, {invested} invested",
-    "openSlice": "Open slice {sig}",
+    "openSlice": "Open this slice's proof",
     "sliceTitle": "Slice {sig}",
     "back": "All proof",
     "ogDetail": "{amount} → {asset} {premium} vs {reference, select, mark {mark} other {Pyth}}",
     "walletShares": "Shares in the wallet",
-    "multiplier": "Scaled UI multiplier"
+    "multiplier": "Scaled UI multiplier",
+    "transaction": "Transaction",
+    "mint": "Token mint",
+    "recordTx": "Paycheck record",
+    "sliceHeading": "Slice proof"
   },
   "site": {
     "header": {
@@ -1122,6 +1127,19 @@
         "issuerPreStocks": "Issuer: PreStocks"
       },
       "priceUnavailable": "Price unavailable"
+    }
+  },
+  "chain": {
+    "copy": "Copy",
+    "copied": "Copied",
+    "recorded": "Recorded on a mainnet fork",
+    "names": {
+      "tx": "Transaction",
+      "account": "Account",
+      "mint": "Token mint",
+      "program": "Program",
+      "own-program": "Paycheck Router program",
+      "feed": "Pyth price feed"
     }
   }
 }
