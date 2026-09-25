@@ -1,0 +1,97 @@
+Sep 25 15:55:15.073 [32mINFO[0m Datasource connection successful. Epoch 1042 / Slot index 241545 / Slot 450385545.
+Sep 25 15:55:15.073 [32mINFO[0m Skipping 0 lamport airdrop
+Sep 25 15:55:15.073 [32mINFO[0m Account Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz not found, creating a new account from default values
+Sep 25 15:55:15.073 [32mINFO[0m Account Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz updated.
+Sep 25 15:55:15.721 [32mINFO[0m Account 2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m not found, creating a new account from default values
+Sep 25 15:55:15.721 [32mINFO[0m Account 2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m updated.
+Sep 25 15:55:17.145 [32mINFO[0m Account 7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu not found, creating a new account from default values
+Sep 25 15:55:17.145 [32mINFO[0m Account 7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu updated.
+Sep 25 15:55:28.684 [32mINFO[0m Account EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL not found, creating a new account from default values
+Sep 25 15:55:28.684 [32mINFO[0m Account EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL updated.
+Sep 25 15:55:30.126 [32mINFO[0m Account CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA not found, creating a new account from default values
+Sep 25 15:55:30.126 [32mINFO[0m Account CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA updated.
+Sep 25 15:55:31.859 [32mINFO[0m Account 9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as not found, creating a new account from default values
+Sep 25 15:55:31.859 [32mINFO[0m Account 9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as updated.
+Sep 25 15:55:33.270 [32mINFO[0m Account CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw not found, creating a new account from default values
+Sep 25 15:55:33.270 [32mINFO[0m Account CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw updated.
+Sep 25 15:55:34.768 [32mINFO[0m Account HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU not found, creating a new account from default values
+Sep 25 15:55:34.768 [32mINFO[0m Account HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU updated.
+Sep 25 15:55:36.240 [32mINFO[0m Account hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy not found, creating a new account from default values
+Sep 25 15:55:36.240 [32mINFO[0m Account hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy updated.
+Sep 25 15:55:37.389 [32mINFO[0m Account 75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd not found, creating a new account from default values
+Sep 25 15:55:37.389 [32mINFO[0m Account 75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd updated.
+Sep 25 15:55:38.791 [32mINFO[0m Account CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et not found, creating a new account from default values
+Sep 25 15:55:38.791 [32mINFO[0m Account CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et updated.
+Sep 25 15:55:40.129 [32mINFO[0m Account AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ not found, creating a new account from default values
+Sep 25 15:55:40.129 [32mINFO[0m Account AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ updated.
+Sep 25 15:55:41.313 [32mINFO[0m Account EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v updated.
+Sep 25 15:55:41.841 [32mINFO[0m Account w3agifuLCa3XLpTQgXXKvC9Pipbn6AMaEPWk7ZTV86u updated.
+Sep 25 15:55:43.213 [32mINFO[0m Account FSYurJQkjYZE3i2RpJup4fxpGonDurdcUoNTSr86w6BY updated.
+Sep 25 15:55:44.629 [32mINFO[0m Account RJMMjTfuk35VJFYguqabN2Dp4HZPnqU433LW8LUB73F updated.
+Sep 25 15:55:48.667 [32mINFO[0m Account 9LZdXeKGeBV6hRLdxS1rHbHoEUsKqesCC2ZAPTPKJAbK updated.
+Sep 25 15:56:17.486 [32mINFO[0m Account J6uS2Gr9ficzTCBtDKukunXePfr3sa33t9brFiWtpRZv updated.
+Sep 25 15:56:18.288 [32mINFO[0m Account XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W updated.
+Sep 25 15:56:18.702 [32mINFO[0m Account Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ updated.
+Sep 25 15:56:19.374 [32mINFO[0m Account Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh updated.
+Sep 25 15:56:19.861 [32mINFO[0m Account XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp updated.
+Sep 25 15:56:20.443 [32mINFO[0m Account XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB updated.
+Sep 25 15:56:21.099 [32mINFO[0m Account XspzcW1PRtgf6Wj92HCiZdjzKCyFekVD8P5Ueh3dRMX updated.
+Sep 25 15:56:21.497 [32mINFO[0m Account XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN updated.
+Sep 25 15:56:22.139 [32mINFO[0m Account Xs3eBt7uRfJX8QUs4suhyU8p2M6DoUDrJyWBa8LLZsg updated.
+Sep 25 15:56:22.553 [32mINFO[0m Account Xsa62P5mvPszXL1krVUnU5ar38bBSVcWAB6fmPCo5Zu updated.
+Sep 25 15:56:23.187 [32mINFO[0m Account PreweJYECqtQwBtpxHL171nL2K6umo692gTm7Q3rpgF updated.
+Sep 25 15:56:23.766 [32mINFO[0m Account Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw updated.
+Sep 25 15:56:24.341 [32mINFO[0m Account PresTj4Yc2bAR197Er7wz4UUKSfqt6FryBEdAriBoQB updated.
+Sep 25 15:56:24.930 [32mINFO[0m Account PreZad18qfPtbxNpMtMuAuX2zVpvkEU8DnJx56faCWd updated.
+Sep 25 15:56:25.624 [32mINFO[0m Account PreLWGkkeqG1s4HEfFZSy9moCrJ7btsHuUtfcCeoRua updated.
+Sep 25 15:56:26.147 [32mINFO[0m Account Pre8AREmFPtoJFT8mQSXQLh56cwJmM7CFDRuoGBZiUP updated.
+Sep 25 15:56:26.742 [32mINFO[0m Account PrekqLJvJ3qVdXmBGDiexvwUTF4rLFDa6HWS4HJbw9S updated.
+Sep 25 15:56:27.377 [32mINFO[0m Account PreANxuXjsy2pvisWWMNB6YaJNzr7681wJJr2rHsfTh updated.
+Sep 25 15:56:39.524 [32mINFO[0m Account 8d9szTd157GKCLcxBqiLUgB7mek3v65rbsy2ErRyjwQ5 updated.
+Sep 25 15:56:39.524 [32mINFO[0m Account CmumsQAU6TvqW2VLFVySBjQYKqKDeUPMBVdrxJ2YoK1 updated.
+Sep 25 15:56:39.525 [32mINFO[0m Account HDwcJBJXjL9FpJ7UBsYBtaDjsBUhuLCUYoz3zr8SWWaQ updated.
+Sep 25 15:56:40.588 [32mINFO[0m Account BhXqweGr6Yp4ARfgpJGAPUyvosTS6vnBCMJoWfTToYo updated.
+Sep 25 15:56:40.596 [32mINFO[0m Account 96QrNCjmh32H9quY9DX4NEH81nECVsbkATBDZeoVbvLV updated.
+Sep 25 15:56:40.596 [32mINFO[0m Account rec5EKMGg6MxZYaMdyBfgwp4d5rB9T1VQH5pJv5LtFJ updated.
+Sep 25 15:56:40.596 [32mINFO[0m Account DaWUKXCyXsnzcvLUyeJRWou8KTn7XtadgTsdhJ6RHS7b updated.
+Sep 25 15:56:50.115 [32mINFO[0m Account 8ZxD2JNHaWokgyp26tMMSskB3fRRh3GSvFycj2Wgk1tu updated.
+Sep 25 15:56:58.922 [32mINFO[0m Account D8cy77BBepLMngZx6ZukaTff5hCt1HrWyKk3Hnd9oitf updated.
+Sep 25 15:56:58.922 [32mINFO[0m Account 2HquchT1EsaAtZLUcE9rFovLDqszxEka94xThh7E7vFE updated.
+Sep 25 15:56:58.922 [32mINFO[0m Account 61mmsZUgoFNuqzXDsRH9TV2U9zc5aL1H5pKKA2pogsCC updated.
+Sep 25 15:56:58.922 [32mINFO[0m Account So11111111111111111111111111111111111111112 updated.
+Sep 25 15:56:58.922 [32mINFO[0m Account 9QLobxLUYdmP4UJ6GJwMDHSroMDkpL7aEVhbqvnmZHd2 updated.
+Sep 25 15:56:58.922 [32mINFO[0m Account Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw updated.
+Sep 25 15:56:58.922 [32mINFO[0m Account 9R3wgE4GGNDCk6PJLJuVbcdBzZPUBituUQGxUcJX2VVP updated.
+Sep 25 15:56:58.923 [32mINFO[0m Account Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw updated.
+Sep 25 15:56:58.923 [32mINFO[0m Account GqV32FxMfyBCw8QGhSkGHkQxByGeC17Do7ZUVbetWNJH updated.
+Sep 25 15:56:58.923 [32mINFO[0m Account So11111111111111111111111111111111111111112 updated.
+Sep 25 15:56:58.923 [32mINFO[0m Account 44X92BsHwLxrLm7mxPws7axfqEUViscA3qXex3g988qQ updated.
+Sep 25 15:56:58.923 [32mINFO[0m Account EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v updated.
+Sep 25 15:56:58.923 [32mINFO[0m Account 784tzUM1PzWBC7cGfsPpFDGrPypgCisV85LQAmiz95AN updated.
+Sep 25 15:56:58.923 [32mINFO[0m Account F3ds62W3NNEBQrwi2ZFy2vX3xu5fxL6f7VMtRdmKjoCv updated.
+Sep 25 15:56:58.924 [32mINFO[0m Account 4Ec7ZxZS6Sbdg5UGSLHbAnM7GQHp2eFd4KYWRexAipQT updated.
+Sep 25 15:56:58.928 [32mINFO[0m Account JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4 updated.
+Sep 25 15:56:58.928 [32mINFO[0m Account G92J4ZFggKZ9LbsQ2zBpajRvRto7ed7uRuJJqWsX4BhJ updated.
+Sep 25 15:56:58.929 [32mINFO[0m Account MNFSTqtC93rEfYHB6hF82sKdZpUDFWkViLByLd1k1Ms updated.
+Sep 25 15:56:58.929 [32mINFO[0m Account 3arz4MHPGRFLxsd595niWSwYcRPdWPZrUhGTKXLGMrQe updated.
+Sep 25 15:56:58.929 [32mINFO[0m Account FLUX6xBayGxLX9UcimVRxXFMHH6q43mAbRvDzSpCsvfK updated.
+Sep 25 15:56:59.335 [32mINFO[0m Account FVD1dDS8z1sY5c4KLni6fEFNAK4YzqNgfvAKtC2iJbqr updated.
+Sep 25 15:56:59.335 [32mINFO[0m Account Hu5cMUbiMKS39q8Xjhxx2Rqx7fThUBHAH3rKVnBMaaby updated.
+Sep 25 15:56:59.846 [31mERROR[0m Transaction execution failed: Error processing Instruction 7: custom program error: 0x1773
+Sep 25 15:57:03.371 [32mINFO[0m Account 4fx91CCuTRJBG66K5yH6DegeifU4zn3jURmRCXMwJc7q updated.
+Sep 25 15:57:10.361 [32mINFO[0m Account 2xmhJyp2uNmttg5VfMbiWfMSdWtrN4N9vLX4MTPuMZ4J updated.
+Sep 25 15:57:10.361 [32mINFO[0m Account 3UYmuPPsByqS5CC7AKsEpB4W1WuZcr8UEEFgUBGgLjH3 updated.
+Sep 25 15:57:10.361 [32mINFO[0m Account 8zTGeWM6oKDzqumVqbZHXjHN8LrKBZcZ5FTeH5dx8N9a updated.
+Sep 25 15:57:10.361 [32mINFO[0m Account So11111111111111111111111111111111111111112 updated.
+Sep 25 15:57:10.361 [32mINFO[0m Account bHHnvxhkzBebvqxpnzVaXSdQ1GdFeZFg8yi9YKgL7zE updated.
+Sep 25 15:57:10.361 [32mINFO[0m Account EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v updated.
+Sep 25 15:57:10.361 [32mINFO[0m Account CRKZr6Y9t2hzVNWY4gJk5eig8uznyykB4RTuGSqJDw7n updated.
+Sep 25 15:57:10.361 [32mINFO[0m Account DJNtGuBGEQiUCWE8F981M2C3ZghZt2XLD8f2sQdZ6rsZ updated.
+Sep 25 15:57:10.361 [32mINFO[0m Account EaEKZFeuKvws16cfgkaCqZBwpvEdCC6Gsw6282A9WsCD updated.
+Sep 25 15:57:10.361 [32mINFO[0m Account syEzpmVAJVk5LCPUfNjtsF9peEsMBsmYyo1FHU7aVgy updated.
+Sep 25 15:57:10.361 [32mINFO[0m Account 66S4Bs8HVyaPdQ5JGfKixEZMf5CczcfnLGgGYEKnvi3Z updated.
+Sep 25 15:57:10.364 [32mINFO[0m Account HpNfyc2Saw7RKkQd8nEL4khUcuPhQ7WwY1B2qjx8jxFq updated.
+Sep 25 15:57:10.364 [32mINFO[0m Account HZzqEWHEvSiqYt6PxxLs7zXETmqGuryqfmvggjAkqisp updated.
+Sep 25 15:57:10.760 [32mINFO[0m Account 3Gh6vbi6wKLTnx93XzEb1nNtARB5cpBWZhHCgxY1tmxG updated.
+Sep 25 15:57:11.341 [31mERROR[0m Transaction execution failed: Error processing Instruction 6: custom program error: 0x1789
+Sep 25 15:57:14.389 [32mINFO[0m Account RtrdbkLysn6y6CJeAJd8Yg3rzCgJUXXu3awcwHYKaDu updated.

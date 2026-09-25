@@ -1,0 +1,33 @@
+Sep 25 15:49:10.686 [31mERROR[0m Failed to start subgraph and explorer server: Address already in use (os error 48)
+Sep 25 15:49:13.486 [33mWARN[0m Failed to start subgraph and explorer server: Address already in use (os error 48)
+Sep 25 15:49:13.486 [32mINFO[0m Continuing with simnet startup...
+Sep 25 15:49:13.486 [32mINFO[0m Datasource connection successful. Epoch 1042 / Slot index 240204 / Slot 450384204.
+Sep 25 15:49:13.486 [32mINFO[0m Skipping 0 lamport airdrop
+Sep 25 15:49:13.486 [32mINFO[0m Account Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz not found, creating a new account from default values
+Sep 25 15:49:13.486 [32mINFO[0m Account Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz updated.
+Sep 25 15:49:13.869 [32mINFO[0m Account 2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m not found, creating a new account from default values
+Sep 25 15:49:13.869 [32mINFO[0m Account 2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m updated.
+Sep 25 15:49:14.661 [32mINFO[0m Account 7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu not found, creating a new account from default values
+Sep 25 15:49:14.661 [32mINFO[0m Account 7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu updated.
+Sep 25 15:49:15.389 [32mINFO[0m Account EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL not found, creating a new account from default values
+Sep 25 15:49:15.389 [32mINFO[0m Account EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL updated.
+Sep 25 15:49:16.407 [32mINFO[0m Account CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA not found, creating a new account from default values
+Sep 25 15:49:16.407 [32mINFO[0m Account CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA updated.
+Sep 25 15:49:17.293 [32mINFO[0m Account 9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as not found, creating a new account from default values
+Sep 25 15:49:17.293 [32mINFO[0m Account 9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as updated.
+Sep 25 15:49:18.027 [32mINFO[0m Account CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw not found, creating a new account from default values
+Sep 25 15:49:18.028 [32mINFO[0m Account CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw updated.
+Sep 25 15:49:18.840 [32mINFO[0m Account HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU not found, creating a new account from default values
+Sep 25 15:49:18.840 [32mINFO[0m Account HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU updated.
+Sep 25 15:49:19.631 [32mINFO[0m Account hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy not found, creating a new account from default values
+Sep 25 15:49:19.631 [32mINFO[0m Account hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy updated.
+Sep 25 15:49:20.429 [32mINFO[0m Account 75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd not found, creating a new account from default values
+Sep 25 15:49:20.430 [32mINFO[0m Account 75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd updated.
+Sep 25 15:49:21.176 [32mINFO[0m Account CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et not found, creating a new account from default values
+Sep 25 15:49:21.176 [32mINFO[0m Account CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et updated.
+Sep 25 15:49:22.028 [32mINFO[0m Account AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ not found, creating a new account from default values
+Sep 25 15:49:22.028 [32mINFO[0m Account AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ updated.
+Sep 25 15:49:22.934 [32mINFO[0m Account EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v updated.
+Sep 25 15:49:23.295 [32mINFO[0m Account w3agifuLCa3XLpTQgXXKvC9Pipbn6AMaEPWk7ZTV86u updated.
+Sep 25 15:49:24.146 [32mINFO[0m Account FSYurJQkjYZE3i2RpJup4fxpGonDurdcUoNTSr86w6BY updated.
+Sep 25 15:49:25.003 [32mINFO[0m Account RJMMjTfuk35VJFYguqabN2Dp4HZPnqU433LW8LUB73F updated.

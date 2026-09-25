@@ -52,6 +52,8 @@ trident-tests/**/hfuzz_workspace/
 # OS and editor
 .DS_Store
 *.log
+# A campaign bundle's surfnet log is an artifact its manifest hashes.
+!evidence/campaign/**/surfpool.log
 .idea/
 .vscode/*
 !.vscode/extensions.json
