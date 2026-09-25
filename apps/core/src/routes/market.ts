@@ -1,11 +1,11 @@
 import { buyMinOut } from "@paycheck-router/guard-math";
 import { api, LAUNCH_CONFIG } from "@paycheck-router/shared";
-import { asc, inArray } from "drizzle-orm";
+import { and, asc, desc, eq, gt, inArray, sql } from "drizzle-orm";
 import { Hono } from "hono";
 import { mintTerms } from "../chain/mints.ts";
-import { assets } from "../db/schema.ts";
+import { assets, priceSnapshots } from "../db/schema.ts";
 import type { AppEnv } from "../http/context.ts";
-import { ApiError, parseOrThrow } from "../http/problem.ts";
+import { ApiError, notFound, parseOrThrow } from "../http/problem.ts";
 import { rateLimit } from "../http/rate-limit.ts";
 import { requireSession } from "../http/session.ts";
 import { priceE9 } from "../pricing/hermes.ts";
@@ -16,46 +16,92 @@ export const marketRoutes = new Hono<AppEnv>();
 marketRoutes.use("/assets", rateLimit("PUBLIC_LIMITER", "ip"));
 marketRoutes.use("/quote/*", requireSession, rateLimit("QUOTE_LIMITER", "user"));
 
+type AssetRow = typeof assets.$inferSelect;
+type Board = Awaited<ReturnType<typeof priceBoard>>;
+
+function assetView(row: AssetRow, board: Board): api.Asset {
+  const reference = board.reference.get(row.mint);
+  const onchain = board.onchainE9.get(row.mint);
+  const state = board.market.get(row.mint) ?? "unknown";
+  return {
+    mint: row.mint,
+    symbol: row.symbol,
+    name: row.name,
+    kind: row.kind,
+    issuer: row.issuer,
+    decimals: row.decimals,
+    tokenProgram: row.tokenProgram,
+    status: row.status,
+    defaultBandBps: row.defaultBandBps,
+    maxBandBps: row.maxBandBps,
+    feedId: row.feedId,
+    feedId247: row.feedId247,
+    market: { state, nextOpen: null },
+    reference:
+      reference?.pyth != null
+        ? {
+            feedId: reference.pyth.feedId,
+            price: reference.pyth.price.toString(),
+            conf: reference.pyth.conf.toString(),
+            exponent: reference.pyth.exponent,
+            publishTime: reference.pyth.publishTime.toISOString(),
+          }
+        : null,
+    referenceError: board.referenceError.get(row.mint) ?? null,
+    markPriceE9: board.markE9.get(row.mint)?.toString() ?? null,
+    onchainPriceE9: onchain?.toString() ?? null,
+    premiumBps: premiumBps(onchain, reference?.priceE9),
+  };
+}
+
 marketRoutes.get("/assets", async (c) => {
   const { db, now } = c.var.services;
   const rows = await db.select().from(assets).orderBy(asc(assets.sortOrder));
   const board = await priceBoard(c.env, rows, now());
   const body: api.AssetsResponse = {
-    assets: rows.map((row) => {
-      const reference = board.reference.get(row.mint);
-      const onchain = board.onchainE9.get(row.mint);
-      const state = board.market.get(row.mint) ?? "unknown";
-      return {
-        mint: row.mint,
-        symbol: row.symbol,
-        name: row.name,
-        kind: row.kind,
-        issuer: row.issuer,
-        decimals: row.decimals,
-        tokenProgram: row.tokenProgram,
-        status: row.status,
-        defaultBandBps: row.defaultBandBps,
-        maxBandBps: row.maxBandBps,
-        feedId: row.feedId,
-        feedId247: row.feedId247,
-        market: { state, nextOpen: null },
-        reference:
-          reference?.pyth != null
-            ? {
-                feedId: reference.pyth.feedId,
-                price: reference.pyth.price.toString(),
-                conf: reference.pyth.conf.toString(),
-                exponent: reference.pyth.exponent,
-                publishTime: reference.pyth.publishTime.toISOString(),
-              }
-            : null,
-        referenceError: board.referenceError.get(row.mint) ?? null,
-        markPriceE9: board.markE9.get(row.mint)?.toString() ?? null,
-        onchainPriceE9: onchain?.toString() ?? null,
-        premiumBps: premiumBps(onchain, reference?.priceE9),
-      };
-    }),
+    assets: rows.map((row) => assetView(row, board)),
     asOf: board.asOf.toISOString(),
+  };
+  return c.json(body);
+});
+
+marketRoutes.use("/assets/:mint", rateLimit("PUBLIC_LIMITER", "ip"));
+
+marketRoutes.get("/assets/:mint", async (c) => {
+  const { db, now } = c.var.services;
+  const mint = parseOrThrow(api.AddressString, c.req.param("mint"));
+  const [row] = await db.select().from(assets).where(eq(assets.mint, mint)).limit(1);
+  if (!row) throw notFound("Asset");
+  const board = await priceBoard(c.env, [row], now());
+  const since = new Date(now().getTime() - 30 * 24 * 60 * 60 * 1000);
+  const series = row.feedId
+    ? await db
+        .selectDistinctOn([sql`date_trunc('day', ${priceSnapshots.publishTime})`], {
+          day: sql<string>`to_char(date_trunc('day', ${priceSnapshots.publishTime}), 'YYYY-MM-DD')`,
+          price: priceSnapshots.price,
+          expo: priceSnapshots.expo,
+          publishTime: priceSnapshots.publishTime,
+        })
+        .from(priceSnapshots)
+        .where(and(eq(priceSnapshots.feedId, row.feedId), gt(priceSnapshots.publishTime, since)))
+        .orderBy(
+          sql`date_trunc('day', ${priceSnapshots.publishTime})`,
+          desc(priceSnapshots.publishTime),
+        )
+    : [];
+  const body: api.AssetDetail = {
+    ...assetView(row, board),
+    series: series.map((point) => ({
+      day: point.day,
+      closeE9: priceE9({
+        feedId: row.feedId ?? "",
+        price: point.price,
+        conf: 0n,
+        exponent: point.expo,
+        publishTime: point.publishTime,
+      }).toString(),
+      publishTime: point.publishTime.toISOString(),
+    })),
   };
   return c.json(body);
 });

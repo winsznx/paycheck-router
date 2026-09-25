@@ -25,6 +25,20 @@ export async function createTestDb(): Promise<{ db: Db; pg: PGlite }> {
   return { db: drizzle(pg, { schema }) as unknown as Db, pg };
 }
 
+/** KV test double backed by a Map. */
+function memoryKv(): KVNamespace {
+  const store = new Map<string, string>();
+  return {
+    get: async (key: string) => store.get(key) ?? null,
+    put: async (key: string, value: string) => {
+      store.set(key, value);
+    },
+    delete: async (key: string) => {
+      store.delete(key);
+    },
+  } as unknown as KVNamespace;
+}
+
 /** Rate limiter test double that always admits. */
 const openLimiter = { limit: async () => ({ success: true }) } as unknown as RateLimit;
 
@@ -44,6 +58,7 @@ export function testEnv(overrides: Partial<Env> = {}): Env {
     APP_ORIGIN: "http://localhost:3000",
     SIWS_DOMAIN: "localhost:3000",
     SESSION_SIGNING_KEY: sessionKey(),
+    REGISTRY: memoryKv(),
     USER_LIMITER: openLimiter,
     TX_LIMITER: openLimiter,
     QUOTE_LIMITER: openLimiter,

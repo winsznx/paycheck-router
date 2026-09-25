@@ -8,6 +8,7 @@ import type { AppEnv, Services } from "./http/context.ts";
 import { idempotency } from "./http/idempotency.ts";
 import { ApiError, notFound, problemResponse } from "./http/problem.ts";
 import { log } from "./log.ts";
+import { adminRoutes } from "./routes/admin.ts";
 import { authRoutes } from "./routes/auth.ts";
 import { marketRoutes } from "./routes/market.ts";
 import { meRoutes } from "./routes/me.ts";
@@ -66,6 +67,7 @@ export function createApp(makeServices: ServicesFactory): Hono<AppEnv> {
   app.notFound((c) => problemResponse(notFound(`${c.req.method} ${c.req.path}`), c.var.requestId));
 
   app.route("/auth", authRoutes);
+  app.route("/", adminRoutes);
   app.route("/", meRoutes);
   app.route("/", publicRoutes);
   app.route("/", realtimeRoutes);

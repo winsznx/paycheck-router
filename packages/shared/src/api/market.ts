@@ -56,6 +56,19 @@ export const Asset = z.object({
 export type Asset = z.infer<typeof Asset>;
 
 export const AssetsResponse = z.object({ assets: z.array(Asset), asOf: IsoDateTime });
+
+/** `GET /assets/:mint`: the asset plus its daily reference closes over 30 days. */
+export const AssetDetail = Asset.extend({
+  series: z.array(
+    z.object({
+      day: z.iso.date(),
+      /** Last Pyth price published that day, USD × 1e9 per whole token. */
+      closeE9: U64String,
+      publishTime: IsoDateTime,
+    }),
+  ),
+});
+export type AssetDetail = z.infer<typeof AssetDetail>;
 export type AssetsResponse = z.infer<typeof AssetsResponse>;
 
 export const LegSpec = z.object({
