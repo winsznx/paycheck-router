@@ -16,6 +16,7 @@ import {
   programErrorByCode,
   USDC_MINT,
 } from "@paycheck-router/shared";
+import { verifyBundle } from "@paycheck-router/verify";
 import { toJson } from "../../lib/bundle.ts";
 import type { Probe } from "./manifest.ts";
 import { fillCost, multiplierPairE12 } from "./metrics.ts";
@@ -321,10 +322,10 @@ function checkArtifacts(
   return n;
 }
 
-export function verifyCampaign(root: string): VerifyReport {
+export async function verifyCampaign(root: string): Promise<VerifyReport> {
   const errors: string[] = [];
   const notes: string[] = [];
-  const checked = { runs: 0, artifacts: 0, probes: 0, fills: 0 };
+  const checked = { runs: 0, artifacts: 0, probes: 0, fills: 0, bundleSlices: 0 };
   let runs: CaseRun[];
   try {
     runs = loadCampaign(root);
@@ -384,6 +385,24 @@ export function verifyCampaign(root: string): VerifyReport {
       run.manifest.probes.every((p) => p.pass);
     if (pass !== run.manifest.observed.pass)
       errors.push(`${label}: observed.pass does not follow its probes`);
+    for (const pc of run.paychecks) {
+      if (pc.manifest.legs.length === 0) continue;
+      // The independent verifier re-derives every executed and waiting slice of the paycheck
+      // bundle from its own artifacts: event fields, readback, Hermes history, wait reasons.
+      const report = await verifyBundle(pc.dir);
+      for (const slice of report.slices) {
+        const leg = pc.manifest.legs.find((l) => l.index === slice.index);
+        const judged = leg?.state === "VERIFIED" || leg?.state === "WAITING";
+        if (!judged) continue;
+        checked.bundleSlices++;
+        if (!slice.pass) {
+          const failed = slice.findings.filter((f) => !f.pass).map((f) => `${f.name}: ${f.detail}`);
+          errors.push(
+            `${label} ${slice.symbol}: @paycheck-router/verify rejects ${slice.claimed}: ${failed.join("; ")}`,
+          );
+        }
+      }
+    }
     for (const pc of run.paychecks) {
       for (const leg of pc.manifest.legs) {
         if (!leg.executed) continue;

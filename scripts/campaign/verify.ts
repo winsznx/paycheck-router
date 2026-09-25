@@ -9,9 +9,11 @@ import { verifyCampaign } from "./lib/verify.ts";
 
 const { values } = parseArgs({ options: { root: { type: "string" } } });
 const root = values.root ? resolve(values.root) : CAMPAIGN_ROOT;
-const report = verifyCampaign(root);
-const { runs, artifacts, probes, fills } = report.checked;
-console.log(`${root}: ${runs} case runs, ${artifacts} artifacts, ${probes} probes, ${fills} fills`);
+const report = await verifyCampaign(root);
+const { runs, artifacts, probes, fills, bundleSlices } = report.checked;
+console.log(
+  `${root}: ${runs} case runs, ${artifacts} artifacts, ${probes} probes, ${fills} fills, ${bundleSlices} slices re-derived by @paycheck-router/verify`,
+);
 for (const note of report.notes) console.log(`NOTE ${note}`);
 for (const error of report.errors) console.error(`MISMATCH ${error}`);
 console.log(

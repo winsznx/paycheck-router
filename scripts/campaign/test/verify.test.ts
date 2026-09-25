@@ -29,14 +29,14 @@ describe("verify:campaign", () => {
   const root = writeFixtureCampaign();
   const run = resolve(root, "p2-control", "2026-09-25T13-00-00-000Z");
 
-  it("rebuilds the summary from untouched artifacts", () => {
-    const report = verifyCampaign(root);
+  it("rebuilds the summary from untouched artifacts", async () => {
+    const report = await verifyCampaign(root);
     expect(report.errors).toEqual([]);
     expect(report.ok).toBe(true);
     expect(report.checked.probes).toBe(2);
   });
 
-  it("fails when one byte of a copied raw artifact is flipped", () => {
+  it("fails when one byte of a copied raw artifact is flipped", async () => {
     const copy = copyOf(root);
     flipOneByte(
       resolve(
@@ -50,12 +50,12 @@ describe("verify:campaign", () => {
         "after.json",
       ),
     );
-    const report = verifyCampaign(copy);
+    const report = await verifyCampaign(copy);
     expect(report.ok).toBe(false);
     expect(report.errors.join("\n")).toMatch(/sha256/);
   });
 
-  it("fails when a probe's recorded observation disagrees with its raw artifact", () => {
+  it("fails when a probe's recorded observation disagrees with its raw artifact", async () => {
     const copy = copyOf(root);
     const path = resolve(copy, "p2-control", "2026-09-25T13-00-00-000Z", "manifest.json");
     writeFileSync(
@@ -65,17 +65,17 @@ describe("verify:campaign", () => {
         '"observed": "account:present"',
       ),
     );
-    const report = verifyCampaign(copy);
+    const report = await verifyCampaign(copy);
     expect(report.ok).toBe(false);
   });
 
-  it("fails when summary.json is edited", () => {
+  it("fails when summary.json is edited", async () => {
     const copy = copyOf(root);
     const path = summaryPath(copy);
     const summary = JSON.parse(readFileSync(path, "utf8")) as { population: { slices: number } };
     summary.population.slices += 1;
     writeFileSync(path, `${JSON.stringify(summary, null, 2)}\n`);
-    const report = verifyCampaign(copy);
+    const report = await verifyCampaign(copy);
     expect(report.ok).toBe(false);
     expect(report.errors.join("\n")).toContain("summary.population.slices");
   });
@@ -110,7 +110,7 @@ describe("verify:campaign", () => {
     CLI_TIMEOUT_MS,
   );
 
-  it("reports an artifact path written twice and still checks its last write", () => {
+  it("reports an artifact path written twice and still checks its last write", async () => {
     // #given a manifest that recorded the account read twice, the earlier write since replaced
     const copy = copyOf(root);
     const path = resolve(copy, "p2-control", "2026-09-25T13-00-00-000Z", "manifest.json");
@@ -123,21 +123,21 @@ describe("verify:campaign", () => {
     writeFileSync(path, `${JSON.stringify(manifest, null, 2)}\n`);
 
     // #when it is verified untouched, and again after one byte of that file flips
-    const untouched = verifyCampaign(copy);
+    const untouched = await verifyCampaign(copy);
     flipOneByte(resolve(copy, "p2-control", "2026-09-25T13-00-00-000Z", read.path));
-    const flipped = verifyCampaign(copy);
+    const flipped = await verifyCampaign(copy);
 
     // #then the superseded write is a note, and the flip is still a mismatch
     expect([untouched.ok, untouched.notes.length, flipped.ok]).toEqual([true, 1, false]);
   });
 
-  it("keeps the fixture's run directory intact for the other tests", () => {
+  it("keeps the fixture's run directory intact for the other tests", async () => {
     expect(readFileSync(resolve(run, "manifest.json"), "utf8")).toContain("p2-control");
   });
 });
 
 describe("summaryDiff", () => {
-  it("names the path that differs", () => {
+  it("names the path that differs", async () => {
     expect(summaryDiff({ a: { b: 1, c: 2 } }, { a: { b: 1, c: 3 } })).toEqual([
       "summary.a.c: stored 2, rebuilt 3",
     ]);
