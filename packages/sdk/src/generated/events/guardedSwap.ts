@@ -66,6 +66,7 @@ export type GuardedSwapEvent = {
   amountIn: bigint;
   fee: bigint;
   outAmount: bigint;
+  issuerFee: bigint;
   minOut: bigint;
   refPriceE9: bigint;
   usdcPriceE9: bigint;
@@ -84,6 +85,7 @@ export type GuardedSwapEventArgs = {
   amountIn: number | bigint;
   fee: number | bigint;
   outAmount: number | bigint;
+  issuerFee: number | bigint;
   minOut: number | bigint;
   refPriceE9: number | bigint;
   usdcPriceE9: number | bigint;
@@ -105,6 +107,7 @@ export function getGuardedSwapEventEncoder(): Encoder<GuardedSwapEventArgs> {
       ["amountIn", getU64Encoder()],
       ["fee", getU64Encoder()],
       ["outAmount", getU64Encoder()],
+      ["issuerFee", getU64Encoder()],
       ["minOut", getU64Encoder()],
       ["refPriceE9", getU64Encoder()],
       ["usdcPriceE9", getU64Encoder()],
@@ -129,6 +132,7 @@ export function getGuardedSwapEventDecoder(): Decoder<GuardedSwapEvent> {
       ["amountIn", getU64Decoder()],
       ["fee", getU64Decoder()],
       ["outAmount", getU64Decoder()],
+      ["issuerFee", getU64Decoder()],
       ["minOut", getU64Decoder()],
       ["refPriceE9", getU64Decoder()],
       ["usdcPriceE9", getU64Decoder()],

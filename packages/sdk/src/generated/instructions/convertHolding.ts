@@ -18,12 +18,13 @@ import {
   getStructEncoder,
   getU32Decoder,
   getU32Encoder,
-  getU8Decoder,
-  getU8Encoder,
+  getU64Decoder,
+  getU64Encoder,
   SOLANA_ERROR__PROGRAM_CLIENTS__INSUFFICIENT_ACCOUNT_METAS,
   SolanaError,
   transformEncoder,
   type AccountMeta,
+  type AccountSignerMeta,
   type Address,
   type Codec,
   type Decoder,
@@ -32,47 +33,46 @@ import {
   type InstructionWithAccounts,
   type InstructionWithData,
   type ReadonlyAccount,
+  type ReadonlySignerAccount,
   type ReadonlyUint8Array,
   type WritableAccount,
 } from "@solana/kit";
 import {
   getAccountMetaFactory,
-  getAddressFromResolvedInstructionAccount,
   type InstructionAccountInput,
   type InstructionAccountInputAddress,
+  type InstructionSignerInput,
   type ResolvedInstructionAccount,
   type ResolvedInstructionAccountMeta,
 } from "@solana/kit/program-client-core";
-import { findAuthorityPda, findConfigPda } from "../pdas/index.ts";
+import { findConfigPda } from "../pdas/index.ts";
 import { PAYCHECK_ROUTER_PROGRAM_ADDRESS } from "../programs/index.ts";
 
-export const EXECUTE_LEG_DISCRIMINATOR: ReadonlyUint8Array = new Uint8Array([
-  157, 202, 139, 249, 134, 122, 161, 102,
-]);
+export const CONVERT_HOLDING_DISCRIMINATOR: ReadonlyUint8Array = new Uint8Array(
+  [154, 91, 19, 202, 37, 130, 76, 188],
+);
 
-export function getExecuteLegDiscriminatorBytes(): ReadonlyUint8Array {
-  return fixEncoderSize(getBytesEncoder(), 8).encode(EXECUTE_LEG_DISCRIMINATOR);
+export function getConvertHoldingDiscriminatorBytes(): ReadonlyUint8Array {
+  return fixEncoderSize(getBytesEncoder(), 8).encode(
+    CONVERT_HOLDING_DISCRIMINATOR,
+  );
 }
 
-export type ExecuteLegInstruction<
+export type ConvertHoldingInstruction<
   TProgram extends string = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
+  TAccountCaller extends string | AccountMeta<string> = string,
   TAccountConfig extends string | AccountMeta<string> = string,
   TAccountRouter extends string | AccountMeta<string> = string,
-  TAccountPaycheck extends string | AccountMeta<string> = string,
   TAccountAsset extends string | AccountMeta<string> = string,
-  TAccountAuthority extends string | AccountMeta<string> = string,
-  TAccountPayIn extends string | AccountMeta<string> = string,
-  TAccountAuthorityUsdc extends string | AccountMeta<string> = string,
-  TAccountTreasury extends string | AccountMeta<string> = string,
-  TAccountUsdcMint extends string | AccountMeta<string> = string,
+  TAccountConvertAuthority extends string | AccountMeta<string> = string,
+  TAccountOwnerSource extends string | AccountMeta<string> = string,
+  TAccountConvertSource extends string | AccountMeta<string> = string,
   TAccountDestination extends string | AccountMeta<string> = string,
   TAccountAssetMint extends string | AccountMeta<string> = string,
-  TAccountPriceUpdate extends string | AccountMeta<string> = string,
-  TAccountPriceUpdate247 extends string | AccountMeta<string> = string,
-  TAccountUsdcPriceUpdate extends string | AccountMeta<string> = string,
+  TAccountTargetMint extends string | AccountMeta<string> = string,
   TAccountJupiterProgram extends string | AccountMeta<string> = string,
-  TAccountUsdcTokenProgram extends string | AccountMeta<string> = string,
   TAccountAssetTokenProgram extends string | AccountMeta<string> = string,
+  TAccountTargetTokenProgram extends string | AccountMeta<string> = string,
   TAccountOwnerIntermediate extends string | AccountMeta<string> = string,
   TAccountIntermediateMint extends string | AccountMeta<string> = string,
   TRemainingAccounts extends readonly AccountMeta<string>[] = [],
@@ -80,57 +80,46 @@ export type ExecuteLegInstruction<
   InstructionWithData<ReadonlyUint8Array> &
   InstructionWithAccounts<
     [
+      TAccountCaller extends string
+        ? ReadonlySignerAccount<TAccountCaller> &
+            AccountSignerMeta<TAccountCaller>
+        : TAccountCaller,
       TAccountConfig extends string
         ? ReadonlyAccount<TAccountConfig>
         : TAccountConfig,
       TAccountRouter extends string
-        ? WritableAccount<TAccountRouter>
+        ? ReadonlyAccount<TAccountRouter>
         : TAccountRouter,
-      TAccountPaycheck extends string
-        ? WritableAccount<TAccountPaycheck>
-        : TAccountPaycheck,
       TAccountAsset extends string
         ? ReadonlyAccount<TAccountAsset>
         : TAccountAsset,
-      TAccountAuthority extends string
-        ? ReadonlyAccount<TAccountAuthority>
-        : TAccountAuthority,
-      TAccountPayIn extends string
-        ? WritableAccount<TAccountPayIn>
-        : TAccountPayIn,
-      TAccountAuthorityUsdc extends string
-        ? WritableAccount<TAccountAuthorityUsdc>
-        : TAccountAuthorityUsdc,
-      TAccountTreasury extends string
-        ? WritableAccount<TAccountTreasury>
-        : TAccountTreasury,
-      TAccountUsdcMint extends string
-        ? ReadonlyAccount<TAccountUsdcMint>
-        : TAccountUsdcMint,
+      TAccountConvertAuthority extends string
+        ? ReadonlyAccount<TAccountConvertAuthority>
+        : TAccountConvertAuthority,
+      TAccountOwnerSource extends string
+        ? WritableAccount<TAccountOwnerSource>
+        : TAccountOwnerSource,
+      TAccountConvertSource extends string
+        ? WritableAccount<TAccountConvertSource>
+        : TAccountConvertSource,
       TAccountDestination extends string
         ? WritableAccount<TAccountDestination>
         : TAccountDestination,
       TAccountAssetMint extends string
         ? ReadonlyAccount<TAccountAssetMint>
         : TAccountAssetMint,
-      TAccountPriceUpdate extends string
-        ? ReadonlyAccount<TAccountPriceUpdate>
-        : TAccountPriceUpdate,
-      TAccountPriceUpdate247 extends string
-        ? ReadonlyAccount<TAccountPriceUpdate247>
-        : TAccountPriceUpdate247,
-      TAccountUsdcPriceUpdate extends string
-        ? ReadonlyAccount<TAccountUsdcPriceUpdate>
-        : TAccountUsdcPriceUpdate,
+      TAccountTargetMint extends string
+        ? ReadonlyAccount<TAccountTargetMint>
+        : TAccountTargetMint,
       TAccountJupiterProgram extends string
         ? ReadonlyAccount<TAccountJupiterProgram>
         : TAccountJupiterProgram,
-      TAccountUsdcTokenProgram extends string
-        ? ReadonlyAccount<TAccountUsdcTokenProgram>
-        : TAccountUsdcTokenProgram,
       TAccountAssetTokenProgram extends string
         ? ReadonlyAccount<TAccountAssetTokenProgram>
         : TAccountAssetTokenProgram,
+      TAccountTargetTokenProgram extends string
+        ? ReadonlyAccount<TAccountTargetTokenProgram>
+        : TAccountTargetTokenProgram,
       TAccountOwnerIntermediate extends string
         ? WritableAccount<TAccountOwnerIntermediate>
         : TAccountOwnerIntermediate,
@@ -141,150 +130,138 @@ export type ExecuteLegInstruction<
     ]
   >;
 
-export type ExecuteLegInstructionData = {
+export type ConvertHoldingInstructionData = {
   discriminator: ReadonlyUint8Array;
-  legIndex: number;
+  amount: bigint;
   swapData: ReadonlyUint8Array;
 };
 
-export type ExecuteLegInstructionDataArgs = {
-  legIndex: number;
+export type ConvertHoldingInstructionDataArgs = {
+  amount: number | bigint;
   swapData: ReadonlyUint8Array;
 };
 
-export function getExecuteLegInstructionDataEncoder(): Encoder<ExecuteLegInstructionDataArgs> {
+export function getConvertHoldingInstructionDataEncoder(): Encoder<ConvertHoldingInstructionDataArgs> {
   return transformEncoder(
     getStructEncoder([
       ["discriminator", fixEncoderSize(getBytesEncoder(), 8)],
-      ["legIndex", getU8Encoder()],
+      ["amount", getU64Encoder()],
       ["swapData", addEncoderSizePrefix(getBytesEncoder(), getU32Encoder())],
     ]),
-    (value) => ({ ...value, discriminator: EXECUTE_LEG_DISCRIMINATOR }),
+    (value) => ({ ...value, discriminator: CONVERT_HOLDING_DISCRIMINATOR }),
   );
 }
 
-export function getExecuteLegInstructionDataDecoder(): Decoder<ExecuteLegInstructionData> {
+export function getConvertHoldingInstructionDataDecoder(): Decoder<ConvertHoldingInstructionData> {
   return getStructDecoder([
     ["discriminator", fixDecoderSize(getBytesDecoder(), 8)],
-    ["legIndex", getU8Decoder()],
+    ["amount", getU64Decoder()],
     ["swapData", addDecoderSizePrefix(getBytesDecoder(), getU32Decoder())],
   ]);
 }
 
-export function getExecuteLegInstructionDataCodec(): Codec<
-  ExecuteLegInstructionDataArgs,
-  ExecuteLegInstructionData
+export function getConvertHoldingInstructionDataCodec(): Codec<
+  ConvertHoldingInstructionDataArgs,
+  ConvertHoldingInstructionData
 > {
   return combineCodec(
-    getExecuteLegInstructionDataEncoder(),
-    getExecuteLegInstructionDataDecoder(),
+    getConvertHoldingInstructionDataEncoder(),
+    getConvertHoldingInstructionDataDecoder(),
   );
 }
 
-export type ExecuteLegAsyncInput<
+export type ConvertHoldingAsyncInput<
+  TAccountCaller extends InstructionSignerInput = InstructionSignerInput,
   TAccountConfig extends InstructionAccountInput = InstructionAccountInput,
   TAccountRouter extends InstructionAccountInput = InstructionAccountInput,
-  TAccountPaycheck extends InstructionAccountInput = InstructionAccountInput,
   TAccountAsset extends InstructionAccountInput = InstructionAccountInput,
-  TAccountAuthority extends InstructionAccountInput = InstructionAccountInput,
-  TAccountPayIn extends InstructionAccountInput = InstructionAccountInput,
-  TAccountAuthorityUsdc extends InstructionAccountInput =
+  TAccountConvertAuthority extends InstructionAccountInput =
     InstructionAccountInput,
-  TAccountTreasury extends InstructionAccountInput = InstructionAccountInput,
-  TAccountUsdcMint extends InstructionAccountInput = InstructionAccountInput,
+  TAccountOwnerSource extends InstructionAccountInput = InstructionAccountInput,
+  TAccountConvertSource extends InstructionAccountInput =
+    InstructionAccountInput,
   TAccountDestination extends InstructionAccountInput = InstructionAccountInput,
   TAccountAssetMint extends InstructionAccountInput = InstructionAccountInput,
-  TAccountPriceUpdate extends InstructionAccountInput = InstructionAccountInput,
-  TAccountPriceUpdate247 extends InstructionAccountInput =
-    InstructionAccountInput,
-  TAccountUsdcPriceUpdate extends InstructionAccountInput =
-    InstructionAccountInput,
+  TAccountTargetMint extends InstructionAccountInput = InstructionAccountInput,
   TAccountJupiterProgram extends InstructionAccountInput =
     InstructionAccountInput,
-  TAccountUsdcTokenProgram extends InstructionAccountInput =
-    InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput =
+    InstructionAccountInput,
+  TAccountTargetTokenProgram extends InstructionAccountInput =
     InstructionAccountInput,
   TAccountOwnerIntermediate extends InstructionAccountInput =
     InstructionAccountInput,
   TAccountIntermediateMint extends InstructionAccountInput =
     InstructionAccountInput,
 > = {
+  caller: TAccountCaller;
   config?: TAccountConfig;
   router: TAccountRouter;
-  paycheck: TAccountPaycheck;
   asset: TAccountAsset;
-  authority?: TAccountAuthority;
-  payIn: TAccountPayIn;
-  authorityUsdc: TAccountAuthorityUsdc;
-  treasury: TAccountTreasury;
-  usdcMint: TAccountUsdcMint;
+  convertAuthority: TAccountConvertAuthority;
+  /** The owner's pre-IPO token account; the Convert authority is its delegate. */
+  ownerSource: TAccountOwnerSource;
+  convertSource: TAccountConvertSource;
+  /** The owner's account for the conversion target. */
   destination: TAccountDestination;
   assetMint: TAccountAssetMint;
-  /** verification level, feed and age are checked in the handler. */
-  priceUpdate: TAccountPriceUpdate;
-  priceUpdate247?: TAccountPriceUpdate247;
-  usdcPriceUpdate: TAccountUsdcPriceUpdate;
+  targetMint: TAccountTargetMint;
   jupiterProgram: TAccountJupiterProgram;
-  usdcTokenProgram: TAccountUsdcTokenProgram;
   assetTokenProgram: TAccountAssetTokenProgram;
+  targetTokenProgram: TAccountTargetTokenProgram;
   /**
    * The owner's token account for the route's intermediate mint, when the
    * route passes through one. Leftovers of that mint are swept here.
    */
   ownerIntermediate?: TAccountOwnerIntermediate;
   intermediateMint?: TAccountIntermediateMint;
-  legIndex: ExecuteLegInstructionDataArgs["legIndex"];
-  swapData: ExecuteLegInstructionDataArgs["swapData"];
+  amount: ConvertHoldingInstructionDataArgs["amount"];
+  swapData: ConvertHoldingInstructionDataArgs["swapData"];
 };
 
-export async function getExecuteLegInstructionAsync<
+export async function getConvertHoldingInstructionAsync<
+  TAccountCaller extends InstructionSignerInput,
   TAccountConfig extends InstructionAccountInput,
   TAccountRouter extends InstructionAccountInput,
-  TAccountPaycheck extends InstructionAccountInput,
   TAccountAsset extends InstructionAccountInput,
-  TAccountAuthority extends InstructionAccountInput,
-  TAccountPayIn extends InstructionAccountInput,
-  TAccountAuthorityUsdc extends InstructionAccountInput,
-  TAccountTreasury extends InstructionAccountInput,
-  TAccountUsdcMint extends InstructionAccountInput,
+  TAccountConvertAuthority extends InstructionAccountInput,
+  TAccountOwnerSource extends InstructionAccountInput,
+  TAccountConvertSource extends InstructionAccountInput,
   TAccountDestination extends InstructionAccountInput,
   TAccountAssetMint extends InstructionAccountInput,
-  TAccountPriceUpdate extends InstructionAccountInput,
-  TAccountPriceUpdate247 extends InstructionAccountInput,
-  TAccountUsdcPriceUpdate extends InstructionAccountInput,
+  TAccountTargetMint extends InstructionAccountInput,
   TAccountJupiterProgram extends InstructionAccountInput,
-  TAccountUsdcTokenProgram extends InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput,
+  TAccountTargetTokenProgram extends InstructionAccountInput,
   TAccountOwnerIntermediate extends InstructionAccountInput,
   TAccountIntermediateMint extends InstructionAccountInput,
   TProgramAddress extends Address = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
 >(
-  input: ExecuteLegAsyncInput<
+  input: ConvertHoldingAsyncInput<
+    TAccountCaller,
     TAccountConfig,
     TAccountRouter,
-    TAccountPaycheck,
     TAccountAsset,
-    TAccountAuthority,
-    TAccountPayIn,
-    TAccountAuthorityUsdc,
-    TAccountTreasury,
-    TAccountUsdcMint,
+    TAccountConvertAuthority,
+    TAccountOwnerSource,
+    TAccountConvertSource,
     TAccountDestination,
     TAccountAssetMint,
-    TAccountPriceUpdate,
-    TAccountPriceUpdate247,
-    TAccountUsdcPriceUpdate,
+    TAccountTargetMint,
     TAccountJupiterProgram,
-    TAccountUsdcTokenProgram,
     TAccountAssetTokenProgram,
+    TAccountTargetTokenProgram,
     TAccountOwnerIntermediate,
     TAccountIntermediateMint
   >,
   config?: { programAddress?: TProgramAddress },
 ): Promise<
-  ExecuteLegInstruction<
+  ConvertHoldingInstruction<
     TProgramAddress,
+    ResolvedInstructionAccountMeta<
+      TAccountCaller,
+      InstructionAccountInputAddress<TAccountCaller>
+    >,
     ResolvedInstructionAccountMeta<
       TAccountConfig,
       InstructionAccountInputAddress<TAccountConfig>
@@ -294,32 +271,20 @@ export async function getExecuteLegInstructionAsync<
       InstructionAccountInputAddress<TAccountRouter>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountPaycheck,
-      InstructionAccountInputAddress<TAccountPaycheck>
-    >,
-    ResolvedInstructionAccountMeta<
       TAccountAsset,
       InstructionAccountInputAddress<TAccountAsset>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountAuthority,
-      InstructionAccountInputAddress<TAccountAuthority>
+      TAccountConvertAuthority,
+      InstructionAccountInputAddress<TAccountConvertAuthority>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountPayIn,
-      InstructionAccountInputAddress<TAccountPayIn>
+      TAccountOwnerSource,
+      InstructionAccountInputAddress<TAccountOwnerSource>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountAuthorityUsdc,
-      InstructionAccountInputAddress<TAccountAuthorityUsdc>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountTreasury,
-      InstructionAccountInputAddress<TAccountTreasury>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountUsdcMint,
-      InstructionAccountInputAddress<TAccountUsdcMint>
+      TAccountConvertSource,
+      InstructionAccountInputAddress<TAccountConvertSource>
     >,
     ResolvedInstructionAccountMeta<
       TAccountDestination,
@@ -330,28 +295,20 @@ export async function getExecuteLegInstructionAsync<
       InstructionAccountInputAddress<TAccountAssetMint>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountPriceUpdate,
-      InstructionAccountInputAddress<TAccountPriceUpdate>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountPriceUpdate247,
-      InstructionAccountInputAddress<TAccountPriceUpdate247>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountUsdcPriceUpdate,
-      InstructionAccountInputAddress<TAccountUsdcPriceUpdate>
+      TAccountTargetMint,
+      InstructionAccountInputAddress<TAccountTargetMint>
     >,
     ResolvedInstructionAccountMeta<
       TAccountJupiterProgram,
       InstructionAccountInputAddress<TAccountJupiterProgram>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountUsdcTokenProgram,
-      InstructionAccountInputAddress<TAccountUsdcTokenProgram>
-    >,
-    ResolvedInstructionAccountMeta<
       TAccountAssetTokenProgram,
       InstructionAccountInputAddress<TAccountAssetTokenProgram>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountTargetTokenProgram,
+      InstructionAccountInputAddress<TAccountTargetTokenProgram>
     >,
     ResolvedInstructionAccountMeta<
       TAccountOwnerIntermediate,
@@ -372,34 +329,24 @@ export async function getExecuteLegInstructionAsync<
 
   // Original accounts.
   const originalAccounts = {
+    caller: { value: input.caller ?? null, isSigner: true, isWritable: false },
     config: { value: input.config ?? null, isSigner: false, isWritable: false },
-    router: { value: input.router ?? null, isSigner: false, isWritable: true },
-    paycheck: {
-      value: input.paycheck ?? null,
-      isSigner: false,
-      isWritable: true,
-    },
+    router: { value: input.router ?? null, isSigner: false, isWritable: false },
     asset: { value: input.asset ?? null, isSigner: false, isWritable: false },
-    authority: {
-      value: input.authority ?? null,
+    convertAuthority: {
+      value: input.convertAuthority ?? null,
       isSigner: false,
       isWritable: false,
     },
-    payIn: { value: input.payIn ?? null, isSigner: false, isWritable: true },
-    authorityUsdc: {
-      value: input.authorityUsdc ?? null,
+    ownerSource: {
+      value: input.ownerSource ?? null,
       isSigner: false,
       isWritable: true,
     },
-    treasury: {
-      value: input.treasury ?? null,
+    convertSource: {
+      value: input.convertSource ?? null,
       isSigner: false,
       isWritable: true,
-    },
-    usdcMint: {
-      value: input.usdcMint ?? null,
-      isSigner: false,
-      isWritable: false,
     },
     destination: {
       value: input.destination ?? null,
@@ -411,18 +358,8 @@ export async function getExecuteLegInstructionAsync<
       isSigner: false,
       isWritable: false,
     },
-    priceUpdate: {
-      value: input.priceUpdate ?? null,
-      isSigner: false,
-      isWritable: false,
-    },
-    priceUpdate247: {
-      value: input.priceUpdate247 ?? null,
-      isSigner: false,
-      isWritable: false,
-    },
-    usdcPriceUpdate: {
-      value: input.usdcPriceUpdate ?? null,
+    targetMint: {
+      value: input.targetMint ?? null,
       isSigner: false,
       isWritable: false,
     },
@@ -431,13 +368,13 @@ export async function getExecuteLegInstructionAsync<
       isSigner: false,
       isWritable: false,
     },
-    usdcTokenProgram: {
-      value: input.usdcTokenProgram ?? null,
+    assetTokenProgram: {
+      value: input.assetTokenProgram ?? null,
       isSigner: false,
       isWritable: false,
     },
-    assetTokenProgram: {
-      value: input.assetTokenProgram ?? null,
+    targetTokenProgram: {
+      value: input.targetTokenProgram ?? null,
       isSigner: false,
       isWritable: false,
     },
@@ -464,46 +401,35 @@ export async function getExecuteLegInstructionAsync<
   if (!accounts.config.value) {
     accounts.config.value = await findConfigPda({ programAddress });
   }
-  if (!accounts.authority.value) {
-    accounts.authority.value = await findAuthorityPda(
-      {
-        router: getAddressFromResolvedInstructionAccount(
-          "router",
-          accounts.router.value,
-        ),
-      },
-      { programAddress },
-    );
-  }
 
   return Object.freeze({
     accounts: [
+      getAccountMeta("caller", accounts.caller),
       getAccountMeta("config", accounts.config),
       getAccountMeta("router", accounts.router),
-      getAccountMeta("paycheck", accounts.paycheck),
       getAccountMeta("asset", accounts.asset),
-      getAccountMeta("authority", accounts.authority),
-      getAccountMeta("payIn", accounts.payIn),
-      getAccountMeta("authorityUsdc", accounts.authorityUsdc),
-      getAccountMeta("treasury", accounts.treasury),
-      getAccountMeta("usdcMint", accounts.usdcMint),
+      getAccountMeta("convertAuthority", accounts.convertAuthority),
+      getAccountMeta("ownerSource", accounts.ownerSource),
+      getAccountMeta("convertSource", accounts.convertSource),
       getAccountMeta("destination", accounts.destination),
       getAccountMeta("assetMint", accounts.assetMint),
-      getAccountMeta("priceUpdate", accounts.priceUpdate),
-      getAccountMeta("priceUpdate247", accounts.priceUpdate247),
-      getAccountMeta("usdcPriceUpdate", accounts.usdcPriceUpdate),
+      getAccountMeta("targetMint", accounts.targetMint),
       getAccountMeta("jupiterProgram", accounts.jupiterProgram),
-      getAccountMeta("usdcTokenProgram", accounts.usdcTokenProgram),
       getAccountMeta("assetTokenProgram", accounts.assetTokenProgram),
+      getAccountMeta("targetTokenProgram", accounts.targetTokenProgram),
       getAccountMeta("ownerIntermediate", accounts.ownerIntermediate),
       getAccountMeta("intermediateMint", accounts.intermediateMint),
     ],
-    data: getExecuteLegInstructionDataEncoder().encode(
-      args as ExecuteLegInstructionDataArgs,
+    data: getConvertHoldingInstructionDataEncoder().encode(
+      args as ConvertHoldingInstructionDataArgs,
     ),
     programAddress,
-  } as ExecuteLegInstruction<
+  } as ConvertHoldingInstruction<
     TProgramAddress,
+    ResolvedInstructionAccountMeta<
+      TAccountCaller,
+      InstructionAccountInputAddress<TAccountCaller>
+    >,
     ResolvedInstructionAccountMeta<
       TAccountConfig,
       InstructionAccountInputAddress<TAccountConfig>
@@ -513,32 +439,20 @@ export async function getExecuteLegInstructionAsync<
       InstructionAccountInputAddress<TAccountRouter>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountPaycheck,
-      InstructionAccountInputAddress<TAccountPaycheck>
-    >,
-    ResolvedInstructionAccountMeta<
       TAccountAsset,
       InstructionAccountInputAddress<TAccountAsset>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountAuthority,
-      InstructionAccountInputAddress<TAccountAuthority>
+      TAccountConvertAuthority,
+      InstructionAccountInputAddress<TAccountConvertAuthority>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountPayIn,
-      InstructionAccountInputAddress<TAccountPayIn>
+      TAccountOwnerSource,
+      InstructionAccountInputAddress<TAccountOwnerSource>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountAuthorityUsdc,
-      InstructionAccountInputAddress<TAccountAuthorityUsdc>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountTreasury,
-      InstructionAccountInputAddress<TAccountTreasury>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountUsdcMint,
-      InstructionAccountInputAddress<TAccountUsdcMint>
+      TAccountConvertSource,
+      InstructionAccountInputAddress<TAccountConvertSource>
     >,
     ResolvedInstructionAccountMeta<
       TAccountDestination,
@@ -549,28 +463,20 @@ export async function getExecuteLegInstructionAsync<
       InstructionAccountInputAddress<TAccountAssetMint>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountPriceUpdate,
-      InstructionAccountInputAddress<TAccountPriceUpdate>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountPriceUpdate247,
-      InstructionAccountInputAddress<TAccountPriceUpdate247>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountUsdcPriceUpdate,
-      InstructionAccountInputAddress<TAccountUsdcPriceUpdate>
+      TAccountTargetMint,
+      InstructionAccountInputAddress<TAccountTargetMint>
     >,
     ResolvedInstructionAccountMeta<
       TAccountJupiterProgram,
       InstructionAccountInputAddress<TAccountJupiterProgram>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountUsdcTokenProgram,
-      InstructionAccountInputAddress<TAccountUsdcTokenProgram>
-    >,
-    ResolvedInstructionAccountMeta<
       TAccountAssetTokenProgram,
       InstructionAccountInputAddress<TAccountAssetTokenProgram>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountTargetTokenProgram,
+      InstructionAccountInputAddress<TAccountTargetTokenProgram>
     >,
     ResolvedInstructionAccountMeta<
       TAccountOwnerIntermediate,
@@ -583,109 +489,97 @@ export async function getExecuteLegInstructionAsync<
   >);
 }
 
-export type ExecuteLegInput<
+export type ConvertHoldingInput<
+  TAccountCaller extends InstructionSignerInput = InstructionSignerInput,
   TAccountConfig extends InstructionAccountInput = InstructionAccountInput,
   TAccountRouter extends InstructionAccountInput = InstructionAccountInput,
-  TAccountPaycheck extends InstructionAccountInput = InstructionAccountInput,
   TAccountAsset extends InstructionAccountInput = InstructionAccountInput,
-  TAccountAuthority extends InstructionAccountInput = InstructionAccountInput,
-  TAccountPayIn extends InstructionAccountInput = InstructionAccountInput,
-  TAccountAuthorityUsdc extends InstructionAccountInput =
+  TAccountConvertAuthority extends InstructionAccountInput =
     InstructionAccountInput,
-  TAccountTreasury extends InstructionAccountInput = InstructionAccountInput,
-  TAccountUsdcMint extends InstructionAccountInput = InstructionAccountInput,
+  TAccountOwnerSource extends InstructionAccountInput = InstructionAccountInput,
+  TAccountConvertSource extends InstructionAccountInput =
+    InstructionAccountInput,
   TAccountDestination extends InstructionAccountInput = InstructionAccountInput,
   TAccountAssetMint extends InstructionAccountInput = InstructionAccountInput,
-  TAccountPriceUpdate extends InstructionAccountInput = InstructionAccountInput,
-  TAccountPriceUpdate247 extends InstructionAccountInput =
-    InstructionAccountInput,
-  TAccountUsdcPriceUpdate extends InstructionAccountInput =
-    InstructionAccountInput,
+  TAccountTargetMint extends InstructionAccountInput = InstructionAccountInput,
   TAccountJupiterProgram extends InstructionAccountInput =
     InstructionAccountInput,
-  TAccountUsdcTokenProgram extends InstructionAccountInput =
-    InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput =
+    InstructionAccountInput,
+  TAccountTargetTokenProgram extends InstructionAccountInput =
     InstructionAccountInput,
   TAccountOwnerIntermediate extends InstructionAccountInput =
     InstructionAccountInput,
   TAccountIntermediateMint extends InstructionAccountInput =
     InstructionAccountInput,
 > = {
+  caller: TAccountCaller;
   config: TAccountConfig;
   router: TAccountRouter;
-  paycheck: TAccountPaycheck;
   asset: TAccountAsset;
-  authority: TAccountAuthority;
-  payIn: TAccountPayIn;
-  authorityUsdc: TAccountAuthorityUsdc;
-  treasury: TAccountTreasury;
-  usdcMint: TAccountUsdcMint;
+  convertAuthority: TAccountConvertAuthority;
+  /** The owner's pre-IPO token account; the Convert authority is its delegate. */
+  ownerSource: TAccountOwnerSource;
+  convertSource: TAccountConvertSource;
+  /** The owner's account for the conversion target. */
   destination: TAccountDestination;
   assetMint: TAccountAssetMint;
-  /** verification level, feed and age are checked in the handler. */
-  priceUpdate: TAccountPriceUpdate;
-  priceUpdate247?: TAccountPriceUpdate247;
-  usdcPriceUpdate: TAccountUsdcPriceUpdate;
+  targetMint: TAccountTargetMint;
   jupiterProgram: TAccountJupiterProgram;
-  usdcTokenProgram: TAccountUsdcTokenProgram;
   assetTokenProgram: TAccountAssetTokenProgram;
+  targetTokenProgram: TAccountTargetTokenProgram;
   /**
    * The owner's token account for the route's intermediate mint, when the
    * route passes through one. Leftovers of that mint are swept here.
    */
   ownerIntermediate?: TAccountOwnerIntermediate;
   intermediateMint?: TAccountIntermediateMint;
-  legIndex: ExecuteLegInstructionDataArgs["legIndex"];
-  swapData: ExecuteLegInstructionDataArgs["swapData"];
+  amount: ConvertHoldingInstructionDataArgs["amount"];
+  swapData: ConvertHoldingInstructionDataArgs["swapData"];
 };
 
-export function getExecuteLegInstruction<
+export function getConvertHoldingInstruction<
+  TAccountCaller extends InstructionSignerInput,
   TAccountConfig extends InstructionAccountInput,
   TAccountRouter extends InstructionAccountInput,
-  TAccountPaycheck extends InstructionAccountInput,
   TAccountAsset extends InstructionAccountInput,
-  TAccountAuthority extends InstructionAccountInput,
-  TAccountPayIn extends InstructionAccountInput,
-  TAccountAuthorityUsdc extends InstructionAccountInput,
-  TAccountTreasury extends InstructionAccountInput,
-  TAccountUsdcMint extends InstructionAccountInput,
+  TAccountConvertAuthority extends InstructionAccountInput,
+  TAccountOwnerSource extends InstructionAccountInput,
+  TAccountConvertSource extends InstructionAccountInput,
   TAccountDestination extends InstructionAccountInput,
   TAccountAssetMint extends InstructionAccountInput,
-  TAccountPriceUpdate extends InstructionAccountInput,
-  TAccountPriceUpdate247 extends InstructionAccountInput,
-  TAccountUsdcPriceUpdate extends InstructionAccountInput,
+  TAccountTargetMint extends InstructionAccountInput,
   TAccountJupiterProgram extends InstructionAccountInput,
-  TAccountUsdcTokenProgram extends InstructionAccountInput,
   TAccountAssetTokenProgram extends InstructionAccountInput,
+  TAccountTargetTokenProgram extends InstructionAccountInput,
   TAccountOwnerIntermediate extends InstructionAccountInput,
   TAccountIntermediateMint extends InstructionAccountInput,
   TProgramAddress extends Address = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
 >(
-  input: ExecuteLegInput<
+  input: ConvertHoldingInput<
+    TAccountCaller,
     TAccountConfig,
     TAccountRouter,
-    TAccountPaycheck,
     TAccountAsset,
-    TAccountAuthority,
-    TAccountPayIn,
-    TAccountAuthorityUsdc,
-    TAccountTreasury,
-    TAccountUsdcMint,
+    TAccountConvertAuthority,
+    TAccountOwnerSource,
+    TAccountConvertSource,
     TAccountDestination,
     TAccountAssetMint,
-    TAccountPriceUpdate,
-    TAccountPriceUpdate247,
-    TAccountUsdcPriceUpdate,
+    TAccountTargetMint,
     TAccountJupiterProgram,
-    TAccountUsdcTokenProgram,
     TAccountAssetTokenProgram,
+    TAccountTargetTokenProgram,
     TAccountOwnerIntermediate,
     TAccountIntermediateMint
   >,
   config?: { programAddress?: TProgramAddress },
-): ExecuteLegInstruction<
+): ConvertHoldingInstruction<
   TProgramAddress,
+  ResolvedInstructionAccountMeta<
+    TAccountCaller,
+    InstructionAccountInputAddress<TAccountCaller>
+  >,
   ResolvedInstructionAccountMeta<
     TAccountConfig,
     InstructionAccountInputAddress<TAccountConfig>
@@ -695,32 +589,20 @@ export function getExecuteLegInstruction<
     InstructionAccountInputAddress<TAccountRouter>
   >,
   ResolvedInstructionAccountMeta<
-    TAccountPaycheck,
-    InstructionAccountInputAddress<TAccountPaycheck>
-  >,
-  ResolvedInstructionAccountMeta<
     TAccountAsset,
     InstructionAccountInputAddress<TAccountAsset>
   >,
   ResolvedInstructionAccountMeta<
-    TAccountAuthority,
-    InstructionAccountInputAddress<TAccountAuthority>
+    TAccountConvertAuthority,
+    InstructionAccountInputAddress<TAccountConvertAuthority>
   >,
   ResolvedInstructionAccountMeta<
-    TAccountPayIn,
-    InstructionAccountInputAddress<TAccountPayIn>
+    TAccountOwnerSource,
+    InstructionAccountInputAddress<TAccountOwnerSource>
   >,
   ResolvedInstructionAccountMeta<
-    TAccountAuthorityUsdc,
-    InstructionAccountInputAddress<TAccountAuthorityUsdc>
-  >,
-  ResolvedInstructionAccountMeta<
-    TAccountTreasury,
-    InstructionAccountInputAddress<TAccountTreasury>
-  >,
-  ResolvedInstructionAccountMeta<
-    TAccountUsdcMint,
-    InstructionAccountInputAddress<TAccountUsdcMint>
+    TAccountConvertSource,
+    InstructionAccountInputAddress<TAccountConvertSource>
   >,
   ResolvedInstructionAccountMeta<
     TAccountDestination,
@@ -731,28 +613,20 @@ export function getExecuteLegInstruction<
     InstructionAccountInputAddress<TAccountAssetMint>
   >,
   ResolvedInstructionAccountMeta<
-    TAccountPriceUpdate,
-    InstructionAccountInputAddress<TAccountPriceUpdate>
-  >,
-  ResolvedInstructionAccountMeta<
-    TAccountPriceUpdate247,
-    InstructionAccountInputAddress<TAccountPriceUpdate247>
-  >,
-  ResolvedInstructionAccountMeta<
-    TAccountUsdcPriceUpdate,
-    InstructionAccountInputAddress<TAccountUsdcPriceUpdate>
+    TAccountTargetMint,
+    InstructionAccountInputAddress<TAccountTargetMint>
   >,
   ResolvedInstructionAccountMeta<
     TAccountJupiterProgram,
     InstructionAccountInputAddress<TAccountJupiterProgram>
   >,
   ResolvedInstructionAccountMeta<
-    TAccountUsdcTokenProgram,
-    InstructionAccountInputAddress<TAccountUsdcTokenProgram>
-  >,
-  ResolvedInstructionAccountMeta<
     TAccountAssetTokenProgram,
     InstructionAccountInputAddress<TAccountAssetTokenProgram>
+  >,
+  ResolvedInstructionAccountMeta<
+    TAccountTargetTokenProgram,
+    InstructionAccountInputAddress<TAccountTargetTokenProgram>
   >,
   ResolvedInstructionAccountMeta<
     TAccountOwnerIntermediate,
@@ -772,34 +646,24 @@ export function getExecuteLegInstruction<
 
   // Original accounts.
   const originalAccounts = {
+    caller: { value: input.caller ?? null, isSigner: true, isWritable: false },
     config: { value: input.config ?? null, isSigner: false, isWritable: false },
-    router: { value: input.router ?? null, isSigner: false, isWritable: true },
-    paycheck: {
-      value: input.paycheck ?? null,
-      isSigner: false,
-      isWritable: true,
-    },
+    router: { value: input.router ?? null, isSigner: false, isWritable: false },
     asset: { value: input.asset ?? null, isSigner: false, isWritable: false },
-    authority: {
-      value: input.authority ?? null,
+    convertAuthority: {
+      value: input.convertAuthority ?? null,
       isSigner: false,
       isWritable: false,
     },
-    payIn: { value: input.payIn ?? null, isSigner: false, isWritable: true },
-    authorityUsdc: {
-      value: input.authorityUsdc ?? null,
+    ownerSource: {
+      value: input.ownerSource ?? null,
       isSigner: false,
       isWritable: true,
     },
-    treasury: {
-      value: input.treasury ?? null,
+    convertSource: {
+      value: input.convertSource ?? null,
       isSigner: false,
       isWritable: true,
-    },
-    usdcMint: {
-      value: input.usdcMint ?? null,
-      isSigner: false,
-      isWritable: false,
     },
     destination: {
       value: input.destination ?? null,
@@ -811,18 +675,8 @@ export function getExecuteLegInstruction<
       isSigner: false,
       isWritable: false,
     },
-    priceUpdate: {
-      value: input.priceUpdate ?? null,
-      isSigner: false,
-      isWritable: false,
-    },
-    priceUpdate247: {
-      value: input.priceUpdate247 ?? null,
-      isSigner: false,
-      isWritable: false,
-    },
-    usdcPriceUpdate: {
-      value: input.usdcPriceUpdate ?? null,
+    targetMint: {
+      value: input.targetMint ?? null,
       isSigner: false,
       isWritable: false,
     },
@@ -831,13 +685,13 @@ export function getExecuteLegInstruction<
       isSigner: false,
       isWritable: false,
     },
-    usdcTokenProgram: {
-      value: input.usdcTokenProgram ?? null,
+    assetTokenProgram: {
+      value: input.assetTokenProgram ?? null,
       isSigner: false,
       isWritable: false,
     },
-    assetTokenProgram: {
-      value: input.assetTokenProgram ?? null,
+    targetTokenProgram: {
+      value: input.targetTokenProgram ?? null,
       isSigner: false,
       isWritable: false,
     },
@@ -862,32 +716,32 @@ export function getExecuteLegInstruction<
 
   return Object.freeze({
     accounts: [
+      getAccountMeta("caller", accounts.caller),
       getAccountMeta("config", accounts.config),
       getAccountMeta("router", accounts.router),
-      getAccountMeta("paycheck", accounts.paycheck),
       getAccountMeta("asset", accounts.asset),
-      getAccountMeta("authority", accounts.authority),
-      getAccountMeta("payIn", accounts.payIn),
-      getAccountMeta("authorityUsdc", accounts.authorityUsdc),
-      getAccountMeta("treasury", accounts.treasury),
-      getAccountMeta("usdcMint", accounts.usdcMint),
+      getAccountMeta("convertAuthority", accounts.convertAuthority),
+      getAccountMeta("ownerSource", accounts.ownerSource),
+      getAccountMeta("convertSource", accounts.convertSource),
       getAccountMeta("destination", accounts.destination),
       getAccountMeta("assetMint", accounts.assetMint),
-      getAccountMeta("priceUpdate", accounts.priceUpdate),
-      getAccountMeta("priceUpdate247", accounts.priceUpdate247),
-      getAccountMeta("usdcPriceUpdate", accounts.usdcPriceUpdate),
+      getAccountMeta("targetMint", accounts.targetMint),
       getAccountMeta("jupiterProgram", accounts.jupiterProgram),
-      getAccountMeta("usdcTokenProgram", accounts.usdcTokenProgram),
       getAccountMeta("assetTokenProgram", accounts.assetTokenProgram),
+      getAccountMeta("targetTokenProgram", accounts.targetTokenProgram),
       getAccountMeta("ownerIntermediate", accounts.ownerIntermediate),
       getAccountMeta("intermediateMint", accounts.intermediateMint),
     ],
-    data: getExecuteLegInstructionDataEncoder().encode(
-      args as ExecuteLegInstructionDataArgs,
+    data: getConvertHoldingInstructionDataEncoder().encode(
+      args as ConvertHoldingInstructionDataArgs,
     ),
     programAddress,
-  } as ExecuteLegInstruction<
+  } as ConvertHoldingInstruction<
     TProgramAddress,
+    ResolvedInstructionAccountMeta<
+      TAccountCaller,
+      InstructionAccountInputAddress<TAccountCaller>
+    >,
     ResolvedInstructionAccountMeta<
       TAccountConfig,
       InstructionAccountInputAddress<TAccountConfig>
@@ -897,32 +751,20 @@ export function getExecuteLegInstruction<
       InstructionAccountInputAddress<TAccountRouter>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountPaycheck,
-      InstructionAccountInputAddress<TAccountPaycheck>
-    >,
-    ResolvedInstructionAccountMeta<
       TAccountAsset,
       InstructionAccountInputAddress<TAccountAsset>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountAuthority,
-      InstructionAccountInputAddress<TAccountAuthority>
+      TAccountConvertAuthority,
+      InstructionAccountInputAddress<TAccountConvertAuthority>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountPayIn,
-      InstructionAccountInputAddress<TAccountPayIn>
+      TAccountOwnerSource,
+      InstructionAccountInputAddress<TAccountOwnerSource>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountAuthorityUsdc,
-      InstructionAccountInputAddress<TAccountAuthorityUsdc>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountTreasury,
-      InstructionAccountInputAddress<TAccountTreasury>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountUsdcMint,
-      InstructionAccountInputAddress<TAccountUsdcMint>
+      TAccountConvertSource,
+      InstructionAccountInputAddress<TAccountConvertSource>
     >,
     ResolvedInstructionAccountMeta<
       TAccountDestination,
@@ -933,28 +775,20 @@ export function getExecuteLegInstruction<
       InstructionAccountInputAddress<TAccountAssetMint>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountPriceUpdate,
-      InstructionAccountInputAddress<TAccountPriceUpdate>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountPriceUpdate247,
-      InstructionAccountInputAddress<TAccountPriceUpdate247>
-    >,
-    ResolvedInstructionAccountMeta<
-      TAccountUsdcPriceUpdate,
-      InstructionAccountInputAddress<TAccountUsdcPriceUpdate>
+      TAccountTargetMint,
+      InstructionAccountInputAddress<TAccountTargetMint>
     >,
     ResolvedInstructionAccountMeta<
       TAccountJupiterProgram,
       InstructionAccountInputAddress<TAccountJupiterProgram>
     >,
     ResolvedInstructionAccountMeta<
-      TAccountUsdcTokenProgram,
-      InstructionAccountInputAddress<TAccountUsdcTokenProgram>
-    >,
-    ResolvedInstructionAccountMeta<
       TAccountAssetTokenProgram,
       InstructionAccountInputAddress<TAccountAssetTokenProgram>
+    >,
+    ResolvedInstructionAccountMeta<
+      TAccountTargetTokenProgram,
+      InstructionAccountInputAddress<TAccountTargetTokenProgram>
     >,
     ResolvedInstructionAccountMeta<
       TAccountOwnerIntermediate,
@@ -967,54 +801,51 @@ export function getExecuteLegInstruction<
   >);
 }
 
-export type ParsedExecuteLegInstruction<
+export type ParsedConvertHoldingInstruction<
   TProgram extends string = typeof PAYCHECK_ROUTER_PROGRAM_ADDRESS,
   TAccountMetas extends readonly AccountMeta[] = readonly AccountMeta[],
 > = {
   programAddress: Address<TProgram>;
   accounts: {
-    config: TAccountMetas[0];
-    router: TAccountMetas[1];
-    paycheck: TAccountMetas[2];
+    caller: TAccountMetas[0];
+    config: TAccountMetas[1];
+    router: TAccountMetas[2];
     asset: TAccountMetas[3];
-    authority: TAccountMetas[4];
-    payIn: TAccountMetas[5];
-    authorityUsdc: TAccountMetas[6];
-    treasury: TAccountMetas[7];
-    usdcMint: TAccountMetas[8];
-    destination: TAccountMetas[9];
-    assetMint: TAccountMetas[10];
-    /** verification level, feed and age are checked in the handler. */
-    priceUpdate: TAccountMetas[11];
-    priceUpdate247?: TAccountMetas[12] | undefined;
-    usdcPriceUpdate: TAccountMetas[13];
-    jupiterProgram: TAccountMetas[14];
-    usdcTokenProgram: TAccountMetas[15];
-    assetTokenProgram: TAccountMetas[16];
+    convertAuthority: TAccountMetas[4];
+    /** The owner's pre-IPO token account; the Convert authority is its delegate. */
+    ownerSource: TAccountMetas[5];
+    convertSource: TAccountMetas[6];
+    /** The owner's account for the conversion target. */
+    destination: TAccountMetas[7];
+    assetMint: TAccountMetas[8];
+    targetMint: TAccountMetas[9];
+    jupiterProgram: TAccountMetas[10];
+    assetTokenProgram: TAccountMetas[11];
+    targetTokenProgram: TAccountMetas[12];
     /**
      * The owner's token account for the route's intermediate mint, when the
      * route passes through one. Leftovers of that mint are swept here.
      */
-    ownerIntermediate?: TAccountMetas[17] | undefined;
-    intermediateMint?: TAccountMetas[18] | undefined;
+    ownerIntermediate?: TAccountMetas[13] | undefined;
+    intermediateMint?: TAccountMetas[14] | undefined;
   };
-  data: ExecuteLegInstructionData;
+  data: ConvertHoldingInstructionData;
 };
 
-export function parseExecuteLegInstruction<
+export function parseConvertHoldingInstruction<
   TProgram extends string,
   TAccountMetas extends readonly AccountMeta[],
 >(
   instruction: Instruction<TProgram> &
     InstructionWithAccounts<TAccountMetas> &
     InstructionWithData<ReadonlyUint8Array>,
-): ParsedExecuteLegInstruction<TProgram, TAccountMetas> {
-  if (instruction.accounts.length < 19) {
+): ParsedConvertHoldingInstruction<TProgram, TAccountMetas> {
+  if (instruction.accounts.length < 15) {
     throw new SolanaError(
       SOLANA_ERROR__PROGRAM_CLIENTS__INSUFFICIENT_ACCOUNT_METAS,
       {
         actualAccountMetas: instruction.accounts.length,
-        expectedAccountMetas: 19,
+        expectedAccountMetas: 15,
       },
     );
   }
@@ -1033,26 +864,22 @@ export function parseExecuteLegInstruction<
   return {
     programAddress: instruction.programAddress,
     accounts: {
+      caller: getNextAccount(),
       config: getNextAccount(),
       router: getNextAccount(),
-      paycheck: getNextAccount(),
       asset: getNextAccount(),
-      authority: getNextAccount(),
-      payIn: getNextAccount(),
-      authorityUsdc: getNextAccount(),
-      treasury: getNextAccount(),
-      usdcMint: getNextAccount(),
+      convertAuthority: getNextAccount(),
+      ownerSource: getNextAccount(),
+      convertSource: getNextAccount(),
       destination: getNextAccount(),
       assetMint: getNextAccount(),
-      priceUpdate: getNextAccount(),
-      priceUpdate247: getNextOptionalAccount(),
-      usdcPriceUpdate: getNextAccount(),
+      targetMint: getNextAccount(),
       jupiterProgram: getNextAccount(),
-      usdcTokenProgram: getNextAccount(),
       assetTokenProgram: getNextAccount(),
+      targetTokenProgram: getNextAccount(),
       ownerIntermediate: getNextOptionalAccount(),
       intermediateMint: getNextOptionalAccount(),
     },
-    data: getExecuteLegInstructionDataDecoder().decode(instruction.data),
+    data: getConvertHoldingInstructionDataDecoder().decode(instruction.data),
   };
 }

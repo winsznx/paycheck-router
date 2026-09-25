@@ -38,6 +38,11 @@ export type LegState = {
    * TransferFeeConfig mints such as PreStocks); zero otherwise.
    */
   issuerFee: bigint;
+  /**
+   * USDC the route left unspent, returned to the owner; the owner's net
+   * USDC change is amount_in minus this.
+   */
+  dustReturned: bigint;
 };
 
 export type LegStateArgs = {
@@ -54,6 +59,11 @@ export type LegStateArgs = {
    * TransferFeeConfig mints such as PreStocks); zero otherwise.
    */
   issuerFee: number | bigint;
+  /**
+   * USDC the route left unspent, returned to the owner; the owner's net
+   * USDC change is amount_in minus this.
+   */
+  dustReturned: number | bigint;
 };
 
 export function getLegStateEncoder(): FixedSizeEncoder<LegStateArgs> {
@@ -66,6 +76,7 @@ export function getLegStateEncoder(): FixedSizeEncoder<LegStateArgs> {
     ["refPriceE9", getU64Encoder()],
     ["executedAt", getI64Encoder()],
     ["issuerFee", getU64Encoder()],
+    ["dustReturned", getU64Encoder()],
   ]);
 }
 
@@ -79,6 +90,7 @@ export function getLegStateDecoder(): FixedSizeDecoder<LegState> {
     ["refPriceE9", getU64Decoder()],
     ["executedAt", getI64Decoder()],
     ["issuerFee", getU64Decoder()],
+    ["dustReturned", getU64Decoder()],
   ]);
 }
 
