@@ -1,0 +1,17 @@
+{
+  "method": "POST",
+  "path": "/routers/tx/create",
+  "status": 200,
+  "body": {
+    "tx": "AhV55wjbDn8paDQxdw52RykT7TqG3vBUt/bUavHet27w3yf4c46mLMc33t4+FkjoSxEkRYA3Y1LXAJy98eU2YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAIBEBew5y8DYHJwRCz3IPaxdHtpP+qd8hbZoYF1kH14fZGc1wp0WcV7xYuZzELxAH0G1hUTrG/F5yF5y6mbOSxAti28Pj5YVal4STVrQAdwalQI9kRzyJ9CJJPLwhRggExxXLN2iBUQBbAkaFuQ5grdJ7s3SAR6hpRYKARHg0R/nZIF9oQKrrozh4HM1gmtGpetvpvtpwCQHBL2r/M+AGcrk9q1j1wo0foSpQw2cMw2IZSrCYE5B5lLgKlqS1WvsZ8oSzK7MNtkYAblB3SexW1aBfDCPVPDdbAqypyOw2ts1rZ6aQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATyrQxHBJbKBLm1o8lh4Ux96kIJXMVBdVk3xKZdwRBrBzAzKX/db+Mewd3Z0IW4uqe8uaC6BfErh9wvya+ImB2ZFzrhY1AYILtjScRayLfoDJwJJ4qsnLmBcW97CWCRWpjJclj04kifG7PRApFI4NgwtaE5na/xCEBI572Nvp+FmdY+YXYei/o8FxoaRxrwFmqHeOJ0zsQhoO1APNvt8+VbFTNzSYKs9dKyUfuTAWLPmqZTJaw2b12iUMRmm8B3xgwDmS6bH3D5O+uGm9N4Z1OVa+0wZ+3BsYuvJc2pTBZJ7MuqUFbZ9sCqd9JmZhMLcaO8fqwFXzAEX6FJGcRWwL6sb6evO+2606PWXzaqvJdDGxu+TC0vbg5HymAgNFL11h7bli3mNxNS26fAZFMrLJ8wQkO40bPBKKkXpchlN/j94FyS/riJQWrvUL7XRNJVkW5zhishWeV8/48LSl43exhgXa6zDX4l6ADHP87F3ZZ75IbEYKg6qd4IfysT1yR09aBdrsBSnlK79n9v8eFGqetqzn/E6jHKS8nxXhD+NxlygG3fbh12Whk9nL4UbO63msHLSF7V9bN5E6jPWFfv8AqQbd9uHudY/eGEJdvORszdq2GvxNg7kNJ/69+SjYoYv8BoaFnTjICpchSBhBaRfgv4/KFX5GT5jM/Q/6nfhH1+wHCwYABQEQBxUBARIPAQAMAg4QBQYVCwcICREN1wFL26Ktx1epe8UlSH2cFVRA5OlYlsLejEph+acMyaibCDB7FPme2KaD0AcALTEBAAAAAACZr04EAAAAgPQDAAEEAAAAB+jcLN57I6DXQ/jxJ2tlfYqe6gaVC6Z6jTAzxTxM3k9wFzIAAQfopQ4UD9pXkfRWapV/064/hz5qNGb/wT15EZ36mrUK0AcyAAEF2usw1+JegAxz/Oxd2We+SGxGCoOqneCH8rE9ckdPWugDLAEBBdrsBSnlK79n9v8eFGqetqzn/E6jHKS8nxXhD+NxlyjoAywBARUEBRAOAQoNgEEpQgAAAAAGCwYAAwETBxYBARYEAxMKAQoN//////////8JCwYABAEUBxYBARYEBBQPAQoN//////////8JAA==",
+    "summary": [
+      "Create your Paycheck Router",
+      "Allow it to spend up to 1,110 USDC from this wallet, only to buy SPYx, NVDAx, Anthropic, OpenAI into this wallet",
+      "Allow Anthropic, OpenAI conversion at IPO, into this wallet only",
+      "Network fees and account rent paid by Paycheck Router"
+    ],
+    "expiresAt": "2026-09-25T18:27:34.753Z",
+    "feePayer": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "lastValidBlockHeight": "390"
+  }
+}

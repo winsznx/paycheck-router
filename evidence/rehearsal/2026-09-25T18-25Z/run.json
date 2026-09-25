@@ -1,0 +1,70 @@
+{
+  "runId": "2026-09-25T18-25Z",
+  "baseURL": "http://localhost:3200",
+  "apiUrl": "http://127.0.0.1:8787",
+  "startedAt": "2026-09-25T18:26:31.811Z",
+  "settled": true,
+  "screenshots": [
+    "onboarding-done.png",
+    "paycheck-detail.png",
+    "paycheck-detail-full.png",
+    "proof-sheet-anthropic.png",
+    "home.png",
+    "proof.png"
+  ],
+  "apiResponses": "evidence/rehearsal/2026-09-25T18-25Z/api",
+  "demoRecordLogs": ".demo/ in the checkout that ran pnpm demo:record",
+  "bundle": null,
+  "notes": [
+    "pnpm demo:record writes no evidence bundle; its surfpool, core and web logs are in .demo/.",
+    "Session, auth and realtime traffic is not recorded because it carries tokens.",
+    "/proof is rendered server-side; its API response was not observed by the browser."
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+  ],
+  "apiErrors": [],
+  "onboardedAt": "2026-09-25T18:26:38.240Z",
+  "paycheckTriggeredAt": "2026-09-25T18:26:38.322Z",
+  "paycheckId": "153e0caa-9a7b-4da9-b639-3e87c25dadb7",
+  "settledAt": "2026-09-25T18:27:16.960Z",
+  "legs": [
+    {
+      "symbol": "SPYx",
+      "status": "waiting",
+      "waitReason": "PRICE_UNAVAILABLE",
+      "premiumBps": null,
+      "amountIn": "222000000",
+      "outAmount": null,
+      "executedSig": null
+    },
+    {
+      "symbol": "NVDAx",
+      "status": "waiting",
+      "waitReason": "PRICE_UNAVAILABLE",
+      "premiumBps": null,
+      "amountIn": "74000000",
+      "outAmount": null,
+      "executedSig": null
+    },
+    {
+      "symbol": "Anthropic",
+      "status": "verified",
+      "waitReason": null,
+      "premiumBps": 59,
+      "amountIn": "37000000",
+      "outAmount": "34326013",
+      "executedSig": "5panjF3rvvKibJKKr5DsmJTdSnnJfo2QqHhzA4Ad8gNgResyDC8GmcbaSDUnEmk6fra7HG8ZtEQVznz3SSMM9GrS"
+    },
+    {
+      "symbol": "OpenAI",
+      "status": "waiting",
+      "waitReason": "PREMIUM_TOO_HIGH",
+      "premiumBps": null,
+      "amountIn": "37000000",
+      "outAmount": null,
+      "executedSig": null
+    }
+  ],
+  "finishedAt": "2026-09-25T18:27:42.219Z"
+}

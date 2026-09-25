@@ -1,0 +1,297 @@
+{
+  "method": "GET",
+  "path": "/paychecks/153e0caa-9a7b-4da9-b639-3e87c25dadb7",
+  "status": 200,
+  "body": {
+    "id": "153e0caa-9a7b-4da9-b639-3e87c25dadb7",
+    "routerId": "e0bb3d35-78ac-469e-b6f6-c79864684b6e",
+    "seq": "0",
+    "paycheckPda": "86p8DmfvC4abd1aDutoeJC7nYNWih3FgvQKAKaKZqnfN",
+    "inflow": "1850000000",
+    "investTotal": "370000000",
+    "sender": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "inflowSig": "5Re4n2p5zd73dxwuJYTvvpMvsZ81RPniKJkE3ZV9kB9xkLe8HhxcGX2PeqkR8SeCYzyDupDRQxcdMQMLmE3XS46y",
+    "recordedSig": "3YaJzYzhn9rqkQDwfpEqaXs3mRjtAEKNKK6t58HZMACjzhv1RSjvZNqtgwC3QN6g8XXe8mjjSp7sz96UzfmVKy5j",
+    "recordedAt": "2026-09-25T18:26:42.000Z",
+    "expiresAt": "2026-09-28T18:26:42.000Z",
+    "status": "open",
+    "legs": [
+      {
+        "id": "94e9d76f-646a-4adc-b9ba-b24b67b24558",
+        "idx": 0,
+        "mint": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+        "symbol": "SPYx",
+        "amountIn": "222000000",
+        "status": "waiting",
+        "waitReason": "PRICE_UNAVAILABLE",
+        "nextAttemptAt": "2026-09-25T18:41:48.590Z",
+        "outAmount": null,
+        "fee": null,
+        "issuerFee": null,
+        "uiMultiplier": null,
+        "sharesUi": null,
+        "refPriceE9": null,
+        "execPriceE9": null,
+        "premiumBps": null,
+        "executedSig": null,
+        "executedAt": null,
+        "verifiedAt": null,
+        "attempts": [
+          {
+            "attemptNo": 0,
+            "kind": "simulate",
+            "outcome": "waiting",
+            "programErrorCode": null,
+            "reason": "PRICE_UNAVAILABLE",
+            "signature": null,
+            "priorityFeeLamports": null,
+            "cuUsed": null,
+            "createdAt": "2026-09-25T18:26:48.696Z"
+          }
+        ],
+        "verification": null,
+        "links": []
+      },
+      {
+        "id": "02c1f42d-6c35-44ba-a2dd-0208306c86a3",
+        "idx": 1,
+        "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+        "symbol": "NVDAx",
+        "amountIn": "74000000",
+        "status": "waiting",
+        "waitReason": "PRICE_UNAVAILABLE",
+        "nextAttemptAt": "2026-09-25T18:41:48.594Z",
+        "outAmount": null,
+        "fee": null,
+        "issuerFee": null,
+        "uiMultiplier": null,
+        "sharesUi": null,
+        "refPriceE9": null,
+        "execPriceE9": null,
+        "premiumBps": null,
+        "executedSig": null,
+        "executedAt": null,
+        "verifiedAt": null,
+        "attempts": [
+          {
+            "attemptNo": 0,
+            "kind": "simulate",
+            "outcome": "waiting",
+            "programErrorCode": null,
+            "reason": "PRICE_UNAVAILABLE",
+            "signature": null,
+            "priorityFeeLamports": null,
+            "cuUsed": null,
+            "createdAt": "2026-09-25T18:26:48.701Z"
+          }
+        ],
+        "verification": null,
+        "links": []
+      },
+      {
+        "id": "56d7edd3-97aa-4c9b-911d-ffe8058e3b9b",
+        "idx": 2,
+        "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+        "symbol": "Anthropic",
+        "amountIn": "37000000",
+        "status": "verified",
+        "waitReason": null,
+        "nextAttemptAt": null,
+        "outAmount": "34326013",
+        "fee": "74000",
+        "issuerFee": "346728",
+        "uiMultiplier": "1",
+        "sharesUi": "0.034326013",
+        "refPriceE9": "1058545877470",
+        "execPriceE9": "1064986468765",
+        "premiumBps": 59,
+        "executedSig": "5panjF3rvvKibJKKr5DsmJTdSnnJfo2QqHhzA4Ad8gNgResyDC8GmcbaSDUnEmk6fra7HG8ZtEQVznz3SSMM9GrS",
+        "executedAt": "2026-09-25T18:27:00.009Z",
+        "verifiedAt": "2026-09-25T18:27:02.511Z",
+        "attempts": [
+          {
+            "attemptNo": 0,
+            "kind": "send",
+            "outcome": "executed",
+            "programErrorCode": null,
+            "reason": null,
+            "signature": "5panjF3rvvKibJKKr5DsmJTdSnnJfo2QqHhzA4Ad8gNgResyDC8GmcbaSDUnEmk6fra7HG8ZtEQVznz3SSMM9GrS",
+            "priorityFeeLamports": null,
+            "cuUsed": 229701,
+            "createdAt": "2026-09-25T18:27:00.114Z"
+          }
+        ],
+        "verification": {
+          "rpcProvider": "surfnet",
+          "finalizedSlot": "450432731",
+          "ownerDeltaRaw": "34326013",
+          "ownerUsdcDelta": "-37000000",
+          "recomputedMinOut": "33864511",
+          "recomputedPremiumBps": 59,
+          "matches": true,
+          "diff": {
+            "checks": [
+              {
+                "name": "transaction succeeded",
+                "pass": true,
+                "actual": "null",
+                "expected": null
+              },
+              {
+                "name": "destination received out_amount",
+                "pass": true,
+                "actual": "34326013",
+                "expected": "34326013"
+              },
+              {
+                "name": "gross delivery meets min_out",
+                "pass": true,
+                "actual": "34672741",
+                "expected": ">= 33864511"
+              },
+              {
+                "name": "owner USDC fell by amount_in less returned dust",
+                "pass": true,
+                "actual": "37000000",
+                "expected": "37000000"
+              },
+              {
+                "name": "fee plus swapped equals amount_in",
+                "pass": true,
+                "actual": "37000000",
+                "expected": "37000000"
+              },
+              {
+                "name": "paycheck leg reads back executed",
+                "pass": true,
+                "actual": "true",
+                "expected": "true"
+              },
+              {
+                "name": "readback out_amount matches event",
+                "pass": true,
+                "actual": "34326013",
+                "expected": "34326013"
+              },
+              {
+                "name": "readback amount_in matches event",
+                "pass": true,
+                "actual": "37000000",
+                "expected": "37000000"
+              },
+              {
+                "name": "readback fee matches event",
+                "pass": true,
+                "actual": "74000",
+                "expected": "74000"
+              },
+              {
+                "name": "readback issuer fee matches event",
+                "pass": true,
+                "actual": "346728",
+                "expected": "346728"
+              },
+              {
+                "name": "readback reference price matches event",
+                "pass": true,
+                "actual": "1058545877470",
+                "expected": "1058545877470"
+              },
+              {
+                "name": "posted USDC/USD matches event",
+                "pass": true,
+                "actual": "999906660",
+                "expected": "999906660"
+              },
+              {
+                "name": "USDC/USD matches Hermes history",
+                "pass": true,
+                "actual": "999906660",
+                "expected": "999906660"
+              },
+              {
+                "name": "attestation signed by the attester",
+                "pass": true,
+                "actual": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+                "expected": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw"
+              },
+              {
+                "name": "reference price is the attested mark",
+                "pass": true,
+                "actual": "1058545877470",
+                "expected": "1058545877470"
+              },
+              {
+                "name": "attestation fresh at execution",
+                "pass": true,
+                "actual": "5s",
+                "expected": "<= 300s"
+              },
+              {
+                "name": "min_out recomputes from the reference price",
+                "pass": true,
+                "actual": "33864511",
+                "expected": "33864511"
+              },
+              {
+                "name": "fill premium within the band",
+                "pass": true,
+                "actual": "59",
+                "expected": "<= 300"
+              }
+            ]
+          },
+          "createdAt": "2026-09-25T18:27:02.618Z"
+        },
+        "links": [
+          {
+            "label": "execute_leg",
+            "url": "https://explorer.solana.com/tx/5panjF3rvvKibJKKr5DsmJTdSnnJfo2QqHhzA4Ad8gNgResyDC8GmcbaSDUnEmk6fra7HG8ZtEQVznz3SSMM9GrS?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+          },
+          {
+            "label": "Proof",
+            "url": "http://localhost:3200/proof/legs/5panjF3rvvKibJKKr5DsmJTdSnnJfo2QqHhzA4Ad8gNgResyDC8GmcbaSDUnEmk6fra7HG8ZtEQVznz3SSMM9GrS"
+          }
+        ]
+      },
+      {
+        "id": "69825831-2dea-45c6-8c88-0c90025a3bd7",
+        "idx": 3,
+        "mint": "PreweJYECqtQwBtpxHL171nL2K6umo692gTm7Q3rpgF",
+        "symbol": "OpenAI",
+        "amountIn": "37000000",
+        "status": "executing",
+        "waitReason": null,
+        "nextAttemptAt": null,
+        "outAmount": null,
+        "fee": null,
+        "issuerFee": null,
+        "uiMultiplier": null,
+        "sharesUi": null,
+        "refPriceE9": null,
+        "execPriceE9": null,
+        "premiumBps": null,
+        "executedSig": null,
+        "executedAt": null,
+        "verifiedAt": null,
+        "attempts": [],
+        "verification": null,
+        "links": []
+      }
+    ],
+    "links": [
+      {
+        "label": "Inflow",
+        "url": "https://explorer.solana.com/tx/5Re4n2p5zd73dxwuJYTvvpMvsZ81RPniKJkE3ZV9kB9xkLe8HhxcGX2PeqkR8SeCYzyDupDRQxcdMQMLmE3XS46y?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+      },
+      {
+        "label": "Paycheck account",
+        "url": "https://explorer.solana.com/address/86p8DmfvC4abd1aDutoeJC7nYNWih3FgvQKAKaKZqnfN?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+      },
+      {
+        "label": "record_paycheck",
+        "url": "https://explorer.solana.com/tx/3YaJzYzhn9rqkQDwfpEqaXs3mRjtAEKNKK6t58HZMACjzhv1RSjvZNqtgwC3QN6g8XXe8mjjSp7sz96UzfmVKy5j?cluster=custom&customUrl=http%3A%2F%2F127.0.0.1%3A8899"
+      }
+    ]
+  }
+}

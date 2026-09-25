@@ -1,0 +1,69 @@
+{
+  "method": "GET",
+  "path": "/portfolio",
+  "status": 200,
+  "body": {
+    "holdings": [
+      {
+        "mint": "PreweJYECqtQwBtpxHL171nL2K6umo692gTm7Q3rpgF",
+        "symbol": "OpenAI",
+        "amountRaw": "0",
+        "decimals": 9,
+        "uiMultiplier": "1.4861347",
+        "sharesUi": "0",
+        "valueUsdc": "0",
+        "costBasisUsdc": "0",
+        "pnlUsdc": "0",
+        "targetWeightBps": 1000,
+        "actualWeightBps": 0
+      },
+      {
+        "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+        "symbol": "Anthropic",
+        "amountRaw": "34326013",
+        "decimals": 9,
+        "uiMultiplier": "1",
+        "sharesUi": "0.034326013",
+        "valueUsdc": "36335659",
+        "costBasisUsdc": "37000000",
+        "pnlUsdc": "-664341",
+        "targetWeightBps": 1000,
+        "actualWeightBps": 10000
+      },
+      {
+        "mint": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+        "symbol": "SPYx",
+        "amountRaw": "0",
+        "decimals": 8,
+        "uiMultiplier": "1.005714560286254",
+        "sharesUi": "0",
+        "valueUsdc": "0",
+        "costBasisUsdc": "0",
+        "pnlUsdc": "0",
+        "targetWeightBps": 6000,
+        "actualWeightBps": 0
+      },
+      {
+        "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+        "symbol": "NVDAx",
+        "amountRaw": "0",
+        "decimals": 8,
+        "uiMultiplier": "1.001701196801074",
+        "sharesUi": "0",
+        "valueUsdc": "0",
+        "costBasisUsdc": "0",
+        "pnlUsdc": "0",
+        "targetWeightBps": 2000,
+        "actualWeightBps": 0
+      }
+    ],
+    "totals": {
+      "valueUsdc": "36335659",
+      "costBasisUsdc": "37000000",
+      "pnlUsdc": "-664341",
+      "investedUsdc": "37000000",
+      "feesUsdc": "74000"
+    },
+    "asOf": "2026-09-25T18:27:19.527Z"
+  }
+}

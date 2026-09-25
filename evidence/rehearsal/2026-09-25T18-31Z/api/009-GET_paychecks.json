@@ -1,0 +1,9 @@
+{
+  "method": "GET",
+  "path": "/paychecks",
+  "status": 200,
+  "body": {
+    "paychecks": [],
+    "nextCursor": null
+  }
+}
