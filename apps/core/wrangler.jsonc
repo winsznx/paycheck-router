@@ -1,0 +1,440 @@
+// Top level is the `local` environment (a surfnet on the default port, Supabase local stack).
+// Bindings are not inherited by named environments, so each one repeats them in full.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "paycheck-router-core",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-22",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "upload_source_maps": true,
+  "migrations": [
+    {
+      "tag": "init",
+      "new_sqlite_classes": ["RouterActor", "UserHub", "InflowWatcher", "RateGate"]
+    }
+  ],
+  "triggers": { "crons": ["* * * * *", "*/5 * * * *", "0 * * * *", "15 3 * * *", "0 9 * * 1"] },
+  "durable_objects": {
+    "bindings": [
+      { "name": "ROUTER_ACTOR", "class_name": "RouterActor" },
+      { "name": "USER_HUB", "class_name": "UserHub" },
+      { "name": "INFLOW_WATCHER", "class_name": "InflowWatcher" },
+      { "name": "RATE_GATE", "class_name": "RateGate" }
+    ]
+  },
+  "queues": {
+    "producers": [
+      { "binding": "INFLOWS", "queue": "inflows" },
+      { "binding": "EXECUTIONS", "queue": "executions" },
+      { "binding": "VERIFY", "queue": "verify" },
+      { "binding": "NOTIFY", "queue": "notify" }
+    ],
+    "consumers": [
+      {
+        "queue": "inflows",
+        "max_batch_size": 10,
+        "max_batch_timeout": 1,
+        "max_retries": 5,
+        "max_concurrency": 4,
+        "dead_letter_queue": "inflows-dlq"
+      },
+      {
+        "queue": "executions",
+        "max_batch_size": 1,
+        "max_retries": 3,
+        "max_concurrency": 4,
+        "dead_letter_queue": "executions-dlq"
+      },
+      {
+        "queue": "verify",
+        "max_batch_size": 10,
+        "max_batch_timeout": 1,
+        "max_retries": 10,
+        "max_concurrency": 2,
+        "dead_letter_queue": "verify-dlq"
+      },
+      {
+        "queue": "notify",
+        "max_batch_size": 25,
+        "max_batch_timeout": 1,
+        "max_retries": 5,
+        "max_concurrency": 2,
+        "dead_letter_queue": "notify-dlq"
+      }
+    ]
+  },
+  "kv_namespaces": [{ "binding": "REGISTRY", "id": "local-registry" }],
+  "r2_buckets": [
+    { "binding": "EVIDENCE", "bucket_name": "paycheck-evidence" },
+    { "binding": "EXPORTS", "bucket_name": "paycheck-exports" }
+  ],
+  "analytics_engine_datasets": [{ "binding": "METRICS", "dataset": "paycheck_metrics" }],
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "local-hyperdrive",
+      "localConnectionString": "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
+    }
+  ],
+  "ratelimits": [
+    { "name": "USER_LIMITER", "namespace_id": "1001", "simple": { "limit": 120, "period": 60 } },
+    { "name": "TX_LIMITER", "namespace_id": "1002", "simple": { "limit": 20, "period": 60 } },
+    { "name": "QUOTE_LIMITER", "namespace_id": "1003", "simple": { "limit": 30, "period": 60 } },
+    { "name": "PUBLIC_LIMITER", "namespace_id": "1004", "simple": { "limit": 60, "period": 60 } },
+    { "name": "AUTH_LIMITER", "namespace_id": "1005", "simple": { "limit": 20, "period": 60 } },
+    { "name": "PARTNER_LIMITER", "namespace_id": "1006", "simple": { "limit": 600, "period": 60 } }
+  ],
+  "vars": {
+    "ENVIRONMENT": "local",
+    "PROGRAM_ID": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+    "USDC_MINT": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "CONFIG_PDA": "",
+    "PROTOCOL_ALT": "",
+    "SURFNET_RPC_URL": "http://127.0.0.1:8899",
+    "HELIUS_RPC_URL": "",
+    "ALCHEMY_RPC_URL": "",
+    "HERMES_URL": "https://hermes.pyth.network",
+    "JUPITER_BASE_URL": "https://api.jup.ag",
+    "SUPABASE_URL": "http://127.0.0.1:54321",
+    "PRIVY_APP_ID": "",
+    "VAPID_PUBLIC_KEY": "",
+    "VAPID_SUBJECT": "",
+    "APP_ORIGIN": "http://localhost:3000",
+    "SIWS_DOMAIN": "localhost:3000",
+    "RESEND_FROM": "",
+    "TELEGRAM_BOT_USERNAME": ""
+  },
+  "env": {
+    "demo": {
+      "migrations": [
+        {
+          "tag": "init",
+          "new_sqlite_classes": ["RouterActor", "UserHub", "InflowWatcher", "RateGate"]
+        }
+      ],
+      "durable_objects": {
+        "bindings": [
+          { "name": "ROUTER_ACTOR", "class_name": "RouterActor" },
+          { "name": "USER_HUB", "class_name": "UserHub" },
+          { "name": "INFLOW_WATCHER", "class_name": "InflowWatcher" },
+          { "name": "RATE_GATE", "class_name": "RateGate" }
+        ]
+      },
+      "queues": {
+        "producers": [
+          { "binding": "INFLOWS", "queue": "inflows" },
+          { "binding": "EXECUTIONS", "queue": "executions" },
+          { "binding": "VERIFY", "queue": "verify" },
+          { "binding": "NOTIFY", "queue": "notify" }
+        ],
+        "consumers": [
+          {
+            "queue": "inflows",
+            "max_batch_size": 10,
+            "max_batch_timeout": 1,
+            "max_retries": 5,
+            "max_concurrency": 4,
+            "dead_letter_queue": "inflows-dlq"
+          },
+          {
+            "queue": "executions",
+            "max_batch_size": 1,
+            "max_retries": 3,
+            "max_concurrency": 4,
+            "dead_letter_queue": "executions-dlq"
+          },
+          {
+            "queue": "verify",
+            "max_batch_size": 10,
+            "max_batch_timeout": 1,
+            "max_retries": 10,
+            "max_concurrency": 2,
+            "dead_letter_queue": "verify-dlq"
+          },
+          {
+            "queue": "notify",
+            "max_batch_size": 25,
+            "max_batch_timeout": 1,
+            "max_retries": 5,
+            "max_concurrency": 2,
+            "dead_letter_queue": "notify-dlq"
+          }
+        ]
+      },
+      "kv_namespaces": [{ "binding": "REGISTRY", "id": "demo-registry" }],
+      "r2_buckets": [
+        { "binding": "EVIDENCE", "bucket_name": "paycheck-evidence" },
+        { "binding": "EXPORTS", "bucket_name": "paycheck-exports" }
+      ],
+      "analytics_engine_datasets": [{ "binding": "METRICS", "dataset": "paycheck_metrics" }],
+      "hyperdrive": [
+        {
+          "binding": "HYPERDRIVE",
+          "id": "demo-hyperdrive",
+          "localConnectionString": "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
+        }
+      ],
+      "ratelimits": [
+        {
+          "name": "USER_LIMITER",
+          "namespace_id": "1001",
+          "simple": { "limit": 120, "period": 60 }
+        },
+        { "name": "TX_LIMITER", "namespace_id": "1002", "simple": { "limit": 20, "period": 60 } },
+        {
+          "name": "QUOTE_LIMITER",
+          "namespace_id": "1003",
+          "simple": { "limit": 30, "period": 60 }
+        },
+        {
+          "name": "PUBLIC_LIMITER",
+          "namespace_id": "1004",
+          "simple": { "limit": 60, "period": 60 }
+        },
+        { "name": "AUTH_LIMITER", "namespace_id": "1005", "simple": { "limit": 20, "period": 60 } },
+        {
+          "name": "PARTNER_LIMITER",
+          "namespace_id": "1006",
+          "simple": { "limit": 600, "period": 60 }
+        }
+      ],
+      "vars": {
+        "ENVIRONMENT": "demo",
+        "PROGRAM_ID": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+        "USDC_MINT": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "CONFIG_PDA": "",
+        "PROTOCOL_ALT": "",
+        "SURFNET_RPC_URL": "http://127.0.0.1:8899",
+        "HELIUS_RPC_URL": "",
+        "ALCHEMY_RPC_URL": "",
+        "HERMES_URL": "https://hermes.pyth.network",
+        "JUPITER_BASE_URL": "https://api.jup.ag",
+        "SUPABASE_URL": "http://127.0.0.1:54321",
+        "PRIVY_APP_ID": "",
+        "VAPID_PUBLIC_KEY": "",
+        "VAPID_SUBJECT": "",
+        "APP_ORIGIN": "http://localhost:3000",
+        "SIWS_DOMAIN": "localhost:3000",
+        "RESEND_FROM": "",
+        "TELEGRAM_BOT_USERNAME": ""
+      }
+    },
+    "staging": {
+      "name": "paycheck-router-core-staging",
+      "migrations": [
+        {
+          "tag": "init",
+          "new_sqlite_classes": ["RouterActor", "UserHub", "InflowWatcher", "RateGate"]
+        }
+      ],
+      "durable_objects": {
+        "bindings": [
+          { "name": "ROUTER_ACTOR", "class_name": "RouterActor" },
+          { "name": "USER_HUB", "class_name": "UserHub" },
+          { "name": "INFLOW_WATCHER", "class_name": "InflowWatcher" },
+          { "name": "RATE_GATE", "class_name": "RateGate" }
+        ]
+      },
+      "queues": {
+        "producers": [
+          { "binding": "INFLOWS", "queue": "staging-inflows" },
+          { "binding": "EXECUTIONS", "queue": "staging-executions" },
+          { "binding": "VERIFY", "queue": "staging-verify" },
+          { "binding": "NOTIFY", "queue": "staging-notify" }
+        ],
+        "consumers": [
+          {
+            "queue": "staging-inflows",
+            "max_batch_size": 10,
+            "max_retries": 5,
+            "max_concurrency": 4,
+            "dead_letter_queue": "staging-inflows-dlq"
+          },
+          {
+            "queue": "staging-executions",
+            "max_batch_size": 1,
+            "max_retries": 3,
+            "max_concurrency": 4,
+            "dead_letter_queue": "staging-executions-dlq"
+          },
+          {
+            "queue": "staging-verify",
+            "max_batch_size": 10,
+            "max_retries": 10,
+            "max_concurrency": 2,
+            "dead_letter_queue": "staging-verify-dlq"
+          },
+          {
+            "queue": "staging-notify",
+            "max_batch_size": 25,
+            "max_retries": 5,
+            "max_concurrency": 2,
+            "dead_letter_queue": "staging-notify-dlq"
+          }
+        ]
+      },
+      // Resource IDs are filled in when the staging resources are created at deploy time.
+      "kv_namespaces": [{ "binding": "REGISTRY", "id": "00000000000000000000000000000000" }],
+      "r2_buckets": [
+        { "binding": "EVIDENCE", "bucket_name": "paycheck-evidence-staging" },
+        { "binding": "EXPORTS", "bucket_name": "paycheck-exports-staging" }
+      ],
+      "analytics_engine_datasets": [
+        { "binding": "METRICS", "dataset": "paycheck_metrics_staging" }
+      ],
+      "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "00000000000000000000000000000000" }],
+      "ratelimits": [
+        {
+          "name": "USER_LIMITER",
+          "namespace_id": "2001",
+          "simple": { "limit": 120, "period": 60 }
+        },
+        { "name": "TX_LIMITER", "namespace_id": "2002", "simple": { "limit": 20, "period": 60 } },
+        {
+          "name": "QUOTE_LIMITER",
+          "namespace_id": "2003",
+          "simple": { "limit": 30, "period": 60 }
+        },
+        {
+          "name": "PUBLIC_LIMITER",
+          "namespace_id": "2004",
+          "simple": { "limit": 60, "period": 60 }
+        },
+        { "name": "AUTH_LIMITER", "namespace_id": "2005", "simple": { "limit": 20, "period": 60 } },
+        {
+          "name": "PARTNER_LIMITER",
+          "namespace_id": "2006",
+          "simple": { "limit": 600, "period": 60 }
+        }
+      ],
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "PROGRAM_ID": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+        "USDC_MINT": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "CONFIG_PDA": "",
+        "PROTOCOL_ALT": "",
+        "SURFNET_RPC_URL": "",
+        "HELIUS_RPC_URL": "https://mainnet.helius-rpc.com",
+        "ALCHEMY_RPC_URL": "https://solana-mainnet.g.alchemy.com/v2",
+        "HERMES_URL": "https://hermes.pyth.network",
+        "JUPITER_BASE_URL": "https://api.jup.ag",
+        "SUPABASE_URL": "",
+        "PRIVY_APP_ID": "",
+        "VAPID_PUBLIC_KEY": "",
+        "VAPID_SUBJECT": "",
+        "APP_ORIGIN": "",
+        "SIWS_DOMAIN": "",
+        "RESEND_FROM": "",
+        "TELEGRAM_BOT_USERNAME": ""
+      }
+    },
+    "production": {
+      "name": "paycheck-router-core",
+      "migrations": [
+        {
+          "tag": "init",
+          "new_sqlite_classes": ["RouterActor", "UserHub", "InflowWatcher", "RateGate"]
+        }
+      ],
+      "durable_objects": {
+        "bindings": [
+          { "name": "ROUTER_ACTOR", "class_name": "RouterActor" },
+          { "name": "USER_HUB", "class_name": "UserHub" },
+          { "name": "INFLOW_WATCHER", "class_name": "InflowWatcher" },
+          { "name": "RATE_GATE", "class_name": "RateGate" }
+        ]
+      },
+      "queues": {
+        "producers": [
+          { "binding": "INFLOWS", "queue": "inflows" },
+          { "binding": "EXECUTIONS", "queue": "executions" },
+          { "binding": "VERIFY", "queue": "verify" },
+          { "binding": "NOTIFY", "queue": "notify" }
+        ],
+        "consumers": [
+          {
+            "queue": "inflows",
+            "max_batch_size": 10,
+            "max_retries": 5,
+            "max_concurrency": 4,
+            "dead_letter_queue": "inflows-dlq"
+          },
+          {
+            "queue": "executions",
+            "max_batch_size": 1,
+            "max_retries": 3,
+            "max_concurrency": 4,
+            "dead_letter_queue": "executions-dlq"
+          },
+          {
+            "queue": "verify",
+            "max_batch_size": 10,
+            "max_retries": 10,
+            "max_concurrency": 2,
+            "dead_letter_queue": "verify-dlq"
+          },
+          {
+            "queue": "notify",
+            "max_batch_size": 25,
+            "max_retries": 5,
+            "max_concurrency": 2,
+            "dead_letter_queue": "notify-dlq"
+          }
+        ]
+      },
+      // Resource IDs are filled in when the production resources are created at deploy time.
+      "kv_namespaces": [{ "binding": "REGISTRY", "id": "00000000000000000000000000000000" }],
+      "r2_buckets": [
+        { "binding": "EVIDENCE", "bucket_name": "paycheck-evidence" },
+        { "binding": "EXPORTS", "bucket_name": "paycheck-exports" }
+      ],
+      "analytics_engine_datasets": [{ "binding": "METRICS", "dataset": "paycheck_metrics" }],
+      "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "00000000000000000000000000000000" }],
+      "ratelimits": [
+        {
+          "name": "USER_LIMITER",
+          "namespace_id": "3001",
+          "simple": { "limit": 120, "period": 60 }
+        },
+        { "name": "TX_LIMITER", "namespace_id": "3002", "simple": { "limit": 20, "period": 60 } },
+        {
+          "name": "QUOTE_LIMITER",
+          "namespace_id": "3003",
+          "simple": { "limit": 30, "period": 60 }
+        },
+        {
+          "name": "PUBLIC_LIMITER",
+          "namespace_id": "3004",
+          "simple": { "limit": 60, "period": 60 }
+        },
+        { "name": "AUTH_LIMITER", "namespace_id": "3005", "simple": { "limit": 20, "period": 60 } },
+        {
+          "name": "PARTNER_LIMITER",
+          "namespace_id": "3006",
+          "simple": { "limit": 600, "period": 60 }
+        }
+      ],
+      "vars": {
+        "ENVIRONMENT": "production",
+        "PROGRAM_ID": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+        "USDC_MINT": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "CONFIG_PDA": "",
+        "PROTOCOL_ALT": "",
+        "SURFNET_RPC_URL": "",
+        "HELIUS_RPC_URL": "https://mainnet.helius-rpc.com",
+        "ALCHEMY_RPC_URL": "https://solana-mainnet.g.alchemy.com/v2",
+        "HERMES_URL": "https://hermes.pyth.network",
+        "JUPITER_BASE_URL": "https://api.jup.ag",
+        "SUPABASE_URL": "",
+        "PRIVY_APP_ID": "",
+        "VAPID_PUBLIC_KEY": "",
+        "VAPID_SUBJECT": "",
+        "APP_ORIGIN": "",
+        "SIWS_DOMAIN": "",
+        "RESEND_FROM": "",
+        "TELEGRAM_BOT_USERNAME": ""
+      }
+    }
+  }
+}
