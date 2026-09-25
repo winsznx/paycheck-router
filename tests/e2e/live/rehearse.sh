@@ -4,9 +4,12 @@
 # DEMO_SURFNET_PORT, DEMO_CORE_PORT, DEMO_DB_PORT and DEMO_WEB_PORT pass through to demo:record,
 # and the spec follows DEMO_WEB_PORT and DEMO_CORE_PORT, e.g.
 #   DEMO_WEB_PORT=3100 DEMO_DB_PORT=55432 tests/e2e/live/rehearse.sh
+# DEMO_RECORD_ROOT runs demo:record from another checkout (default: this one); the spec and its
+# evidence stay in this checkout.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+RECORD_ROOT="${DEMO_RECORD_ROOT:-$ROOT}"
 WORK="$(mktemp -d)"
 FIFO="$WORK/demo-record.in"
 LOG="$WORK/demo-record.log"
@@ -15,7 +18,7 @@ READY_TIMEOUT_SECS=900
 mkfifo "$FIFO"
 sleep 99999 >"$FIFO" &
 HOLDER=$!
-(cd "$ROOT" && pnpm demo:record <"$FIFO" >"$LOG" 2>&1) &
+(cd "$RECORD_ROOT" && pnpm demo:record <"$FIFO" >"$LOG" 2>&1) &
 RECORD=$!
 
 cleanup() {
