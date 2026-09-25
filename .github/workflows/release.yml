@@ -63,6 +63,6 @@ jobs:
           if gh release view "${tag}" >/dev/null 2>&1; then
             gh release upload "${tag}" release/paycheck_router.so release/paycheck_router.so.hash --clobber
           else
-            gh release create "${tag}" target/deploy/paycheck_router.so target/deploy/paycheck_router.so.hash \
+            gh release create "${tag}" release/paycheck_router.so release/paycheck_router.so.hash \
               --title "${tag}" --notes "${notes}"
           fi
