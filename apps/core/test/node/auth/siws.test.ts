@@ -53,7 +53,7 @@ describe("SIWS messages", () => {
     issuedAt: NOW.toISOString(),
   };
   const expectations = {
-    domain: base.domain,
+    domains: [base.domain, "127.0.0.1:3000"],
     address: base.address,
     chainId: "localnet",
     now: NOW,

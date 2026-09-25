@@ -101,7 +101,8 @@
     "VAPID_PUBLIC_KEY": "",
     "VAPID_SUBJECT": "",
     "APP_ORIGIN": "http://localhost:3000",
-    "SIWS_DOMAIN": "localhost:3000",
+    "SIWS_DOMAIN": "localhost:3000,127.0.0.1:3000",
+    "CORS_ORIGINS": "http://127.0.0.1:3000",
     "RESEND_FROM": "",
     "TELEGRAM_BOT_USERNAME": ""
   },
@@ -215,7 +216,8 @@
         "VAPID_PUBLIC_KEY": "",
         "VAPID_SUBJECT": "",
         "APP_ORIGIN": "http://localhost:3000",
-        "SIWS_DOMAIN": "localhost:3000",
+        "SIWS_DOMAIN": "localhost:3000,127.0.0.1:3000",
+        "CORS_ORIGINS": "http://127.0.0.1:3000",
         "RESEND_FROM": "",
         "TELEGRAM_BOT_USERNAME": ""
       }

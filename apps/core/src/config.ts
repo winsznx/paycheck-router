@@ -72,3 +72,20 @@ export function explorerAddressUrl(env: Env, address: string): string {
   }
   return url.toString();
 }
+
+function list(value: string): string[] {
+  return value
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+}
+
+/** Origins allowed by CORS: `APP_ORIGIN` plus any extra `CORS_ORIGINS` (comma-separated). */
+export function allowedOrigins(env: Env): Set<string> {
+  return new Set([...list(env.APP_ORIGIN), ...list(env.CORS_ORIGINS ?? "")]);
+}
+
+/** Domains a SIWS message may name; the first is the one `/auth/nonce` advertises. */
+export function siwsDomains(env: Env): string[] {
+  return list(env.SIWS_DOMAIN);
+}
