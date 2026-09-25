@@ -1,0 +1,239 @@
+/* Public site: header, footer, landing sections (PRD 18). */
+
+.site-header {
+  border-block-end: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-block-size: 64px;
+}
+
+.site-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-block-size: 44px;
+  color: var(--text-1);
+  font-weight: 800;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.site-nav {
+  display: none;
+}
+
+.site-nav ul {
+  display: flex;
+  gap: var(--space-5);
+}
+
+.site-nav a,
+.site-menu__panel a {
+  color: var(--text-1);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-menu__panel a:hover {
+  text-decoration: underline;
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-inline-start: auto;
+}
+
+.site-signin {
+  display: none;
+}
+
+.site-menu {
+  position: relative;
+}
+
+.site-menu summary {
+  list-style: none;
+}
+
+.site-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.site-menu__panel {
+  position: absolute;
+  z-index: 45;
+  inset-inline-end: 0;
+  inset-block-start: calc(100% + var(--space-2));
+  min-inline-size: 220px;
+  padding: var(--space-4);
+  background: var(--surface-2);
+  border: 2px solid var(--text-1);
+  box-shadow: var(--shadow-accent-rest);
+}
+
+.site-menu__panel ul {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.site-menu__panel a {
+  display: flex;
+  align-items: center;
+  min-block-size: 44px;
+}
+
+@media (min-width: 1024px) {
+  .site-nav {
+    display: block;
+    margin-inline-start: var(--space-6);
+  }
+
+  .site-signin {
+    display: inline-flex;
+  }
+
+  .site-menu {
+    display: none;
+  }
+}
+
+.site-footer {
+  margin-block-start: var(--space-16);
+  padding-block: var(--space-10) var(--space-12);
+  border-block-start: 1px solid var(--line);
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-8);
+}
+
+.site-footer__grid a {
+  display: inline-flex;
+  min-block-size: 32px;
+  align-items: center;
+  color: var(--text-1);
+}
+
+@media (min-width: 768px) {
+  .site-footer__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Landing */
+.landing-hero {
+  display: grid;
+  gap: var(--space-10);
+  padding-block: var(--space-12) var(--space-10);
+}
+
+@media (min-width: 1024px) {
+  .landing-hero {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    align-items: center;
+    padding-block: var(--space-16);
+  }
+}
+
+.landing-section {
+  padding-block: var(--space-12);
+  border-block-start: 1px solid var(--line);
+}
+
+.trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+}
+
+.trust-strip li {
+  padding-inline-start: var(--space-3);
+  border-inline-start: 2px solid var(--accent);
+}
+
+.fact-grid,
+.step-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .fact-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .step-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.ticker-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-2);
+}
+
+.ticker {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  background: var(--surface-1);
+  color: var(--text-1);
+  text-decoration: none;
+}
+
+.calculator {
+  display: grid;
+  gap: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .calculator {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .landing-start {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-10);
+  }
+}
+
+.landing-start {
+  display: grid;
+  gap: var(--space-10);
+}
+
+.faq {
+  border-block-end: 1px solid var(--line);
+  padding-block: var(--space-3);
+}
+
+.faq summary {
+  min-block-size: 44px;
+  cursor: pointer;
+}
+
+.faq p {
+  padding-block: var(--space-3);
+}
+
+.turnstile {
+  min-block-size: 65px;
+}
+
+.status-row {
+  display: grid;
+  gap: var(--space-2);
+}
