@@ -17,6 +17,7 @@ import {
   type LegAttempt,
   type LegExecutedEvent,
   latestLifetime,
+  legAttemptKey,
   type MarkState,
   newMarkState,
   nextAttempt,
@@ -700,7 +701,14 @@ async function executeWithRetries(
       .sort((a, b) => a.leg.legIndex - b.leg.legIndex)
       .map(({ leg, rounds }) => ({
         leg,
-        attempts: rounds.flatMap((r) => r.attempts),
+        // Each executePaycheckLegs call counts attempts from zero; across retry rounds the
+        // counter continues, so every attempt's artifacts get their own paths.
+        attempts: rounds
+          .flatMap((r) => r.attempts)
+          .map((attempt, i) => ({
+            ...attempt,
+            key: legAttemptKey(leg.router, leg.seq, leg.legIndex, i),
+          })),
         posts: rounds.flatMap((r) => r.posts),
       })),
     posts: allPosts,
