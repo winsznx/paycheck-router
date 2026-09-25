@@ -219,6 +219,9 @@ export function SplitStep() {
                         <span className="pr-small pr-muted">
                           {t(`market.${asset.market.state}`)}
                         </span>
+                        {asset.reference === null && asset.kind === "listed_equity" ? (
+                          <span className="pr-small">{t("priceUnavailable")}</span>
+                        ) : null}
                         {asset.premiumBps !== null ? (
                           <PriceCheckBadge
                             tone={
