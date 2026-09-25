@@ -1,0 +1,7 @@
+[
+  {
+    "feedId": "19e09bb805456ada3979a7d1cbb4b6d63babc3a0f8e8a9509f68afa5c4c11cd5",
+    "status": 403,
+    "body": "Not entitled: feed 19e09bb805456ada3979a7d1cbb4b6d63babc3a0f8e8a9509f68afa5c4c11cd5 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 2))"
+  }
+]

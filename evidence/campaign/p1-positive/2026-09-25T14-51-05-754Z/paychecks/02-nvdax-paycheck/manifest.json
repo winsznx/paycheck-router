@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-09-25T14-51-05-754Z/paychecks/02-nvdax-paycheck",
+  "environment": "fork",
+  "fork": {
+    "startSlot": 450384635,
+    "rpcUrl": "http://127.0.0.1:48899",
+    "datasource": "api.mainnet-beta.solana.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -0.31399989128112793
+  },
+  "startedAt": "2026-09-25T14:53:00.714Z",
+  "finishedAt": "2026-09-25T14:53:11.113Z",
+  "commit": "1645b9d4207501293feb04f748e6857cb1eab4d9",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+  "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4",
+  "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:48899",
+    "verifier": "http://127.0.0.1:48899"
+  },
+  "feedIds": [],
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ",
+    "worker-xstock": "2x4ufojp8YCyDUcjAuQUzHmwURx48xxJkax8aWufMU6R"
+  },
+  "router": {
+    "address": "Hyv5uzHrdC3oM6tKuEpUSs6xmTDshNjdydW9XtAvVPPE",
+    "owner": "2x4ufojp8YCyDUcjAuQUzHmwURx48xxJkax8aWufMU6R",
+    "authority": "3LDcCygbmn4PHFcq4hpNa9gD1N3guXP5AxEMEPDQcGoR",
+    "investBps": 5000,
+    "legs": [
+      {
+        "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+        "symbol": "NVDAx",
+        "weightBps": 10000
+      }
+    ]
+  },
+  "paycheck": {
+    "address": "76B5i48ewZea2dqTRcBbkGNfk3fbjCvxPCj8ATmSHfMK",
+    "seq": "0",
+    "inflow": "200000000",
+    "investTotal": "100000000",
+    "sender": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "inflowSignature": "4fv4HZ5GaXMgBjWJ4rrDPfjp29dVJQ1zd3f1b5toLRUCG6BMCzBhswLsEX97SrerNKgWK5m52Y5zJ5SXsMjF4Mor",
+    "recordSignature": "4A6PMpzjqjGt8DawncWbDbgM6ybtUQuGLen1Mv3td7RV1WYJFbVboEqqHcQN7PNxqxsNtfnDicrw1U7E2qvKPyNp"
+  },
+  "transactions": [
+    {
+      "label": "paycheck: employer-2 transferChecked",
+      "signature": "4fv4HZ5GaXMgBjWJ4rrDPfjp29dVJQ1zd3f1b5toLRUCG6BMCzBhswLsEX97SrerNKgWK5m52Y5zJ5SXsMjF4Mor",
+      "slot": 450384921,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4fv4HZ5GaXMgBjWJ4rrDPfjp29dVJQ1zd3f1b5toLRUCG6BMCzBhswLsEX97SrerNKgWK5m52Y5zJ5SXsMjF4Mor.json",
+        "sha256": "fd525b4e15ad4b8d8d42cc95a7ef9d53845e91c08dbcd6244af4ee4474ad0072"
+      }
+    },
+    {
+      "label": "record_paycheck",
+      "signature": "4A6PMpzjqjGt8DawncWbDbgM6ybtUQuGLen1Mv3td7RV1WYJFbVboEqqHcQN7PNxqxsNtfnDicrw1U7E2qvKPyNp",
+      "slot": 450384927,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4A6PMpzjqjGt8DawncWbDbgM6ybtUQuGLen1Mv3td7RV1WYJFbVboEqqHcQN7PNxqxsNtfnDicrw1U7E2qvKPyNp.json",
+        "sha256": "e614f06e1530576d4811a7341285c368d861d83ef282827ab3d3f5e8ddf9ef02"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "BpM6HV5LEQDY6dtRMbxb3zjaZrQoPTYzub7gEFnYE9KnSRMcb6NksytsfvhLmJ7TuXWNj1rGTJRVbQ5ktUvLh5X",
+      "slot": 450384934,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/BpM6HV5LEQDY6dtRMbxb3zjaZrQoPTYzub7gEFnYE9KnSRMcb6NksytsfvhLmJ7TuXWNj1rGTJRVbQ5ktUvLh5X.json",
+        "sha256": "d2c5928b0388703daa73c9560bda3e7101ed260ac12d1b04b24cdca608bfe779"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "3saCBKhDM2rEuh6Zs3Cv9NHRsHqWPnT1es1cnbex8hTKdVZYWBWCyxxRdV3oFvVTzwpp6FtMFTM9D5LhyYpkdzeq",
+      "slot": 450384936,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3saCBKhDM2rEuh6Zs3Cv9NHRsHqWPnT1es1cnbex8hTKdVZYWBWCyxxRdV3oFvVTzwpp6FtMFTM9D5LhyYpkdzeq.json",
+        "sha256": "a9bfd0817cbf65717639a5a8884c5d64fd0bcd9a21cd0879e63af0457c3bec1b"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "4HsDEE6XSjr4NM5SB3HJPpLPoGwYYxLmSevVDRx8Urkm9D59NhUNbCa5NrBaedP9kQHc5geKeYizvvy4a9Y3EoRJ",
+      "slot": 450384937,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4HsDEE6XSjr4NM5SB3HJPpLPoGwYYxLmSevVDRx8Urkm9D59NhUNbCa5NrBaedP9kQHc5geKeYizvvy4a9Y3EoRJ.json",
+        "sha256": "6dae26dac771d20089124f548b3d3e39e54bb6b722452df9b5d5dfbecbd0d07c"
+      }
+    }
+  ],
+  "legs": [
+    {
+      "index": 0,
+      "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+      "symbol": "NVDAx",
+      "kind": "listed_equity",
+      "amountIn": "100000000",
+      "bandBps": 50,
+      "state": "WAITING",
+      "waitReason": "PRICE_UNAVAILABLE",
+      "attempts": [
+        {
+          "key": "Hyv5uzHrdC3oM6tKuEpUSs6xmTDshNjdydW9XtAvVPPE:0:0:0",
+          "startedAt": "2026-09-25T14:53:08.529Z",
+          "jupiterBuild": null,
+          "jupiterBuilds": [],
+          "notes": [],
+          "hermesUpdate": null,
+          "prices": [],
+          "attestation": null,
+          "simulation": null,
+          "transactionBytes": null,
+          "priceRejections": [
+            {
+              "feedId": "b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593",
+              "status": 403,
+              "body": "Not entitled: feed b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+            }
+          ],
+          "signatures": [],
+          "outcome": "waiting",
+          "waitReason": "PRICE_UNAVAILABLE",
+          "error": "Hermes 403 for b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593: Not entitled: feed b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+        }
+      ],
+      "executed": null,
+      "verification": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "raw/balances/before.json",
+      "sha256": "b438b80e094051c9081e05bac1f76cff83309db6f642778153e32ee9db65f5e8"
+    },
+    {
+      "path": "raw/mints/NVDAx.json",
+      "sha256": "4ac807ceac5a13fdde400e660e2f32a3ca23b4fd516969af8e6ef44af51c01c7"
+    },
+    {
+      "path": "raw/epoch.json",
+      "sha256": "7b3da01a205436be87a923ff485f283301d521f6c5763c5f62657cb474556da0"
+    },
+    {
+      "path": "raw/tx/4fv4HZ5GaXMgBjWJ4rrDPfjp29dVJQ1zd3f1b5toLRUCG6BMCzBhswLsEX97SrerNKgWK5m52Y5zJ5SXsMjF4Mor.json",
+      "sha256": "fd525b4e15ad4b8d8d42cc95a7ef9d53845e91c08dbcd6244af4ee4474ad0072"
+    },
+    {
+      "path": "raw/tx/4A6PMpzjqjGt8DawncWbDbgM6ybtUQuGLen1Mv3td7RV1WYJFbVboEqqHcQN7PNxqxsNtfnDicrw1U7E2qvKPyNp.json",
+      "sha256": "e614f06e1530576d4811a7341285c368d861d83ef282827ab3d3f5e8ddf9ef02"
+    },
+    {
+      "path": "raw/hermes/rejected-round-0.json",
+      "sha256": "86a4c971720dfafaeebf9d4b50b1a12760ede549325ddadd65020633b841c23e"
+    },
+    {
+      "path": "raw/hermes/posted-0.json",
+      "sha256": "bce1eb48e2467b28f2d22ceea19e7a449c2bbb0bbeb1f41ee17046fe8ba5d4eb"
+    },
+    {
+      "path": "raw/tx/BpM6HV5LEQDY6dtRMbxb3zjaZrQoPTYzub7gEFnYE9KnSRMcb6NksytsfvhLmJ7TuXWNj1rGTJRVbQ5ktUvLh5X.json",
+      "sha256": "d2c5928b0388703daa73c9560bda3e7101ed260ac12d1b04b24cdca608bfe779"
+    },
+    {
+      "path": "raw/tx/3saCBKhDM2rEuh6Zs3Cv9NHRsHqWPnT1es1cnbex8hTKdVZYWBWCyxxRdV3oFvVTzwpp6FtMFTM9D5LhyYpkdzeq.json",
+      "sha256": "a9bfd0817cbf65717639a5a8884c5d64fd0bcd9a21cd0879e63af0457c3bec1b"
+    },
+    {
+      "path": "raw/tx/4HsDEE6XSjr4NM5SB3HJPpLPoGwYYxLmSevVDRx8Urkm9D59NhUNbCa5NrBaedP9kQHc5geKeYizvvy4a9Y3EoRJ.json",
+      "sha256": "6dae26dac771d20089124f548b3d3e39e54bb6b722452df9b5d5dfbecbd0d07c"
+    },
+    {
+      "path": "raw/balances/after.json",
+      "sha256": "9e0ddb6d764f9d67c550d24eef134a5caf15a0801a0a60e27bd120964ac77bc9"
+    }
+  ],
+  "error": null
+}

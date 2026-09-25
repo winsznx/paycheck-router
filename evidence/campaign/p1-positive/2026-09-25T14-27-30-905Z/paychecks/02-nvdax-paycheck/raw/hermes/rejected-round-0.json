@@ -1,0 +1,12 @@
+[
+  {
+    "feedId": "b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593",
+    "status": 403,
+    "body": "Not entitled: feed b1073854ed24cbc755dc527418f52b7d271f6cc967bbf8d8129112b18860a593 (no grant accepts this feed (asset type 'equity', instrument type 'spot', exchange 1))"
+  },
+  {
+    "feedId": "a470c4ac46f44b547b2cba52338f311fb642b79375ce5f0cfd5cb5b99227b852",
+    "status": 403,
+    "body": "Not entitled: feed a470c4ac46f44b547b2cba52338f311fb642b79375ce5f0cfd5cb5b99227b852 (no grant accepts this gated feed; it requires access to one of the following groups: [\"pyth-indices\"])"
+  }
+]

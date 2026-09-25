@@ -1,0 +1,693 @@
+{
+  "schemaVersion": 1,
+  "kind": "campaign-case",
+  "caseId": "P5",
+  "module": "p5-stale-context",
+  "runId": "2026-09-25T15-10-14-614Z",
+  "environment": "fork",
+  "title": "Stale context",
+  "scenario": "A $200 paycheck split between Kalshi and Anthropic PreStocks. Kalshi's execute carries an attestation signed 305 s earlier; Anthropic's mint gets a 1.05x Scaled UI multiplier that takes effect while the leg is pending",
+  "expected": "AttestationStale; the minimum uses the new multiplier",
+  "fork": {
+    "startSlot": 450388922,
+    "rpcUrl": "http://127.0.0.1:48899",
+    "datasource": "api.mainnet-beta.solana.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -0.6559998989105225
+  },
+  "startedAt": "2026-09-25T15:10:14.614Z",
+  "finishedAt": "2026-09-25T15:17:23.293Z",
+  "commit": "8fe72dedc03d0ff655df46130f90e1c6efac334b",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+  "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4",
+  "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:48899",
+    "verifier": "http://127.0.0.1:48899"
+  },
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ"
+  },
+  "setup": [
+    {
+      "label": "deploy program",
+      "signature": "2DyNbEDNDscLum7wdBaQPK1qTEfrUCcVLdwoRQddv4e1ABc8uhHGqDDL8J4Jjt7duLFTMqNhCaotK58ZEpWGq1Yj",
+      "slot": 450389060,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2DyNbEDNDscLum7wdBaQPK1qTEfrUCcVLdwoRQddv4e1ABc8uhHGqDDL8J4Jjt7duLFTMqNhCaotK58ZEpWGq1Yj.json",
+        "sha256": "d6dd3ca5cc9232eaf2678b94661c1b2698fb68d280e26e0eba342bb349d2bd6c"
+      }
+    },
+    {
+      "label": "initialize_config",
+      "signature": "4v9um1UZbC5fnXz9tTWjNBwxJE27wEXHACZF918hjFXCPfL24o8dxqr2GSy3zmH6uiijrRNMgEqKvRSwFALBuuXE",
+      "slot": 450389067,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4v9um1UZbC5fnXz9tTWjNBwxJE27wEXHACZF918hjFXCPfL24o8dxqr2GSy3zmH6uiijrRNMgEqKvRSwFALBuuXE.json",
+        "sha256": "16ff531b0ed58067200b535d441873ac3ca955e0813fce2ccc01b42002711105"
+      }
+    },
+    {
+      "label": "upsert_asset SPYx",
+      "signature": "5yyp1FCJiGzrd4hY4EWYz9UCTszuytCzoc9KTGm5nKFXdgYsukE5dohmjw8QAyvqorLmV8YY2PMfpMvgYj85mZca",
+      "slot": 450389068,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5yyp1FCJiGzrd4hY4EWYz9UCTszuytCzoc9KTGm5nKFXdgYsukE5dohmjw8QAyvqorLmV8YY2PMfpMvgYj85mZca.json",
+        "sha256": "aa1ae2fe34658f5780e91003f83c6a47a849c53c7ca6cbeb29234592c2744568"
+      }
+    },
+    {
+      "label": "upsert_asset QQQx",
+      "signature": "2x6K5YXhgjZB3zgzVxQV4xojWcb9GpfkjJFXj313XZWzUy1iSkAbNnixrz9Y55WFcsAUq7tg9HysVhS1w5G9Hkov",
+      "slot": 450389069,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2x6K5YXhgjZB3zgzVxQV4xojWcb9GpfkjJFXj313XZWzUy1iSkAbNnixrz9Y55WFcsAUq7tg9HysVhS1w5G9Hkov.json",
+        "sha256": "295b1fb3bf907a2062f45a00cb23420479e2d86f43c4f912ff921de1096e295b"
+      }
+    },
+    {
+      "label": "upsert_asset NVDAx",
+      "signature": "6NjK2D8jRjpxnDiRaDsSH8yAFDCwRBqKisgaqgyfjus4MPTgW5it7z4fmM3SpVZcdDnWXu6rmVdgsZWgVbVnseG",
+      "slot": 450389071,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/6NjK2D8jRjpxnDiRaDsSH8yAFDCwRBqKisgaqgyfjus4MPTgW5it7z4fmM3SpVZcdDnWXu6rmVdgsZWgVbVnseG.json",
+        "sha256": "ea506e460876466160abcf192bf8bcb28af789690c543b0ebab7f1e04fc26e81"
+      }
+    },
+    {
+      "label": "upsert_asset AAPLx",
+      "signature": "49zgeDwFoxYYvPLbdUdcXh6TAvPWMjmEzcSxnAaZ9yz1JhG3P5VCDFJWEhfDGCmv8DK43C1EiTTX8C7y61ZwF7AH",
+      "slot": 450389072,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/49zgeDwFoxYYvPLbdUdcXh6TAvPWMjmEzcSxnAaZ9yz1JhG3P5VCDFJWEhfDGCmv8DK43C1EiTTX8C7y61ZwF7AH.json",
+        "sha256": "cd66fcf997906ea3c6032b1aad5d0595cda0cf6eb928b973925f21ae66ccc1c8"
+      }
+    },
+    {
+      "label": "upsert_asset TSLAx",
+      "signature": "2cx2AaVs4RBTe4RUSM7eF3vkXpK3Qg5sXbAEkEwXVuSMsNRFQf92Q67QJSF2GA9rs6RysxJCwYbaAwCgrqXS6hHo",
+      "slot": 450389075,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2cx2AaVs4RBTe4RUSM7eF3vkXpK3Qg5sXbAEkEwXVuSMsNRFQf92Q67QJSF2GA9rs6RysxJCwYbaAwCgrqXS6hHo.json",
+        "sha256": "f4f9671156f36399f445bcc0ac8e54d395d8333a0f89bab4695cc93246a164b2"
+      }
+    },
+    {
+      "label": "upsert_asset MSFTx",
+      "signature": "2bXxGF3sGJ2Cp2fReHFagYu7EmSZwFAKNNFPKEKKTL3zjN6CZ3ogukgvbHPmnK41BcRWAYznJ1WgqNUTmtVfXY75",
+      "slot": 450389076,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2bXxGF3sGJ2Cp2fReHFagYu7EmSZwFAKNNFPKEKKTL3zjN6CZ3ogukgvbHPmnK41BcRWAYznJ1WgqNUTmtVfXY75.json",
+        "sha256": "03277d4e4edc13586939524bd5b63ae889f2414a9c5948370c18a1f9f8be32aa"
+      }
+    },
+    {
+      "label": "upsert_asset GOOGLx",
+      "signature": "iXmrrEc59zaciavLN5KNqF2s92aPbag8fN7K8ZMyx4wfmSwuwmG4m6S8KDTGnKd9ZNDPMSLB3LtyKAoyGA72FF2",
+      "slot": 450389077,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/iXmrrEc59zaciavLN5KNqF2s92aPbag8fN7K8ZMyx4wfmSwuwmG4m6S8KDTGnKd9ZNDPMSLB3LtyKAoyGA72FF2.json",
+        "sha256": "c6bbfdc8a172094d122c0df09934bb09ee938a739d3584cd864320f25f4a3dec"
+      }
+    },
+    {
+      "label": "upsert_asset AMZNx",
+      "signature": "5MXmFsLfnykvN6mDnKbqExrNiY7r5g9rTYnPpGkrLVEYcuwzw3pvk56oeDBr7U2zhFBBL35e7LZjimQ1QUQwHRAV",
+      "slot": 450389079,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5MXmFsLfnykvN6mDnKbqExrNiY7r5g9rTYnPpGkrLVEYcuwzw3pvk56oeDBr7U2zhFBBL35e7LZjimQ1QUQwHRAV.json",
+        "sha256": "e467933cef26837ec6f17733041b150de2fc676365532007575b3597950caa5f"
+      }
+    },
+    {
+      "label": "upsert_asset METAx",
+      "signature": "5qdmuJSYxupqCzznGj4p1Zk7rffPJzcBun2296Q7HVGtbv6XyG23MALgHzfgmfWwkxy9a7eA1te4pyGBxP3KxoMF",
+      "slot": 450389080,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5qdmuJSYxupqCzznGj4p1Zk7rffPJzcBun2296Q7HVGtbv6XyG23MALgHzfgmfWwkxy9a7eA1te4pyGBxP3KxoMF.json",
+        "sha256": "ff7bedfbd7c73fe6d04639cbb5d9007c7aea186ede0f4fa9743b70221350410c"
+      }
+    },
+    {
+      "label": "upsert_asset OpenAI",
+      "signature": "49LbNL29rNaseDSXKcwfpqpXaMk6h4tH2ZcrNyywtqgDoqbt5xHT2cNCGTxK6Usc8rHK3M6cmWKVttpMfRSfd2FS",
+      "slot": 450389082,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/49LbNL29rNaseDSXKcwfpqpXaMk6h4tH2ZcrNyywtqgDoqbt5xHT2cNCGTxK6Usc8rHK3M6cmWKVttpMfRSfd2FS.json",
+        "sha256": "465fa0bd301cc4372a9d041d61720566c35bec55e64ffdd5f5b2716cb3762c2a"
+      }
+    },
+    {
+      "label": "upsert_asset Anthropic",
+      "signature": "2NAUvx4oD3WgjqXfAMAM4htaATYVt7vrpyuomvgaAijvYHXyGCHvo96uGSSt1X2YRdf7Jmn921YyF5WgEqTLUfso",
+      "slot": 450389083,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2NAUvx4oD3WgjqXfAMAM4htaATYVt7vrpyuomvgaAijvYHXyGCHvo96uGSSt1X2YRdf7Jmn921YyF5WgEqTLUfso.json",
+        "sha256": "2868da676f39ace7a84a8e44a67acd6c5a3bd1b4dc741a6d422e356c3ca74d90"
+      }
+    },
+    {
+      "label": "upsert_asset Anduril",
+      "signature": "2mmyNnGwudrzrXwxHwzGAmYepNLzUxvawMLrLrutRy4LMn3QTKnNEfJPmjTuq6GmW6mFUcim4AGhsYm9trT9nomK",
+      "slot": 450389085,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2mmyNnGwudrzrXwxHwzGAmYepNLzUxvawMLrLrutRy4LMn3QTKnNEfJPmjTuq6GmW6mFUcim4AGhsYm9trT9nomK.json",
+        "sha256": "7c6aff76684b67f71b68e3047088467d330e503f14af9da4342a46842215d72d"
+      }
+    },
+    {
+      "label": "upsert_asset FigureAI",
+      "signature": "3pEApt7dcJVsfyxkNSikuotyFbeTZSYFA3M3EWK7fRc9adbxdnjqVJQ7Vx3mqLbdikgFkNgwi4WXYvcUXStFo1Sg",
+      "slot": 450389086,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3pEApt7dcJVsfyxkNSikuotyFbeTZSYFA3M3EWK7fRc9adbxdnjqVJQ7Vx3mqLbdikgFkNgwi4WXYvcUXStFo1Sg.json",
+        "sha256": "1e232e2c0883033f1a04298372de21bcf99af33dd1a1d2523c66d48a9bb8ffee"
+      }
+    },
+    {
+      "label": "upsert_asset Kalshi",
+      "signature": "3MpA1u9Hgsn8T8qn4JNJbEuDjuXMLtZLiNneYN4gZVComR4A6BTvYTaGXG7e58PX53LbnUVw22oz2Vr3Gz1FRzH9",
+      "slot": 450389088,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3MpA1u9Hgsn8T8qn4JNJbEuDjuXMLtZLiNneYN4gZVComR4A6BTvYTaGXG7e58PX53LbnUVw22oz2Vr3Gz1FRzH9.json",
+        "sha256": "4aa9dff06c410eec861ad89a8f697ccb58c87fa8b73bc0fd1f748dfe96330fc1"
+      }
+    },
+    {
+      "label": "upsert_asset Polymarket",
+      "signature": "41h3hjm7q9EAKYkRYuixbi3BaNuDcTGJngQtjmNVKufXFHPaPN92iztWg4VUHuRtMySSC1KgumKKg4W58vXB6dmQ",
+      "slot": 450389090,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/41h3hjm7q9EAKYkRYuixbi3BaNuDcTGJngQtjmNVKufXFHPaPN92iztWg4VUHuRtMySSC1KgumKKg4W58vXB6dmQ.json",
+        "sha256": "3d861a04b63c90a2eb94c86dccc9202de221baeeeb61b5841612dee3b612e91d"
+      }
+    },
+    {
+      "label": "upsert_asset Neuralink",
+      "signature": "5vjzu7Z9ajMWS3wLT85a7ozPMyqpkQZVLGi5gownGEv4opNXBzvg4UyLo89vToRKSwbYeqgaNorDFM4JHjuQ1yfR",
+      "slot": 450389091,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5vjzu7Z9ajMWS3wLT85a7ozPMyqpkQZVLGi5gownGEv4opNXBzvg4UyLo89vToRKSwbYeqgaNorDFM4JHjuQ1yfR.json",
+        "sha256": "053e67a36fca5a3a73e56dca8ea57192b24f326d3487184e8031edbb32ea59e8"
+      }
+    },
+    {
+      "label": "upsert_asset SpaceX",
+      "signature": "3kxQX4YpfK3mpFwt4gExRGZxXEzdFByuwJnD7SMtTTXabLY26ZkWTejuNczyrt1q4gynMHP2uxFJ2JxyJsi7wzML",
+      "slot": 450389093,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3kxQX4YpfK3mpFwt4gExRGZxXEzdFByuwJnD7SMtTTXabLY26ZkWTejuNczyrt1q4gynMHP2uxFJ2JxyJsi7wzML.json",
+        "sha256": "9575ab41dcf0ded52212c353e3002aa42b40aa3609f43c08f1550f4a1c9516d3"
+      }
+    },
+    {
+      "label": "create protocol lookup table",
+      "signature": "3qZDbp9ccdisWg8FKbJzQjmitE6W3gUfmTuzm4i2A82DEum9SG9QwxEW7caTqjLy4tHmAHz8AGFbE7sVuymNc8pZ",
+      "slot": 450389094,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3qZDbp9ccdisWg8FKbJzQjmitE6W3gUfmTuzm4i2A82DEum9SG9QwxEW7caTqjLy4tHmAHz8AGFbE7sVuymNc8pZ.json",
+        "sha256": "fb5f3f204db603783ed503f74297ae46a8eb644099800331a54ac046046bfb51"
+      }
+    },
+    {
+      "label": "extend protocol lookup table 1",
+      "signature": "2aBWradZkxHYTtMQ1uaf3pMRzqdeMUgpP7HgQFB47JJmgw6aeByWQgWVaNKvWcAyaadk6LMzjWVYoCC4ZXNU9fmp",
+      "slot": 450389095,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2aBWradZkxHYTtMQ1uaf3pMRzqdeMUgpP7HgQFB47JJmgw6aeByWQgWVaNKvWcAyaadk6LMzjWVYoCC4ZXNU9fmp.json",
+        "sha256": "86739695209e08d4354edd03a103b487d2cba7130e94fbccbc3869fa9f06d046"
+      }
+    },
+    {
+      "label": "extend protocol lookup table 2",
+      "signature": "4h6NHM4WZsdzEW8WcAcFvmwzd2ENfkZyJa91Pndmbg6DnWKA3ZxmdiiBrEWcrjrJoA1A24cBeDpVvGobx3PEZv5X",
+      "slot": 450389098,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4h6NHM4WZsdzEW8WcAcFvmwzd2ENfkZyJa91Pndmbg6DnWKA3ZxmdiiBrEWcrjrJoA1A24cBeDpVvGobx3PEZv5X.json",
+        "sha256": "3bce49df8005c59d570926f5e6d6c64e6b26096ae37053c74b0ad1f14d114c30"
+      }
+    },
+    {
+      "label": "extend protocol lookup table 3",
+      "signature": "4bg7cq7XDb7ge3t585thQBLnmyjUoPnb9wpAhnc78YJBBsVSicPXbax78sz3QfRrXXRjWsnxgmvY3Y5oiNWKTLnN",
+      "slot": 450389101,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4bg7cq7XDb7ge3t585thQBLnmyjUoPnb9wpAhnc78YJBBsVSicPXbax78sz3QfRrXXRjWsnxgmvY3Y5oiNWKTLnN.json",
+        "sha256": "b3215452e11384498f0232ebaed29a29efe13897b9ea405a7d3de396707e68f9"
+      }
+    },
+    {
+      "label": "setup demo-worker: create_router and approves",
+      "signature": "36AVaJCtAzLDftMAE6FST3sW6JdAKZwgNgqakhtcYVMmr8uYWDuSSfge2HzxZ9SCBHpVzUPxMAS4uKjJKtP3KcCr",
+      "slot": 450389104,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/36AVaJCtAzLDftMAE6FST3sW6JdAKZwgNgqakhtcYVMmr8uYWDuSSfge2HzxZ9SCBHpVzUPxMAS4uKjJKtP3KcCr.json",
+        "sha256": "58396e37c1bdc2db97324790d0c46f8dee58bce4f336f319d6e6861e67d6d1a6"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "RtnXFgJi3QVdWBCLL1qpY1nqbsjuj2mXqDWUuWqW49au41A4YvfFPNgq29dNbzuCFQyhy1DErTnBXhbVPzSTLev",
+      "slot": 450389126,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/RtnXFgJi3QVdWBCLL1qpY1nqbsjuj2mXqDWUuWqW49au41A4YvfFPNgq29dNbzuCFQyhy1DErTnBXhbVPzSTLev.json",
+        "sha256": "c58903329b161798d8dd348e66cfbe950a0e633c0fe21cb94096f8118784e38b"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "2KBsuxCa3LtMY5x5FS6RXGdtQsB2XTk6Jh1F61mivUzAqa4tByxC84mjp7N6FoxfEhN5Bv4ncfewAWPWvjVjgR7H",
+      "slot": 450389142,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2KBsuxCa3LtMY5x5FS6RXGdtQsB2XTk6Jh1F61mivUzAqa4tByxC84mjp7N6FoxfEhN5Bv4ncfewAWPWvjVjgR7H.json",
+        "sha256": "52a6e87f47ea4ba2e64eaf447a834ca9ce76ad7963685bb8ee2f1023ed28de5b"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "3Ne1XawbNrgkZajQqzj6RGnzW3Hb9CdeTsds423ZofMmmHoe45Tupgpfs5BFbbBYTfjJ5Tdm8RJa9LhR1qSKhxZF",
+      "slot": 450389176,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3Ne1XawbNrgkZajQqzj6RGnzW3Hb9CdeTsds423ZofMmmHoe45Tupgpfs5BFbbBYTfjJ5Tdm8RJa9LhR1qSKhxZF.json",
+        "sha256": "fc56ea391603a2fcc58a6849bda6132bb31e90cae92205309ad58e0552b6975d"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "3aSWB2SjWgpoTygFmUVADs8X9BCMDHAcJoTS19uSL64kHGHXpbLCZvn9Gom946aYrHyphWUksH6JzwrxkP4fTt3U",
+      "slot": 450389181,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3aSWB2SjWgpoTygFmUVADs8X9BCMDHAcJoTS19uSL64kHGHXpbLCZvn9Gom946aYrHyphWUksH6JzwrxkP4fTt3U.json",
+        "sha256": "eeccec991c038993cff354012cd6be3c2d3110e5612caefeca3674927eac321d"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "2bUkxz6nBGyNDt9n5AGttcfy6CctGgruCHDxMTm7AsHeanFDpEQahKJ5J5PKf9TJGSvfHwyGVTtXGn7dVZ3Q2CtK",
+      "slot": 450389185,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2bUkxz6nBGyNDt9n5AGttcfy6CctGgruCHDxMTm7AsHeanFDpEQahKJ5J5PKf9TJGSvfHwyGVTtXGn7dVZ3Q2CtK.json",
+        "sha256": "669b1a21b0075d6c91ab6dac71063cc0a8d06942057fe3fefe0e7b146e0c0a6b"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "5bu6H9YSZMRpPX6kJ7ZSiMsB8pZ5YwteHwMa3MMkzvWegK1s96KDLpZ9dEwkxiFt6PBTh2CNHAkk2APyBSVN2Nbg",
+      "slot": 450389208,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5bu6H9YSZMRpPX6kJ7ZSiMsB8pZ5YwteHwMa3MMkzvWegK1s96KDLpZ9dEwkxiFt6PBTh2CNHAkk2APyBSVN2Nbg.json",
+        "sha256": "1309144e2063ad052e3c639686c5cfdf1248f9dd7a640856f0bb934aff55501e"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "4d8UC5sUWrtSinWekXhfkFyJ2jhaFJsk1iquWT35V2P5e61DeDZpBz4RGt2GZyXMtJbFnVwK9LFAMUwg4DEr79Aw",
+      "slot": 450389886,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4d8UC5sUWrtSinWekXhfkFyJ2jhaFJsk1iquWT35V2P5e61DeDZpBz4RGt2GZyXMtJbFnVwK9LFAMUwg4DEr79Aw.json",
+        "sha256": "80cfd77450de147921a19ffa7e8b66588e5634309dec967438e4c7550b29ade2"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "3XgPwEQqv1kadoWu5n3DRBzr4mYJygAzkgTGSm1B4cjumhXWzdTTyZRRFWaY5NwzFDLMWLpigqj8dGrEH9jsChB6",
+      "slot": 450389890,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3XgPwEQqv1kadoWu5n3DRBzr4mYJygAzkgTGSm1B4cjumhXWzdTTyZRRFWaY5NwzFDLMWLpigqj8dGrEH9jsChB6.json",
+        "sha256": "037664b353def9573350187775b16aca3a34dcc2655562a154a42b9177b714df"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "ujMUT5e6H8dHYzog4W8hTGUE78u9e4gyac8LzwpmPBb9BSQtLScqYUBmn5XWagwKrniHDXPVCQyCtu7uqVeEGmP",
+      "slot": 450389913,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/ujMUT5e6H8dHYzog4W8hTGUE78u9e4gyac8LzwpmPBb9BSQtLScqYUBmn5XWagwKrniHDXPVCQyCtu7uqVeEGmP.json",
+        "sha256": "278e48a3821a958eee2a104dd7768240037e4037c3812d5433ce1ac31f44d226"
+      }
+    },
+    {
+      "label": "stale attestation execute",
+      "signature": "4BopNGwJ6eQUzgcxgzkdEx8t7JhSn5sbD9LSinU5YkGJzrgRnTFWA83zQh9zX2rmubw4G2LYHsVbUnuqHecoJB9o",
+      "slot": 450389912,
+      "err": {
+        "InstructionError": [
+          4,
+          {
+            "Custom": 6026
+          }
+        ]
+      },
+      "raw": {
+        "path": "raw/tx/4BopNGwJ6eQUzgcxgzkdEx8t7JhSn5sbD9LSinU5YkGJzrgRnTFWA83zQh9zX2rmubw4G2LYHsVbUnuqHecoJB9o.json",
+        "sha256": "b148db147f1ed0771fe24a3cd807275d357eb017431b1dd75f8a556959f3c1f9"
+      }
+    }
+  ],
+  "paychecks": [
+    {
+      "label": "Kalshi+Anthropic paycheck",
+      "employer": "employer-1",
+      "employerAddress": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+      "worker": "demo-worker",
+      "workerAddress": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+      "router": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e",
+      "amount": "200000000",
+      "bundle": {
+        "path": "paychecks/01-kalshi-anthropic-paycheck/manifest.json",
+        "sha256": "9fb9c397bf42e86aeca538744b54e963c72f21c27ccd7132804b644d7f8d064e"
+      },
+      "classification": "record",
+      "recorded": true,
+      "error": null
+    }
+  ],
+  "probes": [
+    {
+      "name": "Anthropic before the change",
+      "description": "Simulated before the new multiplier's timestamp: the minimum uses the old one",
+      "expected": [
+        "min_out:old_multiplier"
+      ],
+      "observed": "min_out:old_multiplier",
+      "pass": true,
+      "source": {
+        "kind": "min_out_multiplier",
+        "transaction": {
+          "path": "raw/simulation/anthropic-before-multiplier-without-Flux.json",
+          "sha256": "1e7fa688a276527ee99795a675528bd3984d261d786963bdae1262ad7119fe64"
+        },
+        "mintAfter": {
+          "path": "raw/accounts/anthropic-mint-after.json",
+          "sha256": "99dad164e0bb39909702f90ed46a7ebf9677d9d4b3776e9efa0c661993fbcb27"
+        },
+        "decimals": 9
+      },
+      "signature": null
+    },
+    {
+      "name": "Kalshi with a 305 s old attestation",
+      "description": "The attestation is older than 300 s when the program reads it",
+      "expected": [
+        "error:AttestationStale"
+      ],
+      "observed": "error:AttestationStale",
+      "pass": true,
+      "source": {
+        "kind": "program_error",
+        "logs": {
+          "path": "raw/test-crank/kalshi-stale-attestation-transaction.json",
+          "sha256": "f7a4f33ca2ccbe6f362de3e73ee0965c4923ee14db04d684a821ba14fcd07003"
+        }
+      },
+      "signature": "4BopNGwJ6eQUzgcxgzkdEx8t7JhSn5sbD9LSinU5YkGJzrgRnTFWA83zQh9zX2rmubw4G2LYHsVbUnuqHecoJB9o"
+    },
+    {
+      "name": "Kalshi+Anthropic paycheck / Kalshi",
+      "description": "The crank signs a fresh attestation and the leg proceeds past the staleness check",
+      "expected": [
+        "leg:VERIFIED",
+        "leg:WAITING:PREMIUM_TOO_HIGH"
+      ],
+      "observed": "leg:VERIFIED",
+      "pass": true,
+      "source": {
+        "kind": "leg",
+        "bundle": "paychecks/01-kalshi-anthropic-paycheck/manifest.json",
+        "legIndex": 0
+      },
+      "signature": "4WaSgRrLccRRK82g52DyfASXswMtGKfP1RgZeHGfbZAFegsU1ux8tSWuWnKstg7oB73PnuCCdz8GVmRpmx1oEx3u"
+    },
+    {
+      "name": "Anthropic after the change",
+      "description": "Executed after the new multiplier's timestamp: the minimum uses the new one",
+      "expected": [
+        "min_out:new_multiplier"
+      ],
+      "observed": "min_out:old_multiplier",
+      "pass": false,
+      "source": {
+        "kind": "min_out_multiplier",
+        "transaction": {
+          "path": "paychecks/01-kalshi-anthropic-paycheck/raw/tx/4wALiiHjTgWXQrL8NKbS5injwnCUTCPbg1gsVWbkc3jKEJUDzL1TAoEzvUWM7tLXBFWRaH2ionb11x7dENWjFNiU.json",
+          "sha256": "e1f4a5197556516301ed35094a6a3e15def398b03107363b35116e322092ef16"
+        },
+        "mintAfter": {
+          "path": "raw/accounts/anthropic-mint-after.json",
+          "sha256": "99dad164e0bb39909702f90ed46a7ebf9677d9d4b3776e9efa0c661993fbcb27"
+        },
+        "decimals": 9
+      },
+      "signature": "4wALiiHjTgWXQrL8NKbS5injwnCUTCPbg1gsVWbkc3jKEJUDzL1TAoEzvUWM7tLXBFWRaH2ionb11x7dENWjFNiU"
+    }
+  ],
+  "inputs": [],
+  "observed": {
+    "outcome": "probes that did not match: Anthropic after the change: min_out:old_multiplier",
+    "pass": false,
+    "notes": [
+      "P5 fills trade against a cheatcode-modified mint and are left out of the headline cost"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "raw/tx/2DyNbEDNDscLum7wdBaQPK1qTEfrUCcVLdwoRQddv4e1ABc8uhHGqDDL8J4Jjt7duLFTMqNhCaotK58ZEpWGq1Yj.json",
+      "sha256": "d6dd3ca5cc9232eaf2678b94661c1b2698fb68d280e26e0eba342bb349d2bd6c"
+    },
+    {
+      "path": "raw/tx/4v9um1UZbC5fnXz9tTWjNBwxJE27wEXHACZF918hjFXCPfL24o8dxqr2GSy3zmH6uiijrRNMgEqKvRSwFALBuuXE.json",
+      "sha256": "16ff531b0ed58067200b535d441873ac3ca955e0813fce2ccc01b42002711105"
+    },
+    {
+      "path": "raw/tx/5yyp1FCJiGzrd4hY4EWYz9UCTszuytCzoc9KTGm5nKFXdgYsukE5dohmjw8QAyvqorLmV8YY2PMfpMvgYj85mZca.json",
+      "sha256": "aa1ae2fe34658f5780e91003f83c6a47a849c53c7ca6cbeb29234592c2744568"
+    },
+    {
+      "path": "raw/tx/2x6K5YXhgjZB3zgzVxQV4xojWcb9GpfkjJFXj313XZWzUy1iSkAbNnixrz9Y55WFcsAUq7tg9HysVhS1w5G9Hkov.json",
+      "sha256": "295b1fb3bf907a2062f45a00cb23420479e2d86f43c4f912ff921de1096e295b"
+    },
+    {
+      "path": "raw/tx/6NjK2D8jRjpxnDiRaDsSH8yAFDCwRBqKisgaqgyfjus4MPTgW5it7z4fmM3SpVZcdDnWXu6rmVdgsZWgVbVnseG.json",
+      "sha256": "ea506e460876466160abcf192bf8bcb28af789690c543b0ebab7f1e04fc26e81"
+    },
+    {
+      "path": "raw/tx/49zgeDwFoxYYvPLbdUdcXh6TAvPWMjmEzcSxnAaZ9yz1JhG3P5VCDFJWEhfDGCmv8DK43C1EiTTX8C7y61ZwF7AH.json",
+      "sha256": "cd66fcf997906ea3c6032b1aad5d0595cda0cf6eb928b973925f21ae66ccc1c8"
+    },
+    {
+      "path": "raw/tx/2cx2AaVs4RBTe4RUSM7eF3vkXpK3Qg5sXbAEkEwXVuSMsNRFQf92Q67QJSF2GA9rs6RysxJCwYbaAwCgrqXS6hHo.json",
+      "sha256": "f4f9671156f36399f445bcc0ac8e54d395d8333a0f89bab4695cc93246a164b2"
+    },
+    {
+      "path": "raw/tx/2bXxGF3sGJ2Cp2fReHFagYu7EmSZwFAKNNFPKEKKTL3zjN6CZ3ogukgvbHPmnK41BcRWAYznJ1WgqNUTmtVfXY75.json",
+      "sha256": "03277d4e4edc13586939524bd5b63ae889f2414a9c5948370c18a1f9f8be32aa"
+    },
+    {
+      "path": "raw/tx/iXmrrEc59zaciavLN5KNqF2s92aPbag8fN7K8ZMyx4wfmSwuwmG4m6S8KDTGnKd9ZNDPMSLB3LtyKAoyGA72FF2.json",
+      "sha256": "c6bbfdc8a172094d122c0df09934bb09ee938a739d3584cd864320f25f4a3dec"
+    },
+    {
+      "path": "raw/tx/5MXmFsLfnykvN6mDnKbqExrNiY7r5g9rTYnPpGkrLVEYcuwzw3pvk56oeDBr7U2zhFBBL35e7LZjimQ1QUQwHRAV.json",
+      "sha256": "e467933cef26837ec6f17733041b150de2fc676365532007575b3597950caa5f"
+    },
+    {
+      "path": "raw/tx/5qdmuJSYxupqCzznGj4p1Zk7rffPJzcBun2296Q7HVGtbv6XyG23MALgHzfgmfWwkxy9a7eA1te4pyGBxP3KxoMF.json",
+      "sha256": "ff7bedfbd7c73fe6d04639cbb5d9007c7aea186ede0f4fa9743b70221350410c"
+    },
+    {
+      "path": "raw/tx/49LbNL29rNaseDSXKcwfpqpXaMk6h4tH2ZcrNyywtqgDoqbt5xHT2cNCGTxK6Usc8rHK3M6cmWKVttpMfRSfd2FS.json",
+      "sha256": "465fa0bd301cc4372a9d041d61720566c35bec55e64ffdd5f5b2716cb3762c2a"
+    },
+    {
+      "path": "raw/tx/2NAUvx4oD3WgjqXfAMAM4htaATYVt7vrpyuomvgaAijvYHXyGCHvo96uGSSt1X2YRdf7Jmn921YyF5WgEqTLUfso.json",
+      "sha256": "2868da676f39ace7a84a8e44a67acd6c5a3bd1b4dc741a6d422e356c3ca74d90"
+    },
+    {
+      "path": "raw/tx/2mmyNnGwudrzrXwxHwzGAmYepNLzUxvawMLrLrutRy4LMn3QTKnNEfJPmjTuq6GmW6mFUcim4AGhsYm9trT9nomK.json",
+      "sha256": "7c6aff76684b67f71b68e3047088467d330e503f14af9da4342a46842215d72d"
+    },
+    {
+      "path": "raw/tx/3pEApt7dcJVsfyxkNSikuotyFbeTZSYFA3M3EWK7fRc9adbxdnjqVJQ7Vx3mqLbdikgFkNgwi4WXYvcUXStFo1Sg.json",
+      "sha256": "1e232e2c0883033f1a04298372de21bcf99af33dd1a1d2523c66d48a9bb8ffee"
+    },
+    {
+      "path": "raw/tx/3MpA1u9Hgsn8T8qn4JNJbEuDjuXMLtZLiNneYN4gZVComR4A6BTvYTaGXG7e58PX53LbnUVw22oz2Vr3Gz1FRzH9.json",
+      "sha256": "4aa9dff06c410eec861ad89a8f697ccb58c87fa8b73bc0fd1f748dfe96330fc1"
+    },
+    {
+      "path": "raw/tx/41h3hjm7q9EAKYkRYuixbi3BaNuDcTGJngQtjmNVKufXFHPaPN92iztWg4VUHuRtMySSC1KgumKKg4W58vXB6dmQ.json",
+      "sha256": "3d861a04b63c90a2eb94c86dccc9202de221baeeeb61b5841612dee3b612e91d"
+    },
+    {
+      "path": "raw/tx/5vjzu7Z9ajMWS3wLT85a7ozPMyqpkQZVLGi5gownGEv4opNXBzvg4UyLo89vToRKSwbYeqgaNorDFM4JHjuQ1yfR.json",
+      "sha256": "053e67a36fca5a3a73e56dca8ea57192b24f326d3487184e8031edbb32ea59e8"
+    },
+    {
+      "path": "raw/tx/3kxQX4YpfK3mpFwt4gExRGZxXEzdFByuwJnD7SMtTTXabLY26ZkWTejuNczyrt1q4gynMHP2uxFJ2JxyJsi7wzML.json",
+      "sha256": "9575ab41dcf0ded52212c353e3002aa42b40aa3609f43c08f1550f4a1c9516d3"
+    },
+    {
+      "path": "raw/tx/3qZDbp9ccdisWg8FKbJzQjmitE6W3gUfmTuzm4i2A82DEum9SG9QwxEW7caTqjLy4tHmAHz8AGFbE7sVuymNc8pZ.json",
+      "sha256": "fb5f3f204db603783ed503f74297ae46a8eb644099800331a54ac046046bfb51"
+    },
+    {
+      "path": "raw/tx/2aBWradZkxHYTtMQ1uaf3pMRzqdeMUgpP7HgQFB47JJmgw6aeByWQgWVaNKvWcAyaadk6LMzjWVYoCC4ZXNU9fmp.json",
+      "sha256": "86739695209e08d4354edd03a103b487d2cba7130e94fbccbc3869fa9f06d046"
+    },
+    {
+      "path": "raw/tx/4h6NHM4WZsdzEW8WcAcFvmwzd2ENfkZyJa91Pndmbg6DnWKA3ZxmdiiBrEWcrjrJoA1A24cBeDpVvGobx3PEZv5X.json",
+      "sha256": "3bce49df8005c59d570926f5e6d6c64e6b26096ae37053c74b0ad1f14d114c30"
+    },
+    {
+      "path": "raw/tx/4bg7cq7XDb7ge3t585thQBLnmyjUoPnb9wpAhnc78YJBBsVSicPXbax78sz3QfRrXXRjWsnxgmvY3Y5oiNWKTLnN.json",
+      "sha256": "b3215452e11384498f0232ebaed29a29efe13897b9ea405a7d3de396707e68f9"
+    },
+    {
+      "path": "raw/tx/36AVaJCtAzLDftMAE6FST3sW6JdAKZwgNgqakhtcYVMmr8uYWDuSSfge2HzxZ9SCBHpVzUPxMAS4uKjJKtP3KcCr.json",
+      "sha256": "58396e37c1bdc2db97324790d0c46f8dee58bce4f336f319d6e6861e67d6d1a6"
+    },
+    {
+      "path": "raw/prestocks/stale-read.json",
+      "sha256": "dc97c9a730991e54b05631872275a54e892d3331c6f4bca8604d0995d2855d82"
+    },
+    {
+      "path": "raw/accounts/anthropic-mint-before.json",
+      "sha256": "bc2b8df36a28ba1b2d938b066fc826bdb3d6d1728aeebef09fa96aba15987491"
+    },
+    {
+      "path": "raw/cheatcodes/anthropic-multiplier.json",
+      "sha256": "a8c32f7ab9171b3fde43e7077302fa57edb6078bd48b0a877ce714dc6b54d52c"
+    },
+    {
+      "path": "raw/accounts/anthropic-mint-after.json",
+      "sha256": "99dad164e0bb39909702f90ed46a7ebf9677d9d4b3776e9efa0c661993fbcb27"
+    },
+    {
+      "path": "raw/tx/RtnXFgJi3QVdWBCLL1qpY1nqbsjuj2mXqDWUuWqW49au41A4YvfFPNgq29dNbzuCFQyhy1DErTnBXhbVPzSTLev.json",
+      "sha256": "c58903329b161798d8dd348e66cfbe950a0e633c0fe21cb94096f8118784e38b"
+    },
+    {
+      "path": "raw/tx/2KBsuxCa3LtMY5x5FS6RXGdtQsB2XTk6Jh1F61mivUzAqa4tByxC84mjp7N6FoxfEhN5Bv4ncfewAWPWvjVjgR7H.json",
+      "sha256": "52a6e87f47ea4ba2e64eaf447a834ca9ce76ad7963685bb8ee2f1023ed28de5b"
+    },
+    {
+      "path": "raw/jupiter/anthropic-before-multiplier-oversize-1338.json",
+      "sha256": "fdd8b4c44948c6588415d84b4e5fb5dcb9703f7bf66c68d77006a0619cf31e07"
+    },
+    {
+      "path": "raw/jupiter/anthropic-before-multiplier.json",
+      "sha256": "631e2e9ddd1a0f021a9282f8567f2456f97ce7a83c3d38eca8c013d7ac30df49"
+    },
+    {
+      "path": "raw/simulation/anthropic-before-multiplier.json",
+      "sha256": "b0b6194eb8c07b9d718e67bf4893e9fbf8adaeb3f67bd445c38920ed04f989fa"
+    },
+    {
+      "path": "raw/tx/3Ne1XawbNrgkZajQqzj6RGnzW3Hb9CdeTsds423ZofMmmHoe45Tupgpfs5BFbbBYTfjJ5Tdm8RJa9LhR1qSKhxZF.json",
+      "sha256": "fc56ea391603a2fcc58a6849bda6132bb31e90cae92205309ad58e0552b6975d"
+    },
+    {
+      "path": "raw/tx/3aSWB2SjWgpoTygFmUVADs8X9BCMDHAcJoTS19uSL64kHGHXpbLCZvn9Gom946aYrHyphWUksH6JzwrxkP4fTt3U.json",
+      "sha256": "eeccec991c038993cff354012cd6be3c2d3110e5612caefeca3674927eac321d"
+    },
+    {
+      "path": "raw/tx/2bUkxz6nBGyNDt9n5AGttcfy6CctGgruCHDxMTm7AsHeanFDpEQahKJ5J5PKf9TJGSvfHwyGVTtXGn7dVZ3Q2CtK.json",
+      "sha256": "669b1a21b0075d6c91ab6dac71063cc0a8d06942057fe3fefe0e7b146e0c0a6b"
+    },
+    {
+      "path": "raw/jupiter/anthropic-before-multiplier-without-Flux-oversize-1238.json",
+      "sha256": "be3f87856b47bf91dc0f6ce50e039d0a3fbf66ea59ca5a2a2e055da0dbaaa788"
+    },
+    {
+      "path": "raw/jupiter/anthropic-before-multiplier-without-Flux.json",
+      "sha256": "3abbf9f006305c88ef9b94171c0cb387cdd417f5acc12382f3850dafc0ad5b5f"
+    },
+    {
+      "path": "raw/simulation/anthropic-before-multiplier-without-Flux.json",
+      "sha256": "1e7fa688a276527ee99795a675528bd3984d261d786963bdae1262ad7119fe64"
+    },
+    {
+      "path": "raw/tx/5bu6H9YSZMRpPX6kJ7ZSiMsB8pZ5YwteHwMa3MMkzvWegK1s96KDLpZ9dEwkxiFt6PBTh2CNHAkk2APyBSVN2Nbg.json",
+      "sha256": "1309144e2063ad052e3c639686c5cfdf1248f9dd7a640856f0bb934aff55501e"
+    },
+    {
+      "path": "raw/tx/4d8UC5sUWrtSinWekXhfkFyJ2jhaFJsk1iquWT35V2P5e61DeDZpBz4RGt2GZyXMtJbFnVwK9LFAMUwg4DEr79Aw.json",
+      "sha256": "80cfd77450de147921a19ffa7e8b66588e5634309dec967438e4c7550b29ade2"
+    },
+    {
+      "path": "raw/tx/3XgPwEQqv1kadoWu5n3DRBzr4mYJygAzkgTGSm1B4cjumhXWzdTTyZRRFWaY5NwzFDLMWLpigqj8dGrEH9jsChB6.json",
+      "sha256": "037664b353def9573350187775b16aca3a34dcc2655562a154a42b9177b714df"
+    },
+    {
+      "path": "raw/jupiter/kalshi-stale-attestation.json",
+      "sha256": "b1b6838d86ff63a0b893d93e23a059d9f2eac7e725cb40734760b1c35d2da005"
+    },
+    {
+      "path": "raw/simulation/kalshi-stale-attestation.json",
+      "sha256": "8ef66c67539d2121a3aba74a6e3bb891aa2b48aae9cbe968660ad6ef79f4bab8"
+    },
+    {
+      "path": "raw/test-crank/kalshi-stale-attestation-transaction.json",
+      "sha256": "f7a4f33ca2ccbe6f362de3e73ee0965c4923ee14db04d684a821ba14fcd07003"
+    },
+    {
+      "path": "raw/tx/ujMUT5e6H8dHYzog4W8hTGUE78u9e4gyac8LzwpmPBb9BSQtLScqYUBmn5XWagwKrniHDXPVCQyCtu7uqVeEGmP.json",
+      "sha256": "278e48a3821a958eee2a104dd7768240037e4037c3812d5433ce1ac31f44d226"
+    },
+    {
+      "path": "raw/tx/4BopNGwJ6eQUzgcxgzkdEx8t7JhSn5sbD9LSinU5YkGJzrgRnTFWA83zQh9zX2rmubw4G2LYHsVbUnuqHecoJB9o.json",
+      "sha256": "b148db147f1ed0771fe24a3cd807275d357eb017431b1dd75f8a556959f3c1f9"
+    },
+    {
+      "path": "surfpool.log",
+      "sha256": "0744b7ed90d86d619937325890979c2504926d1f1262afe4d685b15632aa6412"
+    }
+  ],
+  "error": null
+}

@@ -1,0 +1,414 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-09-25T14-55-10-011Z/paychecks/01-anthropic-paycheck",
+  "environment": "fork",
+  "fork": {
+    "startSlot": 450385544,
+    "rpcUrl": "http://127.0.0.1:48899",
+    "datasource": "api.mainnet-beta.solana.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -0.5610001087188721
+  },
+  "startedAt": "2026-09-25T14:56:32.020Z",
+  "finishedAt": "2026-09-25T14:57:22.820Z",
+  "commit": "1645b9d4207501293feb04f748e6857cb1eab4d9",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+  "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4",
+  "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:48899",
+    "verifier": "http://127.0.0.1:48899"
+  },
+  "feedIds": [
+    "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a"
+  ],
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ"
+  },
+  "router": {
+    "address": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e",
+    "owner": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "authority": "DwNCQN35YgQM8zovMAGp6noKsS9hkefRacQ5yMG8WxM3",
+    "investBps": 5000,
+    "legs": [
+      {
+        "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+        "symbol": "Anthropic",
+        "weightBps": 10000
+      }
+    ]
+  },
+  "paycheck": {
+    "address": "86p8DmfvC4abd1aDutoeJC7nYNWih3FgvQKAKaKZqnfN",
+    "seq": "0",
+    "inflow": "200000000",
+    "investTotal": "100000000",
+    "sender": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "inflowSignature": "2hQR7ceruarECa7snVFT5jZxK9hpxBZVFGa2B5C8RQXyVG3wuCDqa1jazzJ2pwbmAJWbDU2rNwdGfE1CtvgF7eT7",
+    "recordSignature": "275CSTfpPgHYg1Sejm6uRwBXWizU73Y2cVJuugbHC6FdefxUvhTehfRpzwEDFJoMqnnXc3LDc6Xwa8yegZEXdMAJ"
+  },
+  "transactions": [
+    {
+      "label": "paycheck: employer-1 transferChecked",
+      "signature": "2hQR7ceruarECa7snVFT5jZxK9hpxBZVFGa2B5C8RQXyVG3wuCDqa1jazzJ2pwbmAJWbDU2rNwdGfE1CtvgF7eT7",
+      "slot": 450385744,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2hQR7ceruarECa7snVFT5jZxK9hpxBZVFGa2B5C8RQXyVG3wuCDqa1jazzJ2pwbmAJWbDU2rNwdGfE1CtvgF7eT7.json",
+        "sha256": "6c953df8e99e897e679dfc17dacd427d075fdc4c09691978cfdcc62272a7d1b1"
+      }
+    },
+    {
+      "label": "record_paycheck",
+      "signature": "275CSTfpPgHYg1Sejm6uRwBXWizU73Y2cVJuugbHC6FdefxUvhTehfRpzwEDFJoMqnnXc3LDc6Xwa8yegZEXdMAJ",
+      "slot": 450385750,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/275CSTfpPgHYg1Sejm6uRwBXWizU73Y2cVJuugbHC6FdefxUvhTehfRpzwEDFJoMqnnXc3LDc6Xwa8yegZEXdMAJ.json",
+        "sha256": "d46c3e30202842d05b205d26e25f74d1dd4eec977dbe0cfd0b019fb6659d8330"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "3Q51C9esTp49JeqB4KjZvCdW32VXjEwymw8vaoYLHU2TAcsC5aJFNRPQJpgMKfEC9sJoZEe1i2RhJQQfSmWbttmn",
+      "slot": 450385849,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3Q51C9esTp49JeqB4KjZvCdW32VXjEwymw8vaoYLHU2TAcsC5aJFNRPQJpgMKfEC9sJoZEe1i2RhJQQfSmWbttmn.json",
+        "sha256": "03d91f0a8620e582ae8500edc9bccdde6c71edd7294f5ef460b150711d4b84c7"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "34zSB3xJGwj1VBFc7i4rXtJ1bsHAJgKdbHvZui2Pdzhn6qZrzLmExwBZwa1qyW3cYT3ujHTb1x9jUjeQvGXr6H9",
+      "slot": 450385850,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/34zSB3xJGwj1VBFc7i4rXtJ1bsHAJgKdbHvZui2Pdzhn6qZrzLmExwBZwa1qyW3cYT3ujHTb1x9jUjeQvGXr6H9.json",
+        "sha256": "6297762d7199422cd1ff1da66c78936a6b07d70ce72140cbe5f224c702a494bf"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "3cd1UBC1nnacooFhCZLqwvo93vA3LdKFcWFhuLjqqwEq3cSX5by789WJaHgQvVUjuGNGeyAAMtwX7D9JJYAabK23",
+      "slot": 450385867,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3cd1UBC1nnacooFhCZLqwvo93vA3LdKFcWFhuLjqqwEq3cSX5by789WJaHgQvVUjuGNGeyAAMtwX7D9JJYAabK23.json",
+        "sha256": "91282d34d897f5e676f5540c391ec8b7f4852c5d8c9abed94c64ee2b977002f5"
+      }
+    },
+    {
+      "label": "execute Anthropic",
+      "signature": "3hbVsj6zpQBMsgqS9wSx14DshT7qHrpE68LebNJHcDRygqvs6WJqwasYP2U1AhEYuYJZgcNVrtPRMUKYpuxxrCeZ",
+      "slot": 450385866,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3hbVsj6zpQBMsgqS9wSx14DshT7qHrpE68LebNJHcDRygqvs6WJqwasYP2U1AhEYuYJZgcNVrtPRMUKYpuxxrCeZ.json",
+        "sha256": "59ecb9fd32ab22cfa521c1668ca1f997629093d846fa23d1d115e2d0999a71b2"
+      }
+    }
+  ],
+  "legs": [
+    {
+      "index": 0,
+      "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+      "symbol": "Anthropic",
+      "kind": "pre_ipo",
+      "amountIn": "100000000",
+      "bandBps": 300,
+      "state": "VERIFIED",
+      "waitReason": null,
+      "attempts": [
+        {
+          "key": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e:0:0:0",
+          "startedAt": "2026-09-25T14:57:14.423Z",
+          "jupiterBuild": {
+            "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+            "sha256": "6173bc0cede8b4ed7e6193fe2cec9f4a14193f993945e2b0d8cd602c6e4f86e0"
+          },
+          "jupiterBuilds": [
+            {
+              "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0-quote-0.json",
+              "sha256": "6173bc0cede8b4ed7e6193fe2cec9f4a14193f993945e2b0d8cd602c6e4f86e0"
+            }
+          ],
+          "notes": [],
+          "hermesUpdate": {
+            "path": "raw/hermes/posted-0.json",
+            "sha256": "51b8a1cf3d87ce4b62d800c780cd0370039c034da0f7c84aa12ffdc11915f59d"
+          },
+          "prices": [
+            {
+              "feedId": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+              "price": "99994232",
+              "conf": "17268",
+              "exponent": -8,
+              "publishTime": 1790348233,
+              "postedAccount": "HqgCKqQJUAFXazb1cQdeNz1FL7A6FY37wqRtyd8txE9D"
+            }
+          ],
+          "attestation": {
+            "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+            "markPriceE9": "1056239743460",
+            "observedAt": 1790348238,
+            "source": 0,
+            "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+            "message": "05daeb30d7e25e800c73fcec5dd967be486c460a83aa9de087f2b13d72474f5ae471cbecf5000000ce8bb66a0000000000",
+            "signature": "71556c0d5df7b5680070cafd1b70db669b951d9784e7882185a9aa3cc69c86a21118d52f8b10de8cfd1e05b0affa908cb2f9b9ea89a15d891755f516d0c7570a",
+            "apiResponse": {
+              "path": "raw/prestocks/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+              "sha256": "7a42ffe1df4478a1a97d4c92f4f5b893180ee39af23b95007c607cb9b15afba2"
+            }
+          },
+          "simulation": {
+            "unitsConsumed": 229567,
+            "errorCode": null,
+            "errorName": null,
+            "logs": {
+              "path": "raw/simulation/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+              "sha256": "72a506c98b70434c6df7a1cf2bcc12230faa04ac73e702b7f68be8f2ac8f2008"
+            }
+          },
+          "transactionBytes": 1183,
+          "priceRejections": [],
+          "signatures": [
+            "3hbVsj6zpQBMsgqS9wSx14DshT7qHrpE68LebNJHcDRygqvs6WJqwasYP2U1AhEYuYJZgcNVrtPRMUKYpuxxrCeZ"
+          ],
+          "outcome": "executed",
+          "waitReason": null,
+          "error": null
+        }
+      ],
+      "executed": {
+        "signature": "3hbVsj6zpQBMsgqS9wSx14DshT7qHrpE68LebNJHcDRygqvs6WJqwasYP2U1AhEYuYJZgcNVrtPRMUKYpuxxrCeZ",
+        "slot": 450385866,
+        "amountIn": "100000000",
+        "fee": "200000",
+        "swappedIn": "99800000",
+        "outAmount": "93024957",
+        "issuerFee": "939647",
+        "minOut": "91728810",
+        "refPriceE9": "1056239743460",
+        "usdcPriceE9": "999942320",
+        "multiplierE12": "1000000000000",
+        "priceSource": "MarkAttestation",
+        "pricePublishTime": 1790348238,
+        "premiumBps": "54",
+        "allInCostBps": "176",
+        "transaction": {
+          "path": "raw/tx/3hbVsj6zpQBMsgqS9wSx14DshT7qHrpE68LebNJHcDRygqvs6WJqwasYP2U1AhEYuYJZgcNVrtPRMUKYpuxxrCeZ.json",
+          "sha256": "59ecb9fd32ab22cfa521c1668ca1f997629093d846fa23d1d115e2d0999a71b2"
+        },
+        "readback": {
+          "path": "raw/readback/86p8DmfvC4abd1aDutoeJC7nYNWih3FgvQKAKaKZqnfN-0.json",
+          "sha256": "1d6b89d547696b06e190a5898c658758ad6d5239a24866049b21a7a60c22c8ba"
+        },
+        "history": [
+          {
+            "path": "raw/hermes/history-0-usdc.json",
+            "sha256": "ef627938a6f1262b7af41fe4c6ac950194115e1b93bc254cc8f2ab70be832507"
+          }
+        ]
+      },
+      "verification": {
+        "state": "VERIFIED",
+        "verifiedAt": "2026-09-25T14:57:22.818Z",
+        "checks": [
+          {
+            "name": "transaction succeeded",
+            "pass": true,
+            "expected": null,
+            "actual": "null"
+          },
+          {
+            "name": "destination received out_amount",
+            "pass": true,
+            "expected": "93024957",
+            "actual": "93024957"
+          },
+          {
+            "name": "gross delivery meets min_out",
+            "pass": true,
+            "expected": ">= 91728810",
+            "actual": "93964604"
+          },
+          {
+            "name": "owner USDC fell by amount_in less returned dust",
+            "pass": true,
+            "expected": "100000000",
+            "actual": "100000000"
+          },
+          {
+            "name": "fee plus swapped equals amount_in",
+            "pass": true,
+            "expected": "100000000",
+            "actual": "100000000"
+          },
+          {
+            "name": "paycheck leg reads back executed",
+            "pass": true,
+            "expected": "true",
+            "actual": "true"
+          },
+          {
+            "name": "readback out_amount matches event",
+            "pass": true,
+            "expected": "93024957",
+            "actual": "93024957"
+          },
+          {
+            "name": "readback amount_in matches event",
+            "pass": true,
+            "expected": "100000000",
+            "actual": "100000000"
+          },
+          {
+            "name": "readback fee matches event",
+            "pass": true,
+            "expected": "200000",
+            "actual": "200000"
+          },
+          {
+            "name": "readback issuer fee matches event",
+            "pass": true,
+            "expected": "939647",
+            "actual": "939647"
+          },
+          {
+            "name": "readback reference price matches event",
+            "pass": true,
+            "expected": "1056239743460",
+            "actual": "1056239743460"
+          },
+          {
+            "name": "posted USDC/USD matches event",
+            "pass": true,
+            "expected": "999942320",
+            "actual": "999942320"
+          },
+          {
+            "name": "USDC/USD matches Hermes history",
+            "pass": true,
+            "expected": "999942320",
+            "actual": "999942320"
+          },
+          {
+            "name": "attestation signed by the attester",
+            "pass": true,
+            "expected": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+            "actual": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw"
+          },
+          {
+            "name": "reference price is the attested mark",
+            "pass": true,
+            "expected": "1056239743460",
+            "actual": "1056239743460"
+          },
+          {
+            "name": "attestation fresh at execution",
+            "pass": true,
+            "expected": "<= 300s",
+            "actual": "2s"
+          },
+          {
+            "name": "min_out recomputes from the reference price",
+            "pass": true,
+            "expected": "91728810",
+            "actual": "91728810"
+          },
+          {
+            "name": "fill premium within the band",
+            "pass": true,
+            "expected": "<= 300",
+            "actual": "54"
+          }
+        ]
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "raw/balances/before.json",
+      "sha256": "d1d1b6485e1c8e77bd4ed728dbff0f31675bf67c0addc7868b4da65bd2186fb2"
+    },
+    {
+      "path": "raw/mints/Anthropic.json",
+      "sha256": "fc6f0cf35141241e3df1e1d6bd6d4a00fc1a14723447c4de96184c19c28b639e"
+    },
+    {
+      "path": "raw/epoch.json",
+      "sha256": "34ca8ba4d2f29aa7168236dea879a19b7c4452314f598ecccfdf57f947f5205a"
+    },
+    {
+      "path": "raw/tx/2hQR7ceruarECa7snVFT5jZxK9hpxBZVFGa2B5C8RQXyVG3wuCDqa1jazzJ2pwbmAJWbDU2rNwdGfE1CtvgF7eT7.json",
+      "sha256": "6c953df8e99e897e679dfc17dacd427d075fdc4c09691978cfdcc62272a7d1b1"
+    },
+    {
+      "path": "raw/tx/275CSTfpPgHYg1Sejm6uRwBXWizU73Y2cVJuugbHC6FdefxUvhTehfRpzwEDFJoMqnnXc3LDc6Xwa8yegZEXdMAJ.json",
+      "sha256": "d46c3e30202842d05b205d26e25f74d1dd4eec977dbe0cfd0b019fb6659d8330"
+    },
+    {
+      "path": "raw/hermes/posted-0.json",
+      "sha256": "51b8a1cf3d87ce4b62d800c780cd0370039c034da0f7c84aa12ffdc11915f59d"
+    },
+    {
+      "path": "raw/tx/3Q51C9esTp49JeqB4KjZvCdW32VXjEwymw8vaoYLHU2TAcsC5aJFNRPQJpgMKfEC9sJoZEe1i2RhJQQfSmWbttmn.json",
+      "sha256": "03d91f0a8620e582ae8500edc9bccdde6c71edd7294f5ef460b150711d4b84c7"
+    },
+    {
+      "path": "raw/tx/34zSB3xJGwj1VBFc7i4rXtJ1bsHAJgKdbHvZui2Pdzhn6qZrzLmExwBZwa1qyW3cYT3ujHTb1x9jUjeQvGXr6H9.json",
+      "sha256": "6297762d7199422cd1ff1da66c78936a6b07d70ce72140cbe5f224c702a494bf"
+    },
+    {
+      "path": "raw/tx/3cd1UBC1nnacooFhCZLqwvo93vA3LdKFcWFhuLjqqwEq3cSX5by789WJaHgQvVUjuGNGeyAAMtwX7D9JJYAabK23.json",
+      "sha256": "91282d34d897f5e676f5540c391ec8b7f4852c5d8c9abed94c64ee2b977002f5"
+    },
+    {
+      "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+      "sha256": "6173bc0cede8b4ed7e6193fe2cec9f4a14193f993945e2b0d8cd602c6e4f86e0"
+    },
+    {
+      "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0-quote-0.json",
+      "sha256": "6173bc0cede8b4ed7e6193fe2cec9f4a14193f993945e2b0d8cd602c6e4f86e0"
+    },
+    {
+      "path": "raw/prestocks/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+      "sha256": "7a42ffe1df4478a1a97d4c92f4f5b893180ee39af23b95007c607cb9b15afba2"
+    },
+    {
+      "path": "raw/simulation/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+      "sha256": "72a506c98b70434c6df7a1cf2bcc12230faa04ac73e702b7f68be8f2ac8f2008"
+    },
+    {
+      "path": "raw/tx/3hbVsj6zpQBMsgqS9wSx14DshT7qHrpE68LebNJHcDRygqvs6WJqwasYP2U1AhEYuYJZgcNVrtPRMUKYpuxxrCeZ.json",
+      "sha256": "59ecb9fd32ab22cfa521c1668ca1f997629093d846fa23d1d115e2d0999a71b2"
+    },
+    {
+      "path": "raw/readback/86p8DmfvC4abd1aDutoeJC7nYNWih3FgvQKAKaKZqnfN-0.json",
+      "sha256": "1d6b89d547696b06e190a5898c658758ad6d5239a24866049b21a7a60c22c8ba"
+    },
+    {
+      "path": "raw/hermes/history-0-usdc.json",
+      "sha256": "ef627938a6f1262b7af41fe4c6ac950194115e1b93bc254cc8f2ab70be832507"
+    },
+    {
+      "path": "raw/balances/after.json",
+      "sha256": "5e9e7ff292a1b093c0674cd58206dcb1c0d71f2f0000e6eec9d2964636f28088"
+    }
+  ],
+  "error": null
+}

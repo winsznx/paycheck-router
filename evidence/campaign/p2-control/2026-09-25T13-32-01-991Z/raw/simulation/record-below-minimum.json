@@ -1,0 +1,19 @@
+{
+  "err": {
+    "InstructionError": [
+      "0",
+      {
+        "Custom": "6008"
+      }
+    ]
+  },
+  "logs": [
+    "Program PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H invoke [1]",
+    "Program log: Instruction: RecordPaycheck",
+    "Program 11111111111111111111111111111111 invoke [2]",
+    "Program 11111111111111111111111111111111 success",
+    "Program log: AnchorError thrown in programs/paycheck_router/src/instructions/inflow.rs:130. Error Code: InflowBelowMinimum. Error Number: 6008. Error Message: Inflow is below the router minimum.",
+    "Program PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H consumed 21335 of 200000 compute units",
+    "Program PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H failed: custom program error: 0x1778"
+  ]
+}

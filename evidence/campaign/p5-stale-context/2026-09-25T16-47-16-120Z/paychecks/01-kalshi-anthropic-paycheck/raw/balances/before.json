@@ -1,0 +1,169 @@
+{
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "getMultipleAccounts",
+    "params": [
+      [
+        "AecooygcVfjSsaz26rcXDZg5ay46XTV5EfvtxYP1QLJM",
+        "4Vr9coydcbuu2uqC8X5ZetGAL7MbAwpq6eEtu9Ei3X9n",
+        "8yhTh5f6BFmmqz5DEUKcgcmYx2zEe3b7J2gPTA3rvEKw"
+      ],
+      {
+        "encoding": "jsonParsed",
+        "commitment": "confirmed"
+      }
+    ]
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "result": {
+      "context": {
+        "slot": 450410827,
+        "apiVersion": "4.1.2"
+      },
+      "value": [
+        {
+          "lamports": 2039280,
+          "data": {
+            "program": "spl-token",
+            "parsed": {
+              "type": "account",
+              "info": {
+                "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                "owner": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+                "tokenAmount": {
+                  "uiAmount": 0,
+                  "decimals": 6,
+                  "amount": "0",
+                  "uiAmountString": "0"
+                },
+                "delegate": "DwNCQN35YgQM8zovMAGp6noKsS9hkefRacQ5yMG8WxM3",
+                "state": "initialized",
+                "isNative": false,
+                "delegatedAmount": {
+                  "uiAmount": 20000,
+                  "decimals": 6,
+                  "amount": "20000000000",
+                  "uiAmountString": "20000"
+                }
+              }
+            },
+            "space": 165
+          },
+          "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "executable": false,
+          "rentEpoch": 0,
+          "space": 165
+        },
+        {
+          "lamports": 2220240,
+          "data": {
+            "program": "spl-token-2022",
+            "parsed": {
+              "type": "account",
+              "info": {
+                "mint": "PreLWGkkeqG1s4HEfFZSy9moCrJ7btsHuUtfcCeoRua",
+                "owner": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+                "tokenAmount": {
+                  "uiAmount": 0,
+                  "decimals": 9,
+                  "amount": "0",
+                  "uiAmountString": "0"
+                },
+                "delegate": "GLZqF6qfnqoizZusttcXVpnA8rmtYrgR4XTyYef1y8Ty",
+                "state": "initialized",
+                "isNative": false,
+                "delegatedAmount": {
+                  "uiAmount": 18446744073.709553,
+                  "decimals": 9,
+                  "amount": "18446744073709551615",
+                  "uiAmountString": "18446744073.709552765"
+                },
+                "extensions": [
+                  {
+                    "extension": "immutableOwner"
+                  },
+                  {
+                    "extension": "transferFeeAmount",
+                    "state": {
+                      "withheldAmount": 0
+                    }
+                  },
+                  {
+                    "extension": "transferHookAccount",
+                    "state": {
+                      "transferring": false
+                    }
+                  },
+                  {
+                    "extension": "pausableAccount"
+                  }
+                ]
+              }
+            },
+            "space": 191
+          },
+          "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+          "executable": false,
+          "rentEpoch": 0,
+          "space": 191
+        },
+        {
+          "lamports": 2220240,
+          "data": {
+            "program": "spl-token-2022",
+            "parsed": {
+              "type": "account",
+              "info": {
+                "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+                "owner": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+                "tokenAmount": {
+                  "uiAmount": 0,
+                  "decimals": 9,
+                  "amount": "0",
+                  "uiAmountString": "0"
+                },
+                "delegate": "AnnRbw3cC4kS47dbgxXZ5vQASDZJGE2rr8VscUAET6he",
+                "state": "initialized",
+                "isNative": false,
+                "delegatedAmount": {
+                  "uiAmount": 18446744073.709553,
+                  "decimals": 9,
+                  "amount": "18446744073709551615",
+                  "uiAmountString": "18446744073.709552765"
+                },
+                "extensions": [
+                  {
+                    "extension": "immutableOwner"
+                  },
+                  {
+                    "extension": "transferFeeAmount",
+                    "state": {
+                      "withheldAmount": 0
+                    }
+                  },
+                  {
+                    "extension": "transferHookAccount",
+                    "state": {
+                      "transferring": false
+                    }
+                  },
+                  {
+                    "extension": "pausableAccount"
+                  }
+                ]
+              }
+            },
+            "space": 191
+          },
+          "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+          "executable": false,
+          "rentEpoch": 0,
+          "space": 191
+        }
+      ]
+    },
+    "id": 1
+  }
+}

@@ -1,0 +1,389 @@
+{
+  "rpcUrl": "https://ethereum-rpc.publicnode.com",
+  "token": {
+    "symbol": "NVDAx",
+    "ethereum": "0xc845b2894dbddd03858fd2d643b4ef725fe0849d"
+  },
+  "logs": "raw/ethereum/nvdax-transfers.json",
+  "receipts": [
+    "raw/ethereum/receipts/0x2e5b0a8df75f751675334e73b59ca8b8951e9487a2e83579e3e245006d90e38f.json",
+    "raw/ethereum/receipts/0xf4ea94c21696d6f8810121cea56bd4420930770edf0b4a753336d02be6eebb97.json",
+    "raw/ethereum/receipts/0x45608bb258e6d4ca1c789c678caae9b02888c4d7c23904d0bf23825f50884078.json",
+    "raw/ethereum/receipts/0xcb9dae241b232115ef0763fff94221501154ef79e50d22ec1be6895c0dba6cf6.json",
+    "raw/ethereum/receipts/0x9a5b051bb368aa434745682a293a23543b90c51c0d01703f07986a790fd28503.json",
+    "raw/ethereum/receipts/0xfae0b851bacc4600d762df6646a102944d9b42cee0e5da5ad2fc58d87913d171.json",
+    "raw/ethereum/receipts/0x5530bb4cf52847616a284118bd3f5c52cdd6493b52004858387f81baf66269cf.json",
+    "raw/ethereum/receipts/0x8e1bf4f04186c580522d37f791aa1997dd5c45c021d2b8539c0a1b825f763f09.json",
+    "raw/ethereum/receipts/0xfc48780332f28b2a531b482650025b390a4cfc19b047671d4c9eb1b644b1354d.json"
+  ],
+  "points": [
+    {
+      "slice": "p1-positive/2026-09-25T13-50-09-043Z/Anthropic paycheck/0",
+      "at": "2026-09-25T13:52:47.437Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26054884.json",
+      "feeHistory": "raw/ethereum/fee-history/26054884.json",
+      "ethUsd": "raw/hermes/eth-usd-1790344320.json"
+    },
+    {
+      "slice": "p1-positive/2026-09-25T13-50-09-043Z/NVDAx paycheck/0",
+      "at": "2026-09-25T13:53:47.186Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26054889.json",
+      "feeHistory": "raw/ethereum/fee-history/26054889.json",
+      "ethUsd": "raw/hermes/eth-usd-1790344380.json"
+    },
+    {
+      "slice": "p1-positive/2026-09-25T14-27-30-905Z/Anthropic paycheck/0",
+      "at": "2026-09-25T14:31:11.819Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26055078.json",
+      "feeHistory": "raw/ethereum/fee-history/26055078.json",
+      "ethUsd": "raw/hermes/eth-usd-1790346660.json"
+    },
+    {
+      "slice": "p1-positive/2026-09-25T14-27-30-905Z/NVDAx paycheck/0",
+      "at": "2026-09-25T14:31:46.609Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26055078.json",
+      "feeHistory": "raw/ethereum/fee-history/26055078.json",
+      "ethUsd": "raw/hermes/eth-usd-1790346660.json"
+    },
+    {
+      "slice": "p1-positive/2026-09-25T14-51-05-754Z/Anthropic paycheck/0",
+      "at": "2026-09-25T14:52:30.986Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26055181.json",
+      "feeHistory": "raw/ethereum/fee-history/26055181.json",
+      "ethUsd": "raw/hermes/eth-usd-1790347920.json"
+    },
+    {
+      "slice": "p1-positive/2026-09-25T14-51-05-754Z/NVDAx paycheck/0",
+      "at": "2026-09-25T14:53:08.529Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26055185.json",
+      "feeHistory": "raw/ethereum/fee-history/26055185.json",
+      "ethUsd": "raw/hermes/eth-usd-1790347980.json"
+    },
+    {
+      "slice": "p4-harmful/2026-09-25T13-34-25-383Z/Anthropic paycheck/0",
+      "at": "2026-09-25T13:37:41.970Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26054810.json",
+      "feeHistory": "raw/ethereum/fee-history/26054810.json",
+      "ethUsd": "raw/hermes/eth-usd-1790343420.json"
+    },
+    {
+      "slice": "p4-harmful/2026-09-25T14-55-10-011Z/Anthropic paycheck/0",
+      "at": "2026-09-25T14:57:14.423Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26055205.json",
+      "feeHistory": "raw/ethereum/fee-history/26055205.json",
+      "ethUsd": "raw/hermes/eth-usd-1790348220.json"
+    },
+    {
+      "slice": "p4-harmful/2026-09-25T15-07-45-674Z/Anthropic paycheck/0",
+      "at": "2026-09-25T15:09:59.791Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26055264.json",
+      "feeHistory": "raw/ethereum/fee-history/26055264.json",
+      "ethUsd": "raw/hermes/eth-usd-1790348940.json"
+    },
+    {
+      "slice": "p4-real-market/2026-09-25T13-31-17-574Z/OpenAI+Neuralink paycheck/0",
+      "at": "2026-09-25T13:33:34.004Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26054790.json",
+      "feeHistory": "raw/ethereum/fee-history/26054790.json",
+      "ethUsd": "raw/hermes/eth-usd-1790343180.json"
+    },
+    {
+      "slice": "p4-real-market/2026-09-25T13-31-17-574Z/OpenAI+Neuralink paycheck/1",
+      "at": "2026-09-25T13:34:00.208Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26054795.json",
+      "feeHistory": "raw/ethereum/fee-history/26054795.json",
+      "ethUsd": "raw/hermes/eth-usd-1790343240.json"
+    },
+    {
+      "slice": "p6-replay/2026-09-25T13-37-49-918Z/Anthropic paycheck/0",
+      "at": "2026-09-25T13:40:03.549Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26054825.json",
+      "feeHistory": "raw/ethereum/fee-history/26054825.json",
+      "ethUsd": "raw/hermes/eth-usd-1790343600.json"
+    },
+    {
+      "slice": "p6-replay/2026-09-25T14-31-49-239Z/Anthropic paycheck/0",
+      "at": "2026-09-25T14:33:09.833Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26055088.json",
+      "feeHistory": "raw/ethereum/fee-history/26055088.json",
+      "ethUsd": "raw/hermes/eth-usd-1790346780.json"
+    },
+    {
+      "slice": "p6-replay/2026-09-25T14-53-11-173Z/Anthropic paycheck/0",
+      "at": "2026-09-25T14:54:35.772Z",
+      "sliceUsdc": "100000000",
+      "block": "raw/ethereum/blocks/26055190.json",
+      "feeHistory": "raw/ethereum/fee-history/26055190.json",
+      "ethUsd": "raw/hermes/eth-usd-1790348040.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/0",
+      "at": "2026-09-25T15:12:32.890Z",
+      "sliceUsdc": "2864000",
+      "block": "raw/ethereum/blocks/26055279.json",
+      "feeHistory": "raw/ethereum/fee-history/26055279.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349120.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/1",
+      "at": "2026-09-25T15:12:47.161Z",
+      "sliceUsdc": "2856000",
+      "block": "raw/ethereum/blocks/26055279.json",
+      "feeHistory": "raw/ethereum/fee-history/26055279.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349120.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/2",
+      "at": "2026-09-25T15:13:00.672Z",
+      "sliceUsdc": "2856000",
+      "block": "raw/ethereum/blocks/26055284.json",
+      "feeHistory": "raw/ethereum/fee-history/26055284.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349180.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/3",
+      "at": "2026-09-25T15:13:08.919Z",
+      "sliceUsdc": "2856000",
+      "block": "raw/ethereum/blocks/26055284.json",
+      "feeHistory": "raw/ethereum/fee-history/26055284.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349180.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/4",
+      "at": "2026-09-25T15:13:21.726Z",
+      "sliceUsdc": "2856000",
+      "block": "raw/ethereum/blocks/26055284.json",
+      "feeHistory": "raw/ethereum/fee-history/26055284.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349180.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/5",
+      "at": "2026-09-25T15:13:33.810Z",
+      "sliceUsdc": "2856000",
+      "block": "raw/ethereum/blocks/26055284.json",
+      "feeHistory": "raw/ethereum/fee-history/26055284.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349180.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-2 to worker-prestocks/6",
+      "at": "2026-09-25T15:13:41.703Z",
+      "sliceUsdc": "2856000",
+      "block": "raw/ethereum/blocks/26055284.json",
+      "feeHistory": "raw/ethereum/fee-history/26055284.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349180.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/0",
+      "at": "2026-09-25T15:15:48.542Z",
+      "sliceUsdc": "1000000000",
+      "block": "raw/ethereum/blocks/26055294.json",
+      "feeHistory": "raw/ethereum/fee-history/26055294.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349300.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/1",
+      "at": "2026-09-25T15:15:58.469Z",
+      "sliceUsdc": "1000000000",
+      "block": "raw/ethereum/blocks/26055294.json",
+      "feeHistory": "raw/ethereum/fee-history/26055294.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349300.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/2",
+      "at": "2026-09-25T15:16:02.415Z",
+      "sliceUsdc": "1000000000",
+      "block": "raw/ethereum/blocks/26055299.json",
+      "feeHistory": "raw/ethereum/fee-history/26055299.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349360.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/3",
+      "at": "2026-09-25T15:16:02.415Z",
+      "sliceUsdc": "1000000000",
+      "block": "raw/ethereum/blocks/26055299.json",
+      "feeHistory": "raw/ethereum/fee-history/26055299.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349360.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$5000 from employer-1 to worker-xstocks-a/4",
+      "at": "2026-09-25T15:16:02.415Z",
+      "sliceUsdc": "1000000000",
+      "block": "raw/ethereum/blocks/26055299.json",
+      "feeHistory": "raw/ethereum/fee-history/26055299.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349360.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/0",
+      "at": "2026-09-25T15:17:48.824Z",
+      "sliceUsdc": "358000000",
+      "block": "raw/ethereum/blocks/26055304.json",
+      "feeHistory": "raw/ethereum/fee-history/26055304.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349420.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/1",
+      "at": "2026-09-25T15:17:55.143Z",
+      "sliceUsdc": "357000000",
+      "block": "raw/ethereum/blocks/26055304.json",
+      "feeHistory": "raw/ethereum/fee-history/26055304.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349420.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/2",
+      "at": "2026-09-25T15:18:21.953Z",
+      "sliceUsdc": "357000000",
+      "block": "raw/ethereum/blocks/26055309.json",
+      "feeHistory": "raw/ethereum/fee-history/26055309.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349480.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/3",
+      "at": "2026-09-25T15:18:29.990Z",
+      "sliceUsdc": "357000000",
+      "block": "raw/ethereum/blocks/26055309.json",
+      "feeHistory": "raw/ethereum/fee-history/26055309.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349480.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/4",
+      "at": "2026-09-25T15:18:45.896Z",
+      "sliceUsdc": "357000000",
+      "block": "raw/ethereum/blocks/26055309.json",
+      "feeHistory": "raw/ethereum/fee-history/26055309.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349480.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/5",
+      "at": "2026-09-25T15:18:49.608Z",
+      "sliceUsdc": "357000000",
+      "block": "raw/ethereum/blocks/26055309.json",
+      "feeHistory": "raw/ethereum/fee-history/26055309.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349480.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$2500 from employer-3 to worker-prestocks/6",
+      "at": "2026-09-25T15:19:01.310Z",
+      "sliceUsdc": "357000000",
+      "block": "raw/ethereum/blocks/26055314.json",
+      "feeHistory": "raw/ethereum/fee-history/26055314.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349540.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$1000 from employer-3 to worker-xstocks-b/0",
+      "at": "2026-09-25T15:20:50.431Z",
+      "sliceUsdc": "250000000",
+      "block": "raw/ethereum/blocks/26055319.json",
+      "feeHistory": "raw/ethereum/fee-history/26055319.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349600.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$1000 from employer-3 to worker-xstocks-b/1",
+      "at": "2026-09-25T15:20:50.431Z",
+      "sliceUsdc": "250000000",
+      "block": "raw/ethereum/blocks/26055319.json",
+      "feeHistory": "raw/ethereum/fee-history/26055319.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349600.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$1000 from employer-3 to worker-xstocks-b/2",
+      "at": "2026-09-25T15:20:50.432Z",
+      "sliceUsdc": "250000000",
+      "block": "raw/ethereum/blocks/26055319.json",
+      "feeHistory": "raw/ethereum/fee-history/26055319.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349600.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$1000 from employer-3 to worker-xstocks-b/3",
+      "at": "2026-09-25T15:20:50.432Z",
+      "sliceUsdc": "250000000",
+      "block": "raw/ethereum/blocks/26055319.json",
+      "feeHistory": "raw/ethereum/fee-history/26055319.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349600.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/0",
+      "at": "2026-09-25T15:21:02.599Z",
+      "sliceUsdc": "50000000",
+      "block": "raw/ethereum/blocks/26055324.json",
+      "feeHistory": "raw/ethereum/fee-history/26055324.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349660.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/1",
+      "at": "2026-09-25T15:21:02.599Z",
+      "sliceUsdc": "50000000",
+      "block": "raw/ethereum/blocks/26055324.json",
+      "feeHistory": "raw/ethereum/fee-history/26055324.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349660.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/2",
+      "at": "2026-09-25T15:21:26.407Z",
+      "sliceUsdc": "50000000",
+      "block": "raw/ethereum/blocks/26055324.json",
+      "feeHistory": "raw/ethereum/fee-history/26055324.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349660.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/3",
+      "at": "2026-09-25T15:21:26.408Z",
+      "sliceUsdc": "50000000",
+      "block": "raw/ethereum/blocks/26055324.json",
+      "feeHistory": "raw/ethereum/fee-history/26055324.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349660.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$250 from employer-2 to worker-xstocks-a/4",
+      "at": "2026-09-25T15:21:26.408Z",
+      "sliceUsdc": "50000000",
+      "block": "raw/ethereum/blocks/26055324.json",
+      "feeHistory": "raw/ethereum/fee-history/26055324.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349660.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-1 to worker-xstocks-b/0",
+      "at": "2026-09-25T15:21:52.004Z",
+      "sliceUsdc": "5000000",
+      "block": "raw/ethereum/blocks/26055324.json",
+      "feeHistory": "raw/ethereum/fee-history/26055324.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349660.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-1 to worker-xstocks-b/1",
+      "at": "2026-09-25T15:21:52.009Z",
+      "sliceUsdc": "5000000",
+      "block": "raw/ethereum/blocks/26055324.json",
+      "feeHistory": "raw/ethereum/fee-history/26055324.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349660.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-1 to worker-xstocks-b/2",
+      "at": "2026-09-25T15:21:52.009Z",
+      "sliceUsdc": "5000000",
+      "block": "raw/ethereum/blocks/26055324.json",
+      "feeHistory": "raw/ethereum/fee-history/26055324.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349660.json"
+    },
+    {
+      "slice": "p8-breadth/2026-09-25T15-10-56-927Z/$20 from employer-1 to worker-xstocks-b/3",
+      "at": "2026-09-25T15:21:52.010Z",
+      "sliceUsdc": "5000000",
+      "block": "raw/ethereum/blocks/26055324.json",
+      "feeHistory": "raw/ethereum/fee-history/26055324.json",
+      "ethUsd": "raw/hermes/eth-usd-1790349660.json"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-09-25T13-32-01-991Z/paychecks/02-below-minimum",
+  "environment": "fork",
+  "fork": {
+    "startSlot": 450366980,
+    "rpcUrl": "http://127.0.0.1:48899",
+    "datasource": "api.mainnet-beta.solana.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -0.5559999942779541
+  },
+  "startedAt": "2026-09-25T13:33:55.972Z",
+  "finishedAt": "2026-09-25T13:34:09.134Z",
+  "commit": "9fc5d77936cbbc8506d47d99b0e7edaee7730043",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "69fddf6a93a240e349db5efd083d64120059868ff9ca8e9aa1fe65137bf87e47",
+  "programExecutableHash": "be0602b74d27262e447363180cd99725629ae953af42d57672464c0f8d25876b",
+  "programSource": "verifiable CI build of main@eade508, https://github.com/winsznx/paycheck-router/actions/runs/36132091704",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:48899",
+    "verifier": "http://127.0.0.1:48899"
+  },
+  "feedIds": [],
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ"
+  },
+  "router": {
+    "address": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e",
+    "owner": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "authority": "DwNCQN35YgQM8zovMAGp6noKsS9hkefRacQ5yMG8WxM3",
+    "investBps": 5000,
+    "legs": [
+      {
+        "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+        "symbol": "Anthropic",
+        "weightBps": 10000
+      }
+    ]
+  },
+  "paycheck": null,
+  "transactions": [
+    {
+      "label": "paycheck: employer-1 transferChecked",
+      "signature": "4B2MWBC8zRZG2mvuc3A7h5bEgv9iyHC9QcUm9yQofEACqW9rSyC1ix1FxcCCBJreVC7KuWhWNtXogucoWA8o6Xqp",
+      "slot": 450367255,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4B2MWBC8zRZG2mvuc3A7h5bEgv9iyHC9QcUm9yQofEACqW9rSyC1ix1FxcCCBJreVC7KuWhWNtXogucoWA8o6Xqp.json",
+        "sha256": "2ab2184edf04d1bccf43733cd5b4f3d1e0a2a390d12a947b60069dbb102d65c1"
+      }
+    }
+  ],
+  "legs": [],
+  "artifacts": [
+    {
+      "path": "raw/balances/before.json",
+      "sha256": "6d865f814cb5e32c364c2655d384924026af014d05ae932503f77c87c5734f50"
+    },
+    {
+      "path": "raw/mints/Anthropic.json",
+      "sha256": "cddc52817286bb1660c5e453b7b253209d0cec03362c0010c750582c3df8d628"
+    },
+    {
+      "path": "raw/epoch.json",
+      "sha256": "1bbf64e2c4722e9972b0060bdf6e2086b15d1bd431862c0dd43b924a3b2436f5"
+    },
+    {
+      "path": "raw/tx/4B2MWBC8zRZG2mvuc3A7h5bEgv9iyHC9QcUm9yQofEACqW9rSyC1ix1FxcCCBJreVC7KuWhWNtXogucoWA8o6Xqp.json",
+      "sha256": "2ab2184edf04d1bccf43733cd5b4f3d1e0a2a390d12a947b60069dbb102d65c1"
+    },
+    {
+      "path": "raw/balances/after.json",
+      "sha256": "b10bf8e14c738fc7d41d0253065d731c2ded8cfabcdaeb30459608ba7773c77e"
+    }
+  ],
+  "error": null
+}

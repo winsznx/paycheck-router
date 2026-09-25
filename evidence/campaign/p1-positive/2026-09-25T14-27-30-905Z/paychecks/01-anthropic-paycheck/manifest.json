@@ -1,0 +1,311 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-09-25T14-27-30-905Z/paychecks/01-anthropic-paycheck",
+  "environment": "fork",
+  "fork": {
+    "startSlot": 450379383,
+    "rpcUrl": "http://127.0.0.1:48899",
+    "datasource": "api.mainnet-beta.solana.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -0.9670000076293945
+  },
+  "startedAt": "2026-09-25T14:31:04.955Z",
+  "finishedAt": "2026-09-25T14:31:37.801Z",
+  "commit": "97140e50faeb9179afd1c4934d0b3f2bed00be95",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+  "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4",
+  "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:48899",
+    "verifier": "http://127.0.0.1:48899"
+  },
+  "feedIds": [
+    "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a"
+  ],
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ",
+    "worker-xstock": "ZRSZd399mE52BQbhoRQNqyAna6SJXqVc1fh8maCXezQ"
+  },
+  "router": {
+    "address": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e",
+    "owner": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "authority": "DwNCQN35YgQM8zovMAGp6noKsS9hkefRacQ5yMG8WxM3",
+    "investBps": 5000,
+    "legs": [
+      {
+        "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+        "symbol": "Anthropic",
+        "weightBps": 10000
+      }
+    ]
+  },
+  "paycheck": {
+    "address": "86p8DmfvC4abd1aDutoeJC7nYNWih3FgvQKAKaKZqnfN",
+    "seq": "0",
+    "inflow": "200000000",
+    "investTotal": "100000000",
+    "sender": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "inflowSignature": "4SY8bAQ9YmodvH4U6V6nE15Fp7PCg5urmFAAUbjEn8G5oiMmCmWmr2XfMUaE9ai2cxmAguiuMAJqz9VZRy8xAUgs",
+    "recordSignature": "4PBKSmyVb7HzSCcx9e4jrg6e8jTH1dCtvmdEFMQoy7GcnrDajrfgnyVR6DGhvmys6eqiTQew92XSUsGnYZKMUL1W"
+  },
+  "transactions": [
+    {
+      "label": "paycheck: employer-1 transferChecked",
+      "signature": "4SY8bAQ9YmodvH4U6V6nE15Fp7PCg5urmFAAUbjEn8G5oiMmCmWmr2XfMUaE9ai2cxmAguiuMAJqz9VZRy8xAUgs",
+      "slot": 450379915,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4SY8bAQ9YmodvH4U6V6nE15Fp7PCg5urmFAAUbjEn8G5oiMmCmWmr2XfMUaE9ai2cxmAguiuMAJqz9VZRy8xAUgs.json",
+        "sha256": "72bd4fb46885577ff653ac9326ba4e4b62abae7c5fb3bff29dc3d8db59cd63e8"
+      }
+    },
+    {
+      "label": "record_paycheck",
+      "signature": "4PBKSmyVb7HzSCcx9e4jrg6e8jTH1dCtvmdEFMQoy7GcnrDajrfgnyVR6DGhvmys6eqiTQew92XSUsGnYZKMUL1W",
+      "slot": 450379919,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4PBKSmyVb7HzSCcx9e4jrg6e8jTH1dCtvmdEFMQoy7GcnrDajrfgnyVR6DGhvmys6eqiTQew92XSUsGnYZKMUL1W.json",
+        "sha256": "0ed762140b9598c76de2666aa426ae29db549ca27eaf2e9a3d6d6f50d88d49e5"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "5aSYyRNy7iKX5eWBYEt1XN4bA3wBjJs915bgzPZ5b1VpvJTkZNrzHu8qDGABXBsDz4FosecyTriCAs2wwdKeys4A",
+      "slot": 450379925,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5aSYyRNy7iKX5eWBYEt1XN4bA3wBjJs915bgzPZ5b1VpvJTkZNrzHu8qDGABXBsDz4FosecyTriCAs2wwdKeys4A.json",
+        "sha256": "c76e884be567663dbe49191fd384e3e6f3390965ec4997eb86a2cee2030534c2"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "5s12K229z4fsd6U98JUXzcj7nRk9rdrA7z4JzFeSdtsKrngb73vg9Sr5ZURJpE3LgBhMdk2KsYzgPHzhqMnnCXvf",
+      "slot": 450379929,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5s12K229z4fsd6U98JUXzcj7nRk9rdrA7z4JzFeSdtsKrngb73vg9Sr5ZURJpE3LgBhMdk2KsYzgPHzhqMnnCXvf.json",
+        "sha256": "2ba783fa0e7616bdedbb6510c700df28843f3fdd54e30cb131140240d2b8ec70"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "4ZgZgVebLzWsLSza7YfrKqKvyFpRxgoKFxJQjn4vRkwdQAZuVmKBqDChVa846ckbdgBMmqBUfD2o7uDburQqgGFB",
+      "slot": 450379969,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/4ZgZgVebLzWsLSza7YfrKqKvyFpRxgoKFxJQjn4vRkwdQAZuVmKBqDChVa846ckbdgBMmqBUfD2o7uDburQqgGFB.json",
+        "sha256": "3f0357d2ea011820d7672010ede6a75dd62f4e8e39f421f3dd01891501563256"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "VstWqWaB7rEug2ykC6ZHBLEDBTmz4BQbCnNGf56wCtNf9L4QgFcUsGpJ8pyhrngV7n9trCTWjbKfSUsgp9jhbvW",
+      "slot": 450379973,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/VstWqWaB7rEug2ykC6ZHBLEDBTmz4BQbCnNGf56wCtNf9L4QgFcUsGpJ8pyhrngV7n9trCTWjbKfSUsgp9jhbvW.json",
+        "sha256": "93fd33feb1733ecab9773e62c5594efbf1e75d183564314b64987889555c9c42"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "5a6XaTDZxFYCWRVs232MkXVWUm9aUZaBQxG66FjsmeWW6qWQwvaxwGSkuSwSbKMkWZwLQ9pM8hZyPCXTNLVNyTeu",
+      "slot": 450379992,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5a6XaTDZxFYCWRVs232MkXVWUm9aUZaBQxG66FjsmeWW6qWQwvaxwGSkuSwSbKMkWZwLQ9pM8hZyPCXTNLVNyTeu.json",
+        "sha256": "8aa296ae77ef769e1f9a405dd9ea958a992366c36648f43fd085cff5c40e163f"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "59VDWcMtxF8muHwJfzRrCr5RJ2ewe1QwLbznBKvwAo3QV7sci9i4eChudGpTueXkx6KDaKxoh5Upe2u4FPeVwGvP",
+      "slot": 450379995,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/59VDWcMtxF8muHwJfzRrCr5RJ2ewe1QwLbznBKvwAo3QV7sci9i4eChudGpTueXkx6KDaKxoh5Upe2u4FPeVwGvP.json",
+        "sha256": "722b73ea610bb6c64addd210ef0f0aee41203d394cc6843943f56ce7fd7014b4"
+      }
+    }
+  ],
+  "legs": [
+    {
+      "index": 0,
+      "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+      "symbol": "Anthropic",
+      "kind": "pre_ipo",
+      "amountIn": "100000000",
+      "bandBps": 300,
+      "state": "PENDING",
+      "waitReason": null,
+      "attempts": [
+        {
+          "key": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e:0:0:0",
+          "startedAt": "2026-09-25T14:31:11.819Z",
+          "jupiterBuild": {
+            "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+            "sha256": "1f803c239111976da2a1529592427d4de85e3abd2911470496d0e407042cf9df"
+          },
+          "jupiterBuilds": [
+            {
+              "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0-quote-0.json",
+              "sha256": "1f803c239111976da2a1529592427d4de85e3abd2911470496d0e407042cf9df"
+            }
+          ],
+          "notes": [],
+          "hermesUpdate": {
+            "path": "raw/hermes/posted-0.json",
+            "sha256": "3c94d990f894812868b217d8cf6f7ab7e4b0d74270f23b248891661917fc862f"
+          },
+          "prices": [
+            {
+              "feedId": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+              "price": "99991216",
+              "conf": "26284",
+              "exponent": -8,
+              "publishTime": 1790346668,
+              "postedAccount": "7yMzXf6zKqReZ5Kiaii3RtCBKwDuNxZ2mwm5uzcBu3vd"
+            }
+          ],
+          "attestation": {
+            "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+            "markPriceE9": "1054250470680",
+            "observedAt": 1790346677,
+            "source": 0,
+            "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+            "message": "05daeb30d7e25e800c73fcec5dd967be486c460a83aa9de087f2b13d72474f5a188d3976f5000000b585b66a0000000000",
+            "signature": "22b993d01a4878c1ab11427a0ea99007583fd3149695846e74bdd19a55b8d071b268d58b83f97e09c9f6dfd1fc6ee4e9f96312ab4bd953972eee71bf0816bd06",
+            "apiResponse": {
+              "path": "raw/prestocks/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+              "sha256": "c928b6e8aa7f6a3c85b67a40c28d41f2c77d2ce4255ccafc3074ad956a286e42"
+            }
+          },
+          "simulation": {
+            "unitsConsumed": 133203,
+            "errorCode": 6003,
+            "errorName": null,
+            "logs": {
+              "path": "raw/simulation/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+              "sha256": "c5f94b18f76ebe7f84bb378743a81362b306a82a02fa4bd6774f0895b250c022"
+            }
+          },
+          "transactionBytes": 1109,
+          "priceRejections": [],
+          "signatures": [],
+          "outcome": "failed",
+          "waitReason": null,
+          "error": "external: Program FLUX6xBayGxLX9UcimVRxXFMHH6q43mAbRvDzSpCsvfK failed: custom program error: 0x1773; excluding Flux on this fork and re-quoting"
+        },
+        {
+          "key": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e:0:0:1",
+          "startedAt": "2026-09-25T14:31:35.656Z",
+          "jupiterBuild": null,
+          "jupiterBuilds": [],
+          "notes": [],
+          "hermesUpdate": null,
+          "prices": [],
+          "attestation": null,
+          "simulation": null,
+          "transactionBytes": null,
+          "priceRejections": [],
+          "signatures": [],
+          "outcome": "failed",
+          "waitReason": null,
+          "error": "JSON-RPC error: Invalid method parameter(s) (decoded solana_transaction::versioned::VersionedTransaction too large: 1242 bytes (max: 1232 bytes))"
+        }
+      ],
+      "executed": null,
+      "verification": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "raw/balances/before.json",
+      "sha256": "43e646bff1c4574a1f275a79a9fc39925b368d94aabb464eab58284439730ecc"
+    },
+    {
+      "path": "raw/mints/Anthropic.json",
+      "sha256": "88c79b9f60ebe259abc40b4ac11f03ed39f9ad6790a7e7b31ad739f598e8228e"
+    },
+    {
+      "path": "raw/epoch.json",
+      "sha256": "2dc6c185d123c8c61bb33a36e693830513719e3358b05d39ad164ad4abe19692"
+    },
+    {
+      "path": "raw/tx/4SY8bAQ9YmodvH4U6V6nE15Fp7PCg5urmFAAUbjEn8G5oiMmCmWmr2XfMUaE9ai2cxmAguiuMAJqz9VZRy8xAUgs.json",
+      "sha256": "72bd4fb46885577ff653ac9326ba4e4b62abae7c5fb3bff29dc3d8db59cd63e8"
+    },
+    {
+      "path": "raw/tx/4PBKSmyVb7HzSCcx9e4jrg6e8jTH1dCtvmdEFMQoy7GcnrDajrfgnyVR6DGhvmys6eqiTQew92XSUsGnYZKMUL1W.json",
+      "sha256": "0ed762140b9598c76de2666aa426ae29db549ca27eaf2e9a3d6d6f50d88d49e5"
+    },
+    {
+      "path": "raw/hermes/posted-0.json",
+      "sha256": "3c94d990f894812868b217d8cf6f7ab7e4b0d74270f23b248891661917fc862f"
+    },
+    {
+      "path": "raw/hermes/posted-1.json",
+      "sha256": "34fc1a033f957eb4b4f4ff5974e780c0047a1d08a12a76e15b5edadb7e3c3f0d"
+    },
+    {
+      "path": "raw/tx/5aSYyRNy7iKX5eWBYEt1XN4bA3wBjJs915bgzPZ5b1VpvJTkZNrzHu8qDGABXBsDz4FosecyTriCAs2wwdKeys4A.json",
+      "sha256": "c76e884be567663dbe49191fd384e3e6f3390965ec4997eb86a2cee2030534c2"
+    },
+    {
+      "path": "raw/tx/5s12K229z4fsd6U98JUXzcj7nRk9rdrA7z4JzFeSdtsKrngb73vg9Sr5ZURJpE3LgBhMdk2KsYzgPHzhqMnnCXvf.json",
+      "sha256": "2ba783fa0e7616bdedbb6510c700df28843f3fdd54e30cb131140240d2b8ec70"
+    },
+    {
+      "path": "raw/tx/4ZgZgVebLzWsLSza7YfrKqKvyFpRxgoKFxJQjn4vRkwdQAZuVmKBqDChVa846ckbdgBMmqBUfD2o7uDburQqgGFB.json",
+      "sha256": "3f0357d2ea011820d7672010ede6a75dd62f4e8e39f421f3dd01891501563256"
+    },
+    {
+      "path": "raw/tx/VstWqWaB7rEug2ykC6ZHBLEDBTmz4BQbCnNGf56wCtNf9L4QgFcUsGpJ8pyhrngV7n9trCTWjbKfSUsgp9jhbvW.json",
+      "sha256": "93fd33feb1733ecab9773e62c5594efbf1e75d183564314b64987889555c9c42"
+    },
+    {
+      "path": "raw/tx/5a6XaTDZxFYCWRVs232MkXVWUm9aUZaBQxG66FjsmeWW6qWQwvaxwGSkuSwSbKMkWZwLQ9pM8hZyPCXTNLVNyTeu.json",
+      "sha256": "8aa296ae77ef769e1f9a405dd9ea958a992366c36648f43fd085cff5c40e163f"
+    },
+    {
+      "path": "raw/tx/59VDWcMtxF8muHwJfzRrCr5RJ2ewe1QwLbznBKvwAo3QV7sci9i4eChudGpTueXkx6KDaKxoh5Upe2u4FPeVwGvP.json",
+      "sha256": "722b73ea610bb6c64addd210ef0f0aee41203d394cc6843943f56ce7fd7014b4"
+    },
+    {
+      "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+      "sha256": "1f803c239111976da2a1529592427d4de85e3abd2911470496d0e407042cf9df"
+    },
+    {
+      "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0-quote-0.json",
+      "sha256": "1f803c239111976da2a1529592427d4de85e3abd2911470496d0e407042cf9df"
+    },
+    {
+      "path": "raw/prestocks/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+      "sha256": "c928b6e8aa7f6a3c85b67a40c28d41f2c77d2ce4255ccafc3074ad956a286e42"
+    },
+    {
+      "path": "raw/simulation/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+      "sha256": "c5f94b18f76ebe7f84bb378743a81362b306a82a02fa4bd6774f0895b250c022"
+    },
+    {
+      "path": "raw/balances/after.json",
+      "sha256": "24c2a097bfaa58bf89d57b6cac1bb02743c0270a895a9fd75d5fe5af301f925b"
+    }
+  ],
+  "error": null
+}

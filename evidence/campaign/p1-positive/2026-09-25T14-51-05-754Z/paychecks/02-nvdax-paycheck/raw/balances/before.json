@@ -1,0 +1,63 @@
+{
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "getMultipleAccounts",
+    "params": [
+      [
+        "2DZzwuyw2iKAxWuZ5xY2XvBFUUMAcNaxop3JKVrwSHuQ",
+        "5xy24J4MbS1ZTCdCqHf1jQhmzExErGCLn2hwUv72y3Tj"
+      ],
+      {
+        "encoding": "jsonParsed",
+        "commitment": "confirmed"
+      }
+    ]
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "result": {
+      "context": {
+        "slot": 450384918,
+        "apiVersion": "4.1.2"
+      },
+      "value": [
+        {
+          "lamports": 2039280,
+          "data": {
+            "program": "spl-token",
+            "parsed": {
+              "type": "account",
+              "info": {
+                "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                "owner": "2x4ufojp8YCyDUcjAuQUzHmwURx48xxJkax8aWufMU6R",
+                "tokenAmount": {
+                  "uiAmount": 0,
+                  "decimals": 6,
+                  "amount": "0",
+                  "uiAmountString": "0"
+                },
+                "delegate": "3LDcCygbmn4PHFcq4hpNa9gD1N3guXP5AxEMEPDQcGoR",
+                "state": "initialized",
+                "isNative": false,
+                "delegatedAmount": {
+                  "uiAmount": 20000,
+                  "decimals": 6,
+                  "amount": "20000000000",
+                  "uiAmountString": "20000"
+                }
+              }
+            },
+            "space": 165
+          },
+          "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "executable": false,
+          "rentEpoch": 0,
+          "space": 165
+        },
+        null
+      ]
+    },
+    "id": 1
+  }
+}

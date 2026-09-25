@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 1,
+  "runId": "2026-09-25T13-50-09-043Z/paychecks/01-anthropic-paycheck",
+  "environment": "fork",
+  "fork": {
+    "startSlot": 450371034,
+    "rpcUrl": "http://127.0.0.1:48899",
+    "datasource": "api.mainnet-beta.solana.com",
+    "surfpoolVersion": "surfpool 1.5.0",
+    "clockDriftSecs": -1.1170001029968262
+  },
+  "startedAt": "2026-09-25T13:52:04.472Z",
+  "finishedAt": "2026-09-25T13:53:28.954Z",
+  "commit": "6fdf61591214480aa88a787cfc0f10f24b977f44",
+  "programId": "PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H",
+  "programSha256": "94f8c0a2ffc33a243f87eedc45679026bec917e6e013b7ef1549991dc9f50662",
+  "programExecutableHash": "8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4",
+  "programSource": "verifiable CI build of main@e53fbfe, https://github.com/winsznx/paycheck-router/actions/runs/36141863523",
+  "crankVersion": "0.1.0",
+  "rpc": {
+    "sender": "http://127.0.0.1:48899",
+    "verifier": "http://127.0.0.1:48899"
+  },
+  "feedIds": [
+    "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a"
+  ],
+  "keys": {
+    "deployer": "Hf1cD93ear3eJGqZUmcm912AFdSg7kbW41w5edRrHYaz",
+    "admin": "2x2osnpnuo8qcDvJeBjQsYuKk12eymLSx9deCN9BJb4m",
+    "guardian": "HMFt5dbUCAMtxq9vcirRSpgoTHGQH3tow8RbRVp5greU",
+    "crank": "7okuGKwRkoLvcGsu1wXHC3gqJQk41FZT9mo363Qsefwu",
+    "recorder": "EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL",
+    "sponsor": "CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA",
+    "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+    "ops": "9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as",
+    "demo-worker": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "employer-1": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "employer-2": "CNgdDTfsLRujBAhh8uVHP34gBHuHNvrE7x4wdZsh12et",
+    "employer-3": "AwuneQgALPAye5TgJVzBfJJJfNBu7ezYwvNoyo8hHrpQ",
+    "worker-xstock": "DDZiin2P2Dc5LQaVrtu7Rc5DDqzE1MkHvVTZ9CGREhAd"
+  },
+  "router": {
+    "address": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e",
+    "owner": "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy",
+    "authority": "DwNCQN35YgQM8zovMAGp6noKsS9hkefRacQ5yMG8WxM3",
+    "investBps": 5000,
+    "legs": [
+      {
+        "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+        "symbol": "Anthropic",
+        "weightBps": 10000
+      }
+    ]
+  },
+  "paycheck": {
+    "address": "86p8DmfvC4abd1aDutoeJC7nYNWih3FgvQKAKaKZqnfN",
+    "seq": "0",
+    "inflow": "200000000",
+    "investTotal": "100000000",
+    "sender": "75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd",
+    "inflowSignature": "5AYy4G5EMk64uZNpVCWkQs8ibtq2TbhgMoKVwzKrQ5aBbyqT14LWB8jYe1isGSLAHCcSyAEkRcWeeWYW8Pic5PoN",
+    "recordSignature": "3soYzeN5d8SEhjFxaHDevBNam7VSEJ8wSjd3o6wsV5d35rPZJVCrd8tEGrdszANjTReHqmHyfc6Qp3CBbsQNjGF6"
+  },
+  "transactions": [
+    {
+      "label": "paycheck: employer-1 transferChecked",
+      "signature": "5AYy4G5EMk64uZNpVCWkQs8ibtq2TbhgMoKVwzKrQ5aBbyqT14LWB8jYe1isGSLAHCcSyAEkRcWeeWYW8Pic5PoN",
+      "slot": 450371315,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5AYy4G5EMk64uZNpVCWkQs8ibtq2TbhgMoKVwzKrQ5aBbyqT14LWB8jYe1isGSLAHCcSyAEkRcWeeWYW8Pic5PoN.json",
+        "sha256": "c59096c32c27f22d041d486ed921ede71acb145cb6dba0731d81804aedc63243"
+      }
+    },
+    {
+      "label": "record_paycheck",
+      "signature": "3soYzeN5d8SEhjFxaHDevBNam7VSEJ8wSjd3o6wsV5d35rPZJVCrd8tEGrdszANjTReHqmHyfc6Qp3CBbsQNjGF6",
+      "slot": 450371327,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3soYzeN5d8SEhjFxaHDevBNam7VSEJ8wSjd3o6wsV5d35rPZJVCrd8tEGrdszANjTReHqmHyfc6Qp3CBbsQNjGF6.json",
+        "sha256": "64fdd24ff3ab40046e33e5101bbd384e73b1919d665f9e05a9d01a73cb3edfaa"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "n5Sr39WDD8SijWAmwoMXb1QCW39LD3aZSrtJqgsvD9DEdc1duubyDpfCKHqpt96t3cWKkpq32zpPp8wELgaWAsq",
+      "slot": 450371334,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/n5Sr39WDD8SijWAmwoMXb1QCW39LD3aZSrtJqgsvD9DEdc1duubyDpfCKHqpt96t3cWKkpq32zpPp8wELgaWAsq.json",
+        "sha256": "0e97145cbfe7fd30a8040bef56acb0a010c1708602caf31d62954b4798d22533"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "3SNAUquRxti23Robwo2VzdBj5ev4WUciPwbmaDvVZD6AHRZY9mVWvMNdpgmPiCP2zBm1T5BECeRX7H1DnvEhWDVM",
+      "slot": 450371384,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/3SNAUquRxti23Robwo2VzdBj5ev4WUciPwbmaDvVZD6AHRZY9mVWvMNdpgmPiCP2zBm1T5BECeRX7H1DnvEhWDVM.json",
+        "sha256": "6de0578d038eb81b4c95ebbc7492ca4500f937426b82d6dbf573c36fe1bf373a"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "2tZyejJ8YTckTAaDBpLkoP1YwwkeBRxpokH6a32qTHJmtKdgQxKihtGjpXZd1LH6wTk2MxTmefBfkUNuo6WLXGS6",
+      "slot": 450371420,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/2tZyejJ8YTckTAaDBpLkoP1YwwkeBRxpokH6a32qTHJmtKdgQxKihtGjpXZd1LH6wTk2MxTmefBfkUNuo6WLXGS6.json",
+        "sha256": "6fe64149f7a4e961cbf7ab106e27ca249f8bb946178279ef181211b7e7bd31a2"
+      }
+    },
+    {
+      "label": "pyth post",
+      "signature": "5RcQxfhGBY2Ek8ibni1DQLjxqKYWffYLeitnP35hEEWo8n8YpmexDqSnaD4GsQQ7x7t54V4HXp31EuMzZAA9JnS3",
+      "slot": 450371421,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5RcQxfhGBY2Ek8ibni1DQLjxqKYWffYLeitnP35hEEWo8n8YpmexDqSnaD4GsQQ7x7t54V4HXp31EuMzZAA9JnS3.json",
+        "sha256": "5f8d080e183b76f1064d5e780fa09970cfcb9c860ca6bf4474d103bf237f35f2"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "5b2VXhvdEDAnUx2jQUKeK294gzoQaNEr7JxYim7uQd16KrAB8W9vp8En7WTjrwMmqChpkcfX7sopHaouARj2CDDQ",
+      "slot": 450371522,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/5b2VXhvdEDAnUx2jQUKeK294gzoQaNEr7JxYim7uQd16KrAB8W9vp8En7WTjrwMmqChpkcfX7sopHaouARj2CDDQ.json",
+        "sha256": "3b97372cf18dddfdd771e4e82a003e6b6cfd7e87983a18743caa1da2fdf0d244"
+      }
+    },
+    {
+      "label": "pyth close",
+      "signature": "55kqLYUc2dJFgqpUPx4aB6cMso5UmhabBW1DvqrqtpTncx2YbdfyRTqprGuuVTV1Xy3hbBaw85iMT2e4Jin89fYL",
+      "slot": 450371525,
+      "err": null,
+      "raw": {
+        "path": "raw/tx/55kqLYUc2dJFgqpUPx4aB6cMso5UmhabBW1DvqrqtpTncx2YbdfyRTqprGuuVTV1Xy3hbBaw85iMT2e4Jin89fYL.json",
+        "sha256": "188ed915a7840d293ff73f6500f612f74e53bab62e4eceb8afebf5305caaedf6"
+      }
+    }
+  ],
+  "legs": [
+    {
+      "index": 0,
+      "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+      "symbol": "Anthropic",
+      "kind": "pre_ipo",
+      "amountIn": "100000000",
+      "bandBps": 300,
+      "state": "PENDING",
+      "waitReason": null,
+      "attempts": [
+        {
+          "key": "5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e:0:0:0",
+          "startedAt": "2026-09-25T13:52:47.437Z",
+          "jupiterBuild": {
+            "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+            "sha256": "47840f5007fdef8d42abf14a20515d4015b92d51a80248fa85440debaa76f28b"
+          },
+          "hermesUpdate": {
+            "path": "raw/hermes/posted-1.json",
+            "sha256": "d128dc22e6d4c0491e7d5fa85da7e8563531ad89ebcd4c41808e0fcc40bc391f"
+          },
+          "prices": [
+            {
+              "feedId": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+              "price": "99990574",
+              "conf": "24426",
+              "exponent": -8,
+              "publishTime": 1790344365,
+              "postedAccount": "3ezNc6xffgru5pY1ckftmtc7wWhkE9XLehyCq5oTW2Uf"
+            }
+          ],
+          "attestation": {
+            "mint": "Pren1FvFX6J3E4kXhJuCiAD5aDmGEb7qJRncwA8Lkhw",
+            "markPriceE9": "1053932369780",
+            "observedAt": 1790344375,
+            "source": 0,
+            "attester": "CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw",
+            "message": "05daeb30d7e25e800c73fcec5dd967be486c460a83aa9de087f2b13d72474f5a74b74363f5000000b77cb66a0000000000",
+            "signature": "c14bd4a26157af69153e7faca6c18e1382f3adcf27cf912efbd4a38b383ae7533162ab142b5874302e6bc8dcfc98e82291ed951625859e590c4d65579da99708",
+            "apiResponse": {
+              "path": "raw/prestocks/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+              "sha256": "e4d5fae443d6bf9315787ad61151f1367b7dae77915110b82acdaedc8e8c91d1"
+            }
+          },
+          "simulation": {
+            "unitsConsumed": 72642,
+            "errorCode": 3012,
+            "errorName": null,
+            "logs": {
+              "path": "raw/simulation/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+              "sha256": "5cfb725e99b347a89a84e9aabdc88dd564192fa8d0b05854bf8ac837b85ecf64"
+            }
+          },
+          "transactionBytes": 1222,
+          "priceRejections": [],
+          "signatures": [],
+          "outcome": "failed",
+          "waitReason": null,
+          "error": "external: Program PayEFo1ZAPXKf5H4DoqrsEceYzdSvXJBAGBD7AMQY6H failed: custom program error: 0xbc4"
+        }
+      ],
+      "executed": null,
+      "verification": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "raw/balances/before.json",
+      "sha256": "20c3b413e3b418312f9cccba93d97ed49611f6cd380084106284d101a82dc6f0"
+    },
+    {
+      "path": "raw/mints/Anthropic.json",
+      "sha256": "c03b6e9626fd7c4a21d2cb4eee5c01e32daf33a8debb339dfb9b2ab5239dad7e"
+    },
+    {
+      "path": "raw/epoch.json",
+      "sha256": "711444899d1b65ea77996d8d75ea52ecbf4df22a8de442b51d5f7dca5ef9b508"
+    },
+    {
+      "path": "raw/tx/5AYy4G5EMk64uZNpVCWkQs8ibtq2TbhgMoKVwzKrQ5aBbyqT14LWB8jYe1isGSLAHCcSyAEkRcWeeWYW8Pic5PoN.json",
+      "sha256": "c59096c32c27f22d041d486ed921ede71acb145cb6dba0731d81804aedc63243"
+    },
+    {
+      "path": "raw/tx/3soYzeN5d8SEhjFxaHDevBNam7VSEJ8wSjd3o6wsV5d35rPZJVCrd8tEGrdszANjTReHqmHyfc6Qp3CBbsQNjGF6.json",
+      "sha256": "64fdd24ff3ab40046e33e5101bbd384e73b1919d665f9e05a9d01a73cb3edfaa"
+    },
+    {
+      "path": "raw/hermes/posted-0.json",
+      "sha256": "4faecaed628d2401012967dda7f0a53718726c2df71b55ce5990dad6141120fc"
+    },
+    {
+      "path": "raw/hermes/posted-1.json",
+      "sha256": "d128dc22e6d4c0491e7d5fa85da7e8563531ad89ebcd4c41808e0fcc40bc391f"
+    },
+    {
+      "path": "raw/tx/n5Sr39WDD8SijWAmwoMXb1QCW39LD3aZSrtJqgsvD9DEdc1duubyDpfCKHqpt96t3cWKkpq32zpPp8wELgaWAsq.json",
+      "sha256": "0e97145cbfe7fd30a8040bef56acb0a010c1708602caf31d62954b4798d22533"
+    },
+    {
+      "path": "raw/tx/3SNAUquRxti23Robwo2VzdBj5ev4WUciPwbmaDvVZD6AHRZY9mVWvMNdpgmPiCP2zBm1T5BECeRX7H1DnvEhWDVM.json",
+      "sha256": "6de0578d038eb81b4c95ebbc7492ca4500f937426b82d6dbf573c36fe1bf373a"
+    },
+    {
+      "path": "raw/tx/2tZyejJ8YTckTAaDBpLkoP1YwwkeBRxpokH6a32qTHJmtKdgQxKihtGjpXZd1LH6wTk2MxTmefBfkUNuo6WLXGS6.json",
+      "sha256": "6fe64149f7a4e961cbf7ab106e27ca249f8bb946178279ef181211b7e7bd31a2"
+    },
+    {
+      "path": "raw/tx/5RcQxfhGBY2Ek8ibni1DQLjxqKYWffYLeitnP35hEEWo8n8YpmexDqSnaD4GsQQ7x7t54V4HXp31EuMzZAA9JnS3.json",
+      "sha256": "5f8d080e183b76f1064d5e780fa09970cfcb9c860ca6bf4474d103bf237f35f2"
+    },
+    {
+      "path": "raw/tx/5b2VXhvdEDAnUx2jQUKeK294gzoQaNEr7JxYim7uQd16KrAB8W9vp8En7WTjrwMmqChpkcfX7sopHaouARj2CDDQ.json",
+      "sha256": "3b97372cf18dddfdd771e4e82a003e6b6cfd7e87983a18743caa1da2fdf0d244"
+    },
+    {
+      "path": "raw/tx/55kqLYUc2dJFgqpUPx4aB6cMso5UmhabBW1DvqrqtpTncx2YbdfyRTqprGuuVTV1Xy3hbBaw85iMT2e4Jin89fYL.json",
+      "sha256": "188ed915a7840d293ff73f6500f612f74e53bab62e4eceb8afebf5305caaedf6"
+    },
+    {
+      "path": "raw/jupiter/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+      "sha256": "47840f5007fdef8d42abf14a20515d4015b92d51a80248fa85440debaa76f28b"
+    },
+    {
+      "path": "raw/prestocks/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+      "sha256": "e4d5fae443d6bf9315787ad61151f1367b7dae77915110b82acdaedc8e8c91d1"
+    },
+    {
+      "path": "raw/simulation/5ByR6txmiXKiTfHxDMbxw1QBkwq89L8QucyKH1xbVv2e_0_0_0.json",
+      "sha256": "5cfb725e99b347a89a84e9aabdc88dd564192fa8d0b05854bf8ac837b85ecf64"
+    },
+    {
+      "path": "raw/balances/after.json",
+      "sha256": "a513e764f04d90083b8705f24bdf2fa10eabceada47b680a3006c2a901e58284"
+    }
+  ],
+  "error": null
+}

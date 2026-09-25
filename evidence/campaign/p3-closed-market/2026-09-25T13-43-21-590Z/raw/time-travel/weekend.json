@@ -1,0 +1,12 @@
+{
+  "absoluteTimestampMs": 1790438400000,
+  "iso": "2026-09-26T16:00:00.000Z",
+  "response": {
+    "epoch": 1042,
+    "slotIndex": 462005,
+    "slotsInEpoch": 432000,
+    "absoluteSlot": 450606005,
+    "blockHeight": 328,
+    "transactionCount": 656
+  }
+}

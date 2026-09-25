@@ -1,0 +1,14 @@
+{
+  "read": {
+    "multiplier": 1,
+    "newMultiplierEffectiveTimestamp": "0",
+    "newMultiplier": 1
+  },
+  "wanted": {
+    "multiplier": 1,
+    "newMultiplierEffectiveTimestamp": "1790349800",
+    "newMultiplier": 1.05
+  },
+  "kept": false,
+  "reapplied": true
+}
