@@ -75,18 +75,18 @@ export const LegAttempt = z.object({
   startedAt: z.iso.datetime(),
   jupiterBuild: ArtifactRef.nullable(),
   /** Every Jupiter build the attempt requested, re-quotes included. */
-  jupiterBuilds: z.array(ArtifactRef),
+  jupiterBuilds: z.array(ArtifactRef).default([]),
   /** Why the attempt re-quoted (route hops, transaction size, failing fork DEX). */
-  notes: z.array(z.string()),
+  notes: z.array(z.string()).default([]),
   hermesUpdate: ArtifactRef.nullable(),
   prices: z.array(PythPriceRecord),
   attestation: AttestationRecord.nullable(),
   simulation: SimulationRecord.nullable(),
-  transactionBytes: z.number().int().nullable(),
+  transactionBytes: z.number().int().nullable().default(null),
   /** Hermes refusals that kept the leg from being priced, with status and body. */
-  priceRejections: z.array(
-    z.object({ feedId: FeedIdHex, status: z.number().int(), body: z.string() }),
-  ),
+  priceRejections: z
+    .array(z.object({ feedId: FeedIdHex, status: z.number().int(), body: z.string() }))
+    .default([]),
   signatures: z.array(SignatureString),
   outcome: z.enum(["executed", "waiting", "failed"]),
   waitReason: WaitReasonSchema.nullable(),
@@ -154,6 +154,10 @@ export const LegRecord = z.object({
 });
 export type LegRecord = z.infer<typeof LegRecord>;
 
+/**
+ * Fields added after the first fork runs default when absent, so every bundle already in
+ * evidence/ still parses and verifies.
+ */
 export const RunManifest = z.object({
   schemaVersion: z.literal(1),
   runId: z.string().min(1),
@@ -173,9 +177,9 @@ export const RunManifest = z.object({
   programId: AddressString,
   programSha256: Sha256Hex.nullable(),
   /** `solana-verify get-executable-hash` of the deployed binary. */
-  programExecutableHash: Sha256Hex.nullable(),
+  programExecutableHash: Sha256Hex.nullable().default(null),
   /** Where the deployed binary came from, e.g. the CI release run that built it. */
-  programSource: z.string().nullable(),
+  programSource: z.string().nullable().default(null),
   crankVersion: z.string(),
   rpc: z.object({ sender: z.string(), verifier: z.string() }),
   feedIds: z.array(FeedIdHex),

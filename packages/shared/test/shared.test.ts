@@ -151,6 +151,13 @@ describe("run manifest schema", () => {
     error: null,
   };
 
+  it("parses runs recorded before later fields existed", () => {
+    const later = new Set(["programExecutableHash", "programSource"]);
+    const older = Object.fromEntries(Object.entries(minimal).filter(([key]) => !later.has(key)));
+    const parsed = RunManifest.parse(older);
+    expect([parsed.programExecutableHash, parsed.programSource]).toEqual([null, null]);
+  });
+
   it("accepts a run that stopped before any leg", () => {
     expect(RunManifest.parse(minimal).environment).toBe("fork");
   });
