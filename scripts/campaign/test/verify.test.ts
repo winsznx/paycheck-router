@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { cpSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -134,6 +134,32 @@ describe("verify:campaign", () => {
   it("keeps the fixture's run directory intact for the other tests", async () => {
     expect(readFileSync(resolve(run, "manifest.json"), "utf8")).toContain("p2-control");
   });
+});
+
+const EVIDENCE = resolve(REPO_ROOT, "evidence", "campaign");
+const EVIDENCE_TIMEOUT_MS = 300_000;
+
+describe.skipIf(!existsSync(summaryPath(EVIDENCE)))("the committed campaign evidence", () => {
+  it(
+    "verifies, and a copy with one flipped byte in a fill's transaction does not",
+    async () => {
+      // #given a copy of the committed evidence with one byte of a fill's transaction flipped
+      const copy = copyOf(EVIDENCE);
+      const [fill] = readdirSync(copy, { recursive: true, encoding: "utf8" }).filter(
+        (path) => path.includes("paychecks") && path.includes("/raw/tx/"),
+      );
+      if (!fill) throw new Error("no paycheck transaction in the evidence");
+      flipOneByte(resolve(copy, fill), 40);
+
+      // #when both are verified
+      const committed = await verifyCampaign(EVIDENCE);
+      const tampered = await verifyCampaign(copy);
+
+      // #then only the untouched evidence passes
+      expect([committed.errors, tampered.ok]).toEqual([[], false]);
+    },
+    EVIDENCE_TIMEOUT_MS,
+  );
 });
 
 describe("summaryDiff", () => {
