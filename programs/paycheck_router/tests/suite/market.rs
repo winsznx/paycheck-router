@@ -42,17 +42,15 @@ pub struct Market {
 /// Paycheck 0 holds NVDA (leg 0, 60%), SPY (leg 1, 30%) and a pre-IPO
 /// token (leg 2, 10%): 120, 60 and 20 USDC of a 1,000 USDC paycheck.
 pub fn market() -> Market {
-    market_with(None)
+    market_with(|env| env.add_preipo_asset())
 }
 
-pub fn market_with(pre_transfer_fee_bps: Option<u16>) -> Market {
+/// `add_pre` creates and registers the pre-IPO mint for leg 2.
+pub fn market_with(add_pre: impl FnOnce(&mut Env) -> Pubkey) -> Market {
     let mut env = Env::new();
     let nvda = env.add_listed_asset(NVDA_FEED, NVDA_FEED_247);
     let spy = env.add_listed_asset(SPY_FEED, [0u8; 32]);
-    let pre = match pre_transfer_fee_bps {
-        None => env.add_preipo_asset(),
-        Some(bps) => add_fee_preipo_asset(&mut env, bps),
-    };
+    let pre = add_pre(&mut env);
     let worker = Worker::new(&mut env, 0);
     worker.setup(
         &mut env,
@@ -94,7 +92,7 @@ pub fn market_with(pre_transfer_fee_bps: Option<u16>) -> Market {
 
 /// A pre-IPO mint shaped like PreStocks: Token-2022, 9 decimals, a Scaled UI
 /// multiplier and a transfer fee withheld in the recipient.
-fn add_fee_preipo_asset(env: &mut Env, fee_bps: u16) -> Pubkey {
+pub fn add_fee_preipo_asset(env: &mut Env, fee_bps: u16) -> Pubkey {
     use anchor_spl::token_2022::spl_token_2022::{
         self,
         extension::{scaled_ui_amount, transfer_fee, ExtensionType},
