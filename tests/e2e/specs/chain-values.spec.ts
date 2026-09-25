@@ -119,7 +119,9 @@ async function sweep(
   values: readonly Expected[],
 ) {
   await open();
-  await page.waitForLoadState("networkidle");
+  // Not "networkidle": the waitlist's Turnstile widget keeps retrying its challenge when the
+  // site key doesn't allow this host, so the landing page never goes idle.
+  await page.waitForLoadState("load");
   await page.evaluate(() => document.fonts.ready.then(() => undefined));
   await expectChainLinks(page, values);
   for (const theme of THEMES) {
