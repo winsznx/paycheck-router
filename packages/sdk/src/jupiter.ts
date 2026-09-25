@@ -38,7 +38,12 @@ export const JupiterBuildResponse = z.object({
   routePlan: z.array(
     z.object({
       percent: z.number().nullish(),
-      swapInfo: z.object({ ammKey: z.string(), label: z.string().nullish() }),
+      swapInfo: z.object({
+        ammKey: z.string(),
+        label: z.string().nullish(),
+        inputMint: z.string().nullish(),
+        outputMint: z.string().nullish(),
+      }),
     }),
   ),
   computeBudgetInstructions: z.array(ApiInstruction),
@@ -62,6 +67,8 @@ export type JupiterBuildParams = {
   slippageBps: number;
   /** True on surfnets, where proprietary AMMs quote zero from stale state. */
   surfnet: boolean;
+  /** Defaults to 40; the pipeline lowers it for multi-hop or oversized routes. */
+  maxAccounts?: number;
   /** More DEX labels to exclude on a surfnet, learned from routes that failed there. */
   forkExcludedDexes?: readonly string[];
 };
@@ -81,7 +88,7 @@ export function jupiterBuildQuery(params: JupiterBuildParams): URLSearchParams {
     payer: params.payer,
     destinationTokenAccount: params.destinationTokenAccount,
     slippageBps: String(params.slippageBps),
-    maxAccounts: String(JUPITER_MAX_ACCOUNTS),
+    maxAccounts: String(params.maxAccounts ?? JUPITER_MAX_ACCOUNTS),
     computeUnitPricePercentile: "high",
     // A route through SOL otherwise ends with a CloseAccount on the taker's wSOL account that
     // the taker must sign, and the Authority PDA can only sign inside the program's CPI.

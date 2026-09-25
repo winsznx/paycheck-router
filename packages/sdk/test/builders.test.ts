@@ -113,10 +113,26 @@ describe("executeInstructionBuilder", () => {
       priceUpdate: posted,
       priceUpdate247: null,
       usdcPriceUpdate: posted,
+      intermediate: null,
     });
     expect([...(ix.data ?? []).slice(0, 8)]).toEqual([...EXECUTE_LEG_DISCRIMINATOR]);
     expect(ix.accounts?.slice(-2)).toEqual(swap.accounts);
-    expect(ix.accounts?.length).toBe(17 + 2);
+    expect(ix.accounts?.length).toBe(19 + 2);
+  });
+
+  it("passes the owner's intermediate account and mint for a two-hop route", async () => {
+    const wsol = address("So11111111111111111111111111111111111111112");
+    const ix = await build({
+      leg: await leg("NVDAx"),
+      destination: owner,
+      swap,
+      priceUpdate: posted,
+      priceUpdate247: null,
+      usdcPriceUpdate: posted,
+      intermediate: { account: posted, mint: wsol },
+    });
+    const fixed = ix.accounts?.slice(0, 19).map((a) => a.address);
+    expect(fixed?.slice(-2)).toEqual([posted, wsol]);
   });
 
   it("builds execute_prestock_leg for pre-IPO assets", async () => {
@@ -127,6 +143,7 @@ describe("executeInstructionBuilder", () => {
       priceUpdate: null,
       priceUpdate247: null,
       usdcPriceUpdate: posted,
+      intermediate: null,
     });
     expect([...(ix.data ?? []).slice(0, 8)]).toEqual([...EXECUTE_PRESTOCK_LEG_DISCRIMINATOR]);
   });
@@ -140,6 +157,7 @@ describe("executeInstructionBuilder", () => {
         priceUpdate: null,
         priceUpdate247: null,
         usdcPriceUpdate: posted,
+        intermediate: null,
       }),
     ).rejects.toThrow(/no posted price/);
   });
