@@ -5,11 +5,12 @@
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "next build && serwist build && node scripts/assert-no-demo-signer.mjs",
+    "build:production": "node scripts/build-production.mjs",
     "start": "next start",
     "typecheck": "next typegen && tsc --noEmit -p . && tsc --noEmit -p tsconfig.sw.json",
     "test": "node scripts/check-messages.mjs && vitest run",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
+    "deploy": "node scripts/build-production.mjs && opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@paycheck-router/shared": "workspace:*",
