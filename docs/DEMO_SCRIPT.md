@@ -4,12 +4,20 @@ Two recordings, both made with `pnpm demo:record` on a fresh Surfpool fork of ma
 
 ## Before you press record
 
-1. `pnpm install --frozen-lockfile`
-2. Put `HELIUS_API_KEY` (and `JUPITER_API_KEY` if you have one) in your shell.
-3. `pnpm demo:record`. Wait for it to print the web URL, the API URL and the surfnet RPC URL. It has already started a fresh surfnet, deployed the program under its production ID, initialized Config, seeded the asset registry and funded the fork-only keys.
+1. From the repository root: `pnpm install --frozen-lockfile`.
+2. Stop anything else on ports 8899, 8900, 8787, 54322 and 3000, or move the demo to free ports. On the recording machine, 3000 and 54322 are used by other projects, so:
+
+   ```bash
+   export DEMO_WEB_PORT=3100 DEMO_DB_PORT=55432
+   ```
+
+   `demo:record` refuses to start on a busy port and names the variable to set.
+3. `pnpm demo:record`. It reads the fork-only keys from `internal/keys`, the Pyth key from `internal/secrets/pyth.env`, and deploys the verifiable build `internal/release/e53fbfe/paycheck_router.so`. Wait for it to print the program id, the binary's verifiable build hash, the web URL, the API URL and the surfnet RPC URL. By then it has started a fresh surfnet, deployed the program under its production ID, initialized Config, seeded the asset registry and funded the fork-only keys.
 4. Open the web URL in Chrome with the device toolbar set to a 390×844 phone viewport, zoom 100%.
 5. Open a second tab on Solana Explorer with `?cluster=custom&customUrl=<surfnet RPC URL>` for the walkthrough.
-6. Keep the `demo:record` terminal visible in a corner or in a second window. Pressing P in it sends the paycheck.
+6. Keep the `demo:record` terminal visible in a corner or in a second window. Pressing P in it sends the $1,850 paycheck from the employer wallet; Q stops everything.
+
+What to expect, from the canonical run: the Anthropic slice buys and turns Verified within about a minute; the OpenAI slice waits with "trading 30% above its mark"; the SPYx and NVDAx slices wait with "Pyth's price isn't available to the router right now" unless the Pyth key has the US equities grant. Say that plainly on camera: the program never buys without a verified price.
 
 Every number on screen comes from the run itself. Don't narrate a number before it appears. If a slice waits for a different reason than expected, narrate the reason the app shows.
 
