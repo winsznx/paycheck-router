@@ -2,6 +2,23 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-25: Web platform constraints on Cloudflare
+
+**Observed.**
+- `@serwist/next` doesn't support Turbopack, Next 16's default builder.
+- `next/og` runs only on the Node runtime under OpenNext ("The edge runtime is not supported yet") and adds about 1.4 MiB of wasm plus 800 KiB of JS to the Worker.
+- `ImageResponse` renders PNG only, so an SVG favicon can't come from it.
+- `Intl` prints "WAT" only for the `en-NG` locale; `en` gives "GMT+1".
+- After trimming, first-load JavaScript is 195.9 KB gzipped on the landing page (budget 120 KB) and 316.7 KB on `/app` (budget 170 KB). React 19 plus the Next 16 runtime is about 150 KB before any app code, and the shared contract (zod v4 plus `@solana/kit` through the registry) is about 102 KB.
+- Cookies set by the API worker aren't sent between two `workers.dev` origins.
+
+**Changed.**
+- The service worker is built in Serwist's configurator mode (`serwist build`).
+- OG images and icons render on the Node runtime; the SVG favicon is served as a plain `image/svg+xml` response.
+- Times in West Africa use `en-NG` formatting for the zone name.
+- The JavaScript budgets are missed and stay open until the shared package ships a lighter validator and a kit-free registry. They're not claimed as met.
+- The refresh token lives in an HttpOnly cookie on the web origin behind `/api/session` route handlers; the access token is an in-memory bearer.
+
 ## 2026-09-25: Routing constraints for a PDA taker
 
 **Observed on forks with the router program.**
