@@ -1,6 +1,7 @@
 import "@paycheck-router/ui/tokens.css";
 import "@paycheck-router/ui/components.css";
 import "../../globals.css";
+import "../../app-shell.css";
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
