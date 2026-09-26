@@ -29,7 +29,7 @@ export async function ProofLegCard({
   const exec = priceE9(leg.execPriceE9);
   const v = leg.verification;
   const rows: Array<[string, ReactNode]> = [
-    [t("transaction"), <ChainValue key="tx" kind="tx" value={leg.signature} />],
+    [t("transaction"), <ChainValue key="tx" kind="slice" value={leg.signature} />],
     [t("mint"), <ChainValue key="mint" kind="mint" value={leg.mint} />],
     [t("recordTx"), <ChainValue key="record" kind="tx" value={leg.paycheck.recordedSig} />],
     [t("usdcIn"), formatUsdcAmount(usdc(leg.amountIn), locale)],
