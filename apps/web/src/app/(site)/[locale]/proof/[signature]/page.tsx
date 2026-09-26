@@ -28,7 +28,11 @@ export async function generateMetadata({
     premium: leg.premiumBps === null ? "" : formatPremiumBps(leg.premiumBps, locale),
     reference: isPreIpo(leg.mint) ? "mark" : "pyth",
   });
-  const og = new URLSearchParams({ title: t("sliceTitle", { sig: leg.symbol }), detail });
+  const og = new URLSearchParams({
+    title: t("sliceTitle", { sig: leg.symbol }),
+    detail,
+    a: leg.symbol,
+  });
   return {
     title: t("sliceTitle", { sig: leg.symbol }),
     description: detail,

@@ -17,11 +17,29 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/proof">): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "proof" });
+  const [t, proof] = await Promise.all([
+    getTranslations({ locale, namespace: "proof" }),
+    fetchPublic("/proof", api.ProofResponse),
+  ]);
+  const og = new URLSearchParams({ title: t("ogTitle") });
+  const canonical = proof.ok ? canonicalPaycheck(proof.data) : null;
+  if (canonical) {
+    // The recorded paycheck's split, each slice in its series slot, waiting ones hatched.
+    og.set("a", canonical.slices.map((slice) => slice.symbol).join(","));
+    og.set(
+      "s",
+      canonical.slices
+        .map(
+          (slice, index) =>
+            `${slice.symbol}:${slice.amountIn}:${index + 1}${slice.status === "waiting" ? ":w" : ""}`,
+        )
+        .join(","),
+    );
+  }
   return {
     title: t("title"),
     description: t("lead"),
-    openGraph: { images: [`/api/og?title=${encodeURIComponent(t("ogTitle"))}`] },
+    openGraph: { images: [`/api/og?${og.toString()}`] },
   };
 }
 

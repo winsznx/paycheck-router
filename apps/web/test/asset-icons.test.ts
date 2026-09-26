@@ -7,6 +7,7 @@ import { AssetIcon, AssetTicker, assetIconFor } from "@paycheck-router/ui/compon
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import { OG_ICONS } from "@/lib/og-icons.generated.ts";
 
 const publicDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "public");
 
@@ -53,5 +54,17 @@ describe("asset icons", () => {
 
   it("renders nothing for a mint outside the registry rather than a placeholder", () => {
     expect(renderToStaticMarkup(createElement(AssetIcon, { asset: "not-a-mint" }))).toBe("");
+  });
+});
+
+describe("share-card logos", () => {
+  it.each(SHIPPED)("$symbol is bundled for /api/og from its pinned logo", ({ mint, symbol }) => {
+    // #given the logo the site serves, and the copy bundled into the OG route
+    const pinned = assetIconFor(mint);
+    const bundled = OG_ICONS[mint];
+    // #then the bundled copy was made from exactly that file; rerun pnpm icons:og if not
+    expect(bundled?.symbol).toBe(symbol);
+    expect(bundled?.sourceSha256).toBe(pinned?.sha256);
+    expect(bundled?.dataUri).toMatch(/^data:image\/png;base64,iVBORw0KGgo/);
   });
 });

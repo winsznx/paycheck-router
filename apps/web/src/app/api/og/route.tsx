@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { BRAND_ACCENT, BRAND_BG } from "@/lib/brand-mark.tsx";
+import { OG_ICONS } from "@/lib/og-icons.generated.ts";
 
 /** PRD 14.2 dark series colours, in slot order. */
 const SERIES = [
@@ -14,6 +15,24 @@ const SERIES = [
   "#e66767",
 ];
 const WARN = "#fab219";
+
+/** Logos are bundled as data URIs (scripts/og-icons.ts): the Worker never fetches its own assets. */
+const LOGO_BY_SYMBOL = new Map(
+  Object.values(OG_ICONS).map((icon) => [icon.symbol.toLowerCase(), icon.dataUri] as const),
+);
+const logoFor = (symbol: string): string | undefined => LOGO_BY_SYMBOL.get(symbol.toLowerCase());
+
+/** `a=SPYx,OpenAI` → the registry symbols whose logos head the card, at most eight. */
+function parseAssets(raw: string | null): { symbol: string; logo: string }[] {
+  if (!raw) return [];
+  return raw
+    .split(",")
+    .slice(0, 8)
+    .flatMap((symbol) => {
+      const logo = logoFor(symbol.trim());
+      return logo ? [{ symbol: symbol.trim(), logo }] : [];
+    });
+}
 
 type Segment = { ticker: string; weightBps: number; slot: number; waiting: boolean };
 
@@ -50,12 +69,16 @@ async function loadGoogleFont(
   }
 }
 
-/** PRD 14.8: 1200 × 630, Syne title, JetBrains Mono detail line, the split bar in series colours. */
+/**
+ * PRD 14.8: 1200 × 630, Syne title, JetBrains Mono detail line, the split bar in series colours,
+ * and the issuers' logos for the assets in `a` and beside each legend ticker.
+ */
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
   const title = (params.get("title") ?? "Paycheck Router").slice(0, 140);
   const detail = (params.get("detail") ?? "").slice(0, 120);
   const segments = parseSegments(params.get("s"));
+  const assets = parseAssets(params.get("a"));
   const labelText = segments.map((s) => s.ticker).join("");
 
   const [syne, mono] = await Promise.all([
@@ -92,6 +115,25 @@ export async function GET(request: NextRequest) {
         <div style={{ fontFamily: "Syne", fontSize: 30, fontWeight: 800 }}>Paycheck Router</div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        {assets.length > 0 ? (
+          <div style={{ display: "flex" }}>
+            {assets.map((asset, index) => (
+              // biome-ignore lint/performance/noImgElement: satori draws <img>, not next/image
+              <img
+                key={asset.symbol}
+                src={asset.logo}
+                width={72}
+                height={72}
+                alt=""
+                style={{
+                  borderRadius: 36,
+                  border: `4px solid ${BRAND_BG}`,
+                  marginLeft: index === 0 ? 0 : -14,
+                }}
+              />
+            ))}
+          </div>
+        ) : null}
         <div
           style={{
             fontFamily: "Syne",
@@ -142,7 +184,17 @@ export async function GET(request: NextRequest) {
             }}
           >
             {segments.map((segment) => (
-              <div key={segment.ticker} style={{ display: "flex" }}>
+              <div key={segment.ticker} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                {logoFor(segment.ticker) ? (
+                  // biome-ignore lint/performance/noImgElement: satori draws <img>, not next/image
+                  <img
+                    src={logoFor(segment.ticker)}
+                    width={28}
+                    height={28}
+                    alt=""
+                    style={{ borderRadius: 14 }}
+                  />
+                ) : null}
                 {`${segment.ticker} ${Math.round((segment.weightBps / total) * 100)}%`}
               </div>
             ))}
