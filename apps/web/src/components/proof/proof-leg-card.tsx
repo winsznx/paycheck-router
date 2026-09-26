@@ -16,6 +16,12 @@ import { chainEnv } from "@/lib/env.ts";
 import { isPreIpo, priceE9, shares, usdc, walletShares } from "@/lib/money.ts";
 
 /** One executed slice as public proof: prices, minimum, delivery and verification. */
+/**
+ * The API's explorer links read the fork through its RPC. A recorded fork has no RPC any more,
+ * and the hosted demo's needs a key only core holds, so neither page shows them.
+ */
+const API_LINKS_REACHABLE = chainEnv.mode === "fork-live" || chainEnv.mode === "mainnet";
+
 export async function ProofLegCard({
   leg,
   linkToDetail,
@@ -89,7 +95,7 @@ export async function ProofLegCard({
         ))}
       </dl>
       <ul className="stack">
-        {(chainEnv.mode === "fork-recorded" ? [] : leg.links).map((link) => (
+        {(API_LINKS_REACHABLE ? leg.links : []).map((link) => (
           <li key={link.url}>
             <a href={link.url} target="_blank" rel="noreferrer">
               {link.label}

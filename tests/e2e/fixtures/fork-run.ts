@@ -206,7 +206,13 @@ export function proofLegs(): api.ProofLeg[] {
           diff: null,
           createdAt: leg.verification?.verifiedAt ?? manifest.finishedAt,
         },
-        links: [],
+        // What core serves on a fork: Explorer reading the fork RPC through a custom cluster.
+        links: [
+          {
+            label: "execute_leg",
+            url: `https://explorer.solana.com/tx/${ex.signature}?cluster=custom&customUrl=${encodeURIComponent("https://surfnet.example")}`,
+          },
+        ],
       }),
     ];
   });
