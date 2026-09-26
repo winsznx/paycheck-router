@@ -1013,6 +1013,8 @@ fieldset.stack {
 .invest-chart__tip-title {
   flex-basis: 100%;
   color: var(--text-2);
+}
+
 /* Review and first success: the plan as the router will run it. */
 .plan-summary {
   display: grid;
