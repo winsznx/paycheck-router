@@ -254,6 +254,7 @@
         ]
       },
       "analytics_engine_datasets": [{ "binding": "METRICS", "dataset": "paycheck_metrics" }],
+      "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "1bc6a55dc0ca44708644a61c9def9ec9" }],
       "ratelimits": [
         {
           "name": "USER_LIMITER",
@@ -291,8 +292,8 @@
         "ALCHEMY_RPC_URL": "",
         "HERMES_URL": "https://hermes.pyth.network",
         "JUPITER_BASE_URL": "https://api.jup.ag",
-        "SUPABASE_URL": "",
-        "PRIVY_APP_ID": "",
+        "SUPABASE_URL": "https://njegvnneufmbhtsihpuo.supabase.co",
+        "PRIVY_APP_ID": "cmuid3tpb00v60el1bf7muydv",
         "VAPID_PUBLIC_KEY": "",
         "VAPID_SUBJECT": "",
         "APP_ORIGIN": "https://paycheck-router.timjosh507.workers.dev",
