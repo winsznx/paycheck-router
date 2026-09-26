@@ -60,6 +60,19 @@ function hasSessionMarker(): boolean {
     .some((cookie) => cookie.startsWith(`${SESSION_MARKER_COOKIE}=`));
 }
 
+const REFRESH_LOCK = "pr-session-refresh";
+
+/**
+ * Core rotates the refresh token on every use and treats a second use of the old one as theft,
+ * revoking the whole session. Two tabs restoring at once would both send the same cookie, so
+ * refreshes take a browser-wide lock: the second tab waits and sends the cookie the first one
+ * received.
+ */
+async function oneRefreshAtATime(run: () => Promise<Response>): Promise<Response> {
+  if (!("locks" in navigator)) return run();
+  return await navigator.locks.request(REFRESH_LOCK, run);
+}
+
 /**
  * Exchanges the refresh cookie for a new access token; resolves null when signed out. Without
  * the session marker there is no refresh cookie either, so it resolves null without a request.
@@ -69,7 +82,9 @@ export function refreshSession(): Promise<ClientSession | null> {
     if (state.status !== "signed-out") setState({ status: "signed-out" });
     return Promise.resolve(null);
   }
-  refreshing ??= fetch(`${SESSION_ROUTE}/refresh`, { method: "POST", cache: "no-store" })
+  refreshing ??= oneRefreshAtATime(() =>
+    fetch(`${SESSION_ROUTE}/refresh`, { method: "POST", cache: "no-store" }),
+  )
     .then(async (response) => {
       if (response.status === 401) {
         setState({ status: "signed-out" });
