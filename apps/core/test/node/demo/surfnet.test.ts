@@ -17,7 +17,8 @@ import { testEnv } from "../helpers/app.ts";
 import { FakeFork } from "../helpers/fork.ts";
 
 const FORK = "https://fork.test";
-const KEY = "vitest-surfnet-key";
+/** A throwaway proxy key per run; the real one lives only in the Workers secret. */
+const KEY = crypto.randomUUID();
 const TOKEN_PROGRAM = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
 const WALLET = "hoyjKyffP55yKjj8aEGARUQi5xKC3bZTYv4j4ih3dBy";
 

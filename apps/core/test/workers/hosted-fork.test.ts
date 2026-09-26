@@ -14,7 +14,8 @@ import type { Env } from "../../src/env.ts";
 import { FakeFork } from "../node/helpers/fork.ts";
 
 const testEnv = env as unknown as Env;
-const KEY = "vitest-surfnet-key";
+/** A throwaway proxy key per run; the real one lives only in the Workers secret. */
+const KEY = crypto.randomUUID();
 const address = (seed: string) => seed.padEnd(44, "1");
 
 describe("hosted fork access inside workerd", () => {
