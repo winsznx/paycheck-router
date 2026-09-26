@@ -47,6 +47,7 @@ type Run = {
   proof?: { environment: string; fork: boolean; programId: string };
   session?: {
     keptAcrossReload: boolean;
+    twoTabsAtOnce: boolean;
     signedOut: boolean;
     refreshCallsAfterSignOut: number;
     signedBackIn: boolean;
@@ -101,6 +102,7 @@ async function shoot(page: Page, run: Run, name: string, fullPage: boolean): Pro
 async function auditSession(page: Page, run: Run): Promise<void> {
   const audit = {
     keptAcrossReload: false,
+    twoTabsAtOnce: false,
     signedOut: false,
     refreshCallsAfterSignOut: 0,
     signedBackIn: false,
@@ -109,9 +111,18 @@ async function auditSession(page: Page, run: Run): Promise<void> {
   const router = page.getByRole("heading", { name: "Your router" });
 
   await page.goto("/app");
+  await expect(router).toBeVisible();
   await page.reload();
   await expect(router).toBeVisible();
   audit.keptAcrossReload = true;
+
+  // Both tabs restore with the same refresh cookie; only one may use it at a time.
+  const second = await page.context().newPage();
+  await Promise.all([page.reload(), second.goto("/app")]);
+  await expect(router).toBeVisible();
+  await expect(second.getByRole("heading", { name: "Your router" })).toBeVisible();
+  await second.close();
+  audit.twoTabsAtOnce = true;
 
   await page.goto("/app/settings/security");
   await page.getByRole("button", { name: "Sign out" }).click();
