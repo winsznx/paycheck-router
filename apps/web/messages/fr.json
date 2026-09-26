@@ -1235,6 +1235,12 @@
     "invalid": "Cela n'a pas abouti. Vérifiez les informations et réessayez.",
     "upstream": "Un service dont dépend Paycheck Router ne répond pas. Réessayez dans une minute.",
     "offline": "Vous semblez hors ligne. Vérifiez votre connexion et réessayez.",
-    "internal": "Un problème est survenu de notre côté. Réessayez dans une minute."
+    "internal": "Un problème est survenu de notre côté. Réessayez dans une minute.",
+    "wallet": {
+      "unavailable": "{wallet} n'est pas connecté. Ouvrez-le, puis réessayez.",
+      "wrongAccount": "{wallet} est sur un autre compte. Revenez à {address}, puis réessayez.",
+      "rejected": "La signature a été annulée. Rien n'a bougé.",
+      "yourWallet": "Votre portefeuille"
+    }
   }
 }

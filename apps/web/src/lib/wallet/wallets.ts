@@ -62,6 +62,30 @@ export function useWallets(): readonly SigningWallet[] {
   );
 }
 
+/** Why a signature couldn't be asked for or given; the UI turns each into an instruction. */
+export class WalletProblem extends Error {
+  constructor(
+    readonly kind: "unavailable" | "wrongAccount" | "rejected",
+    readonly walletName: string | null,
+    readonly expectedAddress: string | null,
+  ) {
+    super(`wallet ${kind}`);
+    this.name = "WalletProblem";
+  }
+}
+
+/** Wallets reject with their own messages; these are the ones that mean the person said no. */
+const REJECTED = /reject|denied|declined|cancel/i;
+
+export function asWalletProblem(error: unknown, walletName: string | null): WalletProblem | null {
+  if (error instanceof WalletProblem) return error;
+  const code = (error as { code?: unknown } | null)?.code;
+  if (code === 4001 || (error instanceof Error && REJECTED.test(error.message))) {
+    return new WalletProblem("rejected", walletName, null);
+  }
+  return null;
+}
+
 export async function connectAccount(wallet: SigningWallet): Promise<WalletAccount> {
   const { accounts } = await wallet.features[StandardConnect].connect();
   const account = accounts.find((a) => a.chains.includes(SOLANA_CHAIN)) ?? accounts[0];

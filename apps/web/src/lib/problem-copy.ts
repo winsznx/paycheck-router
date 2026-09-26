@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useCallback } from "react";
 import { ApiProblem } from "./api/problem.ts";
+import { asWalletProblem } from "./wallet/wallets.ts";
 
 /** Plain-language groups for API problems; each has one sentence and one action in `problems`. */
 export type ProblemKind =
@@ -55,6 +56,15 @@ export function useProblemMessage(): (error: unknown, fallback: string) => strin
   return useCallback(
     (error: unknown, fallback: string) => {
       console.error(error);
+      const wallet = asWalletProblem(error, null);
+      if (wallet) {
+        return t(`wallet.${wallet.kind}`, {
+          wallet: wallet.walletName ?? t("wallet.yourWallet"),
+          address: wallet.expectedAddress
+            ? `${wallet.expectedAddress.slice(0, 4)}…${wallet.expectedAddress.slice(-4)}`
+            : "",
+        });
+      }
       const kind = problemKind(error);
       return kind ? t(kind) : fallback;
     },

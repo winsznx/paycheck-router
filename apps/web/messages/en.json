@@ -1235,6 +1235,12 @@
     "invalid": "That didn't go through. Check the details and try again.",
     "upstream": "A service Paycheck Router relies on isn't answering. Try again in a minute.",
     "offline": "You seem to be offline. Check your connection and try again.",
-    "internal": "Something went wrong on our side. Try again in a minute."
+    "internal": "Something went wrong on our side. Try again in a minute.",
+    "wallet": {
+      "unavailable": "{wallet} isn't connected. Open it, then try again.",
+      "wrongAccount": "{wallet} is on another account. Switch it back to {address}, then try again.",
+      "rejected": "The signature was cancelled. Nothing moved.",
+      "yourWallet": "Your wallet"
+    }
   }
 }

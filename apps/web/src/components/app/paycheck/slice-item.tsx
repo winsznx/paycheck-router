@@ -121,6 +121,7 @@ export function SliceItem({ leg, colorSlot, bandBps, buyNowAt, now }: SliceItemP
   const problemMessage = useProblemMessage();
   const session = useSession();
   const walletName = session.status === "signed-in" ? session.walletName : null;
+  const owner = session.status === "signed-in" ? session.session.wallet : null;
   const [sheet, setSheet] = useState<"proof" | "buy" | "cancel" | null>(null);
   const [band, setBand] = useState(() =>
     Math.min(Math.max((leg.premiumBps ?? 0) + 25, 0), MAX_BUY_NOW_BAND_BPS),
@@ -191,8 +192,9 @@ export function SliceItem({ leg, colorSlot, bandBps, buyNowAt, now }: SliceItemP
               body: { bandBps: band } satisfies api.BuyNowTxRequest,
             })
           : await apiRequest(`/legs/${leg.id}/tx/cancel`, api.TxBuildResponse, { method: "POST" });
+      if (!owner) return;
       const result = await signAndSubmit(
-        walletName,
+        { walletName, address: owner },
         built,
         kind === "buy" ? "leg.buy_now" : "leg.cancel",
         leg.id,
