@@ -723,3 +723,26 @@ export const waitlist = pgTable(
   },
   (t) => [uniqueIndex("waitlist_email_lower_key").on(sql`lower(${t.email})`)],
 );
+
+export const demoFundings = pgTable(
+  "demo_fundings",
+  {
+    wallet: text("wallet").notNull(),
+    epoch: text("epoch").notNull(),
+    fundedAt: timestamptz("funded_at").notNull().defaultNow(),
+  },
+  (t) => [primaryKey({ columns: [t.wallet, t.epoch] })],
+);
+
+export const demoPaychecks = pgTable(
+  "demo_paychecks",
+  {
+    id: id(),
+    wallet: text("wallet").notNull(),
+    epoch: text("epoch").notNull(),
+    amount: int64("amount").notNull(),
+    signature: text("signature").notNull().unique(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("demo_paychecks_wallet_created_at_idx").on(t.wallet, t.createdAt)],
+);

@@ -243,6 +243,14 @@ export class RouterActor extends DurableObject<Env> {
     return meta;
   }
 
+  /** The fork this router lived on was reset: drops every row and the pending alarm. */
+  async reset(): Promise<void> {
+    await this.ctx.storage.deleteAlarm();
+    await this.ctx.storage.deleteAll();
+    for (const statement of SCHEMA) this.ctx.storage.sql.exec(statement);
+    this.engine = null;
+  }
+
   /** Registers (or refreshes) the router this actor owns. */
   init(router: RouterRef, rules: InflowRules): void {
     const existing = this.meta();
@@ -494,7 +502,8 @@ export class RouterActor extends DurableObject<Env> {
    */
   private async dispatchNext(): Promise<void> {
     if (this.currentJob()) return;
-    if ((await binding(this.env.REGISTRY, "REGISTRY").get(CRANK_PAUSED_KEY)) === "1") return;
+    // The hosted fork has no KV namespace, so it has no operator pause switch either.
+    if ((await this.env.REGISTRY?.get(CRANK_PAUSED_KEY)) === "1") return;
     const meta = this.meta();
     if (!meta) return;
     const now = Date.now();

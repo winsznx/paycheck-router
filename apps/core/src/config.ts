@@ -11,7 +11,40 @@ export type ChainEndpoints = {
   verifyProvider: "surfnet" | "alchemy" | "public-rpc";
   /** True on local, ci and demo: every read and send goes to the surfnet and nowhere else. */
   surfnet: boolean;
+  /** Headers every request to the chain endpoint carries (the hosted fork's access key). */
+  headers: ChainHeaders;
 };
+
+/** Header the hosted fork's proxy requires; the value is the `SURFNET_RPC_KEY` secret. */
+export const SURFNET_KEY_HEADER = "x-surfnet-key";
+
+export type ChainHeaders = { [SURFNET_KEY_HEADER]?: string };
+
+const AUTHED = Symbol.for("paycheck-router.surfnet-auth");
+
+type AuthedFetch = typeof fetch & { [AUTHED]?: string };
+
+/**
+ * Adds the fork's access header to every `fetch` bound for the surfnet's origin. Core's own
+ * clients pass the header explicitly; this covers SDK transports that call the global `fetch`
+ * with only a URL (raw JSON-RPC for evidence and cheatcodes). Idempotent per origin.
+ */
+export function installSurfnetAuth(url: string, key: string): void {
+  const origin = new URL(url).origin;
+  const current = globalThis.fetch as AuthedFetch;
+  if (current[AUTHED] === origin) return;
+  const inner = current;
+  const wrapped: AuthedFetch = (input, init) => {
+    const target = new URL(input instanceof Request ? input.url : String(input));
+    if (target.origin !== origin) return inner(input, init);
+    const request = new Request(input, init);
+    const headers = new Headers(request.headers);
+    headers.set(SURFNET_KEY_HEADER, key);
+    return inner(new Request(request, { headers }));
+  };
+  wrapped[AUTHED] = origin;
+  globalThis.fetch = wrapped;
+}
 
 export class ConfigError extends Error {}
 
@@ -26,12 +59,18 @@ function required(value: string | undefined, name: string): string {
  */
 export function chainEndpoints(env: Env): ChainEndpoints {
   if (env.SURFNET_RPC_URL) {
+    const headers: ChainHeaders = {};
+    if (env.SURFNET_RPC_KEY) {
+      headers[SURFNET_KEY_HEADER] = env.SURFNET_RPC_KEY;
+      installSurfnetAuth(env.SURFNET_RPC_URL, env.SURFNET_RPC_KEY);
+    }
     return {
       rpcUrl: env.SURFNET_RPC_URL,
       sendUrls: [env.SURFNET_RPC_URL],
       verifyRpcUrl: env.SURFNET_RPC_URL,
       verifyProvider: "surfnet",
       surfnet: true,
+      headers,
     };
   }
   if (!env.HELIUS_RPC_URL && env.PUBLIC_RPC_URL) {
@@ -42,6 +81,7 @@ export function chainEndpoints(env: Env): ChainEndpoints {
       verifyRpcUrl: env.PUBLIC_RPC_URL,
       verifyProvider: "public-rpc",
       surfnet: false,
+      headers: {},
     };
   }
   const helius = `${required(env.HELIUS_RPC_URL, "HELIUS_RPC_URL")}/?api-key=${required(env.HELIUS_API_KEY, "HELIUS_API_KEY")}`;
@@ -52,6 +92,7 @@ export function chainEndpoints(env: Env): ChainEndpoints {
     verifyRpcUrl: alchemy,
     verifyProvider: "alchemy",
     surfnet: false,
+    headers: {},
   };
 }
 
