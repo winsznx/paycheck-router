@@ -31,5 +31,7 @@ What to check and what to do for each known failure. Every paycheck is traceable
 | --- | --- |
 | `/demo/status` says the fork is down | On the VPS, `systemctl status paycheck-surfnet` and `journalctl -u paycheck-surfnet -n 100`. `systemctl restart paycheck-surfnet` starts a fresh fork from the snapshot; core notices the new epoch and clears the old fork's rows |
 | Core gets 403 from the fork | The `SURFNET_RPC_KEY` secret on `paycheck-router-demo-core` doesn't match the key in the Caddy block. Set them to the same value and reload Caddy |
-| The fork's memory keeps growing | systemd holds it at 700 MB and the 6-hour restart clears it. For an early reset, restart the service |
+| The fork's memory keeps growing | systemd holds it at 1 GB and the 6-hour restart clears it. For an early reset, restart the service |
+| Pre-IPO slices fail with `PriceStale` (6012) | The fork's clock ran ahead of wall time. Check `journalctl -u paycheck-surfnet-clock`; the watchdog pauses the clock whenever it is 1 s or more ahead |
+| Slices wait in LANDING with `PreStocks API 429` or `Jupiter build 429` in the core logs | The upstream is rate-limiting the fork host's IP. PreStocks denies part of its traffic by design and retries absorb it. For Jupiter, check that `JUPITER_API_KEY` is set on `paycheck-router-demo-core` |
 | The program or protocol accounts are missing after a restart | The snapshot is stale or incomplete. Re-run `scripts/hosted-demo/bootstrap.ts` against a local surfnet, upload the new snapshot and restart. If the lookup table address changed, update `PROTOCOL_ALT` for `env.hosted` in `apps/core/wrangler.jsonc` and redeploy core |
