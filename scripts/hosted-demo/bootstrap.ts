@@ -3,8 +3,9 @@
  * initializes Config, seeds the registry and lookup table, funds the fork-only role keys, and
  * exports a Surfpool snapshot that every later reset of the hosted fork starts from.
  *
- * Runs against a surfnet reached through an SSH tunnel, e.g.
- *   ssh -N -L 28899:127.0.0.1:18899 -L 28900:127.0.0.1:18900 root@<vps>
+ * Runs against a local surfnet, whose snapshot is then uploaded to the VPS; bootstrapping on the
+ * VPS itself is too slow (docs/DECISIONS.md, Sep 26), e.g.
+ *   surfpool start --port 28899 --ws-port 28900 --no-tui --no-studio --no-deploy --yes --network mainnet
  *   HOSTED_RPC_PORT=28899 PROGRAM_SO=... pnpm tsx scripts/hosted-demo/bootstrap.ts
  */
 import { writeFileSync } from "node:fs";

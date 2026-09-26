@@ -2,6 +2,22 @@
 
 Observations where the real chain, SDK or API differed from the plan, and what changed because of them. Newest first.
 
+## 2026-09-26: A hosted fork demo that anyone can play
+
+**Observed.**
+- Judges can't run `pnpm demo:fork` without a Pyth key, a Helius key and Surfpool, and the public site only replays the recorded run.
+- The only spare machine is a 2-vCPU, 4 GB VPS that already runs other services. Bootstrapping the fork there, through Surfpool's upstream fetches, pushed the box's load to 3.9 and throttled at about 1 GB of memory.
+- `surfnet_exportSnapshot` leaves out the program and its program-data account. `surfpool start --snapshot` wants the bare account map, not the RPC's `{context, value}` wrapper. `JSON.parse` rounds the u64 `rentEpoch` 18446744073709551615 to a value Surfpool rejects.
+- An open surfnet RPC on the internet would let anyone mint USDC by cheatcode or stall the fork.
+
+**Changed.**
+- The hosted demo is its own Worker pair (`paycheck-router-demo` and `paycheck-router-demo-core`), with its own Supabase project, Hyperdrive config and `demo-*` queues. It never shares state with the public site.
+- `scripts/hosted-demo/bootstrap.ts` deploys and initializes the program on a local surfnet and exports a 1.1 MB snapshot that includes the program accounts and keeps u64 values exact. The VPS starts Surfpool from that snapshot under systemd, capped at 700 MB of memory and 60% of one CPU; it idles at about 70 MB.
+- The fork RPC listens on localhost only. Caddy forwards to it only when a request carries the `X-Surfnet-Key` header, which only the demo core holds, and answers 403 otherwise. Visitors never touch the RPC or its cheatcodes.
+- Each visitor gets a fork-only wallet generated in their browser. `/demo/fund` tops it up to 0.05 SOL and 5,000 USDC, and `/demo/paycheck` sends a paycheck from a fork employer wallet. Both need a session and are rate-limited per user.
+- systemd restarts the fork from the snapshot every 6 hours (`RuntimeMaxSec=6h`). Core writes a random epoch marker to a fixed account on each fresh fork. When the marker changes or disappears, core clears the previous fork's routers and rows, and the app shows when the next reset is due.
+- No explorer can read a private RPC, so in the hosted demo slice signatures link to the app's own proof view and other fork values are copy-only. The public site keeps linking the recorded bundle.
+
 ## 2026-09-25: Findings from the campaign and the core Worker
 
 **Observed.**
