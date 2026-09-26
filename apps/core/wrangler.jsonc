@@ -338,6 +338,7 @@
         "CONFIG_PDA": "",
         "PROTOCOL_ALT": "8fxAGnEoujCYqAT5jUsUfR3rr9UsAmfL8KxfaSkMTTFY",
         "SURFNET_RPC_URL": "https://surfnet-172-93-185-150.sslip.io",
+        "PRESTOCKS_API_URL": "https://surfnet-172-93-185-150.sslip.io/prestocks",
         "HELIUS_RPC_URL": "",
         "ALCHEMY_RPC_URL": "",
         "HERMES_URL": "https://hermes.pyth.network",

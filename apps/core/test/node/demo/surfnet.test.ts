@@ -1,7 +1,7 @@
 import { jsonRpc } from "@paycheck-router/sdk";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createChainClient } from "../../../src/chain/client.ts";
-import { chainEndpoints } from "../../../src/config.ts";
+import { chainEndpoints, prestocksEndpoint } from "../../../src/config.ts";
 import {
   decodeEpoch,
   encodeEpoch,
@@ -48,6 +48,15 @@ describe("hosted fork access", () => {
     await jsonRpc(FORK, "getTransaction", ["sig"]);
     expect(fork.called("getTransaction")[0]?.key).toBe(KEY);
     await expect(fetch("https://elsewhere.test/")).rejects.toThrow(/unexpected fetch/);
+  });
+
+  it("reads PreStocks through the fork host with the key, and directly without it", () => {
+    const viaFork = prestocksEndpoint(testEnv({ ...env, PRESTOCKS_API_URL: `${FORK}/prestocks` }));
+    expect(viaFork).toEqual({ url: `${FORK}/prestocks`, headers: { "x-surfnet-key": KEY } });
+    expect(prestocksEndpoint(env)).toEqual({
+      url: "https://prestocks.com/api/prestocks",
+      headers: {},
+    });
   });
 
   it("sends no key where none is configured", async () => {
