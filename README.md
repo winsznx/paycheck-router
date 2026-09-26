@@ -12,7 +12,8 @@ Runs on a Surfpool fork of mainnet until the mainnet deploy: the real xStocks, P
 | Verifiable build | `solana-verify` executable hash `8412a60497cf829c1ef238662b69b400373625d4e5052404b9b8edeba8e68cc4`, the binary the canonical run deployed; reproduced by the [`stocklana-submission` release](https://github.com/winsznx/paycheck-router/releases/tag/stocklana-submission) ([build run](https://github.com/winsznx/paycheck-router/actions/runs/36175589252)) |
 | Canonical fork run | [`evidence/stocklana-fork/`](evidence/stocklana-fork), fork start slot 450381805; re-check it with `pnpm verify:bundle evidence/stocklana-fork` |
 | Replay it | `pnpm demo:fork` ([Run it yourself](#run-it-yourself)) |
-| Site | https://paycheck-router.timjosh507.workers.dev (fork run shown; live prices and the waitlist need the production database, not yet provisioned) |
+| Try it | https://paycheck-router-demo.timjosh507.workers.dev: a hosted Surfpool fork of mainnet. Your browser makes a fork-only wallet, the fork funds it, and you send yourself a paycheck and watch each slice buy or wait. No wallet or real funds needed; the fork resets every 6 hours |
+| Site | https://paycheck-router.timjosh507.workers.dev (the canonical fork run and the waitlist) |
 | Proof page | https://paycheck-router.timjosh507.workers.dev/proof, built from `evidence/stocklana-fork` |
 | Videos | Links added when published |
 
@@ -110,6 +111,7 @@ pnpm demo:fork
 - Every run so far is on a Surfpool fork of mainnet. Balances come from cheatcodes, nothing appears on a mainnet explorer, and there's no congestion or competing flow, so speed isn't claimed.
 - Fork routes exclude proprietary AMMs whose quote state an off-chain updater maintains on mainnet only, so fork fills can be slightly worse than mainnet fills.
 - On a fork there is no second RPC provider. Verified means the fork readback matches the event and each Pyth price matches Hermes history.
+- On the hosted demo, xStock slices wait with PRICE_UNAVAILABLE for the same Pyth grant reason, and a pre-IPO slice can take several minutes to buy because the PreStocks API rate-limits the demo's server and the slice retries until a read gets through.
 - The PreStocks mark comes from the PreStocks API through our attester key. The program bounds what a wrong mark can do, but it's still a trust assumption.
 - Every decision where reality differed from the plan is in [docs/DECISIONS.md](docs/DECISIONS.md).
 
