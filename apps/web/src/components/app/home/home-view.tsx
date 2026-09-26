@@ -324,9 +324,11 @@ export function HomeView() {
         <h1 id="value-title" className="pr-label pr-muted">
           {t("portfolioValue")}
         </h1>
-        <p className="pr-num-xl">
-          {value ? formatUsd(usdc(value), locale) : portfolio.status === "loading" ? "…" : "—"}
-        </p>
+        {portfolio.status === "loading" ? (
+          <Skeleton height={44} width={200} />
+        ) : (
+          <p className="pr-num-xl">{value ? formatUsd(usdc(value), locale) : "—"}</p>
+        )}
         {portfolio.data ? (
           <p className="pr-small pr-muted">
             {t("invested", { amount: formatUsd(usdc(portfolio.data.totals.investedUsdc), locale) })}
