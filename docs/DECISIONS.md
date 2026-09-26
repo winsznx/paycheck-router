@@ -12,11 +12,26 @@ Observations where the real chain, SDK or API differed from the plan, and what c
 
 **Changed.**
 - The hosted demo is its own Worker pair (`paycheck-router-demo` and `paycheck-router-demo-core`), with its own Supabase project, Hyperdrive config and `demo-*` queues. It never shares state with the public site.
-- `scripts/hosted-demo/bootstrap.ts` deploys and initializes the program on a local surfnet and exports a 1.1 MB snapshot that includes the program accounts and keeps u64 values exact. The VPS starts Surfpool from that snapshot under systemd, capped at 700 MB of memory and 60% of one CPU; it idles at about 70 MB.
+- `scripts/hosted-demo/bootstrap.ts` deploys and initializes the program on a local surfnet and exports a 1.1 MB snapshot that includes the program accounts and keeps u64 values exact. The VPS starts Surfpool from that snapshot under systemd, capped at 1 GB of memory and 60% of one CPU; it starts at about 70 MB and grows toward 700 MB over a 6-hour run.
 - The fork RPC listens on localhost only. Caddy forwards to it only when a request carries the `X-Surfnet-Key` header, which only the demo core holds, and answers 403 otherwise. Visitors never touch the RPC or its cheatcodes.
 - Each visitor gets a fork-only wallet generated in their browser. `/demo/fund` tops it up to 0.05 SOL and 5,000 USDC, and `/demo/paycheck` sends a paycheck from a fork employer wallet. Both need a session and are rate-limited per user.
 - systemd restarts the fork from the snapshot every 6 hours (`RuntimeMaxSec=6h`). Core writes a random epoch marker to a fixed account on each fresh fork. When the marker changes or disappears, core clears the previous fork's routers and rows, and the app shows when the next reset is due.
 - No explorer can read a private RPC, so in the hosted demo slice signatures link to the app's own proof view and other fork values are copy-only. The public site keeps linking the recorded bundle.
+
+## 2026-09-26: What the hosted fork hit once people used it
+
+**Observed.**
+- The queue dispatcher recognised only a `staging-` prefix. On the hosted Worker every `demo-inflows` message was logged as "message on an unknown queue" and acknowledged, so paychecks were detected but never recorded.
+- From Cloudflare's shared egress, the PreStocks API (Vercel) and keyless Jupiter answered 429 to most requests. From the VPS both answered, though Vercel's firewall still denies about a quarter of PreStocks requests (`x-vercel-mitigated: deny`) even at one every 20 s.
+- Every pre-IPO attempt read PreStocks, and a LANDING result retried up to five more times at once, so one 429 became up to six calls per leg.
+- Surfpool 1.5.0 produces an extra slot every time a blockhash expires (every 75 slots), and block time is `genesis + slots × 400 ms`. A long-running fork's clock gained about 0.6 s a minute. After three hours it was 108 s ahead, and every real Pyth price failed the program's 30 s limit with `PriceStale`. Short runs like `pnpm demo:fork` never saw it.
+- A 4 KB Surfpool log limit cut simulation logs before the program's error line, so those failures showed up as LANDING with no reason.
+
+**Changed.**
+- Queue names drop a `staging-` or `demo-` prefix before dispatch (#105).
+- On the hosted fork only, PreStocks and Jupiter reads go through a key-gated pass-through on the fork host (#106, #108), and the demo core has its own Jupiter API key. Every other environment calls both APIs directly.
+- Legs of one run share a PreStocks read for 15 s, failures included (#107). Attestations still sign the read's own time, inside the 300 s onchain limit.
+- A watchdog on the VPS pauses the fork's clock whenever it runs a second or more ahead of wall time (#110). The log limit is back at Surfpool's default 10 KB, and core logs any simulation failure the program didn't raise (#109).
 
 ## 2026-09-25: Findings from the campaign and the core Worker
 
