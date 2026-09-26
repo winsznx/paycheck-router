@@ -15,7 +15,8 @@ import { FakeFork, wireSignature } from "../helpers/fork.ts";
 import { bearer, sessionFor } from "../helpers/session.ts";
 
 const FORK = "https://fork.test";
-const KEY = "vitest-surfnet-key";
+/** A throwaway proxy key per run; the real one lives only in the Workers secret. */
+const KEY = crypto.randomUUID();
 const EPOCH = { id: "ab".repeat(16), startedAt: Date.parse("2026-09-26T12:00:00Z") };
 const TOKEN_PROGRAM = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
 const BLOCKHASH = "11111111111111111111111111111111";
