@@ -497,17 +497,34 @@ body:has(.fork-banner) {
   gap: var(--space-2);
 }
 
-.onboarding-progress__bar {
-  block-size: 4px;
-  background: var(--surface-3);
+/* One segment per step: done in the accent, the current one in ink, the rest recessive. */
+.onboarding-steps {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 4px;
 }
 
-.onboarding-progress__bar span {
-  display: block;
-  block-size: 100%;
+.onboarding-steps li {
+  block-size: 6px;
+  background: var(--surface-3);
+  transition: background-color var(--dur-slow) var(--ease-in-out);
+}
+
+.onboarding-steps li[data-state="done"] {
   background: var(--accent);
-  transform-origin: left center;
-  transition: transform var(--dur-slow) var(--ease-in-out);
+}
+
+.onboarding-steps li[data-state="current"] {
+  background: var(--text-1);
+}
+
+.onboarding-progress__label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+  font-weight: 600;
 }
 
 .onboarding-body {
@@ -695,6 +712,39 @@ fieldset.stack {
 .asset-option[aria-pressed="true"] {
   border-color: var(--text-1);
   box-shadow: var(--shadow-accent-rest);
+}
+
+.asset-option__head {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: var(--space-3);
+  inline-size: 100%;
+}
+
+.asset-option__id {
+  display: grid;
+  min-inline-size: 0;
+}
+
+.asset-option__id > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.asset-option__check {
+  display: grid;
+  place-items: center;
+  inline-size: 24px;
+  block-size: 24px;
+  border: 2px solid var(--control);
+}
+
+.asset-option[aria-pressed="true"] .asset-option__check {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .weight-list {
@@ -963,4 +1013,58 @@ fieldset.stack {
 .invest-chart__tip-title {
   flex-basis: 100%;
   color: var(--text-2);
+/* Review and first success: the plan as the router will run it. */
+.plan-summary {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 2px solid var(--text-1);
+  background: var(--surface-1);
+}
+
+.plan-summary__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+  gap: var(--space-4);
+}
+
+.plan-summary__facts dt {
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.plan-summary__facts dd {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+@keyframes done-mark-in {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+
+.done-mark {
+  display: grid;
+  place-items: center;
+  inline-size: 72px;
+  block-size: 72px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 6px 6px 0 0 var(--text-1);
+  animation: done-mark-in var(--dur-deliberate) var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .done-mark {
+    animation: none;
+  }
+}
+
+:root[data-motion="reduced"] .done-mark {
+  animation: none;
 }

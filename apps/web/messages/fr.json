@@ -613,12 +613,29 @@
       "title": "Vous êtes actif.",
       "lead": "Votre prochain salaire achète des actions automatiquement.",
       "home": "Aller à l'accueil",
-      "next": "Prochain salaire de {amount} → {invested} investis",
+      "next": "Prochain salaire de {amount} → {invested} à investir",
       "test": "Envoyez-vous 5 $ en USDC pour voir le fonctionnement.",
       "address": "Adresse du wallet",
       "copy": "Copier",
       "copied": "Copié",
       "qr": "QR code de l'adresse de votre wallet"
+    },
+    "stepName": {
+      "welcome": "Bienvenue",
+      "sign-in": "Connexion",
+      "eligibility": "Éligibilité",
+      "wallet": "Portefeuille",
+      "pay-history": "Votre salaire",
+      "split": "Votre répartition",
+      "allowance": "Plafond de dépense",
+      "review": "Vérification",
+      "done": "Actif"
+    },
+    "plan": {
+      "title": "Votre plan",
+      "share": "De chaque salaire",
+      "perPaycheck": "Sur un salaire de {amount}",
+      "limit": "Plafond de dépense"
     }
   },
   "proof": {

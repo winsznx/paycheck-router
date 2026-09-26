@@ -21,6 +21,7 @@ import { useProblemMessage } from "@/lib/problem-copy.ts";
 import { fetchQuery } from "@/lib/query.ts";
 import { useSession } from "@/lib/session.ts";
 import { signAndSubmit } from "@/lib/wallet/sign-and-submit.ts";
+import { PlanSummary } from "./plan-summary.tsx";
 import { StepFrame } from "./step-frame.tsx";
 
 type Simulation = { state: "running" } | { state: "passed" } | { state: "failed"; logs: string[] };
@@ -160,6 +161,7 @@ export function ReviewStep() {
     >
       {!request ? <Banner tone="warn">{t("incomplete")}</Banner> : null}
       {request && !built && !error ? <Skeleton height={160} /> : null}
+      {request ? <PlanSummary draft={draft} /> : null}
       {built ? (
         <section className="pr-card stack" aria-labelledby="summary-title">
           <h2 id="summary-title" className="pr-h3">

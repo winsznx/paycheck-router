@@ -13,7 +13,7 @@ type StepFrameProps = {
   actions: ReactNode;
 };
 
-/** Full-screen step with a progress bar on phones, a centred 560 px card from tablet up. */
+/** Full-screen step with a segmented progress stepper, a centred 560 px card from tablet up. */
 export function StepFrame({ step, title, lead, children, actions }: StepFrameProps) {
   const t = useTranslations("onboarding");
   const index = STEPS.indexOf(step);
@@ -26,11 +26,19 @@ export function StepFrame({ step, title, lead, children, actions }: StepFramePro
           max={STEPS.length}
           aria-label={t("progress", { current: index + 1, total: STEPS.length })}
         />
-        <div className="onboarding-progress__bar" aria-hidden="true">
-          <span style={{ transform: `scaleX(${(index + 1) / STEPS.length})` }} />
-        </div>
-        <p className="pr-label pr-muted" aria-hidden="true">
-          {t("progress", { current: index + 1, total: STEPS.length })}
+        <ol className="onboarding-steps" aria-hidden="true">
+          {STEPS.map((name, position) => (
+            <li
+              key={name}
+              data-state={position < index ? "done" : position === index ? "current" : "todo"}
+            />
+          ))}
+        </ol>
+        <p className="onboarding-progress__label" aria-hidden="true">
+          <span className="pr-label pr-muted">
+            {t("progress", { current: index + 1, total: STEPS.length })}
+          </span>
+          <span>{t(`stepName.${step}`)}</span>
         </p>
       </div>
       <div className="stack">

@@ -613,12 +613,29 @@
       "title": "You're live.",
       "lead": "Your next paycheck buys stocks automatically.",
       "home": "Go to Home",
-      "next": "Next {amount} paycheck → {invested} invested",
+      "next": "Next {amount} paycheck → {invested} to invest",
       "test": "Send yourself $5 USDC to see it work.",
       "address": "Wallet address",
       "copy": "Copy",
       "copied": "Copied",
       "qr": "QR code for your wallet address"
+    },
+    "stepName": {
+      "welcome": "Welcome",
+      "sign-in": "Sign in",
+      "eligibility": "Eligibility",
+      "wallet": "Wallet",
+      "pay-history": "Your pay",
+      "split": "Your split",
+      "allowance": "Spending limit",
+      "review": "Review",
+      "done": "Live"
+    },
+    "plan": {
+      "title": "Your plan",
+      "share": "Of each paycheck",
+      "perPaycheck": "From a {amount} paycheck",
+      "limit": "Spending limit"
     }
   },
   "proof": {
