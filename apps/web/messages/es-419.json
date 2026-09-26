@@ -1235,6 +1235,12 @@
     "invalid": "No se pudo completar. Revisa los datos y vuelve a intentarlo.",
     "upstream": "Un servicio del que depende Paycheck Router no responde. Inténtalo de nuevo en un minuto.",
     "offline": "Parece que no tienes conexión. Revísala y vuelve a intentarlo.",
-    "internal": "Algo falló de nuestro lado. Inténtalo de nuevo en un minuto."
+    "internal": "Algo falló de nuestro lado. Inténtalo de nuevo en un minuto.",
+    "wallet": {
+      "unavailable": "{wallet} no está conectada. Ábrela y vuelve a intentarlo.",
+      "wrongAccount": "{wallet} está en otra cuenta. Vuelve a {address} y reinténtalo.",
+      "rejected": "Se canceló la firma. No se movió nada.",
+      "yourWallet": "Tu billetera"
+    }
   }
 }

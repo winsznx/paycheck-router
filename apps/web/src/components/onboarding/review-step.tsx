@@ -116,7 +116,8 @@ export function ReviewStep() {
     setSigning(true);
     setError(null);
     try {
-      const result = await signAndSubmit(walletName, built, "router.create");
+      if (!wallet) return;
+      const result = await signAndSubmit({ walletName, address: wallet }, built, "router.create");
       if (result.status === "failed" || result.status === "expired") {
         console.error("Setup transaction did not land", result.error);
         setError(t("submitFailed"));

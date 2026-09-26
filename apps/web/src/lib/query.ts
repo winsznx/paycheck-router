@@ -68,6 +68,14 @@ export function fetchQuery<T>(key: string, fetcher: () => Promise<T>): Promise<v
   return e.inflight;
 }
 
+/**
+ * Forgets every cached read. Called when the session ends, so the next account to sign in in
+ * this tab never sees the previous one's data, not even for a render.
+ */
+export function clearQueries() {
+  cache.clear();
+}
+
 export function invalidateQueries(prefix: string, refetch: (key: string) => void) {
   for (const key of cache.keys()) if (key.startsWith(prefix)) refetch(key);
 }

@@ -1235,6 +1235,12 @@
     "invalid": "Não deu certo. Confira os dados e tente de novo.",
     "upstream": "Um serviço do qual o Paycheck Router depende não está respondendo. Tente de novo em um minuto.",
     "offline": "Parece que você está sem conexão. Confira e tente de novo.",
-    "internal": "Algo deu errado do nosso lado. Tente de novo em um minuto."
+    "internal": "Algo deu errado do nosso lado. Tente de novo em um minuto.",
+    "wallet": {
+      "unavailable": "{wallet} não está conectada. Abra-a e tente de novo.",
+      "wrongAccount": "{wallet} está em outra conta. Volte para {address} e tente de novo.",
+      "rejected": "A assinatura foi cancelada. Nada foi movido.",
+      "yourWallet": "Sua carteira"
+    }
   }
 }

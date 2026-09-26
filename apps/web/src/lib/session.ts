@@ -6,6 +6,7 @@ import { useSyncExternalStore } from "react";
 import { ApiProblem } from "./api/problem.ts";
 import { ClientSession, SESSION_MARKER_COOKIE, SESSION_ROUTE } from "./api/session-contract.ts";
 import { apiUrl } from "./env.ts";
+import { clearQueries } from "./query.ts";
 import { formatSiwsMessage } from "./wallet/siws.ts";
 import { bytesToBase64, connectAccount, type SigningWallet } from "./wallet/wallets.ts";
 
@@ -26,6 +27,7 @@ const listeners = new Set<() => void>();
 let refreshing: Promise<ClientSession | null> | null = null;
 
 function setState(next: SessionState) {
+  if (next.status === "signed-out" && state.status === "signed-in") clearQueries();
   state = next;
   for (const listener of listeners) listener();
 }
