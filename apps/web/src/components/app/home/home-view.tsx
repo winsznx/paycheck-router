@@ -27,7 +27,9 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { type CSSProperties, useSyncExternalStore } from "react";
 import { ChainValue } from "@/components/chain-value.tsx";
+import { SendPaycheck } from "@/components/hosted/send-paycheck.tsx";
 import { fetchers, keys } from "@/lib/data.ts";
+import { isHostedDemo } from "@/lib/env.ts";
 import { investHistory } from "@/lib/invest-history.ts";
 import { usdc, usdcNumber, walletShares } from "@/lib/money.ts";
 import { colorSlotFor, toSegments } from "@/lib/paycheck-view.ts";
@@ -335,6 +337,8 @@ export function HomeView() {
           </p>
         ) : null}
       </section>
+
+      {isHostedDemo ? <SendPaycheck /> : null}
 
       <KpiTiles points={history} router={router} waitingSlices={waitingSlices} />
 

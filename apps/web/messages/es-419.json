@@ -7,7 +7,8 @@
   },
   "chrome": {
     "forkBanner": "Bifurcación de mainnet (Surfpool) · sin fondos reales",
-    "skipToContent": "Saltar al contenido"
+    "skipToContent": "Saltar al contenido",
+    "forkBannerHosted": "Fork de mainnet (Surfpool) · Se reinicia cada 6 horas · sin fondos reales"
   },
   "landing": {
     "heroLabel": "Para quienes cobran en USDC en Solana",
@@ -134,7 +135,8 @@
       "mark": "Marca de PreStocks",
       "token": "Precio del token",
       "inBand": "{premium} frente a la marca, dentro de la banda"
-    }
+    },
+    "tryFork": "Pruébalo en un fork de mainnet"
   },
   "notFound": {
     "title": "Esta página no existe.",
@@ -460,7 +462,8 @@
       "runBody": "El repositorio ejecuta todo en tu equipo: un fork de mainnet con Surfpool, la API central y esta app con una billetera de demostración.",
       "runLink": "Lo que necesitas, en el README",
       "waitlistTitle": "Entérate el día que abra",
-      "waitlistBody": "Un correo cuando el programa esté en vivo en mainnet. Nada más."
+      "waitlistBody": "Un correo cuando el programa esté en vivo en mainnet. Nada más.",
+      "tryFork": "Pruébalo en un fork de mainnet"
     }
   },
   "onboarding": {
@@ -480,7 +483,8 @@
       "noWallets": "No se encontró una billetera de Solana en este navegador. Abre esta página en Phantom, Solflare o Backpack.",
       "signing": "Firmando",
       "connect": "Continuar con {wallet}",
-      "siwsNote": "Firmarás un mensaje de una línea que prueba que la billetera es tuya. No cuesta nada ni mueve nada."
+      "siwsNote": "Firmarás un mensaje de una línea que prueba que la billetera es tuya. No cuesta nada ni mueve nada.",
+      "forkWallet": "Creada en este navegador para el fork de demostración. No tiene nada en mainnet."
     },
     "eligibility": {
       "title": "¿Dónde vives?",
@@ -629,13 +633,24 @@
       "split": "Tu división",
       "allowance": "Límite de gasto",
       "review": "Revisión",
-      "done": "Activo"
+      "done": "Activo",
+      "fund": "Fondos del fork"
     },
     "plan": {
       "title": "Tu plan",
       "share": "De cada sueldo",
       "perPaycheck": "De un sueldo de {amount}",
       "limit": "Límite de gasto"
+    },
+    "fund": {
+      "title": "Obtén fondos del fork",
+      "lead": "Tu billetera de demostración empieza vacía. Obtén USDC y SOL de prueba en el fork para ver un sueldo comprar acciones.",
+      "fund": "Obtener fondos del fork",
+      "funding": "Enviando fondos",
+      "continue": "Continuar",
+      "done": "{usdc} USDC y {sol} SOL llegaron a tu billetera del fork.",
+      "already": "Esta billetera ya tiene sus fondos del fork.",
+      "failed": "El grifo del fork no respondió. Inténtalo de nuevo en un minuto."
     }
   },
   "proof": {
@@ -1241,6 +1256,41 @@
       "wrongAccount": "{wallet} está en otra cuenta. Vuelve a {address} y reinténtalo.",
       "rejected": "Se canceló la firma. No se movió nada.",
       "yourWallet": "Tu billetera"
+    }
+  },
+  "hosted": {
+    "wallet": {
+      "title": "Billetera de demostración del fork",
+      "body": "Creada en este navegador para el fork de demostración. No tiene nada en mainnet y ningún servidor ve su clave.",
+      "address": "Dirección de la billetera del fork",
+      "export": "Exportar clave",
+      "reset": "Reiniciar billetera",
+      "exportTitle": "Clave de la billetera del fork",
+      "exportBody": "Esta clave solo sirve en el fork de demostración. Guárdala si quieres abrir la misma billetera en otra app.",
+      "exportFailed": "No se pudo leer la clave en este navegador.",
+      "resetTitle": "¿Reiniciar la billetera del fork?",
+      "resetBody": "Este navegador olvida la billetera y empieza con una nueva. Sus fondos y su router del fork quedan en la dirección anterior.",
+      "resetConfirm": "Reiniciar y empezar de nuevo",
+      "resetting": "Reiniciando",
+      "resetFailed": "No se pudo reiniciar la billetera. Recarga la página e inténtalo de nuevo.",
+      "close": "Cerrar"
+    },
+    "paycheck": {
+      "title": "Envíate un sueldo",
+      "body": "El empleador del fork paga tu billetera en USDC. Mira cómo se divide en acciones abajo.",
+      "amount": "Monto del sueldo",
+      "range": "Entre {min} y {max}",
+      "presets": "Montos habituales",
+      "send": "Enviar un sueldo de {amount}",
+      "sending": "Enviando",
+      "sent": "{amount} va en camino. Las porciones empiezan en cuanto llega.",
+      "failed": "El sueldo no salió. Inténtalo de nuevo."
+    },
+    "status": {
+      "down": "El fork de demostración no está disponible ahora. Inténtalo en unos minutos.",
+      "resetting": "El fork de demostración se está reiniciando. Vuelve en unos minutos con fondos nuevos.",
+      "wasReset": "El fork de demostración se reinició. Empieza de nuevo: tu billetera recibe fondos nuevos.",
+      "nextReset": "Próximo reinicio del fork {time}"
     }
   }
 }

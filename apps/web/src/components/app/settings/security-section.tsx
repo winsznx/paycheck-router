@@ -4,6 +4,8 @@ import { Button } from "@paycheck-router/ui/components";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { ChainValue } from "@/components/chain-value.tsx";
+import { ForkWalletPanel } from "@/components/hosted/fork-wallet-panel.tsx";
+import { isHostedDemo } from "@/lib/env.ts";
 import { signOut, useSession } from "@/lib/session.ts";
 
 /** PRD 13.4 Settings > security: the signed-in wallet and sign out. */
@@ -43,6 +45,7 @@ export function SecuritySection() {
           </Button>
         </p>
       </div>
+      {isHostedDemo ? <ForkWalletPanel /> : null}
     </section>
   );
 }

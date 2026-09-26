@@ -16,5 +16,17 @@
   ],
   "observability": {
     "enabled": true
+  },
+  // The public demo on the hosted fork: pnpm --filter @paycheck-router/web run deploy:hosted-demo
+  "env": {
+    "hosted-demo": {
+      "name": "paycheck-router-demo",
+      "services": [
+        {
+          "binding": "WORKER_SELF_REFERENCE",
+          "service": "paycheck-router-demo"
+        }
+      ]
+    }
   }
 }

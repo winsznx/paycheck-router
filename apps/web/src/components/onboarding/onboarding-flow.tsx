@@ -8,6 +8,7 @@ import { useSession } from "@/lib/session.ts";
 import { AllowanceStep } from "./allowance-step.tsx";
 import { DoneStep } from "./done-step.tsx";
 import { EligibilityStep } from "./eligibility-step.tsx";
+import { FundStep } from "./fund-step.tsx";
 import { PayHistoryStep } from "./pay-history-step.tsx";
 import { ReviewStep } from "./review-step.tsx";
 import { SignInStep } from "./sign-in-step.tsx";
@@ -20,6 +21,7 @@ const PUBLIC_STEPS: readonly Step[] = ["welcome", "sign-in"];
 const STEP_VIEWS: Record<Step, () => React.JSX.Element> = {
   welcome: WelcomeStep,
   "sign-in": SignInStep,
+  fund: FundStep,
   eligibility: EligibilityStep,
   wallet: WalletStep,
   "pay-history": PayHistoryStep,

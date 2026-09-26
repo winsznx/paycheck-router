@@ -7,7 +7,8 @@
   },
   "chrome": {
     "forkBanner": "Mainnet fork (Surfpool) · no real funds",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "forkBannerHosted": "Mainnet fork (Surfpool) · Resets every 6 hours · no real funds"
   },
   "landing": {
     "heroLabel": "For people paid in USDC on Solana",
@@ -134,7 +135,8 @@
       "mark": "PreStocks mark",
       "token": "Token price",
       "inBand": "{premium} vs mark, inside the band"
-    }
+    },
+    "tryFork": "Try it on a mainnet fork"
   },
   "notFound": {
     "title": "This page doesn't exist.",
@@ -460,7 +462,8 @@
       "runBody": "The repository runs everything on your machine: a Surfpool fork of mainnet, the core API and this app with a demo wallet.",
       "runLink": "What you need, in the README",
       "waitlistTitle": "Hear the day it opens",
-      "waitlistBody": "One email when the program is live on mainnet. Nothing else."
+      "waitlistBody": "One email when the program is live on mainnet. Nothing else.",
+      "tryFork": "Try it on a mainnet fork"
     }
   },
   "onboarding": {
@@ -480,7 +483,8 @@
       "noWallets": "No Solana wallet was found in this browser. Open this page in Phantom, Solflare or Backpack.",
       "signing": "Signing",
       "connect": "Continue with {wallet}",
-      "siwsNote": "You'll sign a one-line message that proves you own the wallet. It costs nothing and moves nothing."
+      "siwsNote": "You'll sign a one-line message that proves you own the wallet. It costs nothing and moves nothing.",
+      "forkWallet": "Made in this browser for the demo fork. It holds nothing on mainnet."
     },
     "eligibility": {
       "title": "Where do you live?",
@@ -629,13 +633,24 @@
       "split": "Your split",
       "allowance": "Spending limit",
       "review": "Review",
-      "done": "Live"
+      "done": "Live",
+      "fund": "Fork funds"
     },
     "plan": {
       "title": "Your plan",
       "share": "Of each paycheck",
       "perPaycheck": "From a {amount} paycheck",
       "limit": "Spending limit"
+    },
+    "fund": {
+      "title": "Get fork funds",
+      "lead": "Your demo wallet starts empty. Get test USDC and SOL on the fork to see a paycheck buy stocks.",
+      "fund": "Get fork funds",
+      "funding": "Funding",
+      "continue": "Continue",
+      "done": "{usdc} USDC and {sol} SOL landed in your fork wallet.",
+      "already": "This wallet already has its fork funds.",
+      "failed": "The fork faucet didn't answer. Try again in a minute."
     }
   },
   "proof": {
@@ -1241,6 +1256,41 @@
       "wrongAccount": "{wallet} is on another account. Switch it back to {address}, then try again.",
       "rejected": "The signature was cancelled. Nothing moved.",
       "yourWallet": "Your wallet"
+    }
+  },
+  "hosted": {
+    "wallet": {
+      "title": "Fork demo wallet",
+      "body": "Made in this browser for the demo fork. It holds nothing on mainnet, and no server ever sees its key.",
+      "address": "Fork wallet address",
+      "export": "Export key",
+      "reset": "Reset wallet",
+      "exportTitle": "Fork wallet key",
+      "exportBody": "This key only matters on the demo fork. Keep it if you want to open the same wallet in another app.",
+      "exportFailed": "The key couldn't be read from this browser.",
+      "resetTitle": "Reset the fork wallet?",
+      "resetBody": "This browser forgets the wallet and starts again with a new one. Its fork funds and router stay with the old address.",
+      "resetConfirm": "Reset and start over",
+      "resetting": "Resetting",
+      "resetFailed": "The wallet couldn't be reset. Reload the page and try again.",
+      "close": "Close"
+    },
+    "paycheck": {
+      "title": "Send yourself a paycheck",
+      "body": "The fork's employer pays your wallet in USDC. Watch it split into stocks below.",
+      "amount": "Paycheck amount",
+      "range": "Between {min} and {max}",
+      "presets": "Common amounts",
+      "send": "Send a {amount} paycheck",
+      "sending": "Sending",
+      "sent": "{amount} is on its way. Slices start the moment it lands.",
+      "failed": "The paycheck didn't go out. Try again."
+    },
+    "status": {
+      "down": "The demo fork isn't reachable right now. Try again in a few minutes.",
+      "resetting": "The demo fork is resetting. It's back in a few minutes with fresh funds.",
+      "wasReset": "The demo fork was reset. Start again: your wallet gets fresh funds.",
+      "nextReset": "Next fork reset {time}"
     }
   }
 }

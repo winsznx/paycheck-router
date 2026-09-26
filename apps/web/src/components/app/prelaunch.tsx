@@ -8,7 +8,7 @@ import { Waitlist } from "@/components/site/waitlist.tsx";
 import { CONTENT_ID } from "@/components/skip-link.tsx";
 import { fetchPublic } from "@/lib/api/public.ts";
 import { canonicalPaycheck } from "@/lib/canonical.ts";
-import { chainEnv } from "@/lib/env.ts";
+import { chainEnv, hostedDemoUrl } from "@/lib/env.ts";
 
 const RUN_IT_YOURSELF = `${chainEnv.repoUrl}#run-it-yourself`;
 
@@ -48,7 +48,18 @@ export async function Prelaunch() {
             </h1>
             <p className="landing-lead">{t("body")}</p>
             <div className="row">
-              <a href="#waitlist" className={buttonClassName({ size: "l" })}>
+              {hostedDemoUrl ? (
+                <a href={hostedDemoUrl} className={buttonClassName({ size: "l" })}>
+                  {t("tryFork")}
+                </a>
+              ) : null}
+              <a
+                href="#waitlist"
+                className={buttonClassName({
+                  variant: hostedDemoUrl ? "secondary" : "primary",
+                  size: "l",
+                })}
+              >
                 {t("waitlistCta")}
               </a>
               <Link href="/proof" className={buttonClassName({ variant: "secondary", size: "l" })}>

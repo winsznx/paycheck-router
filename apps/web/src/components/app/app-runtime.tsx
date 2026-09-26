@@ -2,7 +2,9 @@
 
 import { ToastProvider } from "@paycheck-router/ui/components";
 import { type ReactNode, useEffect } from "react";
+import { DemoStatus } from "@/components/hosted/demo-status.tsx";
 import { applyRealtimeEvent } from "@/lib/data.ts";
+import { isHostedDemo } from "@/lib/env.ts";
 import { onRealtimeEvent, retainRealtime } from "@/lib/realtime.ts";
 import { useSession } from "@/lib/session.ts";
 
@@ -14,6 +16,21 @@ function useDemoSigner() {
       .then(({ registerDemoSigner }) => registerDemoSigner())
       .catch((error: unknown) => {
         console.error("Demo signer failed to register", error);
+      });
+  }, []);
+}
+
+/**
+ * Registers the visitor's browser-generated fork wallet in hosted-demo builds only; no key is
+ * fetched from anywhere, and the import is dead code in every other build.
+ */
+function useForkWallet() {
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_ENVIRONMENT !== "hosted-demo") return;
+    import("@/lib/wallet/fork-wallet.ts")
+      .then(({ registerForkWallet }) => registerForkWallet())
+      .catch((error: unknown) => {
+        console.error("Fork wallet failed to register", error);
       });
   }, []);
 }
@@ -34,6 +51,12 @@ function useRealtimeWhileSignedIn(signedIn: boolean) {
 export function AppRuntime({ children }: { children: ReactNode }) {
   const session = useSession();
   useDemoSigner();
+  useForkWallet();
   useRealtimeWhileSignedIn(session.status === "signed-in");
-  return <ToastProvider>{children}</ToastProvider>;
+  return (
+    <ToastProvider>
+      {isHostedDemo ? <DemoStatus /> : null}
+      {children}
+    </ToastProvider>
+  );
 }

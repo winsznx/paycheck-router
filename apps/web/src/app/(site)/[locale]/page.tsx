@@ -16,7 +16,7 @@ import { CONTENT_ID } from "@/components/skip-link.tsx";
 import { Link } from "@/i18n/navigation.ts";
 import { fetchPublic } from "@/lib/api/public.ts";
 import { canonicalPaycheck } from "@/lib/canonical.ts";
-import { mainnetDeployed } from "@/lib/env.ts";
+import { hostedDemoUrl, mainnetDeployed } from "@/lib/env.ts";
 import { priceE9, usdc } from "@/lib/money.ts";
 import { allPresetLegs } from "@/lib/presets.ts";
 import { fetchPreStocks } from "@/lib/prestocks.ts";
@@ -118,10 +118,27 @@ export default async function LandingPage({ params }: PageProps<"/[locale]">) {
           </h1>
           <p className="landing-lead">{t("heroBody")}</p>
           <div className="row">
-            <a href={START_HREF} className={buttonClassName({ size: "l" })}>
+            {hostedDemoUrl ? (
+              <a href={hostedDemoUrl} className={buttonClassName({ size: "l" })}>
+                {t("tryFork")}
+              </a>
+            ) : null}
+            <a
+              href={START_HREF}
+              className={buttonClassName({
+                variant: hostedDemoUrl ? "secondary" : "primary",
+                size: "l",
+              })}
+            >
               {mainnetDeployed ? t("start") : t("joinWaitlist")}
             </a>
-            <Link href="/proof" className={buttonClassName({ variant: "secondary", size: "l" })}>
+            <Link
+              href="/proof"
+              className={buttonClassName({
+                variant: hostedDemoUrl ? "ghost" : "secondary",
+                size: "l",
+              })}
+            >
               {mainnetDeployed ? t("seeRealPaycheck") : t("seeForkRun")}
             </Link>
           </div>

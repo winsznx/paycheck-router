@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { nextStepHref } from "@/lib/onboarding-steps.ts";
 import { useSession } from "@/lib/session.ts";
 import { StepFrame } from "./step-frame.tsx";
 
@@ -16,8 +17,7 @@ export function WelcomeStep() {
   const t = useTranslations("onboarding.welcome");
   const session = useSession();
   const [run, setRun] = useState(0);
-  const next =
-    session.status === "signed-in" ? "/app/onboarding/eligibility" : "/app/onboarding/sign-in";
+  const next = session.status === "signed-in" ? nextStepHref("sign-in") : "/app/onboarding/sign-in";
   return (
     <StepFrame
       step="welcome"
