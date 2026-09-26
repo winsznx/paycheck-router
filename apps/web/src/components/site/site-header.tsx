@@ -1,7 +1,7 @@
 import { buttonClassName } from "@paycheck-router/ui/components";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation.ts";
-import { appOpen, mainnetDeployed } from "@/lib/env.ts";
+import { appOpen, isHostedDemo, mainnetDeployed } from "@/lib/env.ts";
 import { SiteMenu } from "./site-menu.tsx";
 
 const NAV = [
@@ -12,8 +12,12 @@ const NAV = [
   ["/fees", "fees"],
 ] as const;
 
-/** Where Start goes: the waitlist until the program is on mainnet (PRD 18.1). */
-export const START_HREF = mainnetDeployed ? "/app/onboarding/welcome" : "/#waitlist";
+/**
+ * Where Start goes: onboarding once the program is on mainnet or on the hosted fork demo, the
+ * waitlist on the public site before that (PRD 18.1).
+ */
+export const START_HREF =
+  mainnetDeployed || isHostedDemo ? "/app/onboarding/welcome" : "/#waitlist";
 
 export async function SiteHeader() {
   const t = await getTranslations("site.header");
