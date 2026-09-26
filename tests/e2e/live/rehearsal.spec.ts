@@ -279,9 +279,17 @@ test("rehearsal: onboard, send a paycheck, watch it settle", async ({ page, base
 
   let detail: api.PaycheckDetail | undefined;
   try {
-    await onboard(page, (name) => shoot(page, run, name, true));
+    // Each onboarding step is captured on the phone and again at desktop width.
+    const both = async (name: string) => {
+      await shoot(page, run, name, true);
+      const phone = page.viewportSize();
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await shoot(page, run, `${name}-desktop`, true);
+      if (phone) await page.setViewportSize(phone);
+    };
+    await onboard(page, both);
     run.onboardedAt = new Date().toISOString();
-    await shoot(page, run, "onboarding-done", true);
+    await both("onboarding-done");
 
     writeFileSync(TRIGGER as string, "p", { flag: "a" });
     run.paycheckTriggeredAt = new Date().toISOString();
