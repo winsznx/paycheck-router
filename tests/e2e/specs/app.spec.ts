@@ -8,7 +8,9 @@ test.describe("signed-in app screens", () => {
   });
 
   test("home shows the router, latest paycheck and holdings", async ({ page }) => {
-    // #given a live router with one paycheck
+    // #given a live router with one paycheck; the just-landed split fades its text in, and axe
+    // would sample it mid-fade
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/app");
     // #then
     await expectForkBanner(page);
