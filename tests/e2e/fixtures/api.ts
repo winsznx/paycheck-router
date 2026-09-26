@@ -200,6 +200,11 @@ export async function markSignedIn(page: Page): Promise<void> {
 export async function mockSignedInApi(page: Page): Promise<void> {
   await markSignedIn(page);
   await page.route("**/api/session/refresh", (route: Route) => route.fulfill({ json: session }));
+  await mockCoreApi(page);
+}
+
+/** Answers core API reads with the fixtures above, and 404 for anything else. */
+export async function mockCoreApi(page: Page): Promise<void> {
   await page.route(`${API_URL}/**`, (route: Route) => {
     const path = new URL(route.request().url()).pathname;
     const body = ROUTES[path];
