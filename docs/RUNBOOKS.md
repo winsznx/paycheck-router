@@ -24,3 +24,12 @@ What to check and what to do for each known failure. Every paycheck is traceable
 | Price checks fail right after start | The surfnet clock drifted more than 5 s from wall time. Start a fresh surfnet; `pnpm demo:fork` refuses to run in that state |
 | A pool's price looks hours old | Surfpool keeps its first copy of an account. `surfnet_resetAccount` the pool, or start a fresh surfnet |
 | Explorer shows nothing | Open Solana Explorer with `?cluster=custom&customUrl=<surfnet RPC>`; the fork isn't visible on mainnet explorers |
+
+## Hosted fork demo
+
+| Symptom | Action |
+| --- | --- |
+| `/demo/status` says the fork is down | On the VPS, `systemctl status paycheck-surfnet` and `journalctl -u paycheck-surfnet -n 100`. `systemctl restart paycheck-surfnet` starts a fresh fork from the snapshot; core notices the new epoch and clears the old fork's rows |
+| Core gets 403 from the fork | The `SURFNET_RPC_KEY` secret on `paycheck-router-demo-core` doesn't match the key in the Caddy block. Set them to the same value and reload Caddy |
+| The fork's memory keeps growing | systemd holds it at 700 MB and the 6-hour restart clears it. For an early reset, restart the service |
+| The program or protocol accounts are missing after a restart | The snapshot is stale or incomplete. Re-run `scripts/hosted-demo/bootstrap.ts` against a local surfnet, upload the new snapshot and restart. If the lookup table address changed, update `PROTOCOL_ALT` for `env.hosted` in `apps/core/wrangler.jsonc` and redeploy core |
