@@ -2,6 +2,7 @@ import { createPublicKey, verify } from "node:crypto";
 import { expect, type Page, test } from "@playwright/test";
 import { expectNoAxeViolations } from "../a11y.ts";
 import { API_URL, mockSignedInApi, session } from "../fixtures/api.ts";
+import { anthropicSignature } from "../fixtures/fork-run.ts";
 
 const HOUR = 60 * 60 * 1000;
 const WIDTHS = [320, 390, 768, 1280] as const;
@@ -70,6 +71,25 @@ function publicKeyOf(address: string) {
 }
 
 test.describe("hosted demo", () => {
+  test("a slice proof shows no explorer links into the private fork", async ({ page }) => {
+    // #given the recorded slice, whose API links point Explorer at the fork RPC
+    await page.goto(`/proof/${anthropicSignature}`);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    // #then nothing on the page sends a viewer to Explorer through a custom cluster
+    await expect(page.locator('a[href*="customUrl="]')).toHaveCount(0);
+    await expect(page.locator('a[href*="explorer.solana.com/tx"]')).toHaveCount(0);
+    // and the slice itself links to this proof view
+    await expect(page.locator(`a[href="/proof/${anthropicSignature}"]`).first()).toBeVisible();
+  });
+
+  test("the header's Start opens onboarding, not the waitlist", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.getByRole("banner").getByRole("link", { name: "Start" })).toHaveAttribute(
+      "href",
+      "/app/onboarding/welcome",
+    );
+  });
+
   test("signs in with a wallet made in this browser, never a server key", async ({ page }) => {
     // #given the fork is up and core issues a SIWS nonce
     await demoStatus(page, "up");
