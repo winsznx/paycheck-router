@@ -58,6 +58,16 @@ test.describe("public build before the mainnet deploy", () => {
     });
   }
 
+  test("the landing and the app gate link to the hosted demo when it's set", async ({ page }) => {
+    for (const path of ["/", "/app"]) {
+      await page.goto(path);
+      await expect(page.getByRole("link", { name: "Try it on a mainnet fork" })).toHaveAttribute(
+        "href",
+        "https://paycheck-router-demo.timjosh507.workers.dev",
+      );
+    }
+  });
+
   test("the site header offers the waitlist, not sign-in", async ({ page }) => {
     // #given
     await page.goto("/");
