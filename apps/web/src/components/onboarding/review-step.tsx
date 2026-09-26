@@ -9,6 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { SimulationResult } from "@/app/api/simulate/route.ts";
 import { apiRequest } from "@/lib/api/client.ts";
 import { fetchers, keys } from "@/lib/data.ts";
+import { simulateOnFork } from "@/lib/hosted-demo.ts";
 import { usdc } from "@/lib/money.ts";
 import {
   allowanceBaseUnits,
@@ -48,6 +49,10 @@ function buildRequest(draft: Draft, wallet: string): api.CreateRouterTxRequest |
 }
 
 async function simulate(tx: string): Promise<Simulation> {
+  if (process.env.NEXT_PUBLIC_ENVIRONMENT === "hosted-demo") {
+    const result = await simulateOnFork(tx);
+    return result.ok ? { state: "passed" } : { state: "failed", logs: result.logs };
+  }
   const response = await fetch("/api/simulate", {
     method: "POST",
     headers: { "content-type": "application/json" },

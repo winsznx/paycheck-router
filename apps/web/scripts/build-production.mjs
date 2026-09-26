@@ -14,13 +14,40 @@ import { fileURLToPath } from "node:url";
 const appDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const repoRoot = path.resolve(appDir, "..", "..");
 
-const PRODUCTION_ENV = {
-  NEXT_PUBLIC_ENVIRONMENT: "production",
-  NEXT_PUBLIC_MAINNET_DEPLOYED: "false",
-  NEXT_PUBLIC_API_URL: "https://paycheck-router-core.timjosh507.workers.dev",
-  NEXT_PUBLIC_SITE_URL: "https://paycheck-router.timjosh507.workers.dev",
-  NEXT_PUBLIC_TURNSTILE_SITE_KEY: "0x4AAAAAAFDQGy1MnmLBUS_3",
+const TURNSTILE_SITE_KEY = "0x4AAAAAAFDQGy1MnmLBUS_3";
+
+/**
+ * `production` is the public site (worker paycheck-router); `hosted-demo` is the full app on the
+ * hosted fork (worker paycheck-router-demo, wrangler env hosted-demo). The production site links
+ * to the hosted demo only when NEXT_PUBLIC_HOSTED_DEMO_URL is set for its build.
+ */
+const TARGETS = {
+  production: {
+    NEXT_PUBLIC_ENVIRONMENT: "production",
+    NEXT_PUBLIC_MAINNET_DEPLOYED: "false",
+    NEXT_PUBLIC_API_URL: "https://paycheck-router-core.timjosh507.workers.dev",
+    NEXT_PUBLIC_SITE_URL: "https://paycheck-router.timjosh507.workers.dev",
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: TURNSTILE_SITE_KEY,
+    NEXT_PUBLIC_HOSTED_DEMO_URL: process.env.NEXT_PUBLIC_HOSTED_DEMO_URL ?? "",
+  },
+  "hosted-demo": {
+    NEXT_PUBLIC_ENVIRONMENT: "hosted-demo",
+    NEXT_PUBLIC_MAINNET_DEPLOYED: "false",
+    NEXT_PUBLIC_API_URL: "https://paycheck-router-demo-core.timjosh507.workers.dev",
+    NEXT_PUBLIC_SITE_URL: "https://paycheck-router-demo.timjosh507.workers.dev",
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: TURNSTILE_SITE_KEY,
+    NEXT_PUBLIC_HOSTED_DEMO_URL: "",
+  },
 };
+
+const target = process.argv[2] ?? "production";
+const PRODUCTION_ENV = TARGETS[target];
+if (!PRODUCTION_ENV) {
+  console.error(
+    `build-production: unknown target "${target}"; use ${Object.keys(TARGETS).join(" or ")}`,
+  );
+  process.exit(1);
+}
 
 const BUNDLED_ENV_FILES = [".env", ".env.production", ".env.local", ".env.production.local"];
 

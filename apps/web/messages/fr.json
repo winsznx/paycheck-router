@@ -7,7 +7,8 @@
   },
   "chrome": {
     "forkBanner": "Fork du mainnet (Surfpool) · aucun fonds réel",
-    "skipToContent": "Aller au contenu"
+    "skipToContent": "Aller au contenu",
+    "forkBannerHosted": "Fork de mainnet (Surfpool) · Réinitialisé toutes les 6 heures · aucun fonds réel"
   },
   "landing": {
     "heroLabel": "Pour les personnes payées en USDC sur Solana",
@@ -134,7 +135,8 @@
       "mark": "Marque PreStocks",
       "token": "Prix du token",
       "inBand": "{premium} vs marque, dans la bande"
-    }
+    },
+    "tryFork": "Essayez-le sur un fork de mainnet"
   },
   "notFound": {
     "title": "Cette page n'existe pas.",
@@ -460,7 +462,8 @@
       "runBody": "Le dépôt fait tout tourner sur votre machine : un fork de mainnet avec Surfpool, l'API centrale et cette app avec un portefeuille de démonstration.",
       "runLink": "Ce qu'il vous faut, dans le README",
       "waitlistTitle": "Soyez prévenu le jour de l'ouverture",
-      "waitlistBody": "Un e-mail quand le programme est en ligne sur mainnet. Rien d'autre."
+      "waitlistBody": "Un e-mail quand le programme est en ligne sur mainnet. Rien d'autre.",
+      "tryFork": "Essayez-le sur un fork de mainnet"
     }
   },
   "onboarding": {
@@ -480,7 +483,8 @@
       "noWallets": "Aucun wallet Solana n'a été trouvé dans ce navigateur. Ouvrez cette page dans Phantom, Solflare ou Backpack.",
       "signing": "Signature",
       "connect": "Continuer avec {wallet}",
-      "siwsNote": "Vous signerez un message d'une ligne qui prouve que le wallet est à vous. Cela ne coûte rien et ne déplace rien."
+      "siwsNote": "Vous signerez un message d'une ligne qui prouve que le wallet est à vous. Cela ne coûte rien et ne déplace rien.",
+      "forkWallet": "Créé dans ce navigateur pour le fork de démonstration. Il ne détient rien sur mainnet."
     },
     "eligibility": {
       "title": "Où vivez-vous ?",
@@ -629,13 +633,24 @@
       "split": "Votre répartition",
       "allowance": "Plafond de dépense",
       "review": "Vérification",
-      "done": "Actif"
+      "done": "Actif",
+      "fund": "Fonds du fork"
     },
     "plan": {
       "title": "Votre plan",
       "share": "De chaque salaire",
       "perPaycheck": "Sur un salaire de {amount}",
       "limit": "Plafond de dépense"
+    },
+    "fund": {
+      "title": "Obtenez des fonds sur le fork",
+      "lead": "Votre portefeuille de démonstration démarre vide. Obtenez des USDC et des SOL de test sur le fork pour voir un salaire acheter des actions.",
+      "fund": "Obtenir des fonds sur le fork",
+      "funding": "Envoi des fonds",
+      "continue": "Continuer",
+      "done": "{usdc} USDC et {sol} SOL sont arrivés dans votre portefeuille du fork.",
+      "already": "Ce portefeuille a déjà reçu ses fonds sur le fork.",
+      "failed": "Le robinet du fork n'a pas répondu. Réessayez dans une minute."
     }
   },
   "proof": {
@@ -1241,6 +1256,41 @@
       "wrongAccount": "{wallet} est sur un autre compte. Revenez à {address}, puis réessayez.",
       "rejected": "La signature a été annulée. Rien n'a bougé.",
       "yourWallet": "Votre portefeuille"
+    }
+  },
+  "hosted": {
+    "wallet": {
+      "title": "Portefeuille de démonstration du fork",
+      "body": "Créé dans ce navigateur pour le fork de démonstration. Il ne détient rien sur mainnet et aucun serveur ne voit sa clé.",
+      "address": "Adresse du portefeuille du fork",
+      "export": "Exporter la clé",
+      "reset": "Réinitialiser le portefeuille",
+      "exportTitle": "Clé du portefeuille du fork",
+      "exportBody": "Cette clé ne compte que sur le fork de démonstration. Gardez-la pour ouvrir le même portefeuille dans une autre app.",
+      "exportFailed": "La clé n'a pas pu être lue dans ce navigateur.",
+      "resetTitle": "Réinitialiser le portefeuille du fork ?",
+      "resetBody": "Ce navigateur oublie le portefeuille et repart avec un nouveau. Les fonds et le routeur du fork restent à l'ancienne adresse.",
+      "resetConfirm": "Réinitialiser et recommencer",
+      "resetting": "Réinitialisation",
+      "resetFailed": "Le portefeuille n'a pas pu être réinitialisé. Rechargez la page et réessayez.",
+      "close": "Fermer"
+    },
+    "paycheck": {
+      "title": "Envoyez-vous un salaire",
+      "body": "L'employeur du fork paie votre portefeuille en USDC. Regardez-le se répartir en actions ci-dessous.",
+      "amount": "Montant du salaire",
+      "range": "Entre {min} et {max}",
+      "presets": "Montants courants",
+      "send": "Envoyer un salaire de {amount}",
+      "sending": "Envoi",
+      "sent": "{amount} est en route. Les parts démarrent dès son arrivée.",
+      "failed": "Le salaire n'est pas parti. Réessayez."
+    },
+    "status": {
+      "down": "Le fork de démonstration est injoignable pour le moment. Réessayez dans quelques minutes.",
+      "resetting": "Le fork de démonstration se réinitialise. Il revient dans quelques minutes avec des fonds neufs.",
+      "wasReset": "Le fork de démonstration a été réinitialisé. Recommencez : votre portefeuille reçoit des fonds neufs.",
+      "nextReset": "Prochaine réinitialisation du fork {time}"
     }
   }
 }

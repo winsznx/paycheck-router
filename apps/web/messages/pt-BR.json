@@ -7,7 +7,8 @@
   },
   "chrome": {
     "forkBanner": "Fork da mainnet (Surfpool) · sem fundos reais",
-    "skipToContent": "Pular para o conteúdo"
+    "skipToContent": "Pular para o conteúdo",
+    "forkBannerHosted": "Fork da mainnet (Surfpool) · Reinicia a cada 6 horas · sem fundos reais"
   },
   "landing": {
     "heroLabel": "Para quem recebe em USDC na Solana",
@@ -134,7 +135,8 @@
       "mark": "Marca da PreStocks",
       "token": "Preço do token",
       "inBand": "{premium} vs marca, dentro da faixa"
-    }
+    },
+    "tryFork": "Experimente em um fork da mainnet"
   },
   "notFound": {
     "title": "Esta página não existe.",
@@ -460,7 +462,8 @@
       "runBody": "O repositório roda tudo na sua máquina: um fork da mainnet com Surfpool, a API central e este app com uma carteira de demonstração.",
       "runLink": "O que você precisa, no README",
       "waitlistTitle": "Saiba no dia em que abrir",
-      "waitlistBody": "Um e-mail quando o programa estiver no ar na mainnet. Nada mais."
+      "waitlistBody": "Um e-mail quando o programa estiver no ar na mainnet. Nada mais.",
+      "tryFork": "Experimente em um fork da mainnet"
     }
   },
   "onboarding": {
@@ -480,7 +483,8 @@
       "noWallets": "Nenhuma carteira Solana foi encontrada neste navegador. Abra esta página no Phantom, Solflare ou Backpack.",
       "signing": "Assinando",
       "connect": "Continuar com {wallet}",
-      "siwsNote": "Você vai assinar uma mensagem de uma linha que prova que a carteira é sua. Não custa nada e não move nada."
+      "siwsNote": "Você vai assinar uma mensagem de uma linha que prova que a carteira é sua. Não custa nada e não move nada.",
+      "forkWallet": "Criada neste navegador para o fork de demonstração. Não tem nada na mainnet."
     },
     "eligibility": {
       "title": "Onde você mora?",
@@ -629,13 +633,24 @@
       "split": "Sua divisão",
       "allowance": "Limite de gasto",
       "review": "Revisão",
-      "done": "Ativo"
+      "done": "Ativo",
+      "fund": "Fundos do fork"
     },
     "plan": {
       "title": "Seu plano",
       "share": "De cada salário",
       "perPaycheck": "De um salário de {amount}",
       "limit": "Limite de gasto"
+    },
+    "fund": {
+      "title": "Pegue fundos do fork",
+      "lead": "Sua carteira de demonstração começa vazia. Pegue USDC e SOL de teste no fork para ver um salário comprar ações.",
+      "fund": "Pegar fundos do fork",
+      "funding": "Enviando fundos",
+      "continue": "Continuar",
+      "done": "{usdc} USDC e {sol} SOL chegaram à sua carteira do fork.",
+      "already": "Esta carteira já tem seus fundos do fork.",
+      "failed": "A torneira do fork não respondeu. Tente de novo em um minuto."
     }
   },
   "proof": {
@@ -1241,6 +1256,41 @@
       "wrongAccount": "{wallet} está em outra conta. Volte para {address} e tente de novo.",
       "rejected": "A assinatura foi cancelada. Nada foi movido.",
       "yourWallet": "Sua carteira"
+    }
+  },
+  "hosted": {
+    "wallet": {
+      "title": "Carteira de demonstração do fork",
+      "body": "Criada neste navegador para o fork de demonstração. Não tem nada na mainnet e nenhum servidor vê a chave dela.",
+      "address": "Endereço da carteira do fork",
+      "export": "Exportar chave",
+      "reset": "Reiniciar carteira",
+      "exportTitle": "Chave da carteira do fork",
+      "exportBody": "Esta chave só vale no fork de demonstração. Guarde-a se quiser abrir a mesma carteira em outro app.",
+      "exportFailed": "Não foi possível ler a chave neste navegador.",
+      "resetTitle": "Reiniciar a carteira do fork?",
+      "resetBody": "Este navegador esquece a carteira e começa com uma nova. Os fundos e o roteador do fork ficam no endereço antigo.",
+      "resetConfirm": "Reiniciar e começar de novo",
+      "resetting": "Reiniciando",
+      "resetFailed": "Não foi possível reiniciar a carteira. Recarregue a página e tente de novo.",
+      "close": "Fechar"
+    },
+    "paycheck": {
+      "title": "Envie um salário para você",
+      "body": "O empregador do fork paga sua carteira em USDC. Veja-o se dividir em ações abaixo.",
+      "amount": "Valor do salário",
+      "range": "Entre {min} e {max}",
+      "presets": "Valores comuns",
+      "send": "Enviar um salário de {amount}",
+      "sending": "Enviando",
+      "sent": "{amount} está a caminho. As fatias começam assim que chegar.",
+      "failed": "O salário não foi enviado. Tente de novo."
+    },
+    "status": {
+      "down": "O fork de demonstração não está acessível agora. Tente em alguns minutos.",
+      "resetting": "O fork de demonstração está reiniciando. Volta em alguns minutos com fundos novos.",
+      "wasReset": "O fork de demonstração foi reiniciado. Comece de novo: sua carteira recebe fundos novos.",
+      "nextReset": "Próximo reinício do fork {time}"
     }
   }
 }

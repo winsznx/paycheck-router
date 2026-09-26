@@ -5,7 +5,7 @@ import type { ChainEnv } from "@paycheck-router/ui/chain";
  * literally so Next inlines it and dead-code-eliminates demo-only branches in other builds.
  */
 
-export const ENVIRONMENTS = ["local", "demo", "staging", "production"] as const;
+export const ENVIRONMENTS = ["local", "demo", "hosted-demo", "staging", "production"] as const;
 export type Environment = (typeof ENVIRONMENTS)[number];
 
 function parseEnvironment(value: string | undefined): Environment {
@@ -18,8 +18,18 @@ export const environment: Environment = parseEnvironment(process.env.NEXT_PUBLIC
 
 export const isDemo = process.env.NEXT_PUBLIC_ENVIRONMENT === "demo";
 
-/** local and demo run against a Surfpool fork of mainnet (PRD 4). */
-export const isForkEnvironment = environment === "local" || environment === "demo";
+/**
+ * The public demo: the full app against a hosted Surfpool fork that resets every six hours.
+ * Visitors sign with a wallet generated in their own browser; the fork RPC stays private to core.
+ */
+export const isHostedDemo = process.env.NEXT_PUBLIC_ENVIRONMENT === "hosted-demo";
+
+/** local, demo and the hosted demo run against a Surfpool fork of mainnet (PRD 4). */
+export const isForkEnvironment =
+  environment === "local" || environment === "demo" || environment === "hosted-demo";
+
+/** The public hosted demo, linked from the production site once it's live. */
+export const hostedDemoUrl = process.env.NEXT_PUBLIC_HOSTED_DEMO_URL ?? "";
 
 /** Flipped when the program is live on mainnet; until then public pages carry the fork label. */
 export const mainnetDeployed = process.env.NEXT_PUBLIC_MAINNET_DEPLOYED === "true";
@@ -58,7 +68,13 @@ export function showForkBanner(surface: "app" | "site"): boolean {
 
 /** Where chain values link (packages/ui ChainRef): live surfnet, recorded fork bundle or mainnet. */
 export const chainEnv: ChainEnv = {
-  mode: isForkEnvironment ? "fork-live" : mainnetDeployed ? "mainnet" : "fork-recorded",
+  mode: isHostedDemo
+    ? "fork-app"
+    : isForkEnvironment
+      ? "fork-live"
+      : mainnetDeployed
+        ? "mainnet"
+        : "fork-recorded",
   surfnetRpcUrl,
   repoUrl: "https://github.com/winsznx/paycheck-router",
   evidencePath: "evidence/stocklana-fork",

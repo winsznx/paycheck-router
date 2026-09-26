@@ -1070,3 +1070,50 @@ fieldset.stack {
 :root[data-motion="reduced"] .done-mark {
   animation: none;
 }
+
+/* Hosted demo: fork status line, the paycheck sender and the wallet key. */
+.demo-status {
+  margin: var(--space-2) var(--gutter) 0;
+}
+
+.demo-status--quiet {
+  text-align: end;
+}
+
+.send-paycheck {
+  border: 2px solid var(--accent);
+}
+
+.send-paycheck__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-4);
+}
+
+.send-paycheck__row > * {
+  min-inline-size: 0;
+}
+
+.send-paycheck__amount {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 20px;
+}
+
+.send-paycheck__amount .pr-field__control {
+  inline-size: 10ch;
+}
+
+.fork-secret {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.send-paycheck__presets {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}

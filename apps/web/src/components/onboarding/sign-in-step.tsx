@@ -4,10 +4,14 @@ import { Banner, Button } from "@paycheck-router/ui/components";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { nextStepHref } from "@/lib/onboarding-steps.ts";
 import { useProblemMessage } from "@/lib/problem-copy.ts";
 import { signInWithWallet } from "@/lib/session.ts";
 import { type SigningWallet, useWallets } from "@/lib/wallet/wallets.ts";
 import { StepFrame } from "./step-frame.tsx";
+
+/** Kept in sync with lib/wallet/fork-wallet.ts, which only hosted-demo builds load. */
+const FORK_WALLET_NAME = "Fork demo wallet";
 
 export function SignInStep() {
   const t = useTranslations("onboarding.signIn");
@@ -22,7 +26,7 @@ export function SignInStep() {
     setError(null);
     try {
       await signInWithWallet(wallet);
-      router.push("/app/onboarding/eligibility");
+      router.push(nextStepHref("sign-in"));
     } catch (cause) {
       setError(problemMessage(cause, t("failed")));
     } finally {
@@ -50,6 +54,9 @@ export function SignInStep() {
                 <img src={wallet.icon} alt="" width={24} height={24} />
                 {t("connect", { wallet: wallet.name })}
               </Button>
+              {wallet.name === FORK_WALLET_NAME ? (
+                <p className="pr-small pr-muted">{t("forkWallet")}</p>
+              ) : null}
             </li>
           ))}
         </ul>
