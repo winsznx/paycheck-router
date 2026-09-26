@@ -183,7 +183,7 @@
       "allowanceValue": "{amount} restants à dépenser",
       "allowanceLeft": "{amount} restants",
       "allowancePaychecks": "{count, plural, =0 {Moins d'un salaire} one {Environ # salaire} other {Environ # salaires}}",
-      "nextPreview": "Prochain salaire de {amount} → {invested} investis",
+      "nextPreview": "Prochain salaire de {amount} → {invested} à investir",
       "latestPaycheck": "Dernier salaire",
       "sendTest": "Envoyez-vous 5 $ en USDC pour voir le fonctionnement.",
       "payInAddress": "Adresse de réception",

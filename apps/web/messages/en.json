@@ -183,7 +183,7 @@
       "allowanceValue": "{amount} left to spend",
       "allowanceLeft": "{amount} left",
       "allowancePaychecks": "{count, plural, =0 {Less than one paycheck} one {About # paycheck} other {About # paychecks}}",
-      "nextPreview": "Next {amount} paycheck → {invested} invested",
+      "nextPreview": "Next {amount} paycheck → {invested} to invest",
       "latestPaycheck": "Latest paycheck",
       "sendTest": "Send yourself $5 USDC to see it work.",
       "payInAddress": "Pay-in address",

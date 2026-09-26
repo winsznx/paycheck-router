@@ -183,7 +183,7 @@
       "allowanceValue": "Quedan {amount} por gastar",
       "allowanceLeft": "Quedan {amount}",
       "allowancePaychecks": "{count, plural, =0 {Menos de un sueldo} one {Aprox. # sueldo} other {Aprox. # sueldos}}",
-      "nextPreview": "Próximo sueldo de {amount} → {invested} invertidos",
+      "nextPreview": "Próximo sueldo de {amount} → {invested} por invertir",
       "latestPaycheck": "Último sueldo",
       "sendTest": "Envíate $5 USDC para verlo funcionar.",
       "payInAddress": "Dirección de cobro",
