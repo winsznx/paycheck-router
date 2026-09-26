@@ -75,7 +75,7 @@ function ProofDetails({ leg }: { leg: DetailLeg }) {
     [t("multiplier"), leg.uiMultiplier ?? "—"],
     [
       t("transaction"),
-      leg.executedSig ? <ChainValue key="tx" kind="tx" value={leg.executedSig} /> : "—",
+      leg.executedSig ? <ChainValue key="tx" kind="slice" value={leg.executedSig} /> : "—",
     ],
     [t("mint"), <ChainValue key="mint" kind="mint" value={leg.mint} />],
     [t("finalizedSlot"), v?.finalizedSlot ?? "—"],
@@ -178,7 +178,7 @@ export function SliceItem({ leg, colorSlot, bandBps, buyNowAt, now }: SliceItemP
     {
       key: "tx",
       term: t("facts.transaction"),
-      value: leg.executedSig ? <ChainValue kind="tx" value={leg.executedSig} /> : "—",
+      value: leg.executedSig ? <ChainValue kind="slice" value={leg.executedSig} /> : "—",
     },
   ];
 

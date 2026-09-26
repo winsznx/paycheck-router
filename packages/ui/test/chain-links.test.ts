@@ -22,6 +22,31 @@ const env = (mode: ChainMode): ChainEnv => ({
 const customCluster = `cluster=custom&customUrl=${encodeURIComponent(SURFNET)}`;
 
 describe("chainLinks", () => {
+  it("links a slice execution on the hosted demo to the app's own proof view", () => {
+    expect(chainLinks("slice", SIGNATURE, env("fork-app"))).toEqual([
+      { href: `/proof/${SIGNATURE}`, role: "proof", external: false },
+    ]);
+  });
+
+  it("leaves other hosted-demo fork values copy-only: no explorer can read its private RPC", () => {
+    expect(chainLinks("tx", SIGNATURE, env("fork-app"))).toEqual([]);
+    expect(chainLinks("account", ROUTER, env("fork-app"))).toEqual([]);
+  });
+
+  it("still links real mainnet objects to mainnet Explorer on the hosted demo", () => {
+    expect(chainLinks("mint", ANTHROPIC_MINT, env("fork-app"))[0]?.href).toBe(
+      `https://explorer.solana.com/address/${ANTHROPIC_MINT}`,
+    );
+  });
+
+  it("treats a slice signature like any signature outside the hosted demo", () => {
+    for (const mode of ["fork-live", "fork-recorded", "mainnet"] as const) {
+      expect(chainLinks("slice", SIGNATURE, env(mode))).toEqual(
+        chainLinks("tx", SIGNATURE, env(mode)),
+      );
+    }
+  });
+
   it("links a fork signature to Explorer on the surfnet in a live fork run", () => {
     expect(chainLinks("tx", SIGNATURE, env("fork-live"))).toEqual([
       {

@@ -6,14 +6,17 @@
  * - `fork-recorded`: the public site before the mainnet deploy; fork objects exist only in the
  *   recorded bundle, so they link to the proof page and the recorded JSON on GitHub, never to a
  *   mainnet explorer.
+ * - `fork-app`: the hosted demo; its fork RPC is private, so no explorer can read it. Slice
+ *   executions link to the app's own proof view; other fork values are copy-only.
  * - `mainnet`: everything links to Solana Explorer.
  *
  * Real mainnet objects (xStocks, PreStocks and USDC mints, Jupiter, the Pyth receiver) always
  * link to mainnet Explorer; our own program links to its verifiable build until it is deployed.
  */
-export type ChainMode = "fork-live" | "fork-recorded" | "mainnet";
+export type ChainMode = "fork-live" | "fork-recorded" | "fork-app" | "mainnet";
 
-export type ChainKind = "tx" | "account" | "mint" | "program" | "own-program" | "feed";
+/** `slice` is a slice execution's signature, which has a proof view; `tx` is any other. */
+export type ChainKind = "tx" | "slice" | "account" | "mint" | "program" | "own-program" | "feed";
 
 export type ChainEnv = {
   mode: ChainMode;
@@ -64,7 +67,12 @@ export function chainLinks(
       return env.mode === "mainnet"
         ? [explorer("address", value, env, false)]
         : [{ href: `${env.repoUrl.replace(/\/$/, "")}/releases`, role: "build", external: true }];
+    case "slice":
+      if (env.mode === "fork-app")
+        return [{ href: `/proof/${value}`, role: "proof", external: false }];
+      return chainLinks("tx", value, env);
     case "tx":
+      if (env.mode === "fork-app") return [];
       if (env.mode === "fork-live") return [explorer("tx", value, env, true)];
       if (env.mode === "mainnet") return [explorer("tx", value, env, false)];
       return [
@@ -72,6 +80,7 @@ export function chainLinks(
         { href: repoFile(env, `raw/tx/${value}.json`), role: "recorded", external: true },
       ];
     case "account":
+      if (env.mode === "fork-app") return [];
       if (env.mode === "fork-live") return [explorer("address", value, env, true)];
       if (env.mode === "mainnet") return [explorer("address", value, env, false)];
       return [{ href: repoFile(env, "manifest.json"), role: "recorded", external: true }];

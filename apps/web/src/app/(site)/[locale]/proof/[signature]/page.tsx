@@ -54,7 +54,7 @@ export default async function ProofSlicePage({ params }: PageProps<"/[locale]/pr
       </p>
       <h1 className="pr-h1">{t("sliceHeading")}</h1>
       <p>
-        <ChainValue kind="tx" value={signature} display="full" />
+        <ChainValue kind="slice" value={signature} display="full" />
       </p>
       {result.ok ? (
         <ProofLegCard leg={result.data} linkToDetail={false} />

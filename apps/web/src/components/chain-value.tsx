@@ -25,7 +25,7 @@ export function ChainValue({ kind, value, name, display = "truncate" }: ChainVal
       display={display}
       feedSymbol={kind === "feed" ? feedSymbol(value) : null}
       labels={{
-        name: name ?? t(`names.${kind}`),
+        name: name ?? t(`names.${kind === "slice" ? "tx" : kind}`),
         copy: t("copy"),
         copied: t("copied"),
         recorded: t("recorded"),
