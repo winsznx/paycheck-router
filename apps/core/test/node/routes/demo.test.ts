@@ -172,15 +172,19 @@ describe("fork demo routes", () => {
   });
 
   it("reports the fork state and its reset schedule", async () => {
-    const up = await app.request("/demo/status", {}, env);
-    expect(api.DemoStatus.parse(await up.json())).toEqual({
+    let clock = Date.parse("2026-09-26T14:00:00Z");
+    const pinned = testApp(db, createChainClient(chainEndpoints(env)), null, () => new Date(clock));
+    const status = async () =>
+      api.DemoStatus.parse(await (await pinned.request("/demo/status", {}, env)).json());
+    expect(await status()).toEqual({
       state: "up",
       lastResetAt: "2026-09-26T12:00:00.000Z",
       resetsAt: "2026-09-26T18:00:00.000Z",
     });
     view = { epoch: EPOCH, reachable: false };
-    const down = api.DemoStatus.parse(await (await app.request("/demo/status", {}, env)).json());
-    expect(down.state).toBe("down");
+    expect((await status()).state).toBe("down");
+    clock = Date.parse("2026-09-26T18:02:00Z");
+    expect((await status()).state).toBe("resetting");
   });
 
   it("funds a wallet once per fork by cheatcode, with the fork key on every call", async () => {
