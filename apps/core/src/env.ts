@@ -9,6 +9,10 @@ export interface Secrets {
   SPONSOR_KEY: string;
   ATTESTER_KEY: string;
   OPS_KEY?: string;
+  /** Fork-only: the employer wallet `POST /demo/paycheck` pays from. */
+  EMPLOYER_KEY?: string;
+  /** Hosted fork: value of the `X-Surfnet-Key` header its proxy requires. */
+  SURFNET_RPC_KEY?: string;
   SESSION_SIGNING_KEY: string;
   HELIUS_API_KEY?: string;
   HELIUS_WEBHOOK_SECRET?: string;
@@ -38,6 +42,11 @@ type OptionalVars = {
   PUBLIC_RPC_URL?: string;
   /** `bundle` serves /proof from the committed canonical fork bundle instead of the database. */
   PROOF_SOURCE?: string;
+  /** Hosted fork: hours between the fork's resets from its snapshot. */
+  RESET_EVERY_HOURS?: string;
 };
 
-export type Env = Omit<CloudflareBindings, keyof Vars> & Vars & OptionalVars & Secrets;
+export type Env = Omit<CloudflareBindings, keyof Vars | keyof OptionalVars> &
+  Vars &
+  OptionalVars &
+  Secrets;

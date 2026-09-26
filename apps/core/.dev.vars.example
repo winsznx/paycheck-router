@@ -6,12 +6,17 @@
 # recorder EGaHpAB9Svfv6zW8ZcNrSEayvMPNsg1gJqQUPDYfNKqL,
 # sponsor CuZDTZrPcGrRcjjFEF4UmcxgGq75Jm8eFFaxAWnSBBGA,
 # attester CcJ4VfBuFwMTPgDB7EjaWkzLidqZ4ZEiEEXGViL3oJiw,
-# ops 9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as.
+# ops 9V2ngYYce5fmbjEUhYMiVFMRY7CT9qmvYXB8vzc6S1as,
+# employer-1 75uzrnEcXXKf7fi53BxTBh5kTJCY7o6WD2qLvjMMShZd (pays POST /demo/paycheck on forks).
 CRANK_KEY=<crank secret key>
 RECORDER_KEY=<recorder secret key>
 SPONSOR_KEY=<sponsor secret key>
 ATTESTER_KEY=<attester secret key>
 OPS_KEY=<ops secret key>
+EMPLOYER_KEY=<employer-1 secret key>
+
+# Hosted fork only: the X-Surfnet-Key header its proxy requires on every request.
+SURFNET_RPC_KEY=<surfnet proxy key>
 
 # Ed25519 private JWK (with "kid") that signs session access tokens.
 SESSION_SIGNING_KEY=<ed25519 private jwk json>

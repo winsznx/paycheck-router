@@ -30,11 +30,14 @@ export type ChainClient = {
 const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 export function createChainClient(endpoints: ChainEndpoints): ChainClient {
-  const rpc = createSolanaRpc(endpoints.rpcUrl);
+  const options = { headers: endpoints.headers };
+  const rpc = createSolanaRpc(endpoints.rpcUrl, options);
   const verifyRpc =
-    endpoints.verifyRpcUrl === endpoints.rpcUrl ? rpc : createSolanaRpc(endpoints.verifyRpcUrl);
+    endpoints.verifyRpcUrl === endpoints.rpcUrl
+      ? rpc
+      : createSolanaRpc(endpoints.verifyRpcUrl, options);
   const senders = endpoints.sendUrls.map((url) =>
-    url === endpoints.rpcUrl ? rpc : createSolanaRpc(url),
+    url === endpoints.rpcUrl ? rpc : createSolanaRpc(url, options),
   );
 
   return {

@@ -38,6 +38,8 @@ export default defineConfig({
           name: "workers",
           include: ["test/workers/**/*.test.ts"],
           globalSetup: ["./test/global-setup.ts"],
+          // Files share one database, and the fork-reset test clears every router in it.
+          fileParallelism: false,
           testTimeout: 30_000,
         },
       },

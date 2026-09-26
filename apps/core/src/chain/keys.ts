@@ -1,7 +1,7 @@
 import { createKeyPairSignerFromBytes, getBase58Encoder, type KeyPairSigner } from "@solana/kit";
 import type { Env } from "../env.ts";
 
-export type HotKey = "CRANK_KEY" | "RECORDER_KEY" | "SPONSOR_KEY" | "ATTESTER_KEY";
+export type HotKey = "CRANK_KEY" | "RECORDER_KEY" | "SPONSOR_KEY" | "ATTESTER_KEY" | "EMPLOYER_KEY";
 
 /** Accepts a 64-byte secret key as a JSON byte array or as base58. */
 export function secretKeyBytes(raw: string): Uint8Array {

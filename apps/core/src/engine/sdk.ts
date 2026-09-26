@@ -14,6 +14,7 @@ import {
   type AddressesByLookupTableAddress,
   address,
   createNoopSigner,
+  createSolanaRpc,
   getBase64EncodedWireTransaction,
   type Instruction,
   type KeyPairSigner,
@@ -221,9 +222,9 @@ function outcomeOf(
  */
 export function createSdkEngine(env: Env): Engine {
   const endpoints = chainEndpoints(env);
-  const rpc = sdk.createRpc(endpoints.rpcUrl);
+  const rpc = createSolanaRpc(endpoints.rpcUrl, { headers: endpoints.headers });
   const chain = createChainClient(endpoints);
-  const verifyRpc = sdk.createRpc(endpoints.verifyRpcUrl);
+  const verifyRpc = createSolanaRpc(endpoints.verifyRpcUrl, { headers: endpoints.headers });
   const hermes: sdk.HermesOptions = {
     baseUrl: env.HERMES_URL,
     ...(env.PYTH_API_KEY ? { apiKey: env.PYTH_API_KEY } : {}),
