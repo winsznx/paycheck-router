@@ -2,8 +2,8 @@ import { expect, test } from "@playwright/test";
 import { anthropicSignature } from "../fixtures/fork-run.ts";
 
 /** Share cards are server output; one browser project is enough. */
-test.beforeEach(({}, info) => {
-  test.skip(info.project.name !== "desktop", "OG images don't depend on the device");
+test.beforeEach(() => {
+  test.skip(test.info().project.name !== "desktop", "OG images don't depend on the device");
 });
 
 test("the OG route draws the bundled logos", async ({ request }) => {
