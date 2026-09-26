@@ -88,7 +88,7 @@ async function shoot(page: Page, run: Run, name: string, fullPage: boolean): Pro
   run.screenshots.push(file);
 }
 
-async function onboard(page: Page): Promise<void> {
+async function onboard(page: Page, capture: (name: string) => Promise<void>): Promise<void> {
   await page.goto("/app/onboarding/welcome");
   await expect(page.getByTestId("fork-banner")).toBeVisible();
   await page.getByRole("link", { name: "Get started" }).click();
@@ -122,6 +122,9 @@ async function onboard(page: Page): Promise<void> {
   );
   // "Pre-IPO spice" (SPYx 60, NVDAx 20, Anthropic 10, OpenAI 10) is the preset closest to PRD 27.3.
   await page.getByRole("button", { name: "Pre-IPO spice" }).click();
+  await expect(page.locator(".asset-option").first()).toBeVisible({ timeout: 30_000 });
+  await expect(page.locator(".preview-row").first()).toBeVisible({ timeout: 30_000 });
+  await capture("onboarding-split");
   await page.getByRole("button", { name: "Continue" }).click();
 
   await page.waitForURL(/\/app\/onboarding\/allowance$/);
@@ -133,6 +136,7 @@ async function onboard(page: Page): Promise<void> {
   const failed = page.getByText("Simulation failed", { exact: true });
   await expect(passed.or(failed)).toBeVisible({ timeout: 120_000 });
   await expect(failed, "the setup transaction failed simulation").toBeHidden();
+  await capture("onboarding-review");
   await page.getByRole("button", { name: "Sign and go live" }).click();
   await page.waitForURL(/\/app\/onboarding\/done$/, { timeout: 180_000 });
   await expect(page.getByRole("heading", { name: "You're live." })).toBeVisible();
@@ -203,15 +207,23 @@ test("rehearsal: onboard, send a paycheck, watch it settle", async ({ page, base
   };
   recordApiResponses(page);
   page.on("console", (message) => {
-    if (message.type() === "error") run.consoleErrors.push(message.text().slice(0, 500));
+    if (message.type() !== "error") return;
+    const text = message.text();
+    // Hydration reports put the differing props on +/- lines deep in a long message.
+    const diff = text
+      .split("\n")
+      .filter((line) => /^\s*[+-]\s+\S/.test(line) && !/^\s*-\s[A-Z]/.test(line))
+      .slice(0, 8)
+      .join("\n");
+    run.consoleErrors.push(`${page.url()}: ${text.slice(0, 200)}${diff ? `\n${diff}` : ""}`);
   });
   page.on("pageerror", (error) => run.consoleErrors.push(`pageerror: ${error.message}`));
 
   let detail: api.PaycheckDetail | undefined;
   try {
-    await onboard(page);
+    await onboard(page, (name) => shoot(page, run, name, true));
     run.onboardedAt = new Date().toISOString();
-    await shoot(page, run, "onboarding-done", false);
+    await shoot(page, run, "onboarding-done", true);
 
     writeFileSync(TRIGGER as string, "p", { flag: "a" });
     run.paycheckTriggeredAt = new Date().toISOString();
