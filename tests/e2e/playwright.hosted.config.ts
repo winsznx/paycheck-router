@@ -1,14 +1,15 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const PORT = Number(process.env.E2E_PUBLIC_PORT ?? 3300);
+const PORT = Number(process.env.E2E_HOSTED_PORT ?? 3400);
 const MOCK_CORE_PORT = Number(process.env.MOCK_CORE_PORT ?? 18787);
+const API_URL = process.env.E2E_API_URL ?? "http://127.0.0.1:8787";
 
 /**
- * The public build before the mainnet deploy (`pnpm e2e:public`): production environment,
- * MAINNET_DEPLOYED=false. It rebuilds apps/web, so don't run it beside `pnpm e2e`.
+ * The hosted demo build (`pnpm e2e:hosted`): NEXT_PUBLIC_ENVIRONMENT=hosted-demo against routed
+ * core responses. It rebuilds apps/web, so don't run it beside `pnpm e2e` or `pnpm e2e:public`.
  */
 export default defineConfig({
-  testDir: "./specs-public",
+  testDir: "./specs-hosted",
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
@@ -35,12 +36,12 @@ export default defineConfig({
       reuseExistingServer: false,
       timeout: 300_000,
       env: {
-        NEXT_PUBLIC_ENVIRONMENT: "production",
+        NEXT_PUBLIC_ENVIRONMENT: "hosted-demo",
+        NEXT_PUBLIC_API_URL: API_URL,
         NEXT_PUBLIC_MAINNET_DEPLOYED: "false",
         NEXT_PUBLIC_TURNSTILE_SITE_KEY: "0x4AAAAAAFDQGy1MnmLBUS_3",
-        NEXT_PUBLIC_HOSTED_DEMO_URL: "https://paycheck-router-demo.timjosh507.workers.dev",
-        // A local apps/web/.env.local from demo:record holds the demo secret; a public build
-        // must not see it (next.config.ts fails the build otherwise).
+        // A local apps/web/.env.local from demo:record holds the demo secret; this build must
+        // not see it (next.config.ts fails the build otherwise).
         DEMO_SIGNER_SECRET: "",
         NEXT_TELEMETRY_DISABLED: "1",
         CORE_API_URL: `http://127.0.0.1:${MOCK_CORE_PORT}`,

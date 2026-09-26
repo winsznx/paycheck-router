@@ -5,6 +5,7 @@
   "scripts": {
     "e2e": "playwright test",
     "e2e:public": "playwright test -c playwright.public.config.ts",
+    "e2e:hosted": "playwright test -c playwright.hosted.config.ts",
     "typecheck": "tsc --noEmit -p .",
     "e2e:live": "playwright test -c playwright.live.config.ts"
   },
