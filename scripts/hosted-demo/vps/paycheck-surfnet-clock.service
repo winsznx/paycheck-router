@@ -1,0 +1,14 @@
+[Unit]
+Description=Paycheck Router hosted demo: keeps the fork's clock on wall time
+After=paycheck-surfnet.service
+BindsTo=paycheck-surfnet.service
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/paycheck-surfnet/clock-sync.py
+Restart=always
+RestartSec=5
+DynamicUser=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=paycheck-surfnet.service

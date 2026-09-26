@@ -1,0 +1,21 @@
+[Unit]
+Description=Paycheck Router hosted demo: Surfpool fork of Solana mainnet (fork only, no real funds)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+EnvironmentFile=/opt/paycheck-surfnet/env
+ExecStart=/opt/paycheck-surfnet/start.sh
+Restart=always
+RestartSec=5
+MemoryHigh=900M
+MemoryMax=1G
+MemorySwapMax=200M
+CPUQuota=60%
+CPUWeight=20
+Nice=10
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

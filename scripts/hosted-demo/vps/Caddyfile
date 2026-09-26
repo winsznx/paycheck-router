@@ -1,0 +1,28 @@
+surfnet-172-93-185-150.sslip.io {
+	@authorized header X-Surfnet-Key {$SURFNET_KEY}
+	@prestocks {
+		header X-Surfnet-Key {$SURFNET_KEY}
+		path /prestocks
+	}
+	@jupiter {
+		header X-Surfnet-Key {$SURFNET_KEY}
+		path /swap/v2/* /price/v3*
+	}
+	handle @jupiter {
+		reverse_proxy https://api.jup.ag {
+			header_up Host {upstream_hostport}
+			header_up -X-Surfnet-Key
+		}
+	}
+	handle @prestocks {
+		rewrite * /api/prestocks
+		reverse_proxy https://prestocks.com {
+			header_up Host {upstream_hostport}
+			header_up -X-Surfnet-Key
+		}
+	}
+	handle @authorized {
+		reverse_proxy 127.0.0.1:18899
+	}
+	respond 403
+}
