@@ -49,16 +49,21 @@ export function installSurfnetAuth(url: string, key: string): void {
 const PRESTOCKS_API_URL = "https://prestocks.com/api/prestocks";
 
 /**
- * The PreStocks API. The hosted fork reads it through the fork host (`PRESTOCKS_API_URL`), which
- * carries the fork's access header like every other request to that origin.
+ * The fork's access header for a URL on the fork host. The hosted fork also reads the rate-limited
+ * public APIs (PreStocks, Jupiter) through that host, whose egress they don't throttle.
  */
-export function prestocksEndpoint(env: Env): { url: string; headers: ChainHeaders } {
-  const url = env.PRESTOCKS_API_URL || PRESTOCKS_API_URL;
+export function forkHostHeaders(env: Env, url: string): ChainHeaders {
   const key = env.SURFNET_RPC_KEY;
   if (!key || !env.SURFNET_RPC_URL || new URL(url).origin !== new URL(env.SURFNET_RPC_URL).origin) {
-    return { url, headers: {} };
+    return {};
   }
-  return { url, headers: { [SURFNET_KEY_HEADER]: key } };
+  return { [SURFNET_KEY_HEADER]: key };
+}
+
+/** The PreStocks API, through the fork host on the hosted fork (`PRESTOCKS_API_URL`). */
+export function prestocksEndpoint(env: Env): { url: string; headers: ChainHeaders } {
+  const url = env.PRESTOCKS_API_URL || PRESTOCKS_API_URL;
+  return { url, headers: forkHostHeaders(env, url) };
 }
 
 export class ConfigError extends Error {}

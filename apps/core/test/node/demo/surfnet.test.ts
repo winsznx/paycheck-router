@@ -1,7 +1,7 @@
 import { jsonRpc } from "@paycheck-router/sdk";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createChainClient } from "../../../src/chain/client.ts";
-import { chainEndpoints, prestocksEndpoint } from "../../../src/config.ts";
+import { chainEndpoints, forkHostHeaders, prestocksEndpoint } from "../../../src/config.ts";
 import {
   decodeEpoch,
   encodeEpoch,
@@ -57,6 +57,12 @@ describe("hosted fork access", () => {
       url: "https://prestocks.com/api/prestocks",
       headers: {},
     });
+  });
+
+  it("sends the key only to the fork host", () => {
+    expect(forkHostHeaders(env, `${FORK}/swap/v2/build?x=1`)).toEqual({ "x-surfnet-key": KEY });
+    expect(forkHostHeaders(env, "https://api.jup.ag/swap/v2/build")).toEqual({});
+    expect(forkHostHeaders(testEnv({ SURFNET_RPC_URL: FORK }), `${FORK}/price/v3`)).toEqual({});
   });
 
   it("sends no key where none is configured", async () => {
