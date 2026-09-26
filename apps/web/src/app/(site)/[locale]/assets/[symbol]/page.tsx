@@ -25,7 +25,8 @@ export async function generateMetadata({
   if (!asset) return {};
   const t = await pageTranslations(locale, "assets");
   const title = t("detailTitle", { asset: asset.name });
-  return { title, openGraph: { images: [`/api/og?title=${encodeURIComponent(title)}`] } };
+  const og = new URLSearchParams({ title, a: asset.symbol });
+  return { title, openGraph: { images: [`/api/og?${og.toString()}`] } };
 }
 
 /** PRD 18.3: rights disclosure, issuer, restrictions and conversion status per asset. */

@@ -348,6 +348,9 @@ importers:
       postgres:
         specifier: 3.4.9
         version: 3.4.9
+      sharp:
+        specifier: 0.35.4
+        version: 0.35.4(@types/node@22.20.4)
       vitest:
         specifier: 5.0.1
         version: 5.0.1(@types/node@22.20.4)(vite@8.3.0(@types/node@22.20.4)(esbuild@0.28.2)(terser@5.16.9)(tsx@4.23.15)(yaml@2.9.1))

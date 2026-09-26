@@ -14,6 +14,10 @@ import { SiteFooter } from "@/components/site/site-footer.tsx";
 import { SiteHeader } from "@/components/site/site-header.tsx";
 import { routing } from "@/i18n/routing.ts";
 import { siteUrl } from "@/lib/env.ts";
+import { PRESETS } from "@/lib/presets.ts";
+
+/** The logos on the site's default share card: the "Pre-IPO spice" preset's assets. */
+const OG_ASSETS = (PRESETS.preIpoSpice ?? []).map(([symbol]) => symbol).join(",");
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -45,7 +49,11 @@ export async function generateMetadata({
       title: t("title"),
       description: t("description"),
       images: [
-        { url: `/api/og?title=${encodeURIComponent(t("title"))}`, width: 1200, height: 630 },
+        {
+          url: `/api/og?${new URLSearchParams({ title: t("title"), a: OG_ASSETS }).toString()}`,
+          width: 1200,
+          height: 630,
+        },
       ],
     },
     twitter: { card: "summary_large_image" },
