@@ -436,6 +436,16 @@ export function createSdkEngine(env: Env): Engine {
           sdk.decodeLegExecuted,
           marks,
           {
+            onAttempt: (leg, attempt) => {
+              // A landing failure is not the program refusing; keep what the chain said.
+              if (attempt.failure?.kind !== "landing") return;
+              log.warn("leg simulation failed outside the program", {
+                legIndex: leg.legIndex,
+                mint: leg.asset.mint,
+                err: attempt.failure.detail,
+                logs: attempt.simulation?.logs.slice(-8) ?? [],
+              });
+            },
             onLegStart: async (leg) => {
               const job = byIndex.get(leg.legIndex);
               if (job) await hooks.executing(job);
