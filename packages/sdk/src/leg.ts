@@ -84,6 +84,11 @@ export const POST_MIN_COMPUTE_UNITS = 400_000;
 export const PRICE_REFRESH_AGE_SECS = 15;
 /** LANDING retries rebuild from the quote this many times before giving up the attempt. */
 export const LANDING_RETRIES = 5;
+/**
+ * Every leg of a run shares a PreStocks read this young, failures included, so retries don't
+ * hammer the API. Attestations carry the read's own time and stay valid onchain for 300 s.
+ */
+export const PRESTOCKS_REUSE_SECS = 15;
 
 export type PipelineConfig = {
   rpc: SolanaRpc;
@@ -314,6 +319,28 @@ function requiresSigner(ix: ApiInstruction, signer: Address): boolean {
  * One attempt at one leg, PRD 8.4 steps 1 to 7. Program errors end the attempt as a wait with
  * the simulation logs kept; nothing is sent unless the simulation succeeds.
  */
+/** Reads PreStocks at most once per `PRESTOCKS_REUSE_SECS` and hands every caller that read. */
+export function sharedPreStocksReader(
+  read: () => Promise<PreStocksRead>,
+  now: () => number,
+): () => Promise<PreStocksRead> {
+  let cached: { read: Promise<PreStocksRead>; atMs: number } | null = null;
+  return () => {
+    if (!cached || now() - cached.atMs > PRESTOCKS_REUSE_SECS * 1000) {
+      cached = { read: read(), atMs: now() };
+    }
+    return cached.read;
+  };
+}
+
+function preStocksReader(config: PipelineConfig): () => Promise<PreStocksRead> {
+  return () =>
+    fetchPreStocks({
+      ...(config.prestocks?.url ? { url: config.prestocks.url } : {}),
+      ...(config.now ? { now: config.now } : {}),
+    });
+}
+
 export async function attemptLeg<T>(
   config: PipelineConfig,
   leg: PendingLeg,
@@ -323,6 +350,7 @@ export async function attemptLeg<T>(
   marks: MarkState,
   buildExecute: ExecuteInstructionBuilder,
   decodeExecuted: LegExecutedDecoder<T>,
+  readPreStocks: () => Promise<PreStocksRead> = preStocksReader(config),
 ): Promise<LegAttempt<T>> {
   const result: LegAttempt<T> = {
     key: legAttemptKey(leg.router, leg.seq, leg.legIndex, attempt),
@@ -399,10 +427,7 @@ export async function attemptLeg<T>(
       result.error = "pre-IPO leg without an attester key";
       return result;
     }
-    const read = await fetchPreStocks({
-      ...(config.prestocks?.url ? { url: config.prestocks.url } : {}),
-      ...(config.now ? { now: config.now } : {}),
-    });
+    const read = await readPreStocks();
     const { signed } = await attestMark(read, asset.mint, config.attester);
     const decision = decideMark(
       { markPriceE9: signed.attestation.markPriceE9, observedAt: read.observedAt },
@@ -624,8 +649,8 @@ export type PaycheckRun<T> = {
 };
 
 /**
- * Runs every pending leg of one paycheck, largest first. Legs share one posted Hermes update,
- * refreshed when it is older than 15 s; a LANDING result retries with a fresh quote up to five
+ * Runs every pending leg of one paycheck, largest first. Legs share one posted Hermes update and
+ * one PreStocks read, each refreshed when older than 15 s; a LANDING result retries with a fresh quote up to five
  * times and a stale or missing attestation is re-signed once. Posted accounts close at the end.
  */
 export async function executePaycheckLegs<T>(
@@ -641,6 +666,7 @@ export async function executePaycheckLegs<T>(
     a.amountIn === b.amountIn ? a.legIndex - b.legIndex : a.amountIn > b.amountIn ? -1 : 1,
   );
   const rejected = new Map<string, FeedRejection>();
+  const readPreStocks = sharedPreStocksReader(preStocksReader(config), now);
   const first = await postPrices(config, feedsFor(ordered));
   for (const rejection of first.rejected) rejected.set(rejection.feedId, rejection);
   let latest = first.posts;
@@ -687,6 +713,7 @@ export async function executePaycheckLegs<T>(
             marks,
             buildExecute,
             decodeExecuted,
+            readPreStocks,
           );
           if (result.pricePosts && !run.posts.includes(result.pricePosts)) {
             run.posts.push(result.pricePosts);
