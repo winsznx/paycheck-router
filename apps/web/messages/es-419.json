@@ -613,12 +613,29 @@
       "title": "Ya estás activo.",
       "lead": "Tu próximo sueldo compra acciones automáticamente.",
       "home": "Ir al inicio",
-      "next": "Próximo sueldo de {amount} → {invested} invertidos",
+      "next": "Próximo sueldo de {amount} → {invested} por invertir",
       "test": "Envíate $5 USDC para verlo funcionar.",
       "address": "Dirección de la billetera",
       "copy": "Copiar",
       "copied": "Copiado",
       "qr": "Código QR de la dirección de tu billetera"
+    },
+    "stepName": {
+      "welcome": "Bienvenida",
+      "sign-in": "Iniciar sesión",
+      "eligibility": "Elegibilidad",
+      "wallet": "Billetera",
+      "pay-history": "Tu sueldo",
+      "split": "Tu división",
+      "allowance": "Límite de gasto",
+      "review": "Revisión",
+      "done": "Activo"
+    },
+    "plan": {
+      "title": "Tu plan",
+      "share": "De cada sueldo",
+      "perPaycheck": "De un sueldo de {amount}",
+      "limit": "Límite de gasto"
     }
   },
   "proof": {

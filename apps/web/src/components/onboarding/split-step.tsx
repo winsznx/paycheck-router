@@ -3,6 +3,7 @@
 import { api } from "@paycheck-router/shared";
 import {
   AssetChip,
+  AssetIcon,
   AssetIconStack,
   AssetTicker,
   Banner,
@@ -15,6 +16,7 @@ import {
 } from "@paycheck-router/ui/components";
 import { formatPercent, formatPremiumBps, formatUsd } from "@paycheck-router/ui/format";
 import { isSeriesSlot } from "@paycheck-router/ui/tokens";
+import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
@@ -216,7 +218,18 @@ export function SplitStep() {
                         aria-pressed={selected}
                         onClick={() => toggle(asset)}
                       >
-                        <AssetTicker asset={asset.mint} ticker={asset.symbol} />
+                        <span className="asset-option__head">
+                          <AssetIcon asset={asset.mint} size="lg" decorative />
+                          <span className="asset-option__id">
+                            <span className="pr-num" translate="no">
+                              {asset.symbol}
+                            </span>
+                            <span className="pr-small pr-muted">{asset.name}</span>
+                          </span>
+                          <span className="asset-option__check" aria-hidden="true">
+                            {selected ? <Check size={16} strokeWidth={2.5} /> : null}
+                          </span>
+                        </span>
                         <span className="pr-small pr-muted">
                           {t(`market.${asset.market.state}`)}
                         </span>

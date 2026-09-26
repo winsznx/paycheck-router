@@ -613,12 +613,29 @@
       "title": "Você está ativo.",
       "lead": "Seu próximo salário compra ações automaticamente.",
       "home": "Ir para o início",
-      "next": "Próximo salário de {amount} → {invested} investidos",
+      "next": "Próximo salário de {amount} → {invested} a investir",
       "test": "Envie US$ 5 em USDC para você mesmo e veja funcionar.",
       "address": "Endereço da carteira",
       "copy": "Copiar",
       "copied": "Copiado",
       "qr": "QR code do endereço da sua carteira"
+    },
+    "stepName": {
+      "welcome": "Boas-vindas",
+      "sign-in": "Entrar",
+      "eligibility": "Elegibilidade",
+      "wallet": "Carteira",
+      "pay-history": "Seu salário",
+      "split": "Sua divisão",
+      "allowance": "Limite de gasto",
+      "review": "Revisão",
+      "done": "Ativo"
+    },
+    "plan": {
+      "title": "Seu plano",
+      "share": "De cada salário",
+      "perPaycheck": "De um salário de {amount}",
+      "limit": "Limite de gasto"
     }
   },
   "proof": {
