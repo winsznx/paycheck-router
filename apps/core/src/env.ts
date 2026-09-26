@@ -44,6 +44,8 @@ type OptionalVars = {
   PROOF_SOURCE?: string;
   /** Hosted fork: hours between the fork's resets from its snapshot. */
   RESET_EVERY_HOURS?: string;
+  /** Hosted fork: the PreStocks API through the fork host, whose egress PreStocks doesn't throttle. */
+  PRESTOCKS_API_URL?: string;
 };
 
 export type Env = Omit<CloudflareBindings, keyof Vars | keyof OptionalVars> &

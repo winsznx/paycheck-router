@@ -1,5 +1,6 @@
 import { USDC_FEED_ID } from "@paycheck-router/shared";
 import { z } from "zod";
+import { prestocksEndpoint } from "../config.ts";
 import type { Env } from "../env.ts";
 import { log } from "../log.ts";
 import { HermesError, type HermesPrice, latestPrices, priceE9 } from "./hermes.ts";
@@ -36,8 +37,6 @@ export type PriceBoard = {
   referenceError: Map<string, ReferenceError>;
 };
 
-const PRESTOCKS_URL = "https://prestocks.com/api/prestocks";
-
 const PreStocksEntry = z.object({ contract_address: z.string(), markPrice: z.number().positive() });
 
 function decimalToE9(value: number): bigint {
@@ -46,8 +45,9 @@ function decimalToE9(value: number): bigint {
 }
 
 /** PreStocks marks in USD × 1e9 by mint, from the public PreStocks API. */
-export async function prestocksMarks(): Promise<Map<string, bigint>> {
-  const response = await fetch(PRESTOCKS_URL, { headers: { accept: "application/json" } });
+export async function prestocksMarks(env: Env): Promise<Map<string, bigint>> {
+  const { url, headers } = prestocksEndpoint(env);
+  const response = await fetch(url, { headers: { accept: "application/json", ...headers } });
   if (!response.ok) throw new Error(`PreStocks API failed with ${response.status}`);
   const entries = z.array(PreStocksEntry).parse(await response.json());
   return new Map(entries.map((entry) => [entry.contract_address, decimalToE9(entry.markPrice)]));
@@ -119,7 +119,7 @@ export async function priceBoard(
     readGroup([USDC_FEED_ID]),
     readGroup([...equityFeeds]),
     hasPreIpo
-      ? settle("PreStocks", prestocksMarks(), new Map<string, bigint>())
+      ? settle("PreStocks", prestocksMarks(env), new Map<string, bigint>())
       : new Map<string, bigint>(),
     settle(
       "Jupiter price",

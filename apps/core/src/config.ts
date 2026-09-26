@@ -46,6 +46,21 @@ export function installSurfnetAuth(url: string, key: string): void {
   globalThis.fetch = wrapped;
 }
 
+const PRESTOCKS_API_URL = "https://prestocks.com/api/prestocks";
+
+/**
+ * The PreStocks API. The hosted fork reads it through the fork host (`PRESTOCKS_API_URL`), which
+ * carries the fork's access header like every other request to that origin.
+ */
+export function prestocksEndpoint(env: Env): { url: string; headers: ChainHeaders } {
+  const url = env.PRESTOCKS_API_URL || PRESTOCKS_API_URL;
+  const key = env.SURFNET_RPC_KEY;
+  if (!key || !env.SURFNET_RPC_URL || new URL(url).origin !== new URL(env.SURFNET_RPC_URL).origin) {
+    return { url, headers: {} };
+  }
+  return { url, headers: { [SURFNET_KEY_HEADER]: key } };
+}
+
 export class ConfigError extends Error {}
 
 function required(value: string | undefined, name: string): string {

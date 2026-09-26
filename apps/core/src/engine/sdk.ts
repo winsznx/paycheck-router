@@ -33,7 +33,7 @@ import { hotSigner } from "../chain/keys.ts";
 import { LEG_STATUS } from "../chain/leg-status.ts";
 import { mintTerms } from "../chain/mints.ts";
 import { multiplierFromE12 } from "../chain/shares.ts";
-import { chainEndpoints } from "../config.ts";
+import { chainEndpoints, prestocksEndpoint } from "../config.ts";
 import { throughGate } from "../do/rate-gate.ts";
 import { markBookFor } from "../do/stubs.ts";
 import type { Env } from "../env.ts";
@@ -278,6 +278,7 @@ export function createSdkEngine(env: Env): Engine {
       hermes,
       protocolLookupTable: await protocolLookupTable(),
       ...(endpoints.surfnet ? { forkExcludedDexes } : {}),
+      prestocks: { url: prestocksEndpoint(env).url },
       feeBps: config.feeBps,
     };
   };
