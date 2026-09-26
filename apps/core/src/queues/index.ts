@@ -9,9 +9,9 @@ import { log } from "../log.ts";
 import { deliver, type NotifyMessage } from "../notify/notifier.ts";
 import { fanOut } from "../partners/webhooks.ts";
 
-/** Queue names carry an environment prefix outside production (`staging-inflows`). */
-function baseName(queue: string): string {
-  return queue.replace(/^staging-/, "");
+/** Queue names carry an environment prefix outside production (`staging-inflows`, `demo-inflows`). */
+export function baseName(queue: string): string {
+  return queue.replace(/^(staging|demo)-/, "");
 }
 
 export async function handleInflow(env: Env, message: InflowMessage): Promise<void> {
