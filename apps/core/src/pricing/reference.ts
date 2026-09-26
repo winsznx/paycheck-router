@@ -1,6 +1,6 @@
 import { USDC_FEED_ID } from "@paycheck-router/shared";
 import { z } from "zod";
-import { prestocksEndpoint } from "../config.ts";
+import { forkHostHeaders, prestocksEndpoint } from "../config.ts";
 import type { Env } from "../env.ts";
 import { log } from "../log.ts";
 import { HermesError, type HermesPrice, latestPrices, priceE9 } from "./hermes.ts";
@@ -65,7 +65,7 @@ export async function jupiterPrices(
   url.searchParams.set("ids", mints.join(","));
   const headers: Record<string, string> = { accept: "application/json" };
   if (env.JUPITER_API_KEY) headers["x-api-key"] = env.JUPITER_API_KEY;
-  const response = await fetch(url, { headers });
+  const response = await fetch(url, { headers: { ...headers, ...forkHostHeaders(env, url.href) } });
   if (!response.ok) throw new Error(`Jupiter price failed with ${response.status}`);
   const body = JupiterPrice.parse(await response.json());
   const out = new Map<string, bigint>();

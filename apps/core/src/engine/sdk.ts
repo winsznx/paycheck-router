@@ -230,6 +230,7 @@ export function createSdkEngine(env: Env): Engine {
     ...(env.PYTH_API_KEY ? { apiKey: env.PYTH_API_KEY } : {}),
   };
   const jupiter: sdk.JupiterClientOptions = {
+    baseUrl: new URL("/swap/v2/build", env.JUPITER_BASE_URL).href,
     ...(env.JUPITER_API_KEY ? { apiKey: env.JUPITER_API_KEY } : {}),
     fetch: async (input, init) => {
       await throughGate(env.RATE_GATE, "jupiter");

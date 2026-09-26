@@ -342,7 +342,7 @@
         "HELIUS_RPC_URL": "",
         "ALCHEMY_RPC_URL": "",
         "HERMES_URL": "https://hermes.pyth.network",
-        "JUPITER_BASE_URL": "https://api.jup.ag",
+        "JUPITER_BASE_URL": "https://surfnet-172-93-185-150.sslip.io",
         "SUPABASE_URL": "https://yzfrijizuodbpzupfeux.supabase.co",
         "PRIVY_APP_ID": "cmuid3tpb00v60el1bf7muydv",
         "VAPID_PUBLIC_KEY": "",
