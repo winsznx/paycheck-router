@@ -1,6 +1,7 @@
 export * from "./account.ts";
 export * from "./auth.ts";
 export * from "./common.ts";
+export * from "./demo.ts";
 export * from "./market.ts";
 export * from "./notifications.ts";
 export * from "./partners.ts";
