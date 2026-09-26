@@ -45,6 +45,12 @@ type Run = {
     executedSig: string | null;
   }>;
   proof?: { environment: string; fork: boolean; programId: string };
+  session?: {
+    keptAcrossReload: boolean;
+    signedOut: boolean;
+    refreshCallsAfterSignOut: number;
+    signedBackIn: boolean;
+  };
   screenshots: string[];
   apiResponses: string;
   demoRecordLogs: string;
@@ -86,6 +92,47 @@ async function shoot(page: Page, run: Run, name: string, fullPage: boolean): Pro
   const file = `${name}.png`;
   await page.screenshot({ path: path.join(OUT, file), fullPage, animations: "disabled" });
   run.screenshots.push(file);
+}
+
+/**
+ * The session in the running stack: a reload keeps it, signing out ends it for this browser (no
+ * refresh call afterwards), and the same wallet signs back in to the same router.
+ */
+async function auditSession(page: Page, run: Run): Promise<void> {
+  const audit = {
+    keptAcrossReload: false,
+    signedOut: false,
+    refreshCallsAfterSignOut: 0,
+    signedBackIn: false,
+  };
+  run.session = audit;
+  const router = page.getByRole("heading", { name: "Your router" });
+
+  await page.goto("/app");
+  await page.reload();
+  await expect(router).toBeVisible();
+  audit.keptAcrossReload = true;
+
+  await page.goto("/app/settings/security");
+  await page.getByRole("button", { name: "Sign out" }).click();
+  await page.waitForURL((url) => url.pathname === "/");
+  audit.signedOut = true;
+
+  const countRefresh = (request: { url: () => string }) => {
+    if (request.url().includes("/api/session/refresh")) audit.refreshCallsAfterSignOut += 1;
+  };
+  page.on("request", countRefresh);
+  await page.goto("/app");
+  await page.waitForURL(/\/app\/onboarding\/welcome$/);
+  page.off("request", countRefresh);
+  expect(audit.refreshCallsAfterSignOut, "a signed-out browser asks for no session").toBe(0);
+
+  await page.goto("/app/onboarding/sign-in");
+  await page.getByRole("button", { name: "Continue with Paycheck Router demo signer" }).click();
+  await page.waitForURL(/\/app\/onboarding\/eligibility$/);
+  await page.goto("/app");
+  await expect(router).toBeVisible();
+  audit.signedBackIn = true;
 }
 
 async function onboard(page: Page, capture: (name: string) => Promise<void>): Promise<void> {
@@ -306,6 +353,7 @@ test("rehearsal: onboard, send a paycheck, watch it settle", async ({ page, base
       await page.waitForLoadState("load");
       await shoot(page, run, name, true);
     }
+    await auditSession(page, run);
     const proof = await proofResponse.then((r) => r.json()).catch(() => null);
     const parsed = api.ProofResponse.safeParse(proof);
     if (parsed.success) {
