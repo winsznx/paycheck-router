@@ -2,26 +2,31 @@
 
 import { buttonClassName, QrCode } from "@paycheck-router/ui/components";
 import { formatUsdWhole } from "@paycheck-router/ui/format";
+import { Check } from "lucide-react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ChainValue } from "@/components/chain-value.tsx";
 import { usdc } from "@/lib/money.ts";
 import { clearDraft, toBaseUnits, useDraft } from "@/lib/onboarding.ts";
 import { useSession } from "@/lib/session.ts";
+import { PlanSummary } from "./plan-summary.tsx";
 import { StepFrame } from "./step-frame.tsx";
 
 export function DoneStep() {
   const t = useTranslations("onboarding.done");
   const locale = useLocale();
-  const draft = useDraft();
+  const current = useDraft();
+  // Keep the plan this screen was reached with: the draft is cleared below, and under React
+  // strict mode an unmount-time clear ran before the first paint and emptied the summary.
+  const [draft] = useState(current);
   const session = useSession();
   const address = session.status === "signed-in" ? session.session.wallet : null;
   const paycheck = toBaseUnits(draft.typicalPaycheckUsdc);
   const invested = paycheck ? (BigInt(paycheck) * BigInt(draft.investBps)) / 10_000n : null;
 
   // The router is live; the draft has done its job once this screen has read it.
-  useEffect(() => () => clearDraft(), []);
+  useEffect(() => clearDraft(), []);
 
   return (
     <StepFrame
@@ -34,6 +39,10 @@ export function DoneStep() {
         </Link>
       }
     >
+      <div className="done-mark" aria-hidden="true">
+        <Check size={40} strokeWidth={2.5} />
+      </div>
+      <PlanSummary draft={draft} />
       {paycheck && invested !== null ? (
         <p className="pr-body-l">
           {t("next", {
