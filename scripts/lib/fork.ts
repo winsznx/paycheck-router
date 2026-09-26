@@ -154,14 +154,26 @@ export async function clockDriftSecs(rpcUrl: string): Promise<number> {
   return result.value.data.parsed.info.unixTimestamp - Date.now() / 1000;
 }
 
+/** `HELIUS_API_KEY` from `helius.env` in the secrets directory beside the keys, when present. */
+function heliusKeyFromSecrets(): string | undefined {
+  const dir = process.env.PAYCHECK_ROUTER_SECRETS_DIR ?? resolve(KEYS_DIR, "..", "secrets");
+  const path = resolve(dir, "helius.env");
+  if (!existsSync(path)) return undefined;
+  const line = readFileSync(path, "utf8")
+    .split("\n")
+    .find((l) => l.startsWith("HELIUS_API_KEY="));
+  const value = line?.slice("HELIUS_API_KEY=".length).trim();
+  return value ? value : undefined;
+}
+
 /**
  * Where the surfnet reads mainnet accounts: SURFNET_DATASOURCE_URL, else Helius when
- * HELIUS_API_KEY is set, else the public mainnet-beta RPC. The label never carries a key.
+ * HELIUS_API_KEY is set (or in the secrets directory's helius.env), else the public mainnet-beta RPC. The label never carries a key.
  */
 function datasourceArgs(): { args: string[]; label: string } {
   const url = process.env.SURFNET_DATASOURCE_URL;
   if (url) return { args: ["--rpc-url", url], label: new URL(url).host };
-  const helius = process.env.HELIUS_API_KEY;
+  const helius = process.env.HELIUS_API_KEY ?? heliusKeyFromSecrets();
   if (helius) {
     return {
       args: ["--rpc-url", `https://mainnet.helius-rpc.com/?api-key=${helius}`],
