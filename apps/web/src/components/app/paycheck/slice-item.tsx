@@ -26,6 +26,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { type ReactNode, useState } from "react";
 import { ChainValue } from "@/components/chain-value.tsx";
 import { apiRequest } from "@/lib/api/client.ts";
+import { apiExplorerLinksReachable } from "@/lib/env.ts";
 import { isPreIpo, priceE9, shares, usdc, walletShares } from "@/lib/money.ts";
 import { useProblemMessage } from "@/lib/problem-copy.ts";
 import { useSession } from "@/lib/session.ts";
@@ -92,7 +93,7 @@ function ProofDetails({ leg }: { leg: DetailLeg }) {
           </div>
         ))}
       </dl>
-      {leg.links.length > 0 ? (
+      {apiExplorerLinksReachable && leg.links.length > 0 ? (
         <ul className="stack">
           {leg.links.map((link) => (
             <li key={link.url}>

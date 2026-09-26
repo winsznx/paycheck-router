@@ -1,7 +1,7 @@
 import { createPublicKey, verify } from "node:crypto";
 import { expect, type Page, test } from "@playwright/test";
 import { expectNoAxeViolations } from "../a11y.ts";
-import { API_URL, mockSignedInApi, session } from "../fixtures/api.ts";
+import { API_URL, mockSignedInApi, PAYCHECK_ID, session } from "../fixtures/api.ts";
 import { anthropicSignature } from "../fixtures/fork-run.ts";
 
 const HOUR = 60 * 60 * 1000;
@@ -80,6 +80,22 @@ test.describe("hosted demo", () => {
     await expect(page.locator('a[href*="explorer.solana.com/tx"]')).toHaveCount(0);
     // and the slice itself links to this proof view
     await expect(page.locator(`a[href="/proof/${anthropicSignature}"]`).first()).toBeVisible();
+  });
+
+  test("a slice's proof sheet in the app shows no explorer links into the private fork", async ({
+    page,
+  }) => {
+    // #given a paycheck whose executed slices carry core's custom-cluster explorer links
+    await mockSignedInApi(page);
+    await demoStatus(page, "up");
+    await page.goto(`/app/paychecks/${PAYCHECK_ID}`);
+    // #when
+    await page.getByRole("button", { name: "Proof", exact: true }).first().click();
+    const sheet = page.getByRole("dialog");
+    await expect(sheet).toBeVisible();
+    // #then
+    await expect(sheet.locator('a[href*="customUrl="]')).toHaveCount(0);
+    await expect(sheet.getByRole("link", { name: "execute_leg" })).toHaveCount(0);
   });
 
   test("the header's Start opens onboarding, not the waitlist", async ({ page }) => {

@@ -66,6 +66,12 @@ export function showForkBanner(surface: "app" | "site"): boolean {
   return surface === "site" && !mainnetDeployed;
 }
 
+/**
+ * Whether the API's explorer links (a leg's `links`) can be followed. They read the fork through
+ * its RPC: a recorded fork has none any more, and the hosted demo's needs a key only core holds.
+ */
+export const apiExplorerLinksReachable = !isHostedDemo && (isForkEnvironment || mainnetDeployed);
+
 /** Where chain values link (packages/ui ChainRef): live surfnet, recorded fork bundle or mainnet. */
 export const chainEnv: ChainEnv = {
   mode: isHostedDemo

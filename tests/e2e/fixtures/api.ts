@@ -100,7 +100,20 @@ export const paychecks = api.PaychecksResponse.parse({ paychecks: [summary], nex
 
 export const paycheckDetail = api.PaycheckDetail.parse({
   ...summary,
-  legs: legs.map((l) => ({ ...l, attempts: [], verification: null, links: [] })),
+  // Core's explorer links read the fork RPC through a custom cluster, as on any fork.
+  legs: legs.map((l) => ({
+    ...l,
+    attempts: [],
+    verification: null,
+    links: l.executedSig
+      ? [
+          {
+            label: "execute_leg",
+            url: `https://explorer.solana.com/tx/${l.executedSig}?cluster=custom&customUrl=${encodeURIComponent("https://surfnet.example")}`,
+          },
+        ]
+      : [],
+  })),
   links: [],
 });
 
